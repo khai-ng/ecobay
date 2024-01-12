@@ -1,0 +1,15 @@
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.AssemblyInfoInputs.cache
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.AssemblyInfo.cs
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.csproj.CoreCompileInputs.cache
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\bin\Debug\net8.0\Identity.Domain.deps.json
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\bin\Debug\net8.0\Identity.Domain.dll
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\bin\Debug\net8.0\Identity.Domain.pdb
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\bin\Debug\net8.0\Core.dll
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\bin\Debug\net8.0\Core.pdb
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.csproj.AssemblyReference.cache
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.csproj.CopyComplete
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.dll
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\refint\Identity.Domain.dll
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.pdb
+D:\Personal\Template\Hrm\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\ref\Identity.Domain.dll

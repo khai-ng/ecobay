@@ -1,0 +1,15 @@
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\bin\Debug\net8.0\EmployeeManagement.Domain.deps.json
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\bin\Debug\net8.0\EmployeeManagement.Domain.dll
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\bin\Debug\net8.0\EmployeeManagement.Domain.pdb
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\bin\Debug\net8.0\Core.dll
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\bin\Debug\net8.0\Core.pdb
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\obj\Debug\net8.0\EmployeeManagement.Domain.csproj.AssemblyReference.cache
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\obj\Debug\net8.0\EmployeeManagement.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\obj\Debug\net8.0\EmployeeManagement.Domain.AssemblyInfoInputs.cache
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\obj\Debug\net8.0\EmployeeManagement.Domain.AssemblyInfo.cs
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\obj\Debug\net8.0\EmployeeManagement.Domain.csproj.CoreCompileInputs.cache
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\obj\Debug\net8.0\EmployeeManagement.Domain.csproj.CopyComplete
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\obj\Debug\net8.0\EmployeeManagement.Domain.dll
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\obj\Debug\net8.0\refint\EmployeeManagement.Domain.dll
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\obj\Debug\net8.0\EmployeeManagement.Domain.pdb
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Domain\obj\Debug\net8.0\ref\EmployeeManagement.Domain.dll

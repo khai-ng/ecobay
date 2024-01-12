@@ -1,0 +1,17 @@
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\bin\Debug\net8.0\EmployeeManagement.Application.deps.json
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\bin\Debug\net8.0\EmployeeManagement.Application.dll
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\bin\Debug\net8.0\EmployeeManagement.Application.pdb
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\bin\Debug\net8.0\Core.dll
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\bin\Debug\net8.0\EmployeeManagement.Domain.dll
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\bin\Debug\net8.0\Core.pdb
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\bin\Debug\net8.0\EmployeeManagement.Domain.pdb
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\obj\Debug\net8.0\EmployeeManagement.Application.csproj.AssemblyReference.cache
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\obj\Debug\net8.0\EmployeeManagement.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\obj\Debug\net8.0\EmployeeManagement.Application.AssemblyInfoInputs.cache
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\obj\Debug\net8.0\EmployeeManagement.Application.AssemblyInfo.cs
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\obj\Debug\net8.0\EmployeeManagement.Application.csproj.CoreCompileInputs.cache
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\obj\Debug\net8.0\EmployeeManagement.Application.csproj.CopyComplete
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\obj\Debug\net8.0\EmployeeManagement.Application.dll
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\obj\Debug\net8.0\refint\EmployeeManagement.Application.dll
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\obj\Debug\net8.0\EmployeeManagement.Application.pdb
+D:\Personal\Template\Hrm\src\Services\EmployeeManagement\EmployeeManagement.Application\obj\Debug\net8.0\ref\EmployeeManagement.Application.dll
