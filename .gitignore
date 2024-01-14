@@ -13,4 +13,12 @@
 /src/Services/EmployeeManagement/EmployeeManagement.Domain/obj/
 /src/Services/EmployeeManagement/EmployeeManagement.Infrastructure/bin/
 /src/Services/EmployeeManagement/EmployeeManagement.Infrastructure/obj/
-/src/Services/EmployeeManagement/EmployeeManagement.Infrastruture/obj
+
+/src/Services/Identity/Identity.API/bin/
+/src/Services/Identity/Identity.API/obj/
+/src/Services/Identity/Identity.Application/bin/
+/src/Services/Identity/Identity.Application/obj/
+/src/Services/Identity/Identity.Domain/bin/
+/src/Services/Identity/Identity.Domain/obj/
+/src/Services/Identity/Identity.Infrastructure/bin/
+/src/Services/Identity/Identity.Infrastructure/obj/
