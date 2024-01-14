@@ -1,4 +1,0 @@
-D:\Personal\Template\Hrm\src\Services\Employee\Employee.Application\obj\Debug\net8.0\Employee.Application.GeneratedMSBuildEditorConfig.editorconfig
-D:\Personal\Template\Hrm\src\Services\Employee\Employee.Application\obj\Debug\net8.0\Employee.Application.AssemblyInfoInputs.cache
-D:\Personal\Template\Hrm\src\Services\Employee\Employee.Application\obj\Debug\net8.0\Employee.Application.AssemblyInfo.cs
-D:\Personal\Template\Hrm\src\Services\Employee\Employee.Application\obj\Debug\net8.0\Employee.Application.csproj.CoreCompileInputs.cache

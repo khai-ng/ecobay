@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/ApiGateways/Ocelot.ApiGateway/obj/
+/src/Infrastructure/Kernel/bin/
+/src/Infrastructure/Kernel/obj/
+/src/Services/EmployeeManagement/EmployeeManagement.API/bin/
+/src/Services/EmployeeManagement/EmployeeManagement.API/obj/
+/src/Services/EmployeeManagement/EmployeeManagement.Application/bin/
+/src/Services/EmployeeManagement/EmployeeManagement.Application/obj/
+/src/Services/EmployeeManagement/EmployeeManagement.Domain/bin/
+/src/Services/EmployeeManagement/EmployeeManagement.Domain/obj/
+/src/Services/EmployeeManagement/EmployeeManagement.Infrastructure/bin/
+/src/Services/EmployeeManagement/EmployeeManagement.Infrastructure/obj/
+/src/Services/EmployeeManagement/EmployeeManagement.Infrastruture/obj
