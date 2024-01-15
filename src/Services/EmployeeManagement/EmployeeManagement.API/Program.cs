@@ -8,10 +8,11 @@ using ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddFastEndpoints();
+
 builder.AddServiceDefaults();
 builder.AddAutofac();
 
-builder.Services.AddFastEndpoints();
 builder.Services.AddDbContextPool<AppDbContext>((service, opt) =>
 {
     var connection = builder.Configuration.GetConnectionString(AppEnvironment.DB_SCHEMA);
