@@ -1,5 +1,6 @@
 using Autofac.Extensions.DependencyInjection;
 using FastEndpoints;
+using FastEndpoints.Swagger;
 using Identity.Domain.Constants;
 using Identity.Infrastructure;
 using Identity.Infrastructure.Authentication;
@@ -10,10 +11,14 @@ using ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints();
+builder.Services.AddFastEndpoints()
+    .AddSwaggerGen()
+    .SwaggerDocument();
 
 builder.AddServiceDefaults();
 builder.AddAutofac();
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
@@ -30,6 +35,7 @@ app.UseServiceDefaults();
 app.UseHttpsRedirection();
 
 app.UseDefaultExceptionHandler();
-app.UseFastEndpoints();
+app.UseFastEndpoints()
+    .UseSwaggerGen();
 
 await app.RunAsync();

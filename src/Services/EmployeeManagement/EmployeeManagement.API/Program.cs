@@ -2,16 +2,20 @@ using Autofac.Extensions.DependencyInjection;
 using EmployeeManagement.Domain.Constants;
 using EmployeeManagement.Infrastructure;
 using FastEndpoints;
+using FastEndpoints.Swagger;
 using Infrastructure.Kernel.Dependency;
 using Microsoft.EntityFrameworkCore;
 using ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints();
+builder.Services.AddFastEndpoints()
+    .AddSwaggerGen()
+    .SwaggerDocument();
 
 builder.AddServiceDefaults();
 builder.AddAutofac();
+builder.Services.AddAuthorization();
 
 builder.Services.AddDbContextPool<AppDbContext>((service, opt) =>
 {
@@ -25,6 +29,7 @@ app.UseServiceDefaults();
 app.UseHttpsRedirection();
 
 app.UseDefaultExceptionHandler();
-app.UseFastEndpoints();
+app.UseFastEndpoints()
+    .UseSwaggerGen();
 
 await app.RunAsync();
