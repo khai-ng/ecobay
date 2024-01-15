@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  employeemanagement.api:
+    image: ${DOCKER_REGISTRY-}employeemanagementapi
+    build:
+      context: .
+      dockerfile: src/Services/EmployeeManagement/EmployeeManagement.API/Dockerfile
+
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identityapi
+    build:
+      context: .
+      dockerfile: src/Services/Identity/Identity.API/Dockerfile
+

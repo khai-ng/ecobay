@@ -1,4 +1,4 @@
-﻿namespace EmployeeManagement.API.Authentication
+﻿namespace ServiceDefaults
 {
     public class JwtOption
     {

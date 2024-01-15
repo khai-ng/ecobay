@@ -15,7 +15,7 @@ namespace EmployeeManagement.API.Endpoint
         }
         public override void Configure()
         {
-            Get("Identity/GetEmployee");
+            Get("Employee/Get");
         }
 
         public override async Task HandleAsync(GetEmployeeRequest request, CancellationToken ct)

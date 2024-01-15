@@ -8,17 +8,17 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/Services/Employee/Employee.API/Employee.API.csproj", "src/Services/Employee/Employee.API/"]
-RUN dotnet restore "./src/Services/Employee/Employee.API/./Employee.API.csproj"
+COPY ["src/Services/EmployeeManagement/EmployeeManagement.API/EmployeeManagement.API.csproj", "src/Services/EmployeeManagement/EmployeeManagement.API/"]
+RUN dotnet restore "./src/Services/EmployeeManagement/EmployeeManagement.API/./EmployeeManagement.API.csproj"
 COPY . .
-WORKDIR "/src/src/Services/Employee/Employee.API"
-RUN dotnet build "./Employee.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/src/Services/EmployeeManagement/EmployeeManagement.API"
+RUN dotnet build "./EmployeeManagement.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Employee.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./EmployeeManagement.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Employee.API.dll"]
+ENTRYPOINT ["dotnet", "EmployeeManagement.API.dll"]
