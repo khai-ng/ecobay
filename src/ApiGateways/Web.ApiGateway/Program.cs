@@ -5,9 +5,9 @@ using FastEndpoints.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints()
-    .AddSwaggerGen()
-    .SwaggerDocument();
+//builder.Services.AddFastEndpoints()
+//    .AddSwaggerGen()
+//    .SwaggerDocument();
 
 builder.AddServiceDefaults();
 builder.Services.AddAuthorization();
@@ -19,8 +19,8 @@ app.UseServiceDefaults();
 app.UseHttpsRedirection();
 
 app.UseDefaultExceptionHandler();
-app.UseFastEndpoints()
-    .UseSwaggerGen();
+//app.UseFastEndpoints()
+//    .UseSwaggerGen();
 
 app.MapReverseProxy();
 

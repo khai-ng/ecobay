@@ -14,7 +14,7 @@ namespace Identity.API.Endpoint
         }
         public override void Configure()
         {
-            Post("Identity/Login");
+            Post("identity/login");
             AllowAnonymous();
             Summary(s =>
             {

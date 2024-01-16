@@ -15,7 +15,7 @@ namespace Identity.API.Endpoint
         }
         public override void Configure()
         {
-            Get("Identity/GetUser");
+            Get("identity/getuser");
 			//Roles(Role.Admin.Name);
 			AllowAnonymous();
 		}
