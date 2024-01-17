@@ -12,7 +12,7 @@ namespace Identity.Infrastructure.Configurations
             builder.HasKey(x => x.Id);
 
 			builder.Property(x => x.Id)
-                .ValueGeneratedOnAdd(); ;
+                .ValueGeneratedOnAdd();
 
 			builder.HasMany(x => x.Users)
                 .WithMany()

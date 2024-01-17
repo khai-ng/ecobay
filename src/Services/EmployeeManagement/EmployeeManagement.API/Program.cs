@@ -3,6 +3,7 @@ using EmployeeManagement.Domain.Constants;
 using EmployeeManagement.Infrastructure;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using GrpcEmployee;
 using Infrastructure.Kernel.Dependency;
 using Microsoft.EntityFrameworkCore;
 using ServiceDefaults;
@@ -15,6 +16,7 @@ builder.Services.AddFastEndpoints()
 
 builder.AddServiceDefaults();
 builder.AddAutofac();
+builder.Services.AddGrpc();
 builder.Services.AddAuthorization();
 
 builder.Services.AddDbContextPool<AppDbContext>((service, opt) =>
@@ -24,6 +26,8 @@ builder.Services.AddDbContextPool<AppDbContext>((service, opt) =>
 });
 
 var app = builder.Build();
+
+app.MapGrpcService<EmployeeService>();
 
 app.UseServiceDefaults();
 app.UseHttpsRedirection();

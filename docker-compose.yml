@@ -13,12 +13,8 @@ services:
       context: .
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
 
-
   web.apigateway:
     image: ${DOCKER_REGISTRY-}webapigateway
     build:
       context: .
       dockerfile: src/ApiGateways/Web.ApiGateway/Dockerfile
-    depends_on:
-      - employeemanagement-api
-      - identity-api

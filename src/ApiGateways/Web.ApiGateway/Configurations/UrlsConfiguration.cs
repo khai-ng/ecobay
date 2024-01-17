@@ -14,5 +14,7 @@
 
         public string Identity { get;set; }
         public string Employee { get;set; }
+        public string GrpcIdentity { get; set; }
+        public string GrpcEmployee { get; set; }
     }
 }
