@@ -15,6 +15,9 @@ builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
 
+//builder.Services.AddEndpointsApiExplorer()
+//.AddSwaggerGen();
+
 builder.AddServiceDefaults();
 builder.AddAutofac();
 
@@ -37,5 +40,9 @@ app.UseHttpsRedirection();
 app.UseDefaultExceptionHandler();
 app.UseFastEndpoints()
     .UseSwaggerGen();
+
+//app.UseSwagger();
+//app.UseSwaggerUI();
+//app.MapEndpoints();
 
 await app.RunAsync();

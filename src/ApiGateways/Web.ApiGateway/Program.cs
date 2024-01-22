@@ -6,12 +6,12 @@ using Web.ApiGateway.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddFastEndpoints()
-//    .AddSwaggerGen()
-//    .SwaggerDocument();
+builder.Services.AddFastEndpoints()
+    .AddSwaggerGen()
+    .SwaggerDocument();
 
-builder.Services.AddEndpointsApiExplorer()
-    .AddSwaggerGen();
+//builder.Services.AddEndpointsApiExplorer()
+//    .AddSwaggerGen();
 
 //builder.AddServiceDefaults();
 builder.AddAutofac();
@@ -25,8 +25,8 @@ var app = builder.Build();
 //app.UseServiceDefaults();
 app.UseHttpsRedirection();
 
-//app.UseDefaultExceptionHandler();
-//app.UseFastEndpoints()
+app.UseDefaultExceptionHandler();
+app.UseFastEndpoints();
 //    .UseSwaggerGen();
 
 app.UseSwagger();
