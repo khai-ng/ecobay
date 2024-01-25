@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Application.Services
 {
-    public class Login : IRequestHandler<LoginRequest, AppResult<string>>, IScoped
+    public class Login : IRequestHandler<LoginRequest, AppResult<string>>, ITransient
     {
         private readonly IAppDbContext _context;
         private readonly IJwtProvider _jwtProvider;

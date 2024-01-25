@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Application.Services
 {
-	public class GetUser : IRequestHandler<GetUserRequest, AppResult<PagingResponse<User>>>, IScoped
+	public class GetUser : IRequestHandler<GetUserRequest, AppResult<PagingResponse<User>>>, ITransient
     {
         private readonly IAppDbContext _context;
         public GetUser(IAppDbContext context)

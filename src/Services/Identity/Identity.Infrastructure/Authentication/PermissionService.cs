@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Authentication
 {
-    internal class PermissionService : IPermissionService, ITransient
+    internal class PermissionService : IPermissionService, IScoped
     {
         private readonly IAppDbContext _context;
         public PermissionService(IAppDbContext context)

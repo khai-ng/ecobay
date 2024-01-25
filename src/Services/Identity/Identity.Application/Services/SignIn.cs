@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Identity.Application.Services
 {
-    public class SignIn : IRequestHandler<SignInRequest, AppResult<string>>, IScoped
+    public class SignIn : IRequestHandler<SignInRequest, AppResult<string>>, ITransient
     {
         private readonly IAppDbContext _context;
         public SignIn(IAppDbContext context)
