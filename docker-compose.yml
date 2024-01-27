@@ -27,6 +27,5 @@ services:
       context: .
       dockerfile: src/ApiGateways/Web.ApiGateway/Dockerfile
     depends_on:
-      - mysql
       - identity-api
       - employee-api
