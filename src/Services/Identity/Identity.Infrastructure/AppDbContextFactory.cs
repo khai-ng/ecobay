@@ -24,9 +24,10 @@ namespace Identity.Infrastructure
 
             // Get connection string
             var builder = new DbContextOptionsBuilder<AppDbContext>();
-            var connectionString = config.GetConnectionString(AppEnvironment.DB_SCHEMA);
+            var connectionString = config.GetConnectionString(AppEnvironment.DB_SCHEMA)!    ;
 
-            builder.UseSqlServer(connectionString);
+            //builder.UseSqlServer(connectionString);
+            builder.UseMySQL(connectionString);
             return new AppDbContext(builder.Options);
         }
     }

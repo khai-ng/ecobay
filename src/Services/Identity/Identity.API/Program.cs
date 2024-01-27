@@ -28,11 +28,23 @@ builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizat
 
 builder.Services.AddDbContextPool<AppDbContext>((service, opt) =>
 {
-    var connection = builder.Configuration.GetConnectionString(AppEnvironment.DB_SCHEMA);
-    opt.UseSqlServer(connection, option => option.CommandTimeout(100));
+    var connection = builder.Configuration.GetConnectionString(AppEnvironment.DB_SCHEMA)!;
+    //opt.UseSqlServer(connection, option => option.CommandTimeout(100));
+    opt.UseMySQL(connection);
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<AppDbContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        await context.Database.MigrateAsync();
+    }
+}
 
 app.UseServiceDefaults();
 app.UseHttpsRedirection();

@@ -11,7 +11,6 @@ namespace Identity.Infrastructure.Configurations
             builder.ToTable(nameof(User));
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id).HasDefaultValueSql("newsequentialid()");
             builder.Property(x => x.UserName).HasMaxLength(128);
             builder.Property(x => x.Name).HasMaxLength(128);
             builder.Property(x => x.Email).HasMaxLength(128);
