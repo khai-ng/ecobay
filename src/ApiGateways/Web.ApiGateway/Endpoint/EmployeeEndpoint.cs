@@ -10,6 +10,8 @@ namespace Web.ApiGateway.Endpoint
         {
             _employeeService = employeeService;
         }
+
+        //public EmployeeEndpoint() { }
         public override void Configure()
         {
             Get("employee/hello");
@@ -20,6 +22,7 @@ namespace Web.ApiGateway.Endpoint
         {
             var rs = await _employeeService.SayHelloAsync();
             await SendResultAsync(Results.Ok(rs));
+            //await SendResultAsync(Results.Ok());
         }
     }
 }

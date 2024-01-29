@@ -24,6 +24,13 @@ namespace ServiceDefaults
 
         public static WebApplication UseServiceDefaults(this WebApplication app)
         {
+            var pathBase = app.Configuration["PATH_BASE"];
+            if (!string.IsNullOrEmpty(pathBase))
+            {
+                app.UsePathBase(pathBase);
+                app.UseRouting();
+            }
+
             var identitySection = app.Configuration.GetSection("Identity");
 
             if (identitySection.Exists())

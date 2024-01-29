@@ -1,6 +1,7 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Infrastructure.Kernel.Dependency;
+using ServiceDefaults;
 using Web.ApiGateway.Configurations;
 using Web.ApiGateway.Extensions;
 
@@ -13,21 +14,22 @@ builder.Services.AddFastEndpoints()
 //builder.Services.AddEndpointsApiExplorer()
 //    .AddSwaggerGen();
 
-//builder.AddServiceDefaults();
+builder.AddServiceDefaults();
 builder.AddAutofac();
-builder.Services.AddGrpcServices();
 builder.Services.AddAuthorization();
+builder.Services.AddGrpcServices();
 builder.Services.AddReverseProxy(builder.Configuration);
 
 builder.Services.Configure<UrlsConfiguration>(builder.Configuration.GetSection("urls"));
 var app = builder.Build();
 
-//app.UseServiceDefaults();
+app.UseServiceDefaults();
 app.UseHttpsRedirection();
 
 app.UseDefaultExceptionHandler();
 app.UseFastEndpoints();
-//    .UseSwaggerGen();
+
+//app.UseSwaggerGen();
 
 app.UseSwagger();
 app.UseSwaggerUI(opt =>
@@ -38,7 +40,6 @@ app.UseSwaggerUI(opt =>
 });
 
 app.MapGetSwaggerForYarp(app.Configuration);
-
 app.MapReverseProxy();
 
 await app.RunAsync();
