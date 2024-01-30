@@ -64,6 +64,18 @@ namespace Web.ApiGateway.Extensions
 
                 var routes = config.Where(p => p.ClusterId == cluster.ClusterId);
                 var hasCatchAll = routes != null && routes.Any(p => p.Match.Path!.Contains("**catch-all"));
+
+                //1: support single server
+                //if(document.Servers != null)
+                //{
+                //    document.Servers[0].Url = string.Concat(context.Request.Scheme,
+                //    "://",
+                //    context.Request.Host.ToUriComponent());
+                //}
+
+                //2: remove server option from other services
+                document.Servers = null;
+
                 foreach (var path in document.Paths)
                 {
                     var rewritedPath = path.Key;

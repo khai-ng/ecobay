@@ -35,8 +35,8 @@ app.UseSwagger();
 app.UseSwaggerUI(opt =>
 {
     opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Web ApiGateway");
-    opt.SwaggerEndpoint("/swagger/identity/v1/swagger.json", "Identity Api");
-    opt.SwaggerEndpoint("/swagger/employee/v1/swagger.json", "Employee Api");
+    opt.SwaggerEndpoint("/identity/swagger/v1/swagger.json", "Identity Api");
+    opt.SwaggerEndpoint("/employee/swagger/v1/swagger.json", "Employee Api");
 });
 
 app.MapGetSwaggerForYarp(app.Configuration);

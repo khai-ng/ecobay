@@ -24,12 +24,12 @@ namespace ServiceDefaults
 
         public static WebApplication UseServiceDefaults(this WebApplication app)
         {
-            var pathBase = app.Configuration["PATH_BASE"];
-            if (!string.IsNullOrEmpty(pathBase))
-            {
-                app.UsePathBase(pathBase);
-                app.UseRouting();
-            }
+            //var pathBase = app.Configuration["PATH_BASE"];
+            //if (!string.IsNullOrEmpty(pathBase))
+            //{
+            //    app.UsePathBase(pathBase);
+            //    app.UseRouting();
+            //}
 
             var identitySection = app.Configuration.GetSection("Identity");
 
@@ -38,8 +38,8 @@ namespace ServiceDefaults
                 app.UseAuthentication();
                 app.UseAuthorization();
             }
-            app.UseDefaultOpenApi(app.Configuration);
-
+            //app.UseDefaultOpenApi(app.Configuration);
+            app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
             return app;
         }
 
