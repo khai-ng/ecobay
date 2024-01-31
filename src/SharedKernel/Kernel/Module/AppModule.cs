@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Kernel.Module
+﻿namespace SharedKernel.Kernel.Module
 {
     public class AppModule: Autofac.Module
     {

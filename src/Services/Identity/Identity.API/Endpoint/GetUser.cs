@@ -1,4 +1,4 @@
-﻿using Infrastructure.Kernel.Result;
+﻿using SharedKernel.Kernel.Result;
 using FastEndpoints;
 using Identity.Application.Services;
 using MediatR;

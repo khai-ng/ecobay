@@ -4,7 +4,7 @@ using FastEndpoints.Swagger;
 using Identity.API.Extension;
 using Identity.Infrastructure;
 using Identity.Infrastructure.Authentication;
-using Infrastructure.Kernel.Dependency;
+using SharedKernel.Kernel.Dependency;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using ServiceDefaults;

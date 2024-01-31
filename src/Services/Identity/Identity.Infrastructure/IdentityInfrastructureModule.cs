@@ -1,4 +1,4 @@
-﻿using Infrastructure.Kernel.Module;
+﻿using SharedKernel.Kernel.Module;
 
 namespace Identity.Infrastructure
 {

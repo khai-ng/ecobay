@@ -1,5 +1,5 @@
-﻿using Infrastructure.Kernel.Dependency;
-using Infrastructure.Kernel.Result;
+﻿using SharedKernel.Kernel.Dependency;
+using SharedKernel.Kernel.Result;
 using EmployeeManagement.Application.Abstractions;
 using EmployeeManagement.Domain.Entities;
 using MediatR;

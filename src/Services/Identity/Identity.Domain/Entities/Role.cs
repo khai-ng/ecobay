@@ -1,4 +1,4 @@
-﻿using Infrastructure.Kernel.Enum;
+﻿using SharedKernel.Kernel.Enum;
 
 namespace Identity.Domain.Entities
 {

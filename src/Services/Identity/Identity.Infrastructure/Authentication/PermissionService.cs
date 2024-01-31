@@ -1,4 +1,4 @@
-﻿using Infrastructure.Kernel.Dependency;
+﻿using SharedKernel.Kernel.Dependency;
 using Identity.Application.Abstractions;
 using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;

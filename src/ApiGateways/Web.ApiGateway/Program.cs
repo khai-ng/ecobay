@@ -1,6 +1,6 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using Infrastructure.Kernel.Dependency;
+using SharedKernel.Kernel.Dependency;
 using ServiceDefaults;
 using Web.ApiGateway.Configurations;
 using Web.ApiGateway.Extensions;

@@ -4,7 +4,7 @@ using EmployeeManagement.Infrastructure;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using GrpcEmployee;
-using Infrastructure.Kernel.Dependency;
+using SharedKernel.Kernel.Dependency;
 using Microsoft.EntityFrameworkCore;
 using ServiceDefaults;
 

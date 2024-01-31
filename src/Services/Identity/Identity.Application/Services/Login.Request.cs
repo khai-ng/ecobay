@@ -1,4 +1,4 @@
-﻿using Infrastructure.Kernel.Result;
+﻿using SharedKernel.Kernel.Result;
 using MediatR;
 
 namespace Identity.Application.Services

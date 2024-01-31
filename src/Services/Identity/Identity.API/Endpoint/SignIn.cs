@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using Identity.Application.Services;
 using MediatR;
-using Infrastructure.Kernel.Result;
+using SharedKernel.Kernel.Result;
 
 namespace Identity.API.Endpoint
 {

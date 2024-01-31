@@ -32,8 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Kernel\Kernel.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\ServiceDefaults\ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\Kernel\Kernel.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\ServiceDefaults\ServiceDefaults.csproj" />
   </ItemGroup>
 
   <ItemGroup>

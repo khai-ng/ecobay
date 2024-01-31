@@ -1,5 +1,5 @@
-﻿using Infrastructure.Kernel.Dependency;
-using Infrastructure.Kernel.Result;
+﻿using SharedKernel.Kernel.Dependency;
+using SharedKernel.Kernel.Result;
 using Identity.Application.Abstractions;
 using Identity.Domain.Entities;
 using MediatR;

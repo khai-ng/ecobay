@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Kernel.Result
+﻿namespace SharedKernel.Kernel.Result
 {
     public class AppResult : AppResult<AppResult>
     {

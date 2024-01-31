@@ -1,4 +1,4 @@
-﻿using Infrastructure.Kernel.Dependency;
+﻿using SharedKernel.Kernel.Dependency;
 using EmployeeManagement.Application.Abstractions;
 using EmployeeManagement.Domain.Entities;
 using Microsoft.EntityFrameworkCore;

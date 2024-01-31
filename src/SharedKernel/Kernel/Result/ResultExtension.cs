@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
-namespace Infrastructure.Kernel.Result
+namespace SharedKernel.Kernel.Result
 {
     public static class ResultExtension
     {

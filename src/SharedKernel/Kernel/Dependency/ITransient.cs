@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Kernel.Dependency
+﻿namespace SharedKernel.Kernel.Dependency
 {
     public interface ITransient
     {

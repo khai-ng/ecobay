@@ -1,7 +1,7 @@
 ﻿//using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
-namespace Infrastructure.Kernel.Result
+namespace SharedKernel.Kernel.Result
 {
 	public class AppResult<T> : IAppResult
     {

@@ -1,4 +1,4 @@
-﻿using Infrastructure.Kernel.Result;
+﻿using SharedKernel.Kernel.Result;
 using EmployeeManagement.Application.Services;
 using EmployeeManagement.Domain.Entities;
 using FastEndpoints;

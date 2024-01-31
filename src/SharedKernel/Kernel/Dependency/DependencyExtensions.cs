@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using System.Reflection;
 using System.Text;
 
-namespace Infrastructure.Kernel.Dependency
+namespace SharedKernel.Kernel.Dependency
 {
     public static class DependencyExtensions
     {
