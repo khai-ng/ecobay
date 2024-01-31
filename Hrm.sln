@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{55E4A1E9-752A-41E5-8D82-A01450731502}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{F05225D2-2AE2-44E0-B1C2-EAC88CE8DF6C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedKernel", "SharedKernel", "{F05225D2-2AE2-44E0-B1C2-EAC88CE8DF6C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{8AAD5322-2C93-4CE4-8228-7000E746BEA0}"
 EndProject
@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Application", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Infrastructure", "src\Services\Identity\Identity.Infrastructure\Identity.Infrastructure.csproj", "{F8FB98DD-EAE3-4141-858D-7C25F4FC5D5F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel", "src\Infrastructure\Kernel\Kernel.csproj", "{14590443-7207-4701-8BD0-6DD7D62C5E6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel", "src\SharedKernel\Kernel\Kernel.csproj", "{14590443-7207-4701-8BD0-6DD7D62C5E6D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmployeeManagement", "EmployeeManagement", "{F3610487-1E53-4A3E-9A23-ECBD61D7C605}"
 EndProject
@@ -37,7 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BDDADF63-3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.ApiGateway", "src\ApiGateways\Web.ApiGateway\Web.ApiGateway.csproj", "{B71FB92E-7F8A-45B7-9EC0-D324031DBEB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceDefaults", "src\Infrastructure\ServiceDefaults\ServiceDefaults.csproj", "{18F63E34-BC41-4AD3-B632-9D5983C4502A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceDefaults", "src\SharedKernel\ServiceDefaults\ServiceDefaults.csproj", "{18F63E34-BC41-4AD3-B632-9D5983C4502A}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{65ADC889-DA20-4ABA-9C53-0070B2523B1C}"
 EndProject
