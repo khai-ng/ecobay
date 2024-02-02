@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Kernel.Result
+﻿namespace Kernel.Result
 {
 	public class PagingTyped: PagingResponse<PagingTyped>
 	{
@@ -8,8 +8,7 @@
 
 		public static PagingTyped Load(PagingRequest request)
 		{
-			var response = new PagingTyped(request);
-			return response;
+			return new PagingTyped(request);
 		}	
 
 		public PagingResponse<T> SetPagedData<T>(IEnumerable<T> data) where T : class

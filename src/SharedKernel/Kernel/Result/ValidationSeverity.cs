@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Kernel.Result
+﻿namespace Kernel.Result
 {
     public enum ValidationSeverity
     {

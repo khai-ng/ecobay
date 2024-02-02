@@ -9,8 +9,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/ApiGateways/Web.ApiGateway/Web.ApiGateway.csproj", "src/ApiGateways/Web.ApiGateway/"]
-COPY ["src/Infrastructure/Kernel/Kernel.csproj", "src/Infrastructure/Kernel/"]
-COPY ["src/Infrastructure/ServiceDefaults/ServiceDefaults.csproj", "src/Infrastructure/ServiceDefaults/"]
+COPY ["src/SharedKernel/Kernel/Kernel.csproj", "src/SharedKernel/Kernel/"]
+COPY ["src/SharedKernel/ServiceDefaults/ServiceDefaults.csproj", "src/SharedKernel/ServiceDefaults/"]
 RUN dotnet restore "./src/ApiGateways/Web.ApiGateway/./Web.ApiGateway.csproj"
 COPY . .
 WORKDIR "/src/src/ApiGateways/Web.ApiGateway"
@@ -24,4 +24,3 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Web.ApiGateway.dll"]
-

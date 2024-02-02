@@ -1,9 +1,10 @@
-﻿namespace SharedKernel.Kernel.Result
+﻿namespace Kernel.Result
 {
-    public interface IAppResult
+    public interface IAppResult<T>
     {
-        string Message { get; }
-        ResultStatus Status { get; }
-        IEnumerable<string> Errors { get; }
+        public AppStatusCode Status { get; }
+        string? Message { get; }
+        IEnumerable<ErrorDetail>? Errors { get; }
+        public T? Data { get; }
     }
 }

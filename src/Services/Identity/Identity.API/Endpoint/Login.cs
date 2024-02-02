@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using Identity.Application.Services;
 using MediatR;
-using SharedKernel.Kernel.Result;
+using Kernel.Result;
 namespace Identity.API.Endpoint
 {
     public class LoginEndpoint : Endpoint<LoginRequest, IResult>

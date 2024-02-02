@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Kernel.Result
+﻿namespace Kernel.Result
 {
 
 	public class PagingResponse<T> : PagingRequest where T : class

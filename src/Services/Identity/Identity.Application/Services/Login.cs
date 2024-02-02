@@ -1,5 +1,5 @@
 ﻿using SharedKernel.Kernel.Dependency;
-using SharedKernel.Kernel.Result;
+using Kernel.Result;
 using Identity.Application.Abstractions;
 using Identity.Application.Extensions;
 using MediatR;
@@ -23,7 +23,7 @@ namespace Identity.Application.Services
                 .SingleOrDefaultAsync();
 
             if (user == null)
-                return AppResult.NotFound();
+                return AppResult.NotFound("User name or password not match!");
 
             var hashPassword = PasswordExtension.GeneratePassword(request.Password, user.SecurityStamp);
 

@@ -1,5 +1,5 @@
 ﻿using SharedKernel.Kernel.Dependency;
-using SharedKernel.Kernel.Result;
+using Kernel.Result;
 using Identity.Application.Abstractions;
 using Identity.Domain.Entities;
 using MediatR;
@@ -16,9 +16,7 @@ namespace Identity.Application.Services
         }
         public async Task<AppResult<PagingResponse<User>>> Handle(GetUserRequest request, CancellationToken cancellationToken)
         {
-
             var pageUser = PagingTyped.PagingResult(await _context.Users.ToListAsync(), request);
-
             return AppResult.Success(pageUser);
 		}
     }

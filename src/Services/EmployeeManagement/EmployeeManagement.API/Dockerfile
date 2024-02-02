@@ -9,8 +9,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/Services/EmployeeManagement/EmployeeManagement.API/EmployeeManagement.API.csproj", "src/Services/EmployeeManagement/EmployeeManagement.API/"]
-COPY ["src/Infrastructure/Kernel/Kernel.csproj", "src/Infrastructure/Kernel/"]
-COPY ["src/Infrastructure/ServiceDefaults/ServiceDefaults.csproj", "src/Infrastructure/ServiceDefaults/"]
+COPY ["src/SharedKernel/Kernel/Kernel.csproj", "src/SharedKernel/Kernel/"]
+COPY ["src/SharedKernel/ServiceDefaults/ServiceDefaults.csproj", "src/SharedKernel/ServiceDefaults/"]
 COPY ["src/Services/EmployeeManagement/EmployeeManagement.Application/EmployeeManagement.Application.csproj", "src/Services/EmployeeManagement/EmployeeManagement.Application/"]
 COPY ["src/Services/EmployeeManagement/EmployeeManagement.Domain/EmployeeManagement.Domain.csproj", "src/Services/EmployeeManagement/EmployeeManagement.Domain/"]
 COPY ["src/Services/EmployeeManagement/EmployeeManagement.Infrastructure/EmployeeManagement.Infrastructure.csproj", "src/Services/EmployeeManagement/EmployeeManagement.Infrastructure/"]

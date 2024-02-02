@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SharedKernel.Kernel.Result
+namespace Kernel.Result
 {
 	public class PagingRequest
 	{

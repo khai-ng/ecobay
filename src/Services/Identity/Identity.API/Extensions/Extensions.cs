@@ -1,7 +1,6 @@
 ﻿using Identity.Domain.Constants;
 using Identity.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using MySql.EntityFrameworkCore.Infrastructure;
 
 namespace Identity.API.Extension
