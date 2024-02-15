@@ -78,7 +78,7 @@ namespace Kernel.Result
         {
             { HttpStatusCode.OK, new TitleTypeMap( "OK", "https://datatracker.ietf.org/doc/html/rfc7231#section-6.3.1") },
             { HttpStatusCode.BadRequest, new TitleTypeMap( "Bad Request", "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1") },
-            { HttpStatusCode.Unauthorized, new TitleTypeMap( "Unauthorized", "") },
+            { HttpStatusCode.Unauthorized, new TitleTypeMap( "Unauthorized", "https://datatracker.ietf.org/doc/html/rfc7235#section-3.1") },
             { HttpStatusCode.Forbidden, new TitleTypeMap( "Forbidden", "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.3") },
             { HttpStatusCode.NotFound, new TitleTypeMap( "Not Found", "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.4") },
             { HttpStatusCode.Conflict, new TitleTypeMap( "Conflict", "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.8") },

@@ -4,13 +4,16 @@ using FastEndpoints.Swagger;
 using Identity.API.Extension;
 using Identity.Infrastructure;
 using Identity.Infrastructure.Authentication;
-using Kernel.Result;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using ServiceDefaults;
 using SharedKernel.Kernel.Dependency;
-using System.Net;
-using System.Text.Json;
+using System.Reflection;
+using Identity.Application.Behaviours;
+using Serilog.Templates;
+using Serilog.Sinks.File;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +32,22 @@ builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+
+});
+
+Log.Logger = new LoggerConfiguration()
+    //.WriteTo.Console(new ExpressionTemplate("{ {ts: @t, msg: @m, lv: @l, ex: @x, ..@p} }\n"))
+    .CreateLogger();
+
+builder.Host.UseSerilog((hostContext, logCfg) =>
+{
+    logCfg.ReadFrom.Configuration(hostContext.Configuration);
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -42,25 +61,7 @@ app.UseHttpsRedirection();
 app.UseServiceDefaults();
 
 app.UseExceptionHandler(opt => { });
-app.UseFastEndpoints(config =>
-{
-    var jsonSerializerOptions = new JsonSerializerOptions
-    {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-    };
-
-    config.Errors.ResponseBuilder = (failures, ctx, statusCode) =>
-    {
-        return new HttpErrorResult((HttpStatusCode)statusCode, 
-            failures.Select(e => new ErrorDetail(e.PropertyName, e.ErrorMessage)));
-    };
-
-    config.Serializer.ResponseSerializer = (reposnse, dto, cType, jsonContext, ct) =>
-    {
-        reposnse.ContentType = cType;
-        return reposnse.WriteAsync(JsonSerializer.Serialize(dto, jsonSerializerOptions), ct);
-    };
-})
+app.UseFastEndpoints(config => config.CommonResponseConfigs())
     .UseSwaggerGen();
 
 await app.RunAsync();

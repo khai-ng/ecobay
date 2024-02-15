@@ -1,7 +1,7 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using SharedKernel.Kernel.Dependency;
 using ServiceDefaults;
+using SharedKernel.Kernel.Dependency;
 using Web.ApiGateway.Configurations;
 using Web.ApiGateway.Extensions;
 
@@ -26,10 +26,8 @@ var app = builder.Build();
 app.UseServiceDefaults();
 app.UseHttpsRedirection();
 
-app.UseDefaultExceptionHandler();
-app.UseFastEndpoints();
-
-//app.UseSwaggerGen();
+app.UseExceptionHandler(opt => { });
+app.UseFastEndpoints(config => config.CommonResponseConfigs());
 
 app.UseSwagger();
 app.UseSwaggerUI(opt =>

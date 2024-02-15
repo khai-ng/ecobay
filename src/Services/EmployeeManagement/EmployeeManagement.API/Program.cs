@@ -4,9 +4,9 @@ using EmployeeManagement.Infrastructure;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using GrpcEmployee;
-using SharedKernel.Kernel.Dependency;
 using Microsoft.EntityFrameworkCore;
 using ServiceDefaults;
+using SharedKernel.Kernel.Dependency;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,8 +33,8 @@ app.MapGrpcService<EmployeeService>();
 app.UseHttpsRedirection();
 app.UseServiceDefaults();
 
-app.UseDefaultExceptionHandler();
-app.UseFastEndpoints()
+app.UseExceptionHandler(opt => { });
+app.UseFastEndpoints(config => config.CommonResponseConfigs())
     .UseSwaggerGen();
 
 await app.RunAsync();

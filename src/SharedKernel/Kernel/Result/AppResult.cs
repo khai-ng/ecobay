@@ -7,6 +7,7 @@
         public string? Message { get; protected set; }
         public IEnumerable<ErrorDetail>? Errors { get; protected set; }
         public bool IsSuccess => Status == AppStatusCode.Ok;
+
         protected AppResult() { }
 
         public AppResult(T data)

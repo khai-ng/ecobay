@@ -1,15 +1,12 @@
 ﻿using GrpcEmployee;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi;
+using Microsoft.OpenApi.Extensions;
+using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Readers;
 using Web.ApiGateway.Configurations;
 using Web.ApiGateway.Constants;
 using Yarp.ReverseProxy.Configuration;
-using Microsoft.OpenApi.Readers;
-using Microsoft.OpenApi.Extensions;
-using Yarp.ReverseProxy;
-using Yarp.ReverseProxy.Model;
-using Google.Protobuf.WellKnownTypes;
 
 namespace Web.ApiGateway.Extensions
 {

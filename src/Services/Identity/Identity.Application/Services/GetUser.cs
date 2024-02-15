@@ -4,6 +4,8 @@ using Identity.Application.Abstractions;
 using Identity.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace Identity.Application.Services
 {
