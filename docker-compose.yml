@@ -1,31 +1,84 @@
 version: '3.4'
 
 services:
-  mysql:
-    image: mysql:latest
-    restart: always
+    mysql:
+        image: mysql:latest
+        restart: always
 
-  identity-api:
-    image: ${DOCKER_REGISTRY-}identityapi
-    build:
-      context: .
-      dockerfile: src/Services/Identity/Identity.API/Dockerfile
-    depends_on:
-      - mysql
+    identity-api:
+        image: ${DOCKER_REGISTRY-}identityapi
+        build:
+            context: .
+            dockerfile: src/Services/Identity/Identity.API/Dockerfile
+        depends_on:
+            - mysql
 
-  employee-api:
-    image: ${DOCKER_REGISTRY-}employeeapi
-    build:
-      context: .
-      dockerfile: src/Services/EmployeeManagement/EmployeeManagement.API/Dockerfile
-    depends_on:
-      - mysql
+    employee-api:
+        image: ${DOCKER_REGISTRY-}employeeapi
+        build:
+            context: .
+            dockerfile: src/Services/EmployeeManagement/EmployeeManagement.API/Dockerfile
+        depends_on:
+            - mysql
 
-  web-apigateway:
-    image: ${DOCKER_REGISTRY-}webapigateway
-    build:
-      context: .
-      dockerfile: src/ApiGateways/Web.ApiGateway/Dockerfile
-    depends_on:
-      - identity-api
-      - employee-api
+    web-apigateway:
+        image: ${DOCKER_REGISTRY-}webapigateway
+        build:
+            context: .
+            dockerfile: src/ApiGateways/Web.ApiGateway/Dockerfile
+        depends_on:
+            - identity-api
+            - employee-api
+
+    fluent-bit:
+        image: fluent/fluent-bit:2.2.2
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: efk.fluent-bit
+
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
+        restart: on-failure
+        networks:
+            - local
+        depends_on:
+            - fluent-bit
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: efk.es
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:7.17.18
+        restart: on-failure
+        networks:
+            - local
+        depends_on:
+            - fluent-bit
+            - elasticsearch
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: efk.kibana
+
+    # grafana:
+    #     image: grafana/grafana:10.2.4
+    #     networks:
+    #         - local
+    #     depends_on:
+    #         - fluent-bit
+    #         - elasticsearch
+    #     logging:
+    #         driver: fluentd
+    #         options:
+    #             fluentd-async: "true"
+    #             tag: efk.grafana
+networks:
+    local:
+        driver: bridge
