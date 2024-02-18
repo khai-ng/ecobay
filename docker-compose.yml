@@ -42,18 +42,18 @@ services:
                 fluentd-async: "true"
                 tag: efk.fluent-bit
 
-    elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
-        restart: on-failure
-        networks:
-            - local
-        depends_on:
-            - fluent-bit
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: efk.es
+    # elasticsearch:
+    #     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
+    #     restart: on-failure
+    #     networks:
+    #         - local
+    #     depends_on:
+    #         - fluent-bit
+    #     logging:
+    #         driver: fluentd
+    #         options:
+    #             fluentd-async: "true"
+    #             tag: efk.es
 
     # kibana:
     #     image: docker.elastic.co/kibana/kibana:7.17.18
@@ -69,20 +69,20 @@ services:
     #             fluentd-async: "true"
     #             tag: efk.kibana
 
-    # loki:
-    #     image: grafana/loki:2.9.4
-    #     volumes:
-    #         - ./loki:/etc/loki
-    #     ports:
-    #         - "3100:3100"
-    #     command: "-config.file=/etc/loki/config.yaml -target=read"
-    #     networks:
-    #         - local
-    #     logging:
-    #         driver: fluentd
-    #         options:
-    #             fluentd-async: "true"
-    #             tag: efk.loki
+    loki:
+        image: grafana/loki:2.9.4
+        volumes:
+            - ./loki:/etc/loki
+        ports:
+            - 3100:3100
+        command: "-config.file=/etc/loki/local-config.yaml"
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: efk.loki
 
     prometheus:
         image: prom/prometheus:v2.49.1
@@ -105,8 +105,8 @@ services:
             - local
         depends_on:
             - fluent-bit
-            - elasticsearch
-            # - loki
+            # - elasticsearch
+            - loki
         logging:
             driver: fluentd
             options:

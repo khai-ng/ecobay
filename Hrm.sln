@@ -73,7 +73,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prometheus", "prometheus", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "loki", "loki", "{9329F5C0-2501-44A5-A83F-47C575F37A5A}"
 	ProjectSection(SolutionItems) = preProject
-		loki\config.yaml = loki\config.yaml
+		loki\local-config.yaml = loki\local-config.yaml
 	EndProjectSection
 EndProject
 Global

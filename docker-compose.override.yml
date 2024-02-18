@@ -60,22 +60,22 @@ services:
   
     fluent-bit:
         environment:
-            - FLB_ES_HOST=elasticsearch
-            - FLB_ES_PORT=9200
-            # - LOKI_HOST=loki
-            # - LOKI_PORT=3100
+            # - FLB_ES_HOST=elasticsearch
+            # - FLB_ES_PORT=9200
+            - LOKI_HOST=loki
+            - LOKI_PORT=3100
         volumes:
             - ./fluent-bit:/fluent-bit/etc
         ports:
             - 24224:24224
 
-    elasticsearch:
-        mem_limit: 2g
-        environment:
-            - discovery.type=single-node
-        ports:
-            - 9200:9200
-            - 9300:9300
+    # elasticsearch:
+    #     mem_limit: 2g
+    #     environment:
+    #         - discovery.type=single-node
+    #     ports:
+    #         - 9200:9200
+    #         - 9300:9300
 
     # kibana:
     #     environment:
