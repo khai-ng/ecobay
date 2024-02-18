@@ -47,6 +47,35 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fluent-bit", "fluent-bit", 
 		fluent-bit\parsers.conf = fluent-bit\parsers.conf
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grafana", "grafana", "{08E09F41-DA0A-4791-8168-A53D235AE3D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "provisioning", "provisioning", "{444978F9-B99E-438C-8A0A-3B3110B38166}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "datasources", "datasources", "{A70C9FEC-FB89-45A8-A490-7ED99D0E836C}"
+	ProjectSection(SolutionItems) = preProject
+		grafana\provisioning\datasources\datasouces.yaml = grafana\provisioning\datasources\datasouces.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dashboards", "dashboards", "{0030F574-AC5B-41AA-A55A-161507214AAF}"
+	ProjectSection(SolutionItems) = preProject
+		grafana\provisioning\dashboards\dashboard.yml = grafana\provisioning\dashboards\dashboard.yml
+		grafana\provisioning\dashboards\docker_containers.json = grafana\provisioning\dashboards\docker_containers.json
+		grafana\provisioning\dashboards\docker_host.json = grafana\provisioning\dashboards\docker_host.json
+		grafana\provisioning\dashboards\monitor_services.json = grafana\provisioning\dashboards\monitor_services.json
+		grafana\provisioning\dashboards\nginx_container.json = grafana\provisioning\dashboards\nginx_container.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prometheus", "prometheus", "{14EA41F3-2965-4052-946C-589AE6CF6236}"
+	ProjectSection(SolutionItems) = preProject
+		prometheus\alert.rules = prometheus\alert.rules
+		prometheus\prometheus.yml = prometheus\prometheus.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "loki", "loki", "{9329F5C0-2501-44A5-A83F-47C575F37A5A}"
+	ProjectSection(SolutionItems) = preProject
+		loki\config.yaml = loki\config.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +151,9 @@ Global
 		{C1B289D4-A36C-4B34-8CB9-45EA6B2D02C7} = {F3610487-1E53-4A3E-9A23-ECBD61D7C605}
 		{B71FB92E-7F8A-45B7-9EC0-D324031DBEB6} = {55E4A1E9-752A-41E5-8D82-A01450731502}
 		{18F63E34-BC41-4AD3-B632-9D5983C4502A} = {F05225D2-2AE2-44E0-B1C2-EAC88CE8DF6C}
+		{444978F9-B99E-438C-8A0A-3B3110B38166} = {08E09F41-DA0A-4791-8168-A53D235AE3D3}
+		{A70C9FEC-FB89-45A8-A490-7ED99D0E836C} = {444978F9-B99E-438C-8A0A-3B3110B38166}
+		{0030F574-AC5B-41AA-A55A-161507214AAF} = {444978F9-B99E-438C-8A0A-3B3110B38166}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {99FAD885-0804-4859-94E6-346559EF4C54}
