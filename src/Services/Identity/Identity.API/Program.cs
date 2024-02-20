@@ -7,13 +7,11 @@ using Identity.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 using ServiceDefaults;
 using SharedKernel.Kernel.Dependency;
 using System.Reflection;
 using Identity.Application.Behaviours;
-using Serilog.Templates;
-using Serilog.Sinks.File;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,17 +34,24 @@ builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
-
 });
 
 Log.Logger = new LoggerConfiguration()
-    //.WriteTo.Console(new ExpressionTemplate("{ {ts: @t, msg: @m, lv: @l, ex: @x, ..@p} }\n"))
-    .CreateLogger();
+    .CreateBootstrapLogger();
 
-builder.Host.UseSerilog((hostContext, logCfg) =>
+builder.Host.UseSerilog((context, config) =>
 {
-    logCfg.ReadFrom.Configuration(hostContext.Configuration);
-});
+    config.ReadFrom.Configuration(context.Configuration);
+    //config.MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information);
+    //config.MinimumLevel.Information()
+    //.MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
+    //.MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Information)
+    //.Enrich.FromLogContext();
+
+    //config.WriteTo.Console();
+}
+//, writeToProviders: true
+);
 
 var app = builder.Build();
 
