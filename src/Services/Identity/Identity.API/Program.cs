@@ -42,15 +42,8 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog((context, config) =>
 {
     config.ReadFrom.Configuration(context.Configuration);
-    //config.MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information);
-    //config.MinimumLevel.Information()
-    //.MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
-    //.MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Information)
-    //.Enrich.FromLogContext();
 
-    //config.WriteTo.Console();
 }
-//, writeToProviders: true
 );
 
 var app = builder.Build();

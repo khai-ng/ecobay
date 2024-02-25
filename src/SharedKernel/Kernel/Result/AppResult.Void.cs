@@ -18,9 +18,14 @@
             return new AppResult<T>(value);
         }
 
-        public new static AppResult Error(params string[] errorMessages)
+        public new static AppResult Error(string message)
         {
-            return new AppResult(AppStatusCode.Error) { Errors = errorMessages.Select(e => new ErrorDetail(e)) };
+            return new AppResult(AppStatusCode.Error) { Message = message };
+        }
+
+        public new static AppResult Error(params string[] errorDetailMessages)
+        {
+            return new AppResult(AppStatusCode.Error) { Errors = errorDetailMessages.Select(e => new ErrorDetail(e)) };
         }
 
         public static new AppResult Invalid(ErrorDetail error)
@@ -43,9 +48,14 @@
             return new AppResult(AppStatusCode.NotFound);
         }
 
-        public new static AppResult NotFound(params string[] errorMessages)
+        public new static AppResult NotFound(string message)
         {
-            return new AppResult(AppStatusCode.NotFound) { Errors = errorMessages.Select(e => new ErrorDetail(e)) };
+            return new AppResult(AppStatusCode.NotFound) { Message = message };
+        }
+
+        public new static AppResult NotFound(params string[] errorDetailMessages)
+        {
+            return new AppResult(AppStatusCode.NotFound) { Errors = errorDetailMessages.Select(e => new ErrorDetail(e)) };
         }
 
         public new static AppResult Forbidden()

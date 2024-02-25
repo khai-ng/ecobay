@@ -1,7 +1,6 @@
 ﻿using Kernel.Result;
 using Microsoft.AspNetCore.Diagnostics;
 using SharedKernel.Kernel.Dependency;
-using System.Net;
 
 namespace Identity.API.Extensions
 {
@@ -16,15 +15,14 @@ namespace Identity.API.Extensions
 
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            var errorResult = new HttpErrorResult(
-                HttpStatusCode.InternalServerError,
-                    exception.Message);
+            var appResult = AppResult.Error(exception.Message);
 
-            _logger.Fatal(exception, 
-                errorResult.Title ?? 
-                    "Code: {httpCode}. Message: {errMessage}", HttpStatusCode.InternalServerError, exception.Message);
+            _logger
+                .ForContext("response", appResult, true)
+                .Fatal("Internal server error");
 
-            await httpContext.Response.WriteAsJsonAsync(errorResult);
+            var httpResult = await appResult.ToHttpResult().ToValueAsync<object>();
+            await httpContext.Response.WriteAsJsonAsync(httpResult, cancellationToken);
             return true;
         }
     }

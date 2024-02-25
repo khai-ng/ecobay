@@ -6,7 +6,6 @@
         public T? Data { get; set; }
         public string? Message { get; protected set; }
         public IEnumerable<ErrorDetail>? Errors { get; protected set; }
-        public bool IsSuccess => Status == AppStatusCode.Ok;
 
         protected AppResult() { }
 
@@ -41,9 +40,14 @@
             return new AppResult<T>(value);
         }
 
-        public static AppResult<T> Error(params string[] errors)
+        public static AppResult<T> Error(string message)
         {
-            return new AppResult<T>(AppStatusCode.Error) { Errors = errors.Select(e => new ErrorDetail(e)) };
+            return new AppResult<T>(AppStatusCode.Error) { Message = message };
+        }
+
+        public static AppResult<T> Error(params string[] errorDetailMessages)
+        {
+            return new AppResult<T>(AppStatusCode.Error) { Errors = errorDetailMessages.Select(e => new ErrorDetail(e)) };
         }
 
         public static AppResult<T> Invalid(ErrorDetail error)
@@ -66,9 +70,14 @@
             return new AppResult<T>(AppStatusCode.NotFound);
         }
 
-        public static AppResult<T> NotFound(params string[] errorMessages)
+        public static AppResult<T> NotFound( string message)
         {
-            return new AppResult<T>(AppStatusCode.NotFound) { Errors = errorMessages.Select(e => new ErrorDetail(e)) };
+            return new AppResult<T>(AppStatusCode.NotFound) { Message = message };
+        }
+
+        public static AppResult<T> NotFound(params string[] errorDetailMessages)
+        {
+            return new AppResult<T>(AppStatusCode.NotFound) { Errors = errorDetailMessages.Select(e => new ErrorDetail(e)) };
         }
 
         public static AppResult<T> Forbidden()
