@@ -16,7 +16,7 @@ services:
             driver: fluentd
             options:
                 fluentd-async: "true"
-                tag: logger.identity
+                tag: host.identity
 
     # employee-api:
     #     image: ${DOCKER_REGISTRY-}employeeapi
@@ -39,8 +39,6 @@ services:
         image: fluent/fluent-bit:2.2.2
         networks:
             - local
-        # depends_on:
-        #     - loki
 
     # elasticsearch:
     #     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
@@ -78,11 +76,6 @@ services:
         command: "-config.file=/etc/loki/local-config.yaml"
         networks:
             - local
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: logger.loki
 
     prometheus:
         image: prom/prometheus:v2.49.1
@@ -141,6 +134,7 @@ services:
             - /var/run:/var/run:rw
             - /sys:/sys:ro
             - /var/lib/docker:/var/lib/docker:ro
+            - /dev/disk/:/dev/disk:ro
             #- /cgroup:/cgroup:ro #doesn't work on MacOS only for Linux
         restart: unless-stopped
         expose:

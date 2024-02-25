@@ -43,8 +43,7 @@ builder.Host.UseSerilog((context, config) =>
 {
     config.ReadFrom.Configuration(context.Configuration);
 
-}
-);
+});
 
 var app = builder.Build();
 
