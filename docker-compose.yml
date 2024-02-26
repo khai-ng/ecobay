@@ -104,11 +104,11 @@ services:
             - fluent-bit
             # - elasticsearch
             - loki
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: logger.grafana
+        # logging:
+        #     driver: fluentd
+        #     options:
+        #         fluentd-async: "true"
+        #         tag: logger.grafana
 
     nodeexporter:
         image: prom/node-exporter:v1.7.0
