@@ -4,6 +4,8 @@ services:
     mysql:
         image: mysql:8.3.0
         restart: always
+        networks:
+            - local
 
     identity-api:
         image: ${DOCKER_REGISTRY-}identityapi
@@ -12,6 +14,8 @@ services:
             dockerfile: src/Services/Identity/Identity.API/Dockerfile
         depends_on:
             - mysql
+        networks:
+            - local
         logging:
             driver: fluentd
             options:
