@@ -13,12 +13,13 @@ namespace SharedKernel.Kernel.Dependency
     {
         public static WebApplicationBuilder AddAutofac(this WebApplicationBuilder builder)
         {
-            var containerBuilder = new ContainerBuilder();
-
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-            builder.Host.ConfigureContainer<ContainerBuilder>((_, container) => containerBuilder.AutofacRegister());
+            builder.Host.ConfigureContainer<ContainerBuilder>((_, container) =>
+            {
+                container.AutofacRegister();
+                container.Populate(new ServiceCollection());
+            });
 
-            containerBuilder.Populate(builder.Services);
             return builder;
         }
 
