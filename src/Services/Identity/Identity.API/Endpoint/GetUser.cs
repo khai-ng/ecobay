@@ -2,6 +2,7 @@
 using FastEndpoints;
 using Identity.Application.Services;
 using MediatR;
+using Identity.Domain.Entities;
 
 namespace Identity.API.Endpoint
 {
@@ -16,8 +17,8 @@ namespace Identity.API.Endpoint
         public override void Configure()
         {
             Get("identity/getuser");
-			//Roles(Role.Admin.Name);
-			AllowAnonymous();
+			Roles(Role.Admin.Name);
+			//AllowAnonymous();
 		}
 
         public override async Task HandleAsync(GetUserRequest request, CancellationToken ct)

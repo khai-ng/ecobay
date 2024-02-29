@@ -2,16 +2,16 @@ using Autofac.Extensions.DependencyInjection;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Identity.API.Extension;
+using Identity.Application.Behaviours;
 using Identity.Infrastructure;
 using Identity.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using ServiceDefaults;
 using SharedKernel.Kernel.Dependency;
 using System.Reflection;
-using Identity.Application.Behaviours;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,13 +39,13 @@ builder.Services.AddMediatR(cfg =>
 Log.Logger = new LoggerConfiguration()
     .CreateBootstrapLogger();
 
-builder.Host.UseSerilog((context, config) =>
+builder.Host.UseSerilog((context, serviceProvider, config) =>
 {
     config.ReadFrom.Configuration(context.Configuration);
-
 });
 
 var app = builder.Build();
+app.UseExceptionHandler(opt => { });
 
 using (var scope = app.Services.CreateScope())
 {
@@ -57,7 +57,6 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseServiceDefaults();
 
-app.UseExceptionHandler(opt => { });
 app.UseFastEndpoints(config => config.CommonResponseConfigs())
     .UseSwaggerGen();
 

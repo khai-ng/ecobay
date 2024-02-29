@@ -1,7 +1,9 @@
-﻿using Kernel.Result;
+﻿using Identity.Application.Services;
+using Kernel.Result;
 using MediatR;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Serilog.Core;
 
 namespace Identity.Application.Behaviours
 {
@@ -10,17 +12,18 @@ namespace Identity.Application.Behaviours
         where TResponse : IAppResult
     {
         private readonly ILogger _logger;
-        private IHttpContextAccessor _httpContext;
+        private readonly ILogEventEnricher _logEventEnricher;
 
-        public LoggingBehaviour(ILogger logger, IHttpContextAccessor httpContext)
+        public LoggingBehaviour(ILogger logger, ILogEventEnricher logEventEnricher)
         {
             _logger = logger;
-            _httpContext = httpContext;
+            _logEventEnricher = logEventEnricher;
         }
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             _logger
+                .ForContext(_logEventEnricher)
                 .ForContext("request", request, true)
                 .Information("Handling request {requestName}", typeof(TRequest).Name);
 
@@ -28,6 +31,7 @@ namespace Identity.Application.Behaviours
             if (!(response as IAppResult).IsSuccess)
             {
                 _logger
+                    .ForContext(_logEventEnricher)
                     .ForContext("response", response, true)
                     .Error("Error handling request {requestName}", typeof(TRequest).Name);
                 return response;

@@ -3,6 +3,7 @@ using Autofac.Core;
 using Autofac.Diagnostics;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Text;
 
@@ -12,20 +13,24 @@ namespace SharedKernel.Kernel.Dependency
     {
         public static WebApplicationBuilder AddAutofac(this WebApplicationBuilder builder)
         {
+            var containerBuilder = new ContainerBuilder();
+
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-            builder.Host.ConfigureContainer<ContainerBuilder>((_, container) => container.AutofacRegister());
+            builder.Host.ConfigureContainer<ContainerBuilder>((_, container) => containerBuilder.AutofacRegister());
+
+            containerBuilder.Populate(builder.Services);
             return builder;
         }
 
         private static void AutofacRegister(this ContainerBuilder builder)
         {
             var listModule = GetListModule();
-
             listModule?.ForEach(type =>
             {
                 builder.AbstractDependencyRegister(type.Assembly);
                 builder.RegisterModule((IModule)Activator.CreateInstance(type)!);
             });
+
             //builder.AutoFacLogging();
         }
 
@@ -82,7 +87,6 @@ namespace SharedKernel.Kernel.Dependency
             }
         }
 
-
         private static void AbstractDependencyRegister(this ContainerBuilder builder, Assembly module)
         {
             ////Generic
@@ -94,23 +98,7 @@ namespace SharedKernel.Kernel.Dependency
             builder.AutofacRegisterBuilder<ITransient>(module);
             builder.AutofacRegisterBuilder<IScoped>(module);
             builder.AutofacRegisterBuilder<ISingleton>(module);
-        }
-
-        private static void AutoFacLogging(this ContainerBuilder builder)
-        {
-            var tracer = new DefaultDiagnosticTracer();
-            tracer.OperationCompleted += (sender, args) =>
-            {
-                Console.WriteLine(args.TraceContent);
-            };
-
-            builder.RegisterBuildCallback(c =>
-            {
-                var container = c as IContainer;
-                container?.SubscribeToDiagnostics(tracer);
-            });
-        }
-
+        }       
 
         private static void AutofacGenericRegisterBuilder<TLifeTime>(this ContainerBuilder builder, Assembly assembly)
             where TLifeTime : class
@@ -203,6 +191,21 @@ namespace SharedKernel.Kernel.Dependency
             if (baseType == null) return false;
 
             return IsAssignableToGenericType(baseType, genericType);
+        }
+
+        private static void AutoFacLogging(this ContainerBuilder builder)
+        {
+            var tracer = new DefaultDiagnosticTracer();
+            tracer.OperationCompleted += (sender, args) =>
+            {
+                Console.WriteLine(args.TraceContent);
+            };
+
+            builder.RegisterBuildCallback(c =>
+            {
+                var container = c as IContainer;
+                container?.SubscribeToDiagnostics(tracer);
+            });
         }
     }
 }
