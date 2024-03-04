@@ -24,13 +24,6 @@ namespace ServiceDefaults
 
         public static WebApplication UseServiceDefaults(this WebApplication app)
         {
-            //var pathBase = app.Configuration["PATH_BASE"];
-            //if (!string.IsNullOrEmpty(pathBase))
-            //{
-            //    app.UsePathBase(pathBase);
-            //    app.UseRouting();
-            //}
-
             var identitySection = app.Configuration.GetSection("Identity");
 
             if (identitySection.Exists())
@@ -38,7 +31,7 @@ namespace ServiceDefaults
                 app.UseAuthentication();
                 app.UseAuthorization();
             }
-            //app.UseDefaultOpenApi(app.Configuration);
+
             app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
             return app;
         }
@@ -55,8 +48,8 @@ namespace ServiceDefaults
             return services.AddSwaggerGen(options =>
             {
                 var document = openApi.GetRequiredSection("Document");
-
                 var version = document.GetRequiredValue("Version") ?? "v1";
+                var identitySection = configuration.GetSection("Identity");
 
                 options.SwaggerDoc(version, new OpenApiInfo
                 {
@@ -65,14 +58,10 @@ namespace ServiceDefaults
                     Description = document.GetRequiredValue("Description")
                 });
 
-                var identitySection = configuration.GetSection("Identity");
-
                 if (!identitySection.Exists())
                 {
                     return;
                 }
-
-                //options.OperationFilter<AuthorizeCheckOperationFilter>();
             });
         }
 

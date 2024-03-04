@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Serilog.Core;
+﻿using Serilog.Core;
 using Serilog.Events;
 using SharedKernel.Kernel.Dependency;
 
@@ -32,7 +31,8 @@ namespace Identity.Application.Behaviours
                 Path = ctx.Request.Path.ToString(),
                 Method = ctx.Request.Method,
                 Protocol = ctx.Request.Protocol,
-                QueryString = ctx.Request.QueryString.ToString(),
+                //QueryString = ctx.Request.QueryString.ToString(),
+                RequestId = ctx.TraceIdentifier.ToString(),
             };
         }
     }
@@ -44,6 +44,7 @@ namespace Identity.Application.Behaviours
         public string Method { get; set; }
         public string Path { get; set; }
         public string Protocol { get; set; }
-        public string QueryString { get; set; }
+        //public string QueryString { get; set; }
+        public string RequestId { get; set; }
     }
 }

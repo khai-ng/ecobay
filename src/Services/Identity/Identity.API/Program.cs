@@ -1,15 +1,18 @@
 using Autofac.Extensions.DependencyInjection;
+using Destructurama;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Identity.API.Extension;
-using Identity.Application.Behaviours;
+using Identity.API.Extensions;
 using Identity.Infrastructure;
 using Identity.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Serilog.Core;
 using ServiceDefaults;
+using SharedKernel.Kernel.Behaviors;
 using SharedKernel.Kernel.Dependency;
 using System.Reflection;
 
@@ -42,10 +45,15 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog((context, serviceProvider, config) =>
 {
     config.ReadFrom.Configuration(context.Configuration);
+    config.Destructure.UsingAttributes();
+    var enricher = serviceProvider.GetRequiredService<ILogEventEnricher>();
+    config.Enrich.With(enricher);
 });
 
 var app = builder.Build();
+
 app.UseExceptionHandler(opt => { });
+app.UseMiddleware<LoggingMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {

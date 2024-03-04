@@ -1,5 +1,6 @@
 ﻿using Kernel.Result;
 using Microsoft.AspNetCore.Diagnostics;
+using Serilog.Core;
 using SharedKernel.Kernel.Dependency;
 
 namespace Identity.API.Extensions
@@ -13,7 +14,9 @@ namespace Identity.API.Extensions
             _logger = logger;
         }
 
-        public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+        public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, 
+            Exception exception, 
+            CancellationToken cancellationToken)
         {
             var appResult = AppResult.Error(exception.Message);
 
