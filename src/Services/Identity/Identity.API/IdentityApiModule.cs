@@ -1,6 +1,7 @@
 ﻿using Autofac;
+using Kernel.Behaviors;
+using ServiceDefaults;
 using SharedKernel.Kernel.Module;
-using MediatR;
 
 namespace Identity.API
 {
@@ -8,9 +9,13 @@ namespace Identity.API
     {
         protected override void Load(ContainerBuilder builder)
         {
-            //builder.RegisterType<Mediator>()
-            //    .As<IMediator>()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<InternalExceptionHandler>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<HttpContextEnricher>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
 
             base.Load(builder);
         }

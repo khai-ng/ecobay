@@ -46,14 +46,16 @@ builder.Host.UseSerilog((context, serviceProvider, config) =>
 {
     config.ReadFrom.Configuration(context.Configuration);
     config.Destructure.UsingAttributes();
-    var enricher = serviceProvider.GetRequiredService<ILogEventEnricher>();
-    config.Enrich.With(enricher);
+    var enrichers = serviceProvider.GetServices<ILogEventEnricher>();
+
+    if(enrichers is not null)
+        config.Enrich.With(enrichers.ToArray());
 });
 
 var app = builder.Build();
 
 app.UseExceptionHandler(opt => { });
-app.UseMiddleware<LoggingMiddleware>();
+//app.UseMiddleware<LoggingMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
