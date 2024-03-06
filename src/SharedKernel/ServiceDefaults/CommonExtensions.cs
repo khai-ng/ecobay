@@ -7,30 +7,39 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using MediatR;
+using Kernel.Behaviors;
+using Microsoft.AspNetCore.Diagnostics;
+using Serilog.Core;
+using Serilog;
+using Destructurama;
 
 namespace ServiceDefaults
 {
     public static class CommonExtensions
     {
+        /// <summary>
+        /// Include: Authentication, HttpContextAccessor, Log, Exceptionhandler
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
         public static WebApplicationBuilder AddServiceDefaults(this WebApplicationBuilder builder)
         {
             //builder.Services.AddDefaultHealthChecks(builder.Configuration);
             //builder.Services.AddDefaultOpenApi(builder.Configuration);
             builder.Services.AddDefaultAuthentication(builder.Configuration);
             builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddDefaultLogging();
+            builder.UseDefaultLogging();
+
             return builder;
         }
 
+
         public static WebApplication UseServiceDefaults(this WebApplication app)
         {
-            var identitySection = app.Configuration.GetSection("Identity");
-
-            if (identitySection.Exists())
-            {
-                app.UseAuthentication();
-                app.UseAuthorization();
-            }
+            app.UseExceptionHandler(opt => { });
+            app.UseDefaultAuthentication();
 
             app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
             return app;
@@ -41,9 +50,7 @@ namespace ServiceDefaults
             var openApi = configuration.GetSection("OpenApi");
 
             if (!openApi.Exists())
-            {
                 return services;
-            }
 
             return services.AddSwaggerGen(options =>
             {
@@ -67,17 +74,15 @@ namespace ServiceDefaults
 
         public static IServiceCollection AddDefaultAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-
             var jwtSection = configuration.GetSection("Jwt");
 
             if (!jwtSection.Exists())
-            {
                 return services;
-            }
 
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
 
+            services.AddAuthorization();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -100,14 +105,20 @@ namespace ServiceDefaults
             return services;
         }
 
+        public static IServiceCollection AddDefaultLogging(this IServiceCollection services)
+        {
+            services.AddScoped<IExceptionHandler, InternalExceptionHandler>();
+            services.AddScoped<ILogEventEnricher, HttpContextEnricher>();
+            return services;
+        }
+
         public static IApplicationBuilder UseDefaultOpenApi(this WebApplication app, IConfiguration configuration)
         {
             var openApiSection = configuration.GetSection("OpenApi");
 
             if (!openApiSection.Exists())
-            {
                 return app;
-            }
+
 
             app.UseSwaggerUI(setup =>
             {
@@ -130,6 +141,34 @@ namespace ServiceDefaults
             app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 
             return app;
+        }
+
+        public static IApplicationBuilder UseDefaultAuthentication(this WebApplication app)
+        {
+            var identitySection = app.Configuration.GetSection("Jwt");
+            if (identitySection.Exists())
+            {
+                app.UseAuthentication();
+                app.UseAuthorization();
+            }
+            return app;
+        }
+
+        public static WebApplicationBuilder UseDefaultLogging(this WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                        .CreateBootstrapLogger();
+
+            builder.Host.UseSerilog((context, serviceProvider, config) =>
+            {
+                config.ReadFrom.Configuration(context.Configuration);
+                config.Destructure.UsingAttributes();
+                var enrichers = serviceProvider.GetServices<ILogEventEnricher>();
+
+                if (enrichers is not null)
+                    config.Enrich.With(enrichers.ToArray());
+            });
+            return builder;
         }
     }
 }

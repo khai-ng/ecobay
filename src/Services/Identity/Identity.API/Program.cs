@@ -3,7 +3,6 @@ using Destructurama;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Identity.API.Extension;
-using Identity.API.Extensions;
 using Identity.Infrastructure;
 using Identity.Infrastructure.Authentication;
 using MediatR;
@@ -29,7 +28,6 @@ builder.AddServiceDefaults();
 builder.AddAutofac();
 builder.Services.AddDbContexts(builder.Configuration);
 
-builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
@@ -39,23 +37,8 @@ builder.Services.AddMediatR(cfg =>
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
 
-Log.Logger = new LoggerConfiguration()
-    .CreateBootstrapLogger();
-
-builder.Host.UseSerilog((context, serviceProvider, config) =>
-{
-    config.ReadFrom.Configuration(context.Configuration);
-    config.Destructure.UsingAttributes();
-    var enrichers = serviceProvider.GetServices<ILogEventEnricher>();
-
-    if(enrichers is not null)
-        config.Enrich.With(enrichers.ToArray());
-});
 
 var app = builder.Build();
-
-app.UseExceptionHandler(opt => { });
-//app.UseMiddleware<LoggingMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
