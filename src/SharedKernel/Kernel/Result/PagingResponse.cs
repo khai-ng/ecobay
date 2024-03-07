@@ -1,9 +1,5 @@
-﻿using MediatR;
-
-namespace Kernel.Result
+﻿namespace Kernel.Result
 {
-
-
 	public class PagingResponse<T> : PagingRequest where T : class
 	{
 		public IEnumerable<T> Data { get; internal set; }

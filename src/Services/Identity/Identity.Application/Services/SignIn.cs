@@ -14,7 +14,9 @@ namespace Identity.Application.Services
         {
             _context = context;
         }
-        public async Task<AppResult<string>> Handle(SignInRequest request, CancellationToken cancellationToken)
+        public async Task<AppResult<string>> Handle(
+            SignInRequest request, 
+            CancellationToken ct)
         {
             var pwdGen = PasswordExtension.GeneratePassword(request.Password);
             var user = new User 
@@ -26,7 +28,7 @@ namespace Identity.Application.Services
 
             };
             _context.Users.Add(user);
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync(ct);
             return AppResult.Success("Sign In Sucess");
         }
     }

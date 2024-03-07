@@ -16,7 +16,9 @@ namespace Identity.Application.Services
             _context = context;
             _jwtProvider = jwtProvider;
         }
-        public async Task<AppResult<string>> Handle(LoginRequest request, CancellationToken cancellationToken)
+        public async Task<AppResult<string>> Handle(
+            LoginRequest request, 
+            CancellationToken ct)
         {
             var user = await _context.Users
                 .Where(x => x.UserName == request.UserName)

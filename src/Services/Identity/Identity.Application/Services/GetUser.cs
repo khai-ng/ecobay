@@ -14,7 +14,9 @@ namespace Identity.Application.Services
         {
             _context = context;
         }
-        public async Task<AppResult<PagingResponse<User>>> Handle(GetUserRequest request, CancellationToken cancellationToken)
+        public async Task<AppResult<PagingResponse<User>>> Handle(
+            GetUserRequest request,
+            CancellationToken ct)
         {
             var pagingResult = PagingTyped
                 .From(request)

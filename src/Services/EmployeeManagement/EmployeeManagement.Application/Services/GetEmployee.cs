@@ -16,7 +16,9 @@ namespace EmployeeManagement.Application.Services
             _context = context;
         }
 
-        public async Task<AppResult<PagingResponse<Employee>>> Handle(GetEmployeeRequest request, CancellationToken cancellationToken)
+        public async Task<AppResult<PagingResponse<Employee>>> Handle(
+            GetEmployeeRequest request, 
+            CancellationToken ct)
         {
             var filterData = _context.Employees
                 .Where(x => string.IsNullOrEmpty(request.EmployeeName)
