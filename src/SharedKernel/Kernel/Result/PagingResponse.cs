@@ -1,5 +1,8 @@
-﻿namespace Kernel.Result
+﻿using MediatR;
+
+namespace Kernel.Result
 {
+
 
 	public class PagingResponse<T> : PagingRequest where T : class
 	{
@@ -7,59 +10,63 @@
 		public int PageCount { get; internal set; }
 		public int Total { get; internal set; }
 
-		public PagingResponse() { }
-		public PagingResponse(PagingRequest request)
-		{
-			SetRequest(request);
-		}
-		public void SetRequest(PagingRequest request)
-		{
-			PageSize = request.PageSize;
-			PageIndex = request.PageIndex;
-		}
+        protected PagingResponse(IPagingRequest request)
+        {
+            PageSize = request.PageSize;
+            PageIndex = request.PageIndex;
+        }
 
-		public void SetPagedData(IEnumerable<T> data)
-		{
-			if (PageSize == 0 || PageIndex == 0)
+        /// <summary>
+        /// Set collection result
+        /// </summary>
+        /// <param name="data"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        internal static PagingResponse<T> Result<TProto>(PagingResponse<TProto> request, IEnumerable<T> data) 
+			where TProto: class
+        {
+			var response = new PagingResponse<T>(request)
+			{
+				Data = data,
+				PageCount = request.PageCount,
+				Total = request.Total
+			};
+
+			if (response.PageSize == 0 || response.PageIndex == 0)
 				throw new NullReferenceException();
-
-			if(data.Count() > PageSize)
+			if(data.Count() > response.PageSize)
 				throw new ArgumentException();
 
-			Data = data;
+			return response;
 		}
 
 		/// <summary>
-		/// Paging result data
+		/// Paging collection
 		/// </summary>
 		/// <param name="data"></param>
-		/// <param name="request"></param>
 		/// <returns></returns>
-		public PagingResponse<T> PagingResult(IEnumerable<T> data, PagingRequest? request = null)
+		internal static PagingResponse<T> Paging(IPagingRequest request, IEnumerable<T> data)
 		{
-			if(request is not null)
-				SetRequest(request);
+            var response = new PagingResponse<T>(request);
 
-			if (PageSize == 0 || PageIndex == 0)
+            if (response.PageSize == 0 || response.PageIndex == 0)
 				throw new NullReferenceException();
 
-			Total = data.Count();
-			PageCount = (int)Math.Ceiling((decimal)Total / PageSize);
-			Data = data.Skip(Skip).Take(PageSize);
-			return this;
+            response.Total = data.Count();
+            response.PageCount = (int)Math.Ceiling((decimal)response.Total / response.PageSize);
+			response.Data = data.Skip(response.Skip).Take(response.PageSize);
+
+			return response;
 		}
 
 		/// <summary>
-		/// Paging master data without set paged data
+		/// Paging other collections by PagingRequest
 		/// </summary>
 		/// <typeparam name="TEntity"></typeparam>
 		/// <param name="data"></param>
-		/// <param name="request"></param>
 		/// <returns></returns>
-		public IQueryable<TEntity> PagingMaster<TEntity>(IQueryable<TEntity> data, PagingRequest? request = null) where TEntity : class
+		public IQueryable<TEntity> Filter<TEntity>(IQueryable<TEntity> data) where TEntity : class
 		{
-			if (request is not null)
-				SetRequest(request);
 
 			if (PageSize == 0 || PageIndex == 0)
 				throw new NullReferenceException();

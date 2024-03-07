@@ -18,12 +18,13 @@ namespace EmployeeManagement.Application.Services
 
         public async Task<AppResult<PagingResponse<Employee>>> Handle(GetEmployeeRequest request, CancellationToken cancellationToken)
         {
-            var pageResponse = PagingTyped.Load(request);
             var filterData = _context.Employees
                 .Where(x => string.IsNullOrEmpty(request.EmployeeName)
                     || x.Name.Contains(request.EmployeeName));
-            var pagedData = pageResponse.PagingMaster(filterData);
-            var pageEmployee = pageResponse.SetPagedData(await pagedData.ToListAsync());
+
+            var pagingProto = PagingTyped.From(request);
+            var pagedData = pagingProto.Filter(filterData);
+            var pageEmployee = pagingProto.Result(await pagedData.ToListAsync());
 
             return AppResult.Success(pageEmployee);
         }

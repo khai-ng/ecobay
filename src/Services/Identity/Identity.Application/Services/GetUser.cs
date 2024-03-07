@@ -16,8 +16,11 @@ namespace Identity.Application.Services
         }
         public async Task<AppResult<PagingResponse<User>>> Handle(GetUserRequest request, CancellationToken cancellationToken)
         {
-            var pageUser = PagingTyped.PagingResult(await _context.Users.ToListAsync(), request);
-            return AppResult.Success(pageUser);
+            var pagingResult = PagingTyped
+                .From(request)
+                .Paging(await _context.Users.ToListAsync());
+
+            return AppResult.Success(pagingResult);
 		}
     }
 }
