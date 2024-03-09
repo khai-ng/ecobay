@@ -24,9 +24,9 @@ namespace EmployeeManagement.Application.Services
                 .Where(x => string.IsNullOrEmpty(request.EmployeeName)
                     || x.Name.Contains(request.EmployeeName));
 
-            var pagingProto = PagingTyped.From(request);
-            var pagedData = pagingProto.Filter(filterData);
-            var pageEmployee = pagingProto.Result(await pagedData.ToListAsync());
+            var pagingWorker = PagingTyped.From(request);
+            var pagedData = pagingWorker.Filter(filterData);
+            var pageEmployee = pagingWorker.Result(await pagedData.ToListAsync());
 
             return AppResult.Success(pageEmployee);
         }

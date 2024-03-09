@@ -2,16 +2,16 @@
 {
     public class PagingTyped
     {
-        public static PagingProto From(IPagingRequest request)
+        public static PagingResponse From(IPagingRequest request)
         {
-            return new PagingProto(request);
+            return new PagingResponse(request);
         }
     }
 
-    public class PagingProto : PagingResponse<PagingProto>
+    public class PagingResponse : PagingResponse<PagingResponse>
     {
 
-        internal PagingProto(IPagingRequest request) :base(request)
+        internal PagingResponse(IPagingRequest request) :base(request)
         {
             PageIndex = request.PageIndex;
             PageSize = request.PageSize;
