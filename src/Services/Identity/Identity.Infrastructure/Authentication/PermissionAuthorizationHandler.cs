@@ -20,14 +20,14 @@ namespace Identity.Infrastructure.Authentication
         public override async Task HandleAsync(AuthorizationHandlerContext context)
         {
             var userId = context.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
-            if (!Guid.TryParse(userId, out Guid pasredUserId))
+            if (!Guid.TryParse(userId, out Guid parsedUserId))
                 return;
 
 
-            var pedningRequirements = context.PendingRequirements.ToList();
+            var pendingRequirements = context.PendingRequirements.ToList();
             List<RolesAuthorizationRequirement> roleRequirements = new();
 
-            foreach (var item in pedningRequirements)
+            foreach (var item in pendingRequirements)
             {
                 if (item is RolesAuthorizationRequirement itemRole)
                     roleRequirements.Add(itemRole);
@@ -35,7 +35,7 @@ namespace Identity.Infrastructure.Authentication
 
             using IServiceScope serviceScope = _serviceScopeFactory.CreateScope();
             IPermissionService permissionService = serviceScope.ServiceProvider.GetRequiredService<IPermissionService>();
-            var roles = await permissionService.GetRolesAsync(pasredUserId);
+            var roles = await permissionService.GetRolesAsync(parsedUserId);
 
 
             foreach (var roleRequirement in roleRequirements)
