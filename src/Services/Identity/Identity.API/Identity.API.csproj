@@ -25,12 +25,12 @@
     <PackageReference Include="Serilog.Formatting.Compact" Version="2.0.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
-    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\SharedKernel\Kernel\Kernel.csproj" />
-    <ProjectReference Include="..\..\..\SharedKernel\ServiceDefaults\ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\Core.AspNetCore\Core.AspNet.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\Core.Autofac\Core.Autofac.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\Core.MediaR\Core.MediaR.csproj" />
     <ProjectReference Include="..\Identity.Application\Identity.Application.csproj" />
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
     <ProjectReference Include="..\Identity.Infrastructure\Identity.Infrastructure.csproj" />

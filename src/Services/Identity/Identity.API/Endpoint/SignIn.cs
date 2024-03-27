@@ -1,8 +1,7 @@
-﻿using FastEndpoints;
+﻿using Core.AspNet.Result;
+using FastEndpoints;
 using Identity.Application.Services;
 using MediatR;
-using Kernel.Result;
-
 namespace Identity.API.Endpoint
 {
     public class SignInEndpoint : Endpoint<SignInRequest, IResult>

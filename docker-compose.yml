@@ -22,22 +22,36 @@ services:
                 fluentd-async: "true"
                 tag: host.identity
 
-    # employee-api:
-    #     image: ${DOCKER_REGISTRY-}employeeapi
-    #     build:
-    #         context: .
-    #         dockerfile: src/Services/EmployeeManagement/EmployeeManagement.API/Dockerfile
-    #     depends_on:
-    #         - mysql
+    employee-api:
+        image: ${DOCKER_REGISTRY-}employeeapi
+        build:
+            context: .
+            dockerfile: src/Services/EmployeeManagement/EmployeeManagement.API/Dockerfile
+        depends_on:
+            - mysql
+        networks:
+            - local       
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.employee-mgt        
 
-    # web-apigateway:
-    #     image: ${DOCKER_REGISTRY-}webapigateway
-    #     build:
-    #         context: .
-    #         dockerfile: src/ApiGateways/Web.ApiGateway/Dockerfile
-    #     depends_on:
-    #         - identity-api
-    #         - employee-api
+    web-apigateway:
+        image: ${DOCKER_REGISTRY-}webapigateway
+        build:
+            context: .
+            dockerfile: src/ApiGateways/Web.ApiGateway/Dockerfile
+        depends_on:
+            - identity-api
+            - employee-api
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.web-apigateway
 
     fluent-bit:
         image: fluent/fluent-bit:2.2.2
@@ -197,14 +211,6 @@ services:
     #     labels:
     #         org.label-schema.group: "monitoring"
 
-    zookeeper:
-        image: confluentinc/cp-zookeeper:7.6.0
-
-    kafka:
-        image: confluentinc/cp-kafka:7.6.0
-        depends_on:
-            - zookeeper
-
     kafka-ui:
         container_name: kafka-ui
         image: provectuslabs/kafka-ui:latest
@@ -213,18 +219,35 @@ services:
             - zookeeper
             # - schemaregistry
             # - kafka-connect
+        networks:
+            - local 
+
+    zookeeper:
+        image: confluentinc/cp-zookeeper:7.6.0
+        networks:
+            - local 
+ 
+    kafka:
+        image: confluentinc/cp-kafka:7.6.0
+        depends_on:
+            - zookeeper
+        networks:
+            - local 
 
     # schemaregistry:
     #     image: confluentinc/cp-schema-registry:7.6.0
     #     depends_on:
     #         - kafka
+    #     networks:
+    #         - local 
 
     # kafka-connect:
     #     image: confluentinc/cp-kafka-connect:7.6.0
     #     depends_on:
     #         - kafka
     #         - schemaregistry
-
+    #     networks:
+    #         - local 
 networks:
     local:
         driver: bridge

@@ -5,8 +5,12 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using GrpcEmployee;
 using Microsoft.EntityFrameworkCore;
-using ServiceDefaults;
-using SharedKernel.Kernel.Dependency;
+using Core.AspNet.Extensions;
+using Core.Autofac;
+using System.Reflection;
+using Core.MediaR;
+using MediatR;
+using EmployeeManagement.Domain.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +24,12 @@ builder.Services.AddDbContexts(builder.Configuration);
 
 builder.Services.AddGrpc();
 builder.Services.AddAuthorization();
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+});
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())

@@ -1,7 +1,5 @@
 ﻿using Autofac;
-using Kernel.Behaviors;
-using ServiceDefaults;
-using SharedKernel.Kernel.Module;
+using Core.Autofac;
 
 namespace Identity.API
 {

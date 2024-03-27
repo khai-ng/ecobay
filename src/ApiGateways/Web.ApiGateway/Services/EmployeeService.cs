@@ -1,5 +1,5 @@
-﻿using GrpcEmployee;
-using SharedKernel.Kernel.Dependency;
+﻿using Core.Autofac;
+using GrpcEmployee;
 
 namespace Web.ApiGateway.Services
 {

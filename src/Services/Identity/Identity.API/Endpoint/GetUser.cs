@@ -1,8 +1,8 @@
-﻿using Kernel.Result;
+﻿using Core.AspNet.Result;
 using FastEndpoints;
 using Identity.Application.Services;
-using MediatR;
 using Identity.Domain.Entities;
+using MediatR;
 
 namespace Identity.API.Endpoint
 {

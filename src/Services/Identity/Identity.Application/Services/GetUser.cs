@@ -1,9 +1,9 @@
-﻿using Identity.Application.Abstractions;
+﻿using Core.Autofac;
+using Core.Result;
+using Identity.Application.Abstractions;
 using Identity.Domain.Entities;
-using Kernel.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SharedKernel.Kernel.Dependency;
 
 namespace Identity.Application.Services
 {

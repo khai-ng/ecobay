@@ -1,4 +1,5 @@
-﻿using SharedKernel.Kernel.Dependency;
+﻿using Core.AspNet.Extensions;
+using Core.Autofac;
 using Identity.Application.Abstractions;
 using Identity.Domain.Constants;
 using Identity.Domain.Entities;
@@ -6,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using ServiceDefaults;
 
 namespace Identity.Infrastructure.Authentication
 {

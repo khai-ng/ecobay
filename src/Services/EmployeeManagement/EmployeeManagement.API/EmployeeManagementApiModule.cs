@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using SharedKernel.Kernel.Module;
+using Core.Autofac;
 using MediatR;
 
 namespace EmployeeManagement.API

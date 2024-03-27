@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\SharedKernel\Kernel\Kernel.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\Core.Autofac\Core.Autofac.csproj" />
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
   </ItemGroup>
 

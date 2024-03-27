@@ -1,5 +1,7 @@
 using Autofac.Extensions.DependencyInjection;
-using Destructurama;
+using Core.AspNet.Extensions;
+using Core.Autofac;
+using Core.MediaR;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Identity.API.Extension;
@@ -8,11 +10,6 @@ using Identity.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
-using Serilog.Core;
-using ServiceDefaults;
-using SharedKernel.Kernel.Behaviors;
-using SharedKernel.Kernel.Dependency;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);

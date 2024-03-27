@@ -1,8 +1,9 @@
-﻿using Kernel.Result;
-using EmployeeManagement.Application.Services;
+﻿using EmployeeManagement.Application.Services;
 using EmployeeManagement.Domain.Entities;
 using FastEndpoints;
 using MediatR;
+using Core.Result;
+using Core.AspNet.Result;
 
 namespace EmployeeManagement.API.Endpoint
 {

@@ -6,7 +6,7 @@
         public const string DEVELOPMENT = "Development";
         public const string PRODUCTION = "Production";
 
-        public const string DB_SCHEMA = "IdentityDB";
+        public const string DB_SCHEMA = "IdentityDb";
         public const string JWT_SECTION = "jwt";
     }
 }

@@ -12,7 +12,7 @@ namespace Identity.API.Extension
             var sqlOptionsBuilder = (MySQLDbContextOptionsBuilder sqlOptions) =>
             {
                 sqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
-                sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, 
+                sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, 
                     maxRetryDelay: TimeSpan.FromSeconds(30), 
                     errorNumbersToAdd: null);
             };

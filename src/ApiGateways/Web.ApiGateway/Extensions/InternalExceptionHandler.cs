@@ -1,6 +1,6 @@
-﻿using Kernel.Result;
+﻿using Core.AspNet.Result;
+using Core.Autofac;
 using Microsoft.AspNetCore.Diagnostics;
-using SharedKernel.Kernel.Dependency;
 using System.Net;
 
 namespace Web.ApiGateway.Extensions

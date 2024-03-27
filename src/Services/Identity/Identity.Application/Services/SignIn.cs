@@ -1,5 +1,5 @@
-﻿using SharedKernel.Kernel.Dependency;
-using Kernel.Result;
+﻿using Core.Autofac;
+using Core.Result;
 using Identity.Application.Abstractions;
 using Identity.Application.Extensions;
 using Identity.Domain.Entities;

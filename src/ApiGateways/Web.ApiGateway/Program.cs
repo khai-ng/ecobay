@@ -1,7 +1,7 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using ServiceDefaults;
-using SharedKernel.Kernel.Dependency;
+using Core.Autofac;
+using Core.AspNet.Extensions;
 using Web.ApiGateway.Configurations;
 using Web.ApiGateway.Extensions;
 

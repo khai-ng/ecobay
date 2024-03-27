@@ -25,8 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\SharedKernel\Kernel\Kernel.csproj" />
-    <ProjectReference Include="..\..\..\SharedKernel\ServiceDefaults\ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\Core.AspNetCore\Core.AspNet.csproj" />
     <ProjectReference Include="..\Identity.Application\Identity.Application.csproj" />
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
   </ItemGroup>

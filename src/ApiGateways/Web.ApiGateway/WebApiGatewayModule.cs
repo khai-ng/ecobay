@@ -1,4 +1,4 @@
-﻿using SharedKernel.Kernel.Module;
+﻿using Core.Autofac;
 
 namespace Web.ApiGateway
 {

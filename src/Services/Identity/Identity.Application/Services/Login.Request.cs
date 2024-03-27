@@ -1,5 +1,5 @@
-﻿using Destructurama.Attributed;
-using Kernel.Result;
+﻿using Core.Result;
+using Destructurama.Attributed;
 using MediatR;
 
 namespace Identity.Application.Services

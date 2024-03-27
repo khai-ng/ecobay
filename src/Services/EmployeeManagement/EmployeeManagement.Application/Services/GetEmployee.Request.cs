@@ -1,6 +1,6 @@
-﻿using Kernel.Result;
-using MediatR;
+﻿using Core.Result;
 using EmployeeManagement.Domain.Entities;
+using MediatR;
 
 namespace EmployeeManagement.Application.Services
 {

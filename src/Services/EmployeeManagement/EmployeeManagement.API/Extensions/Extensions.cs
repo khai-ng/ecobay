@@ -12,13 +12,12 @@ namespace EmployeeManagement.API.Extensions
             var sqlOptionsBuilder = (MySQLDbContextOptionsBuilder sqlOptions) =>
             {
                 sqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
-                sqlOptions.EnableRetryOnFailure(maxRetryCount: 10,
+                sqlOptions.EnableRetryOnFailure(maxRetryCount: 15,
                     maxRetryDelay: TimeSpan.FromSeconds(30),
                     errorNumbersToAdd: null);
             };
 
             var connection = configuration.GetConnectionString(AppEnvironment.DB_SCHEMA)!;
-
             services.AddDbContextPool<AppDbContext>(options =>
             {
                 options.UseMySQL(connection, sqlOptionsBuilder);

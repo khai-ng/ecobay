@@ -4,13 +4,15 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 EXPOSE 80
+EXPOSE 81
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/Services/EmployeeManagement/EmployeeManagement.API/EmployeeManagement.API.csproj", "src/Services/EmployeeManagement/EmployeeManagement.API/"]
-COPY ["src/SharedKernel/Kernel/Kernel.csproj", "src/SharedKernel/Kernel/"]
-COPY ["src/SharedKernel/ServiceDefaults/ServiceDefaults.csproj", "src/SharedKernel/ServiceDefaults/"]
+COPY ["src/SharedKernel/Core.AspNetCore/Core.AspNet.csproj", "src/SharedKernel/Core.AspNetCore/"]
+COPY ["src/SharedKernel/Core/Core.csproj", "src/SharedKernel/Core/"]
+COPY ["src/SharedKernel/Core.Autofac/Core.Autofac.csproj", "src/SharedKernel/Core.Autofac/"]
 COPY ["src/Services/EmployeeManagement/EmployeeManagement.Application/EmployeeManagement.Application.csproj", "src/Services/EmployeeManagement/EmployeeManagement.Application/"]
 COPY ["src/Services/EmployeeManagement/EmployeeManagement.Domain/EmployeeManagement.Domain.csproj", "src/Services/EmployeeManagement/EmployeeManagement.Domain/"]
 COPY ["src/Services/EmployeeManagement/EmployeeManagement.Infrastructure/EmployeeManagement.Infrastructure.csproj", "src/Services/EmployeeManagement/EmployeeManagement.Infrastructure/"]

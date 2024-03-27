@@ -33,8 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SharedKernel\Kernel\Kernel.csproj" />
-    <ProjectReference Include="..\..\SharedKernel\ServiceDefaults\ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\Core.AspNetCore\Core.AspNet.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\Core.Autofac\Core.Autofac.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿using Kernel.Result;
+﻿using Core.Result;
 using MediatR;
 
 namespace Identity.Application.Services

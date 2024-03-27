@@ -1,9 +1,8 @@
-﻿using SharedKernel.Kernel.Dependency;
-using Kernel.Result;
-using EmployeeManagement.Application.Abstractions;
+﻿using EmployeeManagement.Application.Abstractions;
 using EmployeeManagement.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using Core.Result;
+using Core.Autofac;
 
 namespace EmployeeManagement.Application.Services
 {
@@ -20,13 +19,13 @@ namespace EmployeeManagement.Application.Services
             GetEmployeeRequest request, 
             CancellationToken ct)
         {
-            var filterData = _context.Employees
+            var masterData = _context.Employees
                 .Where(x => string.IsNullOrEmpty(request.EmployeeName)
                     || x.Name.Contains(request.EmployeeName));
 
-            var pagingWorker = PagingTyped.From(request);
-            var pagedData = pagingWorker.Filter(filterData);
-            var pageEmployee = pagingWorker.Result(await pagedData.ToListAsync());
+            var pagingProcessor = PagingTyped.From(request);
+            var pagedData = pagingProcessor.Filter(masterData);
+            var pageEmployee = pagingProcessor.Result(pagedData);
 
             return AppResult.Success(pageEmployee);
         }
