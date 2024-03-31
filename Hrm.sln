@@ -21,15 +21,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Application", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Infrastructure", "src\Services\Identity\Identity.Infrastructure\Identity.Infrastructure.csproj", "{F8FB98DD-EAE3-4141-858D-7C25F4FC5D5F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmployeeManagement", "EmployeeManagement", "{F3610487-1E53-4A3E-9A23-ECBD61D7C605}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmployeeMgt", "EmployeeMgt", "{F3610487-1E53-4A3E-9A23-ECBD61D7C605}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.Infrastructure", "src\Services\EmployeeManagement\EmployeeManagement.Infrastructure\EmployeeManagement.Infrastructure.csproj", "{24B15F69-7CD3-48FB-926A-490FEF1AC040}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeMgt.Infrastructure", "src\Services\EmployeeMgt\EmployeeMgt.Infrastructure\EmployeeMgt.Infrastructure.csproj", "{24B15F69-7CD3-48FB-926A-490FEF1AC040}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.Domain", "src\Services\EmployeeManagement\EmployeeManagement.Domain\EmployeeManagement.Domain.csproj", "{F09598D2-ED4D-482D-8FF1-F406D284C41B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeMgt.Domain", "src\Services\EmployeeMgt\EmployeeMgt.Domain\EmployeeMgt.Domain.csproj", "{F09598D2-ED4D-482D-8FF1-F406D284C41B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.Application", "src\Services\EmployeeManagement\EmployeeManagement.Application\EmployeeManagement.Application.csproj", "{5B6A0ECD-C66E-432F-BF0B-7CA19D4682CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeMgt.Application", "src\Services\EmployeeMgt\EmployeeMgt.Application\EmployeeMgt.Application.csproj", "{5B6A0ECD-C66E-432F-BF0B-7CA19D4682CA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.API", "src\Services\EmployeeManagement\EmployeeManagement.API\EmployeeManagement.API.csproj", "{C1B289D4-A36C-4B34-8CB9-45EA6B2D02C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeMgt.API", "src\Services\EmployeeMgt\EmployeeMgt.API\EmployeeMgt.API.csproj", "{C1B289D4-A36C-4B34-8CB9-45EA6B2D02C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BDDADF63-3335-47A5-935E-81286D17AC40}"
 EndProject

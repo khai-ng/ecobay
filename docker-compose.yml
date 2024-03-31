@@ -65,7 +65,7 @@ services:
         image: ${DOCKER_REGISTRY-}employeeapi
         build:
             context: .
-            dockerfile: src/Services/EmployeeManagement/EmployeeManagement.API/Dockerfile
+            dockerfile: src/Services/EmployeeMgt/EmployeeMgt.API/Dockerfile
         depends_on:
             kafka:
                 condition: service_healthy 
