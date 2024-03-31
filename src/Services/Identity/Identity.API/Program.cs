@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Core.Kafka;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,8 @@ builder.Services.AddMediatR(cfg =>
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
 
+builder.Services.AddKafkaProducer();
+builder.Services.AddKafkaConsumer();
 
 var app = builder.Build();
 

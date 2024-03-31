@@ -7,10 +7,6 @@ namespace Identity.API
     {
         protected override void Load(ContainerBuilder builder)
         {
-            //builder.RegisterType<InternalExceptionHandler>()
-            //    .AsImplementedInterfaces()
-            //    .InstancePerLifetimeScope();
-
             base.Load(builder);
         }
     }

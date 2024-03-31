@@ -1,102 +1,6 @@
 version: '3.4'
 
 services:
-    mysql:
-        environment:
-            MYSQL_ROOT_PASSWORD: 1234A
-        ports:
-            - "5199:3306"
-
-    identity-api:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_HTTP_PORTS=8080
-            - Logging__Loglevel__Default=Debug
-            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
-            - Jwt__Issuer=http://identity-api
-            - Jwt__Audience=http://identity-api
-            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - ConnectionStrings__IdentityDb=Server=mysql;Database=hrm.identity;User Id=root;Password=1234A;
-            - PATH_BASE=/identity-api
-        volumes:
-            - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-        ports:
-            - "5101:80"
-
-    employee-api:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_HTTP_PORTS=8080
-            - Logging__Loglevel__Default=Debug
-            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
-            - Jwt__Issuer=http://identity-api
-            - Jwt__Audience=http://identity-api
-            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-            - ConnectionStrings__EmployeeDb=Server=mysql;Database=hrm.employee;User Id=root;Password=1234A;
-            - PATH_BASE=/employee-api
-        ports:
-            - "5102:80"
-            - "6102:81"
-
-    web-apigateway:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_HTTP_PORTS=8080
-            - Logging__Loglevel__Default=Debug
-            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
-            - Jwt__Issuer=http://identity-api
-            - Jwt__Audience=http://identity-api
-            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Reverseproxy__Clusters__identity__Destinations__default__Address=http://identity-api
-            - Reverseproxy__Clusters__employee__Destinations__default__Address=http://employee-api
-            - Urls__Identity=http://identity-api
-            - Urls__Employee=http://employee-api
-            - Urls__GrpcIdentity=http://identity-api:81
-            - Urls__GrpcEmployee=http://employee-api:81
-        ports:
-            - "5100:80"
-  
-    fluent-bit:
-        environment:
-            # - FLB_ES_HOST=elasticsearch
-            # - FLB_ES_PORT=9200
-            - LOKI_HOST=loki
-            - LOKI_PORT=3100
-        volumes:
-            - ./fluent-bit:/fluent-bit/etc
-        ports:
-            - 24224:24224
-
-    # elasticsearch:
-    #     mem_limit: 2g
-    #     environment:
-    #         - discovery.type=single-node
-    #     ports:
-    #         - 9200:9200
-    #         - 9300:9300
-
-    # kibana:
-    #     environment:
-    #         - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    #     ports:
-    #         - 5601:5601
-    
-    prometheus:
-        volumes:
-            - ./prometheus:/etc/prometheus
-        expose:
-            - 9090
-
-    grafana:
-        environment:
-              - GF_SECURITY_ADMIN_USER=admin
-              - GF_SECURITY_ADMIN_PASSWORD=1234
-        volumes:
-            - ./grafana/provisioning/:/etc/grafana/provisioning/
-        ports:
-            - 3000:3000
-
     kafka-ui:
         ports:
             - 8080:8080
@@ -120,12 +24,16 @@ services:
     kafka:
         ports:
             - 9092:9092
-            - 9991:9991
             - 29092:29092
+        healthcheck:
+            test: nc -z localhost 9092 || exit -1
+            interval: 10s
+            retries: 5
+            start_period: 20s
         environment:
             KAFKA_BROKER_ID: 1
             KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-            KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://kafka:29092
+            KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
             KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
             KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
             KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
@@ -166,4 +74,104 @@ services:
     #         CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
     #         CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
     #         CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
+
+    mysql:
+        environment:
+            MYSQL_ROOT_PASSWORD: 1234A
+        ports:
+            - "5199:3306"
+
+    identity-api:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8080
+            - Logging__Loglevel__Default=Debug
+            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+            - Jwt__Issuer=http://identity-api
+            - Jwt__Audience=http://identity-api
+            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+            - ConnectionStrings__IdentityDb=Server=mysql;Database=hrm.identity;User Id=root;Password=1234A;
+            - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
+            - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
+            - PATH_BASE=/identity-api
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+        ports:
+            - "5101:80"
+
+    employee-api:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8080
+            - Logging__Loglevel__Default=Debug
+            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+            - Jwt__Issuer=http://identity-api
+            - Jwt__Audience=http://identity-api
+            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+            - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
+            - ConnectionStrings__EmployeeDb=Server=mysql;Database=hrm.employee;User Id=root;Password=1234A;
+            - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
+            - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
+            - PATH_BASE=/employee-api
+        ports:
+            - "5102:80"
+            - "6102:81"
+
+    web-apigateway:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8080
+            - Logging__Loglevel__Default=Debug
+            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+            - Jwt__Issuer=http://identity-api
+            - Jwt__Audience=http://identity-api
+            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+            - Reverseproxy__Clusters__identity__Destinations__default__Address=http://identity-api
+            - Reverseproxy__Clusters__employee__Destinations__default__Address=http://employee-api
+            - Urls__Identity=http://identity-api
+            - Urls__Employee=http://employee-api
+            - Urls__GrpcIdentity=http://identity-api:81
+            - Urls__GrpcEmployee=http://employee-api:81
+        ports:
+            - "5100:80"
+  
+    # fluent-bit:
+    #     environment:
+    #         # - FLB_ES_HOST=elasticsearch
+    #         # - FLB_ES_PORT=9200
+    #         - LOKI_HOST=loki
+    #         - LOKI_PORT=3100
+    #     volumes:
+    #         - ./fluent-bit:/fluent-bit/etc
+    #     ports:
+    #         - 24224:24224
+
+    # elasticsearch:
+    #     mem_limit: 2g
+    #     environment:
+    #         - discovery.type=single-node
+    #     ports:
+    #         - 9200:9200
+    #         - 9300:9300
+
+    # kibana:
+    #     environment:
+    #         - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    #     ports:
+    #         - 5601:5601
+    
+    # prometheus:
+    #     volumes:
+    #         - ./prometheus:/etc/prometheus
+    #     expose:
+    #         - 9090
+
+    # grafana:
+    #     environment:
+    #           - GF_SECURITY_ADMIN_USER=admin
+    #           - GF_SECURITY_ADMIN_PASSWORD=1234
+    #     volumes:
+    #         - ./grafana/provisioning/:/etc/grafana/provisioning/
+    #     ports:
+    #         - 3000:3000
         

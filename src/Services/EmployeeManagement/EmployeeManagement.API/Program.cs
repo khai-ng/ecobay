@@ -10,7 +10,7 @@ using Core.Autofac;
 using System.Reflection;
 using Core.MediaR;
 using MediatR;
-using EmployeeManagement.Domain.Constants;
+using Core.Kafka;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +30,9 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
+
+builder.Services.AddKafkaProducer();
+builder.Services.AddKafkaConsumer();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())

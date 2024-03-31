@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\SharedKernel\Core.Autofac\Core.Autofac.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\Core.Contract\Core.Contract.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core\Core.csproj" />
     <ProjectReference Include="..\EmployeeManagement.Domain\EmployeeManagement.Domain.csproj" />
   </ItemGroup>
@@ -15,6 +16,7 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Serilog" Version="3.1.1" />
   </ItemGroup>
 
 </Project>

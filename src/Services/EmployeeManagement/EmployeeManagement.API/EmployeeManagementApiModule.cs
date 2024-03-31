@@ -8,10 +8,6 @@ namespace EmployeeManagement.API
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<Mediator>()
-                .As<IMediator>()
-                .InstancePerLifetimeScope();
-
             base.Load(builder);
         }
     }

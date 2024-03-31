@@ -13,11 +13,12 @@ COPY ["src/Services/EmployeeManagement/EmployeeManagement.API/EmployeeManagement
 COPY ["src/SharedKernel/Core.AspNetCore/Core.AspNet.csproj", "src/SharedKernel/Core.AspNetCore/"]
 COPY ["src/SharedKernel/Core/Core.csproj", "src/SharedKernel/Core/"]
 COPY ["src/SharedKernel/Core.Autofac/Core.Autofac.csproj", "src/SharedKernel/Core.Autofac/"]
+COPY ["src/SharedKernel/Core.Kafka/Core.Kafka.csproj", "src/SharedKernel/Core.Kafka/"]
+COPY ["src/SharedKernel/Core.MediaR/Core.MediaR.csproj", "src/SharedKernel/Core.MediaR/"]
 COPY ["src/Services/EmployeeManagement/EmployeeManagement.Application/EmployeeManagement.Application.csproj", "src/Services/EmployeeManagement/EmployeeManagement.Application/"]
+COPY ["src/SharedKernel/Core.Contract/Core.Contract.csproj", "src/SharedKernel/Core.Contract/"]
 COPY ["src/Services/EmployeeManagement/EmployeeManagement.Domain/EmployeeManagement.Domain.csproj", "src/Services/EmployeeManagement/EmployeeManagement.Domain/"]
 COPY ["src/Services/EmployeeManagement/EmployeeManagement.Infrastructure/EmployeeManagement.Infrastructure.csproj", "src/Services/EmployeeManagement/EmployeeManagement.Infrastructure/"]
-COPY ["src/Services/Identity/Identity.Application/Identity.Application.csproj", "src/Services/Identity/Identity.Application/"]
-COPY ["src/Services/Identity/Identity.Domain/Identity.Domain.csproj", "src/Services/Identity/Identity.Domain/"]
 RUN dotnet restore "./src/Services/EmployeeManagement/EmployeeManagement.API/./EmployeeManagement.API.csproj"
 COPY . .
 WORKDIR "/src/src/Services/EmployeeManagement/EmployeeManagement.API"
