@@ -24,8 +24,6 @@ namespace Identity.Application.Services
             LoginRequest request, 
             CancellationToken ct)
         {
-            await _producer.PublishAsync(new HelloEvent("Hello employee, i'm identity"));
-
             var user = await _context.Users
                 .Where(x => x.UserName == request.UserName)
                 .SingleOrDefaultAsync();
@@ -34,10 +32,13 @@ namespace Identity.Application.Services
                 return AppResult.NotFound("User name or password not match!");
 
             var hashPassword = PasswordExtension.GeneratePassword(request.Password, user.SecurityStamp);
+            if (!user.PasswordHash.Equals(hashPassword.Password))
+                return AppResult.Forbidden();
+
             var token = _jwtProvider.Genereate(user!);
-            return user.PasswordHash.Equals(hashPassword.Password) 
-                ? AppResult.Success(token) 
-                : AppResult.Forbidden();
+            await _producer.PublishAsync(new HelloEvent("Hello employee, i'm identity"));
+
+            return AppResult.Success(token);
         }
     }
 }
