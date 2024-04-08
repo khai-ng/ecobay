@@ -1,4 +1,4 @@
-﻿using Core.Events.External;
+﻿using Core.IntergrationEvent;
 using Core.Kafka.Consumers;
 using Core.Kafka.Producers;
 using Microsoft.Extensions.DependencyInjection;

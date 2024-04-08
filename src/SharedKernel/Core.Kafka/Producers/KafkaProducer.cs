@@ -1,7 +1,7 @@
 ﻿using Confluent.Kafka;
 using Core.AspNet.Extensions;
-using Core.Events;
-using Core.Events.External;
+using Core.IntergrationEvent;
+using Core.SharedKernel;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -17,7 +17,7 @@ namespace Core.Kafka.Producers
         }
 
         public async Task PublishAsync<T>(T evt, CancellationToken cancellationToken = default)
-            where T : IntergrationEvent
+            where T : IIntergrationEvent
         {
 
             using var p = new ProducerBuilder<string, string>(_producerConfig).Build();

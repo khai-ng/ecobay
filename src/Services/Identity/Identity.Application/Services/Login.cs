@@ -1,6 +1,6 @@
 ﻿using Core.Autofac;
 using Core.Contract;
-using Core.Events.External;
+using Core.Infrastructure;
 using Core.Result;
 using Identity.Application.Abstractions;
 using Identity.Application.Extensions;

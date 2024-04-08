@@ -1,10 +1,13 @@
-﻿using Core.Events;
+﻿using Core.ServiceDefault;
 
 namespace Core.Contract
 {
-    public class HelloEvent : IntergrationEvent
+    public class HelloEvent : BaseEvent
     {
-        public HelloEvent(string message) { Message = message; }
+        public HelloEvent(string message)
+        {
+            Message = message;
+        }
         public string Message { get; set; }
     }
 }

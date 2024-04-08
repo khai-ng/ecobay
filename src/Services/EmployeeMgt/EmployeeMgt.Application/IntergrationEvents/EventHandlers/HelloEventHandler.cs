@@ -1,12 +1,12 @@
 ﻿using Core.Autofac;
 using Core.Contract;
-using Core.Events;
+using Core.SharedKernel;
 using Serilog;
 using System.Text.Json;
 
 namespace EmployeeMgt.Application.IntergrationEvents.EventHandlers
 {
-    public sealed class HelloEventHandler : IIntergrationEventHandler<HelloEvent>, ITransient
+    public sealed class HelloEventHandler : IEventHandler<HelloEvent>, ITransient
     {
         private readonly ILogger _logger;
         public HelloEventHandler(ILogger logger)
