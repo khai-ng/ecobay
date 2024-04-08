@@ -3,8 +3,8 @@
 	public class PagingResponse<T> : PagingRequest where T : class
 	{
 		public IEnumerable<T> Data { get; internal set; }
-		public int PageCount { get; internal set; }
-		public int Total { get; internal set; }
+		public long PageCount { get; internal set; }
+		public long Total { get; internal set; }
 
         protected PagingResponse(IPagingRequest request)
         {
@@ -48,8 +48,8 @@
             if (response.PageSize == 0 || response.PageIndex == 0)
 				throw new NullReferenceException();
 
-            response.Total = data.Count();
-            response.PageCount = (int)Math.Ceiling((decimal)response.Total / response.PageSize);
+            response.Total = data.LongCount();
+            response.PageCount = (long)Math.Ceiling((decimal)response.Total / response.PageSize);
 			response.Data = data.Skip(response.Skip).Take(response.PageSize);
 
 			return response;
@@ -67,8 +67,8 @@
 			if (PageSize == 0 || PageIndex == 0)
 				throw new NullReferenceException();
 
-			Total = data.Count();
-			PageCount = (int)Math.Ceiling((decimal)Total / PageSize);
+			Total = data.LongCount();
+			PageCount = (long)Math.Ceiling((decimal)Total / PageSize);
 
 			return data.Skip(Skip).Take(PageSize);
 		}

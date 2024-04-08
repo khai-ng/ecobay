@@ -1,6 +1,6 @@
 ﻿using Confluent.Kafka;
 using Core.AspNet.Extensions;
-using Core.Events.External;
+using Core.IntergrationEvent;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 
