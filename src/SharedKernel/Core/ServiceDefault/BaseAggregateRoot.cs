@@ -2,9 +2,10 @@
 
 namespace Core.ServiceDefault
 {
-    public abstract class BaseAggregateRoot<TModel> : BaseAggregateRoot<TModel, Guid>
+    public abstract class BaseAggregateRoot : BaseAggregateRoot<Ulid>
     {
-        protected BaseAggregateRoot(Guid id) : base(id)
+        protected BaseAggregateRoot() { }
+        protected BaseAggregateRoot(Ulid id) : base(id)
         {
         }
     }

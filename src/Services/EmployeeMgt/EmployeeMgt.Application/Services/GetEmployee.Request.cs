@@ -1,4 +1,5 @@
-﻿using Core.Result;
+﻿using Core.Result.AppResults;
+using Core.Result.Paginations;
 using EmployeeMgt.Domain.Entities;
 using MediatR;
 

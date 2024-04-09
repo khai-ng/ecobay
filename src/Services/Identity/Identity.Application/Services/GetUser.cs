@@ -1,28 +1,25 @@
 ﻿using Core.Autofac;
-using Core.Result;
+using Core.Result.AppResults;
+using Core.Result.Paginations;
 using Identity.Application.Abstractions;
 using Identity.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Application.Services
 {
     public class GetUser : IRequestHandler<GetUserRequest, AppResult<PagingResponse<User>>>, ITransient
     {
-        private readonly IAppDbContext _context;
-        public GetUser(IAppDbContext context)
+        private readonly IUserRepository _userRepository;
+        public GetUser(IUserRepository userRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
         }
         public async Task<AppResult<PagingResponse<User>>> Handle(
             GetUserRequest request,
             CancellationToken ct)
         {
-            var pagingResult = PagingTyped
-                .From(request)
-                .Paging(await _context.Users.ToListAsync());
-
-            return AppResult.Success(pagingResult);
+            var rs = await _userRepository.GetUsersPaging(request);
+            return AppResult.Success(rs);
 		}
     }
 }

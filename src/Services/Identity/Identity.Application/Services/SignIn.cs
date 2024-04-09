@@ -1,5 +1,5 @@
 ﻿using Core.Autofac;
-using Core.Result;
+using Core.Result.AppResults;
 using Identity.Application.Abstractions;
 using Identity.Application.Extensions;
 using Identity.Domain.Entities;

@@ -1,8 +1,9 @@
 ﻿using EmployeeMgt.Application.Abstractions;
 using EmployeeMgt.Domain.Entities;
 using MediatR;
-using Core.Result;
 using Core.Autofac;
+using Core.Result.Paginations;
+using Core.Result.AppResults;
 
 namespace EmployeeMgt.Application.Services
 {

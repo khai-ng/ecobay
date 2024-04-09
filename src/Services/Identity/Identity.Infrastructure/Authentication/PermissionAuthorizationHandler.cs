@@ -1,10 +1,8 @@
 ﻿using Identity.Application.Abstractions;
-using Identity.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 
 namespace Identity.Infrastructure.Authentication
 {

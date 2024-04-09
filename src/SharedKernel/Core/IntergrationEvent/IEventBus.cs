@@ -4,7 +4,7 @@ namespace Core.IntergrationEvent
 {
     public interface IEventBus
     {
-        Task PubliskAsync(IIntergrationEvent evt, CancellationToken cancellationToken = default);
+        Task PubliskAsync(IEvent evt, CancellationToken cancellationToken = default);
 
     }
 }

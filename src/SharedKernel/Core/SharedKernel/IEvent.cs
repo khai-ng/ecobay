@@ -9,5 +9,5 @@ namespace Core.SharedKernel
 
     }
 
-    public interface IEvent : IEvent<Guid> { }
+    public interface IEvent : IEvent<Ulid> { }
 }

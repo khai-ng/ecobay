@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Core.Result
+namespace Core.Result.AppResults
 {
     public class BaseResponse
     {

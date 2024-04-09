@@ -1,4 +1,5 @@
-﻿using Core.Result;
+﻿using Core.Result.Abstractions;
+using Core.Result.AppResults;
 using System.Net;
 
 namespace Core.AspNet.Result

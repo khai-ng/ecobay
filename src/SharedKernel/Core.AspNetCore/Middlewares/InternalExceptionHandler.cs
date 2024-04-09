@@ -1,5 +1,5 @@
 ﻿using Core.AspNet.Result;
-using Core.Result;
+using Core.Result.AppResults;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 

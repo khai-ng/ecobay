@@ -1,4 +1,4 @@
-﻿using Core.Result;
+﻿using Core.Result.AppResults;
 using Destructurama.Attributed;
 using MediatR;
 

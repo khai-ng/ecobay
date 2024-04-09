@@ -5,5 +5,5 @@
         TKey Id { get; }
     }
 
-    public interface IEntity : IEntity<Guid> { }
+    public interface IEntity : IEntity<Ulid> { }
 }

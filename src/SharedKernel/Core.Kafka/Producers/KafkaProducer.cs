@@ -17,11 +17,11 @@ namespace Core.Kafka.Producers
         }
 
         public async Task PublishAsync<T>(T evt, CancellationToken cancellationToken = default)
-            where T : IIntergrationEvent
+            where T : IEvent
         {
 
             using var p = new ProducerBuilder<string, string>(_producerConfig).Build();
-
+            await Task.Yield();
             await p.ProduceAsync("my-topic",
                 new Message<string, string>
                 {

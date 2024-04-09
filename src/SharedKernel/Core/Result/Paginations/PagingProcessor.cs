@@ -1,17 +1,8 @@
-﻿namespace Core.Result
+﻿namespace Core.Result.Paginations
 {
-    public class PagingTyped
-    {
-        public static PagingProcessor From(IPagingRequest request)
-        {
-            return new PagingProcessor(request);
-        }
-    }
-
     public class PagingProcessor : PagingResponse<PagingProcessor>
     {
-
-        internal PagingProcessor(IPagingRequest request) :base(request)
+        internal PagingProcessor(IPagingRequest request) : base(request)
         {
             PageIndex = request.PageIndex;
             PageSize = request.PageSize;
@@ -38,6 +29,12 @@
             where T : class
         {
             return PagingResponse<T>.Paging(this, data);
+        }
+
+        public async Task<PagingResponse<T>> PagingAsync<T>(IQueryable<T> data)
+            where T : class
+        {
+            return await PagingResponse<T>.PagingAsync(this, data);
         }
     }
 }

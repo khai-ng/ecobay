@@ -21,6 +21,9 @@ namespace Identity.API.Extension
 
             services.AddDbContextPool<AppDbContext>(options =>
             {
+                //options.EnableSensitiveDataLogging(true);
+                options.LogTo(Console.WriteLine);
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 options.UseMySQL(connection, sqlOptionsBuilder);
             });
 

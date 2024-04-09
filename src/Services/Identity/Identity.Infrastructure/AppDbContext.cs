@@ -1,20 +1,18 @@
-﻿using Core.Autofac;
-using Identity.Application.Abstractions;
+﻿using Core.SharedKernel;
 using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace Identity.Infrastructure
 {
-    public class AppDbContext : DbContext, IAppDbContext, IScoped
+    public class AppDbContext : DbContext, IUnitOfWork
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
-
-        public DbSet<User> Users => Set<User>();
-        public DbSet<Role> Roles => Set<Role>();
-        public DbSet<Permission> Permissions => Set<Permission>();
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
