@@ -2,8 +2,9 @@
 using EmployeeMgt.Domain.Entities;
 using FastEndpoints;
 using MediatR;
-using Core.Result;
 using Core.AspNet.Result;
+using Core.Result.Paginations;
+using Core.Result.AppResults;
 
 namespace EmployeeMgt.API.Endpoint
 {

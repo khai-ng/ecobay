@@ -1,7 +1,7 @@
 ﻿using Core.Autofac;
 using Core.Contract;
-using Core.Infrastructure;
-using Core.Result;
+using Core.IntergrationEvent;
+using Core.Result.AppResults;
 using Identity.Application.Abstractions;
 using Identity.Application.Extensions;
 using MediatR;
@@ -36,7 +36,7 @@ namespace Identity.Application.Services
                 return AppResult.Forbidden();
 
             var token = _jwtProvider.Genereate(user!);
-            await _producer.PublishAsync(new HelloEvent("Hello employee, i'm identity"));
+            //await _producer.PublishAsync(new HelloEvent("Hello employee, i'm identity"));
 
             return AppResult.Success(token);
         }

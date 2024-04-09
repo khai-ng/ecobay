@@ -5,7 +5,7 @@ namespace Core.ServiceDefault
     public abstract class BaseEntity : IEntity
     {
         public BaseEntity() { }
-        public BaseEntity(Guid id) => Id = id;
-        public Guid Id { get; protected set; }
+        public BaseEntity(Ulid id) => Id = id;
+        public Ulid Id { get; protected set; }
     }
 }

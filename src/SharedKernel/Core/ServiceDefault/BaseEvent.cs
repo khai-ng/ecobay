@@ -5,8 +5,8 @@ namespace Core.ServiceDefault
     public abstract class BaseEvent : IEvent
     {
         public BaseEvent() { }
-        public BaseEvent(Guid id) => Id = id;
-        public Guid Id { get; protected set; }
+        public BaseEvent(Ulid id) => Id = id;
+        public Ulid Id { get; protected set; }
         public long Version { get; set; }
 
     }

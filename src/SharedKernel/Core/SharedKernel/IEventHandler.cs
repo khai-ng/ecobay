@@ -7,7 +7,7 @@ namespace Core.SharedKernel
     {
     }
 
-    public interface IEventHandler<TModel> : IEventHandler<TModel, Guid>
+    public interface IEventHandler<TModel> : IEventHandler<TModel, Ulid>
     where TModel : IEvent
     { }
 }

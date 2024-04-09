@@ -1,8 +1,10 @@
-﻿namespace Identity.Domain.Entities
+﻿using Core.ServiceDefault;
+using Core.SharedKernel;
+
+namespace Identity.Domain.Entities
 {
-    public class User
+    public class User: BaseAggregateRoot
     {
-        public Guid Id { get; set; }
         public required string UserName { get; set; }
         public string Name { get; set; } = string.Empty;
         public required string Email { get; set; }
@@ -12,6 +14,5 @@
 
         public ICollection<Role> Roles { get; set; }
         public ICollection<Permission> Permissions { get; set; }
-
     }
 }

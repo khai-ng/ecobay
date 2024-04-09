@@ -1,6 +1,6 @@
-﻿using Core.Result;
+﻿using Core.Result.AppResults;
 
-namespace Core.Result
+namespace Core.Result.Abstractions
 {
     public interface IAppResult<T> : IAppResult
     {

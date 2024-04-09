@@ -9,5 +9,5 @@ namespace Core.Aggregate
         void ClearEvents();
     }
 
-    public interface IAggregateRoot: IAggregateRoot<Guid> { }
+    public interface IAggregateRoot: IAggregateRoot<Ulid> { }
 }

@@ -3,10 +3,11 @@ using System.Collections.Immutable;
 
 namespace Core.SharedKernel
 {
-    public abstract class BaseAggregateRoot<TModel, TKey>: IAggregateRoot<TKey>, IEntity<TKey>
+    public abstract class BaseAggregateRoot<TKey>: IAggregateRoot<TKey>, IEntity<TKey>
     {
         private readonly Queue<IEvent<TKey>> _events = new();
 
+        protected BaseAggregateRoot() { }
         protected BaseAggregateRoot(TKey id)
         {
             Id = id;

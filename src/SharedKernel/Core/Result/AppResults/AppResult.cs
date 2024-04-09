@@ -1,4 +1,6 @@
-﻿namespace Core.Result
+﻿using Core.Result.Abstractions;
+
+namespace Core.Result.AppResults
 {
     public class AppResult<T> : IAppResult<T>
     {
@@ -54,7 +56,7 @@
         {
             return new AppResult<T>(AppStatusCode.Invalid) { Errors = new List<ErrorDetail>() { error } };
         }
-        
+
         public static AppResult<T> Invalid(params ErrorDetail[] errors)
         {
             return new AppResult<T>(AppStatusCode.Invalid) { Errors = errors };
@@ -70,7 +72,7 @@
             return new AppResult<T>(AppStatusCode.NotFound);
         }
 
-        public static AppResult<T> NotFound( string message)
+        public static AppResult<T> NotFound(string message)
         {
             return new AppResult<T>(AppStatusCode.NotFound) { Message = message };
         }

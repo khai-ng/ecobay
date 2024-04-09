@@ -36,7 +36,7 @@ builder.Services.AddMediatR(cfg =>
 });
 
 builder.Services.AddKafkaProducer();
-builder.Services.AddKafkaConsumer();
+//builder.Services.AddKafkaConsumer();
 
 var app = builder.Build();
 

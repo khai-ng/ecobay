@@ -5,6 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Configurations\**" />
+    <EmbeddedResource Remove="Configurations\**" />
+    <None Remove="Configurations\**" />
+  </ItemGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
@@ -20,8 +26,5 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Core\Core.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Configurations\" />
 	</ItemGroup>
 </Project>
