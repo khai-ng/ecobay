@@ -1,7 +1,7 @@
 ﻿using Core.AspNet.Result;
 using FastEndpoints;
 using Identity.Application.Services;
-using Identity.Domain.Entities;
+using Identity.Domain.Entities.UserAggrigate;
 using MediatR;
 
 namespace Identity.API.Endpoint

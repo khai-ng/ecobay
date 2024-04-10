@@ -1,13 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Immutable;
 
 namespace Core.Result.Paginations
 {
     public class PagingResponse<T> : PagingRequest, IPagingResponse<T> where T : class
     {
         public IEnumerable<T> Data { get; internal set; }
-        //public long PageCount { get; internal set; }
-        //public long Total { get; internal set; }
         public bool HasNext { get; internal set; }
 
         internal PagingResponse(IPagingRequest request)
@@ -50,7 +47,6 @@ namespace Core.Result.Paginations
                 throw new NullReferenceException();
 
             IEnumerable<T> filterData = data.Skip(response.Skip).Take(response.PageSize + 1);
-
             response.Data = filterData.Take(response.PageSize);
             response.HasNext = response.PageSize < filterData.Count();
 
@@ -65,7 +61,6 @@ namespace Core.Result.Paginations
                 throw new NullReferenceException();
 
             IEnumerable<T> filterData = await data.Skip(response.Skip).Take(response.PageSize + 1).ToListAsync();
-
             response.Data = filterData.Take(response.PageSize);
             response.HasNext = response.PageSize < filterData.Count();
 
@@ -84,8 +79,6 @@ namespace Core.Result.Paginations
             if (PageSize == 0 || PageIndex == 0)
                 throw new NullReferenceException();
 
-            //Total = data.LongCount();
-            //PageCount = (long)Math.Ceiling((decimal)Total / PageSize);
             HasNext = data.Skip(Skip + PageSize).Take(1).Any();
 
             return data.Skip(Skip).Take(PageSize);
