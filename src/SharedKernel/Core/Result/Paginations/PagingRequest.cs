@@ -2,7 +2,7 @@
 
 namespace Core.Result.Paginations
 {
-    public class PagingRequest : IPagingRequest
+    public abstract class PagingRequest : IPagingRequest
     {
         public int PageIndex { get; set; }
         public int PageSize { get; set; }

@@ -1,4 +1,4 @@
-﻿using Identity.Domain.Entities;
+﻿using Identity.Domain.Entities.UserAggrigate;
 
 namespace Identity.Application.Abstractions
 {

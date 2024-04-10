@@ -18,7 +18,7 @@ namespace Identity.Infrastructure.Authentication
         public override async Task HandleAsync(AuthorizationHandlerContext context)
         {
             var userId = context.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
-            if (!Guid.TryParse(userId, out Guid parsedUserId))
+            if (!Ulid.TryParse(userId, out Ulid parsedUserId))
                 return;
 
 
@@ -32,8 +32,8 @@ namespace Identity.Infrastructure.Authentication
             }
 
             using IServiceScope serviceScope = _serviceScopeFactory.CreateScope();
-            IPermissionService permissionService = serviceScope.ServiceProvider.GetRequiredService<IPermissionService>();
-            var roles = await permissionService.GetRolesAsync(parsedUserId);
+            var userService = serviceScope.ServiceProvider.GetRequiredService<IUserRepository>();
+            var roles = await userService.GetUserRolesAsync(parsedUserId);
 
 
             foreach (var roleRequirement in roleRequirements)
@@ -51,12 +51,12 @@ namespace Identity.Infrastructure.Authentication
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
             var userId = context.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
-            if(!Guid.TryParse(userId, out Guid pasredUserId))
+            if(!Ulid.TryParse(userId, out Ulid pasredUserId))
                 return;
 
             using IServiceScope serviceScope = _serviceScopeFactory.CreateScope();
-            IPermissionService claimService = serviceScope.ServiceProvider.GetRequiredService<IPermissionService>();
-            var claims = await claimService.GetPermissionsAsync(pasredUserId);
+            var userService = serviceScope.ServiceProvider.GetRequiredService<IUserRepository>();
+            var claims = await userService.GetUserPermissionAsync(pasredUserId);
 
             if(claims.Contains(requirement.Permission))
                 context.Succeed(requirement);

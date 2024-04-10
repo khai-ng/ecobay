@@ -1,4 +1,4 @@
-﻿namespace Identity.Domain.Entities
+﻿namespace Identity.Domain.Entities.UserAggrigate
 {
     public class RolePermission
     {
