@@ -1,8 +1,8 @@
-﻿namespace Identity.Domain.Entities.UserAggrigate
+﻿namespace Identity.Domain.Entities.UserAggregate
 {
     public class UserPermission
     {
-        public Guid UserId { get; set; }
+        public Ulid UserId { get; set; }
         public int PermissionId { get; set; }
     }
 }

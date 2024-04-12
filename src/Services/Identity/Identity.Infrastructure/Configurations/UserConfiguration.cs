@@ -1,4 +1,4 @@
-﻿using Identity.Domain.Entities.UserAggrigate;
+﻿using Identity.Domain.Entities.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

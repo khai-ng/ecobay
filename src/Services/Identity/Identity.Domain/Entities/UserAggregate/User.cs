@@ -1,7 +1,7 @@
 ﻿using Core.ServiceDefault;
 using Core.SharedKernel;
 
-namespace Identity.Domain.Entities.UserAggrigate
+namespace Identity.Domain.Entities.UserAggregate
 {
     public class User : BaseAggregateRoot
     {

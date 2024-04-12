@@ -1,11 +1,12 @@
-﻿using Core.SharedKernel;
-using Identity.Domain.Entities.UserAggrigate;
+﻿using Core.Autofac;
+using Core.SharedKernel;
+using Identity.Domain.Entities.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace Identity.Infrastructure
 {
-    public class AppDbContext : DbContext, IUnitOfWork
+    public class AppDbContext : BaseDbContext, IScoped
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -28,6 +29,6 @@ namespace Identity.Infrastructure
             //        entityType.SetTableName(tableName.Substring(6));
             //    }
             //}
-        }
+        }      
     }
 }

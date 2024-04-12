@@ -1,15 +1,15 @@
-﻿using Core.SharedKernel;
-using Microsoft.EntityFrameworkCore;
+﻿//using Core.SharedKernel;
+//using Microsoft.EntityFrameworkCore;
 
-namespace Product.API.Infrastructure
-{
-    public class AppDbContext: DbContext, IUnitOfWork
-    {
+//namespace Product.API.Infrastructure
+//{
+//    public class AppDbContext: DbContext, IUnitOfWork
+//    {
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
+//        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+//        {
 
-            return base.SaveChangesAsync(cancellationToken);
-        }
-    }
-}
+//            return base.SaveChangesAsync(cancellationToken);
+//        }
+//    }
+//}

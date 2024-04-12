@@ -26,8 +26,7 @@ namespace EmployeeMgt.Infrastructure
         {
             configurationBuilder
             .Properties<Ulid>()
-            .HaveConversion<UlidToStringConverter>()
-            .HaveConversion<UlidToBytesConverter>();
+            .HaveConversion<UlidToStringConverter>();
         }
     }
 }

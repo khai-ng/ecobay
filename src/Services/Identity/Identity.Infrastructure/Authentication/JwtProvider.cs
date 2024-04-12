@@ -2,7 +2,7 @@
 using Core.Autofac;
 using Identity.Application.Abstractions;
 using Identity.Domain.Constants;
-using Identity.Domain.Entities.UserAggrigate;
+using Identity.Domain.Entities.UserAggregate;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

@@ -3,13 +3,12 @@
 namespace Core.SharedKernel
 {
     public interface IRepository<TModel, TKey>
-        where TModel : IAggregateRoot<TKey>
+        where TModel : class, IAggregateRoot<TKey>
     {
-        IUnitOfWork UnitOfWork { get; }
     }
 
-    public interface IRepository<TModel> : IRepository<TModel, Ulid>
-        where TModel : IAggregateRoot<Ulid>
-    {
-    }
+    //public interface IRepository<TModel> : IRepository<TModel, Ulid>
+    //    where TModel : class, IAggregateRoot<Ulid>
+    //{
+    //}
 }

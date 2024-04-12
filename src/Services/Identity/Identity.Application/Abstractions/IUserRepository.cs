@@ -1,13 +1,11 @@
-﻿using Core.Result.Paginations;
-using Core.SharedKernel;
-using Identity.Application.Services;
-using Identity.Domain.Entities.UserAggrigate;
+﻿using Core.ServiceDefault;
+using Identity.Domain.Entities.UserAggregate;
 
 namespace Identity.Application.Abstractions
 {
-    public interface IUserRepository: IRepository<User>
+    public interface IUserRepository: ICommonRepository<User>
     {
-        Task<PagingResponse<User>> GetUsersPagingAsync(GetUserRequest request);
+        Task<User?> FindAsync(string userName);
         Task<IEnumerable<string>> GetUserRolesAsync(Ulid userId);
         Task<IEnumerable<string>> GetUserPermissionAsync(Ulid userId);
     }
