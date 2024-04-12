@@ -1,13 +1,12 @@
 ﻿using Core.Autofac;
 using Core.ServiceDefault;
-using Core.SharedKernel;
 using Identity.Application.Abstractions;
 using Identity.Domain.Entities.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Repositories
 {
-    public class UserRepository : CommonRepository<User>, IUserRepository, IScoped
+    public class UserRepository : Repository<User>, IUserRepository, IScoped
     {
         private readonly AppDbContext _context;
 

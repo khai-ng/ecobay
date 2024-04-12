@@ -3,20 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.ServiceDefault
 {
-    public abstract class CommonRepository<TModel> : CommonRepository<TModel, Ulid>
-        where TModel : BaseAggregateRoot<Ulid>
+    public abstract class Repository<TModel> : Repository<TModel, Ulid>
+        where TModel : AggregateRoot<Ulid>
     {
-        protected CommonRepository(DbContext context) : base(context)
+        protected Repository(DbContext context) : base(context)
         {
         }
     }
 
-    public abstract class CommonRepository<TModel, TKey> : 
-        CommonCommandRepository<TModel, TKey>,
+    public abstract class Repository<TModel, TKey> : 
+        CommandRepository<TModel, TKey>,
         ICommonRepository<TModel, TKey>
-        where TModel : BaseAggregateRoot<TKey>
+        where TModel : AggregateRoot<TKey>
     {
-        protected CommonRepository(DbContext context) : base(context)
+        protected Repository(DbContext context) : base(context)
         {
         }
 

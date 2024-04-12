@@ -3,12 +3,12 @@ using EFCore.BulkExtensions;
 
 namespace Core.ServiceDefault
 {
-    public interface ICommonCommandRepository<TModel>: ICommonCommandRepository<TModel, Ulid>
-        where TModel : BaseAggregateRoot<Ulid>
+    public interface ICommandRepository<TModel>: ICommandRepository<TModel, Ulid>
+        where TModel : AggregateRoot<Ulid>
     { }
 
-    public interface ICommonCommandRepository<TModel, TKey>: IRepository<TModel, TKey>
-        where TModel : BaseAggregateRoot<TKey>
+    public interface ICommandRepository<TModel, TKey>: IRepository<TModel, TKey>
+        where TModel : AggregateRoot<TKey>
     {
         void AddRange(IEnumerable<TModel> entities);
         void UpdateRange(IEnumerable<TModel> entities);
