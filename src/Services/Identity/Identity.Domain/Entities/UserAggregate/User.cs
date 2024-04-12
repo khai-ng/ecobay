@@ -1,9 +1,8 @@
-﻿using Core.ServiceDefault;
-using Core.SharedKernel;
+﻿using Core.SharedKernel;
 
 namespace Identity.Domain.Entities.UserAggregate
 {
-    public class User : BaseAggregateRoot
+    public class User : AggregateRoot
     {
         public required string UserName { get; set; }
         public string Name { get; set; } = string.Empty;

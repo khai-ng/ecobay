@@ -3,20 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.ServiceDefault
 {
-    public abstract class CommonQueryRepository<TModel> : CommonQueryRepository<TModel, Ulid>
-        where TModel : BaseAggregateRoot<Ulid>
+    public abstract class QueryRepository<TModel> : QueryRepository<TModel, Ulid>
+        where TModel : AggregateRoot<Ulid>
     {
-        protected CommonQueryRepository(DbContext context) : base(context)
+        protected QueryRepository(DbContext context) : base(context)
         {
         }
     }
 
-    public abstract class CommonQueryRepository<TModel, TKey> : IRepository<TModel, TKey>
-        where TModel : BaseAggregateRoot<TKey>
+    public abstract class QueryRepository<TModel, TKey> : IRepository<TModel, TKey>
+        where TModel : AggregateRoot<TKey>
     {
         internal readonly DbContext _context;
         internal DbSet<TModel> _entity => _context.Set<TModel>();
-        protected CommonQueryRepository(DbContext context)
+        protected QueryRepository(DbContext context)
         {
             _context = context;
         }
