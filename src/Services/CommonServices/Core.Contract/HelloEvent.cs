@@ -1,8 +1,8 @@
-﻿using Core.ServiceDefault;
+﻿using Core.IntegrationEvents;
 
 namespace Core.Contract
 {
-    public class HelloEvent : BaseEvent
+    public class HelloEvent : IntegrationEvent
     {
         public HelloEvent(string message)
         {

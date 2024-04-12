@@ -1,14 +1,7 @@
-﻿using Core.Aggregate;
-
-namespace Core.SharedKernel
+﻿namespace Core.SharedKernel
 {
     public interface IRepository<TModel, TKey>
-        where TModel : class, IAggregateRoot<TKey>
+        where TModel : BaseAggregateRoot<TKey>
     {
     }
-
-    //public interface IRepository<TModel> : IRepository<TModel, Ulid>
-    //    where TModel : class, IAggregateRoot<Ulid>
-    //{
-    //}
 }

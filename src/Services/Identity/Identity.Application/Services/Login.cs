@@ -1,5 +1,5 @@
 ﻿using Core.Autofac;
-using Core.IntergrationEvent;
+using Core.IntegrationEvents;
 using Core.Result.AppResults;
 using Identity.Application.Abstractions;
 using Identity.Application.Extensions;
@@ -11,8 +11,8 @@ namespace Identity.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IJwtProvider _jwtProvider;
-        private readonly IExternalProducer _producer;
-        public Login(IUserRepository userRepository, IJwtProvider jwtProvider, IExternalProducer producer)
+        private readonly IIntegrationProducer _producer;
+        public Login(IUserRepository userRepository, IJwtProvider jwtProvider, IIntegrationProducer producer)
         {
             _userRepository = userRepository;
             _jwtProvider = jwtProvider;

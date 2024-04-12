@@ -1,12 +1,12 @@
 ﻿using Confluent.Kafka;
 using Core.AspNet.Extensions;
-using Core.IntergrationEvent;
+using Core.IntegrationEvents;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 
 namespace Core.Kafka.Consumers
 {
-    public class KafkaConsumer : ExternalConsumer
+    public class KafkaConsumer : IntegrationConsumer
     {
         private readonly ConsumerConfig _consumerConfig;
         private readonly IMediator _publisher;
