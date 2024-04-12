@@ -1,6 +1,6 @@
 ﻿using Core.Enum;
 
-namespace Identity.Domain.Entities.UserAggrigate
+namespace Identity.Domain.Entities.UserAggregate
 {
     public class Role : Enumeration<Role>
     {

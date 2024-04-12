@@ -12,6 +12,7 @@ using Serilog.Core;
 using Serilog;
 using Destructurama;
 using Core.AspNet.Middlewares;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Core.AspNet.Extensions
 {

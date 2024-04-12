@@ -2,7 +2,7 @@
 
 namespace Core.Aggregate
 {
-    public interface IAggregateRoot<out TKey>: IEntity<TKey>
+    public interface IAggregateRoot<TKey>: IEntity<TKey>
     {
         long Version { get; }
         IReadOnlyCollection<IEvent<TKey>> Events { get; }

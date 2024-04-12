@@ -1,5 +1,5 @@
 ﻿using Core.AspNet.Result;
-using Core.Result;
+using Core.Result.AppResults;
 using FastEndpoints;
 using Microsoft.AspNetCore.Http;
 using System.Net;

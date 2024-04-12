@@ -1,22 +1,20 @@
 ﻿using Core.Autofac;
-using Core.Contract;
 using Core.IntergrationEvent;
 using Core.Result.AppResults;
 using Identity.Application.Abstractions;
 using Identity.Application.Extensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Application.Services
 {
     public class Login : IRequestHandler<LoginRequest, AppResult<string>>, ITransient
     {
-        private readonly IAppDbContext _context;
+        private readonly IUserRepository _userRepository;
         private readonly IJwtProvider _jwtProvider;
         private readonly IExternalProducer _producer;
-        public Login(IAppDbContext context, IJwtProvider jwtProvider, IExternalProducer producer)
+        public Login(IUserRepository userRepository, IJwtProvider jwtProvider, IExternalProducer producer)
         {
-            _context = context;
+            _userRepository = userRepository;
             _jwtProvider = jwtProvider;
             _producer = producer;
         }
@@ -24,9 +22,7 @@ namespace Identity.Application.Services
             LoginRequest request, 
             CancellationToken ct)
         {
-            var user = await _context.Users
-                .Where(x => x.UserName == request.UserName)
-                .SingleOrDefaultAsync();
+            var user = await _userRepository.FindAsync(request.UserName);
 
             if (user == null)
                 return AppResult.NotFound("User name or password not match!");

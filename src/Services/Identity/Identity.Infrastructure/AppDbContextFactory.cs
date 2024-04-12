@@ -27,7 +27,8 @@ namespace Identity.Infrastructure
             var connectionString = config.GetConnectionString(AppEnvironment.DB_SCHEMA)!    ;
 
             //builder.UseSqlServer(connectionString);
-            builder.UseMySQL(connectionString);
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
+            builder.UseMySql(connectionString, serverVersion);
             return new AppDbContext(builder.Options);
         }
     }

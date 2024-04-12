@@ -1,28 +1,24 @@
 ﻿using Core.Autofac;
-using Core.Result.Paginations;
+using Core.ServiceDefault;
 using Core.SharedKernel;
 using Identity.Application.Abstractions;
-using Identity.Application.Services;
-using Identity.Domain.Entities.UserAggrigate;
+using Identity.Domain.Entities.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository, IScoped
+    public class UserRepository : CommonRepository<User>, IUserRepository, IScoped
     {
         private readonly AppDbContext _context;
-        public IUnitOfWork UnitOfWork => _context;
 
-        public UserRepository(AppDbContext context)
+        public UserRepository(AppDbContext context) : base(context)
         {
             _context = context;
         }
 
-        public async Task<PagingResponse<User>> GetUsersPagingAsync(GetUserRequest request)
+        public async Task<User?> FindAsync(string userName)
         {
-            return await PagingTyped
-                .From(request)
-                .PagingAsync(_context.Users);
+            return await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
         }
 
         public async Task<IEnumerable<string>> GetUserRolesAsync(Ulid userId)
@@ -54,5 +50,6 @@ namespace Identity.Infrastructure.Repositories
 
             return allPermissions.Select(x => x.Name);
         }
+
     }
 }
