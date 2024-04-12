@@ -1,11 +1,10 @@
-﻿using Core.Aggregate;
-using Core.SharedKernel;
+﻿using Core.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.ServiceDefault
 {
     public abstract class CommonRepository<TModel> : CommonRepository<TModel, Ulid>
-        where TModel : class, IAggregateRoot<Ulid>
+        where TModel : BaseAggregateRoot<Ulid>
     {
         protected CommonRepository(DbContext context) : base(context)
         {
@@ -15,7 +14,7 @@ namespace Core.ServiceDefault
     public abstract class CommonRepository<TModel, TKey> : 
         CommonCommandRepository<TModel, TKey>,
         ICommonRepository<TModel, TKey>
-        where TModel : class, IAggregateRoot<TKey>
+        where TModel : BaseAggregateRoot<TKey>
     {
         protected CommonRepository(DbContext context) : base(context)
         {

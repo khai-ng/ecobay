@@ -1,11 +1,10 @@
-﻿using Core.Aggregate;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 namespace Core.SharedKernel
 {
-    public abstract class BaseAggregateRoot<TKey>: IAggregateRoot<TKey>, IEntity<TKey>
+    public abstract class BaseAggregateRoot<TKey>
     {
-        private readonly Queue<IEvent<TKey>> _events = new();
+        private readonly Queue<DomainEvent<TKey>> _events = new();
 
         protected BaseAggregateRoot() { }
         protected BaseAggregateRoot(TKey id)
@@ -13,7 +12,7 @@ namespace Core.SharedKernel
             Id = id;
         }
 
-        public void AddEvent(IEvent<TKey> @event)
+        public void AddEvent(DomainEvent<TKey> @event)
         {
             ArgumentNullException.ThrowIfNull(nameof(@event));
 
@@ -24,7 +23,7 @@ namespace Core.SharedKernel
 
         public long Version {get; private set; }
 
-        public IReadOnlyCollection<IEvent<TKey>> Events => _events.ToImmutableArray();
+        public IReadOnlyCollection<DomainEvent<TKey>> Events => _events.ToImmutableArray();
 
         public void ClearEvents()
         {

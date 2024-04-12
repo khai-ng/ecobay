@@ -1,15 +1,14 @@
-﻿using Core.Aggregate;
-using Core.SharedKernel;
+﻿using Core.SharedKernel;
 using EFCore.BulkExtensions;
 
 namespace Core.ServiceDefault
 {
     public interface ICommonCommandRepository<TModel>: ICommonCommandRepository<TModel, Ulid>
-        where TModel : class, IAggregateRoot<Ulid>
+        where TModel : BaseAggregateRoot<Ulid>
     { }
 
     public interface ICommonCommandRepository<TModel, TKey>: IRepository<TModel, TKey>
-        where TModel : class, IAggregateRoot<TKey>
+        where TModel : BaseAggregateRoot<TKey>
     {
         void AddRange(IEnumerable<TModel> entities);
         void UpdateRange(IEnumerable<TModel> entities);

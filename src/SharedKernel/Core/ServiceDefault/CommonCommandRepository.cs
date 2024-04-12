@@ -1,12 +1,11 @@
-﻿using Core.Aggregate;
-using Core.SharedKernel;
+﻿using Core.SharedKernel;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.ServiceDefault
 {
     public abstract class CommonCommandRepository<TModel> : CommonCommandRepository<TModel, Ulid>
-        where TModel : class, IAggregateRoot<Ulid>
+        where TModel : BaseAggregateRoot<Ulid>
     {
         protected CommonCommandRepository(DbContext context) : base(context)
         {
@@ -14,7 +13,7 @@ namespace Core.ServiceDefault
     }
 
     public abstract class CommonCommandRepository<TModel, TKey> : ICommonCommandRepository<TModel, TKey>
-        where TModel : class, IAggregateRoot<TKey>
+        where TModel : BaseAggregateRoot<TKey>
     {
         internal readonly DbContext _context;
         internal DbSet<TModel> _entity => _context.Set<TModel>();

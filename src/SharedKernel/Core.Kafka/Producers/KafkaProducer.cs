@@ -1,13 +1,12 @@
 ﻿using Confluent.Kafka;
 using Core.AspNet.Extensions;
-using Core.IntergrationEvent;
-using Core.SharedKernel;
+using Core.IntegrationEvents;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace Core.Kafka.Producers
 {
-    public class KafkaProducer: IExternalProducer
+    public class KafkaProducer: IIntegrationProducer
     {
         private readonly ProducerConfig _producerConfig;
 
@@ -16,8 +15,7 @@ namespace Core.Kafka.Producers
             _producerConfig = configuration.GetRequiredConfig<ProducerConfig>("Kafka:ProducerConfig");
         }
 
-        public async Task PublishAsync<T>(T evt, CancellationToken cancellationToken = default)
-            where T : IEvent
+        public async Task PublishAsync(IIntegrationProducer evt, CancellationToken cancellationToken = default)
         {
 
             using var p = new ProducerBuilder<string, string>(_producerConfig).Build();

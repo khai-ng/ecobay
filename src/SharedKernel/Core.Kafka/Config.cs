@@ -1,4 +1,4 @@
-﻿using Core.IntergrationEvent;
+﻿using Core.IntegrationEvents;
 using Core.Kafka.Consumers;
 using Core.Kafka.Producers;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +10,7 @@ namespace Core.Kafka
     {
         public static IServiceCollection AddKafkaProducer(this IServiceCollection services)
         {
-            services.TryAddSingleton<IExternalProducer, KafkaProducer>();
+            services.TryAddSingleton<IIntegrationProducer, KafkaProducer>();
             return services;
         }
 

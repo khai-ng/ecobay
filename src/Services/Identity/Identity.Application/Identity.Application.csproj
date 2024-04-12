@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\SharedKernel\Core.Autofac\Core.Autofac.csproj" />
-    <ProjectReference Include="..\..\..\SharedKernel\Core.Contract\Core.Contract.csproj" />
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
   </ItemGroup>
 
