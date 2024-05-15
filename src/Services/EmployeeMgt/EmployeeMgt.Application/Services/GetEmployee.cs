@@ -16,7 +16,7 @@ namespace EmployeeMgt.Application.Services
             _context = context;
         }
 
-        public async Task<AppResult<PagingResponse<Employee>>> Handle(
+        public Task<AppResult<PagingResponse<Employee>>> Handle(
             GetEmployeeRequest request, 
             CancellationToken ct)
         {
@@ -28,7 +28,7 @@ namespace EmployeeMgt.Application.Services
             var pagedData = pagingProcessor.Filter(masterData);
             var pageEmployee = pagingProcessor.Result(pagedData);
 
-            return AppResult.Success(pageEmployee);
+            return Task.FromResult(AppResult.Success(pageEmployee));
         }
     }
 }
