@@ -23,7 +23,6 @@ builder.AddAutofac();
 builder.Services.AddDbContexts(builder.Configuration);
 
 builder.Services.AddGrpc();
-builder.Services.AddAuthorization();
 
 builder.Services.AddMediatR(cfg =>
 {
@@ -46,7 +45,6 @@ app.MapGrpcService<EmployeeService>();
 app.UseHttpsRedirection();
 app.UseServiceDefaults();
 
-app.UseExceptionHandler(opt => { });
 app.UseFastEndpoints(config => config.CommonResponseConfigs())
     .UseSwaggerGen();
 

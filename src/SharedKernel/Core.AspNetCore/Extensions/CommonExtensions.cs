@@ -12,7 +12,6 @@ using Serilog.Core;
 using Serilog;
 using Destructurama;
 using Core.AspNet.Middlewares;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Core.AspNet.Extensions
 {
@@ -34,16 +33,6 @@ namespace Core.AspNet.Extensions
             builder.UseDefaultLogging();
 
             return builder;
-        }
-
-
-        public static WebApplication UseServiceDefaults(this WebApplication app)
-        {
-            app.UseExceptionHandler(opt => { });
-            app.UseDefaultAuthentication();
-
-            app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
-            return app;
         }
 
         public static IServiceCollection AddDefaultOpenApi(this IServiceCollection services, IConfiguration configuration)
@@ -113,6 +102,16 @@ namespace Core.AspNet.Extensions
             return services;
         }
 
+        #region UseService
+        public static WebApplication UseServiceDefaults(this WebApplication app)
+        {
+            app.UseExceptionHandler(opt => { });
+            app.UseDefaultAuthentication();
+
+            app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
+            return app;
+        }
+
         public static IApplicationBuilder UseDefaultOpenApi(this WebApplication app, IConfiguration configuration)
         {
             var openApiSection = configuration.GetSection("OpenApi");
@@ -162,7 +161,13 @@ namespace Core.AspNet.Extensions
 
             builder.Host.UseSerilog((context, serviceProvider, config) =>
             {
-                config.ReadFrom.Configuration(context.Configuration);
+                IConfiguration configure = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddEnvironmentVariables()
+                    .Build();
+
+                config.ReadFrom.Configuration(configure);
                 config.Destructure.UsingAttributes();
                 var enrichers = serviceProvider.GetServices<ILogEventEnricher>();
 
@@ -171,5 +176,6 @@ namespace Core.AspNet.Extensions
             });
             return builder;
         }
+        #endregion
     }
 }
