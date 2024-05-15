@@ -90,7 +90,7 @@ services:
             - Jwt__Issuer=http://identity-api
             - Jwt__Audience=http://identity-api
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - ConnectionStrings__IdentityDb=Server=mysql;Database=hrm.identity;User Id=root;Password=1234A;
+            - ConnectionStrings__IdentityDb=Server=mysql;Database=wksy.identity;User Id=root;Password=1234A;
             - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
             - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
             - PATH_BASE=/identity-api
@@ -109,13 +109,20 @@ services:
             - Jwt__Audience=http://identity-api
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-            - ConnectionStrings__EmployeeDb=Server=mysql;Database=hrm.employee;User Id=root;Password=1234A;
+            - ConnectionStrings__EmployeeDb=Server=mysql;Database=wksy.employee;User Id=root;Password=1234A;
             - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
             - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
             - PATH_BASE=/employee-api
         ports:
             - "5102:80"
             - "6102:81"
+
+    product-api:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8080
+        ports:
+            - "5103:80"
 
     web-apigateway:
         environment:
@@ -134,7 +141,7 @@ services:
             - Urls__GrpcEmployee=http://employee-api:81
         ports:
             - "5100:80"
-  
+
     # fluent-bit:
     #     environment:
     #         # - FLB_ES_HOST=elasticsearch
@@ -174,4 +181,3 @@ services:
     #         - ./grafana/provisioning/:/etc/grafana/provisioning/
     #     ports:
     #         - 3000:3000
-        
