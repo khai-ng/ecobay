@@ -12,6 +12,7 @@ using Serilog.Core;
 using Serilog;
 using Destructurama;
 using Core.AspNet.Middlewares;
+using System.Reflection;
 
 namespace Core.AspNet.Extensions
 {
@@ -161,9 +162,10 @@ namespace Core.AspNet.Extensions
 
             builder.Host.UseSerilog((context, serviceProvider, config) =>
             {
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 IConfiguration configure = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .SetBasePath(path!)
+                    .AddJsonFile("common.appsettings.json", optional: false, reloadOnChange: true)
                     .AddEnvironmentVariables()
                     .Build();
 

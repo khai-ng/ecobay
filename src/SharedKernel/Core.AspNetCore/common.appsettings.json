@@ -43,20 +43,6 @@
         "Name": "ToMaximumCollectionCount",
         "Args": { "maximumCollectionCount": 5 }
       }
-    ],
-    "Properties": {
-      "App": "ProductApi"
-    }
-  },
-  "AllowedHosts": "*",
-  "OpenApi": {
-    "Endpoint": {
-      "Name": "Product.API V1"
-    },
-    "Document": {
-      "Description": "The Product Service HTTP API",
-      "Title": "WKSY - Product HTTP API",
-      "Version": "v1"
-    }
+    ]
   }
 }

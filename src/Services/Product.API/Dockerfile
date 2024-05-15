@@ -9,6 +9,10 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/Services/Product.API/Product.API.csproj", "src/Services/Product.API/"]
+COPY ["src/SharedKernel/Core.AspNetCore/Core.AspNet.csproj", "src/SharedKernel/Core.AspNetCore/"]
+COPY ["src/SharedKernel/Core/Core.csproj", "src/SharedKernel/Core/"]
+COPY ["src/SharedKernel/Core.Autofac/Core.Autofac.csproj", "src/SharedKernel/Core.Autofac/"]
+COPY ["src/SharedKernel/Core.MediaR/Core.MediaR.csproj", "src/SharedKernel/Core.MediaR/"]
 RUN dotnet restore "./src/Services/Product.API/./Product.API.csproj"
 COPY . .
 WORKDIR "/src/src/Services/Product.API"

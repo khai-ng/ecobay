@@ -77,7 +77,20 @@ services:
             driver: fluentd
             options:
                 fluentd-async: "true"
-                tag: host.employee-mgt        
+                tag: host.employee-mgt
+                
+    product-api:
+        image: ${DOCKER_REGISTRY-}productapi
+        build:
+            context: .
+            dockerfile: src/Services/Product.API/Dockerfile
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.product
 
     web-apigateway:
         image: ${DOCKER_REGISTRY-}webapigateway
@@ -284,4 +297,3 @@ services:
 networks:
     local:
         driver: bridge
-
