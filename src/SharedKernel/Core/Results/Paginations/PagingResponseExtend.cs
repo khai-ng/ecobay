@@ -1,6 +1,7 @@
 ﻿namespace Core.Result.Paginations
 {
-    public class PagingResponseExtend<T> : PagingResponse<T>, IPagingResponseExtend<T> where T : class
+    public class PagingResponseExtend<T> : PagingResponse<T>, IPagingResponseExtend<T> 
+        where T : class
     {
         public long PageCount { get; internal set; }
 
@@ -20,7 +21,8 @@
             Data = request.Data;
         }
 
-        internal static PagingResponseExtend<T> Result<TProto>(IPagingResponseExtend<TProto> request, IEnumerable<T> data)
+        internal static PagingResponseExtend<T> Result<TProto>(IPagingResponseExtend<TProto> request, 
+            IEnumerable<T> data)
             where TProto : class
         {
             var rs = PagingResponse<T>.Result(request, data);
@@ -30,13 +32,11 @@
                 Total = request.Total,
             };
 
-            if (data.Count() > response.PageSize)
-                throw new ArgumentException();
-
             return response;
         }
 
-        internal static new PagingResponseExtend<T> Paging(IPagingRequest request, IEnumerable<T> data)
+        internal static new PagingResponseExtend<T> Paging(IPagingRequest request, 
+            IEnumerable<T> data)
         {
             var rs = PagingResponse<T>.Paging(request, data);
 
@@ -47,7 +47,8 @@
             return response;
         }
 
-        internal static new async Task<PagingResponseExtend<T>> PagingAsync(IPagingRequest request, IQueryable<T> data)
+        internal static new async Task<PagingResponseExtend<T>> PagingAsync(IPagingRequest request, 
+            IQueryable<T> data)
         {
             var rs = await PagingResponse<T>.PagingAsync(request, data);
 

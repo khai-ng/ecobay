@@ -8,6 +8,14 @@
             PageIndex = request.PageIndex;
             PageSize = request.PageSize;
         }
+    }
+
+    public static class PagingProcessorExtendExtension
+    {
+        public static PagingProcessorExtend Extend(this PagingProcessor pagingProcessor)
+        {
+            return new PagingProcessorExtend(pagingProcessor);
+        }
 
         /// <summary>
         /// Set result collection
@@ -15,9 +23,11 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
         /// <returns></returns>
-        public PagingResponseExtend<T> Result<T>(IEnumerable<T> data) where T : class
+        public static PagingResponseExtend<T> Result<T>(this PagingProcessorExtend pagingProcessor, 
+            IEnumerable<T> data) 
+            where T : class
         {
-            return PagingResponseExtend<T>.Result(this, data);
+            return PagingResponseExtend<T>.Result(pagingProcessor, data);
         }
 
         /// <summary>
@@ -26,24 +36,18 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
         /// <returns></returns>
-        public PagingResponseExtend<T> Paging<T>(IEnumerable<T> data)
+        public static PagingResponseExtend<T> Paging<T>(this PagingProcessorExtend pagingProcessor, 
+            IEnumerable<T> data)
             where T : class
         {
-            return PagingResponseExtend<T>.Paging(this, data);
+            return PagingResponseExtend<T>.Paging(pagingProcessor, data);
         }
 
-        public async Task<PagingResponseExtend<T>> PagingAsync<T>(IQueryable<T> data)
+        public static async Task<PagingResponseExtend<T>> PagingAsync<T>(this PagingProcessorExtend pagingProcessor, 
+            IQueryable<T> data)
             where T : class
         {
-            return await PagingResponseExtend<T>.PagingAsync(this, data);
-        }
-    }
-
-    public static class PagingProcessorExtendExtension
-    {
-        public static PagingProcessorExtend Extend(this PagingProcessor pagingProcessor)
-        {
-            return new PagingProcessorExtend(pagingProcessor);
+            return await PagingResponseExtend<T>.PagingAsync(pagingProcessor, data);
         }
     }
 }
