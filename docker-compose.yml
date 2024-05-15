@@ -1,28 +1,29 @@
 version: '3.4'
 
 services:
-    kafka-ui:
-        container_name: kafka-ui
-        image: provectuslabs/kafka-ui:latest
-        depends_on:
-            - kafka
-            - zookeeper
-            # - schemaregistry
-            # - kafka-connect
-        networks:
-            - local 
+    ## Kafka
+    # kafka-ui:
+    #     container_name: kafka-ui
+    #     image: provectuslabs/kafka-ui:latest
+    #     depends_on:
+    #         - kafka
+    #         - zookeeper
+    #         # - schemaregistry
+    #         # - kafka-connect
+    #     networks:
+    #         - local 
 
-    zookeeper:
-        image: confluentinc/cp-zookeeper:7.6.0
-        networks:
-            - local 
+    # zookeeper:
+    #     image: confluentinc/cp-zookeeper:7.6.0
+    #     networks:
+    #         - local 
  
-    kafka:
-        image: confluentinc/cp-kafka:7.6.0
-        depends_on:
-            - zookeeper
-        networks:
-            - local 
+    # kafka:
+    #     image: confluentinc/cp-kafka:7.6.0
+    #     depends_on:
+    #         - zookeeper
+    #     networks:
+    #         - local 
 
     # schemaregistry:
     #     image: confluentinc/cp-schema-registry:7.6.0
@@ -39,6 +40,7 @@ services:
     #     networks:
     #         - local 
 
+    ## Services
     mysql:
         image: mysql:8.3.0
         restart: on-failure
@@ -50,9 +52,9 @@ services:
         build:
             context: .
             dockerfile: src/Services/Identity/Identity.API/Dockerfile
-        depends_on:
-            kafka:
-                condition: service_healthy
+        # depends_on:
+        #     kafka:
+        #         condition: service_healthy
         networks:
             - local
         logging:
@@ -66,9 +68,9 @@ services:
         build:
             context: .
             dockerfile: src/Services/EmployeeMgt/EmployeeMgt.API/Dockerfile
-        depends_on:
-            kafka:
-                condition: service_healthy 
+        # depends_on:
+        #     kafka:
+        #         condition: service_healthy 
         networks:
             - local
         logging:
@@ -93,12 +95,45 @@ services:
                 fluentd-async: "true"
                 tag: host.web-apigateway
 
+    ## mongoimport --jsonArray -h 127.0.0.1:27017 -d product -c all_beauty -u admin -p 1234 --authenticationDatabase admin --file /data/json/meta_All_Beauty-1.json
+    mongo:
+        image: mongo:7.0.9
+        restart: on-failure
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=1234
+        networks:
+            - local
+        volumes:
+            - /d/Dataset/extract/json/:/data/json/
+        ports:
+            - 27017:27017
+    
+    mongo-express:
+        image: mongo-express:1.0.2-20-alpine3.19
+        environment:
+            - ME_CONFIG_MONGODB_SERVER=mongo
+            - ME_CONFIG_MONGODB_PORT=27017
+            - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+            - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+            - ME_CONFIG_MONGODB_AUTH_USERNAME=admin
+            - ME_CONFIG_MONGODB_AUTH_PASSWORD=1234
+            - ME_CONFIG_BASICAUTH_USERNAME=admin
+            - ME_CONFIG_BASICAUTH_PASSWORD=123456
+        depends_on:
+            - mongo
+        networks:
+            - local
+        ports:
+            - 8888:8081
+
+    ## Monitoring
     # fluent-bit:
     #     image: fluent/fluent-bit:2.2.2
     #     networks:
     #         - local
 
-    ##Fluent bit - Elasticsearch, kibana stack
+    ##Fluent bit - Elasticsearch, Kibana stack
     # elasticsearch:
     #     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
     #     restart: on-failure
@@ -126,7 +161,7 @@ services:
     #             fluentd-async: "true"
     #             tag: logger.kibana
 
-    ##Fluent bit - prometheus, loki, grafana stack
+    ##Fluent bit - Prometheus, Loki, Grafana stack
     # loki:
     #     image: grafana/loki:2.9.4
     #     volumes:
@@ -245,6 +280,8 @@ services:
     #         - local
     #     labels:
     #         org.label-schema.group: "monitoring"
+
 networks:
     local:
         driver: bridge
+

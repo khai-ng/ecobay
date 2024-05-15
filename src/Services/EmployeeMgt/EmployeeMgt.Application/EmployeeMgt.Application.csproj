@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\SharedKernel\Core.Autofac\Core.Autofac.csproj" />
-    <ProjectReference Include="..\..\..\SharedKernel\Core.Contract\Core.Contract.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core\Core.csproj" />
     <ProjectReference Include="..\..\CommonServices\Core.Contract\Core.Contract.csproj" />
     <ProjectReference Include="..\EmployeeMgt.Domain\EmployeeMgt.Domain.csproj" />
