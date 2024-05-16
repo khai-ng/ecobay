@@ -10,11 +10,7 @@ using MongoDB.Bson.Serialization.Conventions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<ProductDbSetting>(
-    builder.Configuration.GetSection("ProductDatabase"));
 
-var camelCaseConventionPack = new ConventionPack { new CamelCaseElementNameConvention() };
-ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
 
 builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
@@ -22,6 +18,11 @@ builder.Services.AddFastEndpoints()
 
 builder.AddServiceDefaults();
 builder.AddAutofac();
+
+builder.Services.Configure<ProductDbSetting>(
+    builder.Configuration.GetSection("ProductDatabase"));
+var camelCaseConventionPack = new ConventionPack { new CamelCaseElementNameConvention() };
+ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
 
 builder.Services.AddMediatR(cfg =>
 {
@@ -31,6 +32,7 @@ builder.Services.AddMediatR(cfg =>
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
 app.UseServiceDefaults();
 app.UseFastEndpoints(config => config.CommonResponseConfigs())
     .UseSwaggerGen();
