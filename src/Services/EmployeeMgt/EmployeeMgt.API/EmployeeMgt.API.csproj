@@ -14,17 +14,12 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="FastEndpoints" Version="5.22.0" />
     <PackageReference Include="FastEndpoints.Security" Version="5.22.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="5.22.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.60.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
-    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
-    <PackageReference Include="Serilog.Expressions" Version="4.0.0" />
-    <PackageReference Include="Serilog.Formatting.Compact" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

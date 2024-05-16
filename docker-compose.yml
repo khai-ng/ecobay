@@ -63,21 +63,21 @@ services:
                 fluentd-async: "true"
                 tag: host.identity
 
-    employee-api:
-        image: ${DOCKER_REGISTRY-}employeeapi
-        build:
-            context: .
-            dockerfile: src/Services/EmployeeMgt/EmployeeMgt.API/Dockerfile
-        # depends_on:
-        #     kafka:
-        #         condition: service_healthy 
-        networks:
-            - local
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: host.employee-mgt
+    # employee-api:
+    #     image: ${DOCKER_REGISTRY-}employeeapi
+    #     build:
+    #         context: .
+    #         dockerfile: src/Services/EmployeeMgt/EmployeeMgt.API/Dockerfile
+    #     # depends_on:
+    #     #     kafka:
+    #     #         condition: service_healthy 
+    #     networks:
+    #         - local
+    #     logging:
+    #         driver: fluentd
+    #         options:
+    #             fluentd-async: "true"
+    #             tag: host.employee-mgt
                 
     product-api:
         image: ${DOCKER_REGISTRY-}productapi
@@ -99,7 +99,7 @@ services:
             dockerfile: src/ApiGateways/Web.ApiGateway/Dockerfile
         depends_on:
             - identity-api
-            - employee-api
+            # - employee-api
         networks:
             - local
         logging:

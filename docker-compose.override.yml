@@ -99,28 +99,30 @@ services:
         ports:
             - "5101:80"
 
-    employee-api:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_HTTP_PORTS=8080
-            - Logging__Loglevel__Default=Debug
-            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
-            - Jwt__Issuer=http://identity-api
-            - Jwt__Audience=http://identity-api
-            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-            - ConnectionStrings__EmployeeDb=Server=mysql;Database=wksy.employee;User Id=root;Password=1234A;
-            - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
-            - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
-            - PATH_BASE=/employee-api
-        ports:
-            - "5102:80"
-            - "6102:81"
+    # employee-api:
+    #     environment:
+    #         - ASPNETCORE_ENVIRONMENT=Development
+    #         - ASPNETCORE_HTTP_PORTS=8080
+    #         - Logging__Loglevel__Default=Debug
+    #         - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+    #         - Jwt__Issuer=http://identity-api
+    #         - Jwt__Audience=http://identity-api
+    #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+    #         - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
+    #         - ConnectionStrings__EmployeeDb=Server=mysql;Database=wksy.employee;User Id=root;Password=1234A;
+    #         - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
+    #         - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
+    #         - PATH_BASE=/employee-api
+    #     ports:
+    #         - "5102:80"
+    #         - "6102:81"
 
     product-api:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
+            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+            - PATH_BASE=/product-api
         ports:
             - "5103:80"
 
