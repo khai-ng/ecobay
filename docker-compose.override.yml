@@ -81,6 +81,28 @@ services:
         ports:
             - "5199:3306"
 
+    mongo:
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=1234
+        volumes:
+            - /d/Dataset/extract/json/:/data/json/
+        ports:
+            - 27017:27017
+    
+    mongo-express:
+        environment:
+            - ME_CONFIG_MONGODB_SERVER=mongo
+            - ME_CONFIG_MONGODB_PORT=27017
+            - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+            - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+            - ME_CONFIG_MONGODB_AUTH_USERNAME=admin
+            - ME_CONFIG_MONGODB_AUTH_PASSWORD=1234
+            - ME_CONFIG_BASICAUTH_USERNAME=admin
+            - ME_CONFIG_BASICAUTH_PASSWORD=123456
+        ports:
+            - 8888:8081
+
     identity-api:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
