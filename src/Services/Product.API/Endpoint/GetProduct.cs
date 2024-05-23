@@ -1,13 +1,12 @@
-﻿using Core.Result.AppResults;
+﻿using Core.AspNet.Result;
 using Core.Result.Paginations;
 using FastEndpoints;
 using MediatR;
 using Product.API.Application;
-using Core.AspNet.Result;
 
 namespace Product.API.Endpoint
 {
-    public class GetProductEndpoint: Endpoint<GetProductRequest, AppResult<PagingResponse<Domain.ProductAggregate.Product>>>
+    public class GetProductEndpoint: Endpoint<GetProductRequest, HttpResultTyped<PagingResponse<GetProductResponse>>>
     {
         private readonly IMediator _mediator;
         public GetProductEndpoint(IMediator mediator)
