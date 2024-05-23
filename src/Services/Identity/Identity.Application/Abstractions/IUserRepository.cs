@@ -1,4 +1,4 @@
-﻿using Core.ServiceDefault;
+﻿using Core.EntityFramework.Repository;
 using Identity.Domain.Entities.UserAggregate;
 
 namespace Identity.Application.Abstractions

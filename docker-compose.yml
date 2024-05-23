@@ -48,16 +48,34 @@ services:
             - local
 
     ## mongoimport --jsonArray -h 127.0.0.1:27017 -d product -c all_beauty -u admin -p 1234 --authenticationDatabase admin --file /data/json/meta_All_Beauty-1.json
-    mongo:
+    product-db-1:
         image: mongo:7.0.9
         restart: on-failure
         networks:
             - local
     
+    product-db-2:
+        image: mongo:7.0.9
+        restart: on-failure
+        networks:
+            - local
+    
+    product-db-3:
+        image: mongo:7.0.9
+        restart: on-failure
+        networks:
+            - local
+
+    product-db-4:
+        image: mongo:7.0.9
+        restart: on-failure
+        networks:
+            - local
+        
     mongo-express:
         image: mongo-express:1.0.2-20-alpine3.19
         depends_on:
-            - mongo
+            - product-db-1
         networks:
             - local
 

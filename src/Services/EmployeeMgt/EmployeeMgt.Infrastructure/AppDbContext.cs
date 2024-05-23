@@ -1,5 +1,5 @@
 ﻿using Core.Autofac;
-using Core.Identity;
+using Core.EntityFramework.Identity;
 using EmployeeMgt.Application.Abstractions;
 using EmployeeMgt.Domain.Entities;
 using Microsoft.EntityFrameworkCore;

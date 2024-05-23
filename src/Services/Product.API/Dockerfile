@@ -13,6 +13,7 @@ COPY ["src/SharedKernel/Core.AspNetCore/Core.AspNet.csproj", "src/SharedKernel/C
 COPY ["src/SharedKernel/Core/Core.csproj", "src/SharedKernel/Core/"]
 COPY ["src/SharedKernel/Core.Autofac/Core.Autofac.csproj", "src/SharedKernel/Core.Autofac/"]
 COPY ["src/SharedKernel/Core.MediaR/Core.MediaR.csproj", "src/SharedKernel/Core.MediaR/"]
+COPY ["src/SharedKernel/Core.MongoDB/Core.MongoDB.csproj", "src/SharedKernel/Core.MongoDB/"]
 RUN dotnet restore "./src/Services/Product.API/./Product.API.csproj"
 COPY . .
 WORKDIR "/src/src/Services/Product.API"

@@ -3,6 +3,7 @@ using Core.Result.AppResults;
 using Core.Result.Paginations;
 using Identity.Application.Abstractions;
 using Identity.Domain.Entities.UserAggregate;
+using Core.EntityFramework.Paginations;
 using MediatR;
 
 namespace Identity.Application.Services
@@ -18,9 +19,9 @@ namespace Identity.Application.Services
             GetUserRequest request,
             CancellationToken ct)
         {
-            var rs = await PagingTyped
+            var rs = await FluentPaging
                 .From(request)
-                .PagingAsync(_userRepository.GetQuery());
+                .PagingAsync(_userRepository.DbSet);
             return AppResult.Success(rs);
 		}
     }
