@@ -2,44 +2,41 @@
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.ServiceDefault
+namespace Core.EntityFramework.Repository
 {
-    public abstract class CommandRepository<TModel> : CommandRepository<TModel, Ulid>
+    public abstract class Repository<TModel> : Repository<TModel, Ulid>
         where TModel : AggregateRoot<Ulid>
     {
-        protected CommandRepository(DbContext context) : base(context)
+        protected Repository(DbContext context) : base(context)
         {
         }
     }
 
-    public abstract class CommandRepository<TModel, TKey> : ICommandRepository<TModel, TKey>
+    public abstract class Repository<TModel, TKey> :
+        IRepository<TModel, TKey>
         where TModel : AggregateRoot<TKey>
     {
         internal readonly DbContext _context;
         internal DbSet<TModel> _entity => _context.Set<TModel>();
-        protected CommandRepository(DbContext context)
+        protected Repository(DbContext context)
         {
-                _context = context;
+            _context = context;
         }
 
-        /// <summary>
-        /// Tracking givens entities. Effecting after <see cref="IUnitOfWork.SaveAsync(CancellationToken)" /> called
-        /// </summary>
-        /// <param name="entities"></param>
+        public IQueryable<TModel> DbSet => _entity;
+
+        public async Task<IEnumerable<TModel>> GetAllAsync()
+            => await _entity.ToListAsync();
+
+        public async Task<TModel?> FindAsync(TKey id)
+            => await _entity.SingleOrDefaultAsync(x => x.Id.Equals(id));
+
         public void AddRange(IEnumerable<TModel> entities)
             => _entity.AddRange(entities);
 
-        /// <summary>
-        /// Tracking givens entities. Effecting after <see cref="IUnitOfWork.SaveAsync(CancellationToken)" /> called
-        /// </summary>
-        /// <param name="entities"></param>
         public void UpdateRange(IEnumerable<TModel> entities)
             => _entity.UpdateRange(entities);
 
-        /// <summary>
-        /// Tracking givens entities. Effecting after <see cref="IUnitOfWork.SaveAsync(CancellationToken)" /> called
-        /// </summary>
-        /// <param name="entities"></param>
         public void RemoveRange(IEnumerable<TModel> entities)
             => _entity.RemoveRange(entities);
 
