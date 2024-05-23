@@ -1,14 +1,5 @@
-﻿using MediatR;
-
-namespace Core.SharedKernel
+﻿namespace Core.SharedKernel
 {
-    public abstract class DomainEvent : DomainEvent<Ulid>
-    {
-        protected DomainEvent() : base(Ulid.NewUlid()) { }
-        protected DomainEvent(Ulid id) : base(id)
-        {
-        }
-    }
 
     public abstract class DomainEvent<TKey> : IDomainEvent<TKey>
     {
