@@ -4,7 +4,7 @@ using Identity.Application.Services;
 using MediatR;
 namespace Identity.API.Endpoint
 {
-    public class SignInEndpoint : Endpoint<SignInRequest, IResult>
+    public class SignInEndpoint : Endpoint<SignInRequest, HttpResultTyped<string>>
     {
         private readonly IMediator _mediator;
 

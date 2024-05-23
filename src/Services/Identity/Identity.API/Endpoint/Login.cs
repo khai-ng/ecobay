@@ -1,10 +1,10 @@
-﻿using FastEndpoints;
+﻿using Core.AspNet.Result;
+using FastEndpoints;
 using Identity.Application.Services;
 using MediatR;
-using Core.AspNet.Result;
 namespace Identity.API.Endpoint
 {
-    public class LoginEndpoint : Endpoint<LoginRequest, IResult>
+    public class LoginEndpoint : Endpoint<LoginRequest, HttpResultTyped<string>>
     {
         private readonly IMediator _mediator;
 

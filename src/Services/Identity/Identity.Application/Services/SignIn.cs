@@ -22,9 +22,8 @@ namespace Identity.Application.Services
             CancellationToken ct)
         {
             var pwdGen = PasswordExtension.GeneratePassword(request.Password);
-            var user = new User
+            var user = new User()
             {
-                Id = Ulid.NewUlid(),
                 UserName = request.UserName,
                 Email = "",
                 PasswordHash = pwdGen.Password,

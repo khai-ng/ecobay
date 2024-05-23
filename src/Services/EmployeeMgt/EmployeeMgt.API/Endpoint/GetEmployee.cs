@@ -1,14 +1,13 @@
-﻿using EmployeeMgt.Application.Services;
+﻿using Core.AspNet.Result;
+using Core.Result.Paginations;
+using EmployeeMgt.Application.Services;
 using EmployeeMgt.Domain.Entities;
 using FastEndpoints;
 using MediatR;
-using Core.AspNet.Result;
-using Core.Result.Paginations;
-using Core.Result.AppResults;
 
 namespace EmployeeMgt.API.Endpoint
 {
-    public class GetEmployeeEndpoint : Endpoint<GetEmployeeRequest, AppResult<PagingResponse<Employee>>>
+    public class GetEmployeeEndpoint : Endpoint<GetEmployeeRequest, HttpResultTyped<PagingResponse<Employee>>>
     {
         private readonly IMediator _mediator;
         public GetEmployeeEndpoint(IMediator mediator)

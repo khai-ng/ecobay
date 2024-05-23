@@ -1,4 +1,6 @@
 ﻿using Core.AspNet.Result;
+using Core.Result.AppResults;
+using Core.Result.Paginations;
 using FastEndpoints;
 using Identity.Application.Services;
 using Identity.Domain.Entities.UserAggregate;
@@ -7,7 +9,7 @@ using MediatR;
 namespace Identity.API.Endpoint
 {
 
-    public class GetUserEndPoint : Endpoint<GetUserRequest, IResult>
+    public class GetUserEndPoint : Endpoint<GetUserRequest, HttpResultTyped<PagingResponse<User>>>
     {
         private readonly IMediator _mediator;
         public GetUserEndPoint(IMediator mediator)
@@ -24,7 +26,7 @@ namespace Identity.API.Endpoint
         public override async Task HandleAsync(GetUserRequest request, CancellationToken ct)
         {
 			var result = await _mediator.Send(request, ct);
-			await SendResultAsync(result.ToHttpResult());
+            await SendResultAsync(result.ToHttpResult());
         }
     }
 }
