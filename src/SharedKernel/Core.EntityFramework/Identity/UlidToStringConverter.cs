@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Core.Identity
+namespace Core.EntityFramework.Identity
 {
     //https://github.com/Cysharp/Ulid
     public class UlidToBytesConverter : ValueConverter<Ulid, byte[]>

@@ -1,8 +1,9 @@
-﻿using Core.Identity;
+﻿using Core.EntityFramework.Identity;
+using Core.SharedKernel;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.SharedKernel
+namespace Core.EntityFramework.Context
 {
     public abstract class BaseDbContext : DbContext, IUnitOfWork
     {

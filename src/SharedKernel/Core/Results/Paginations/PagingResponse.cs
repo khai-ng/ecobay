@@ -1,14 +1,11 @@
-﻿using Azure;
-using Microsoft.EntityFrameworkCore;
-
-namespace Core.Result.Paginations
+﻿namespace Core.Result.Paginations
 {
     public class PagingResponse<T> : PagingRequest, IPagingResponse<T> where T : class
     {
-        public IEnumerable<T> Data { get; protected set; }
-        public bool HasNext { get; protected set; }
+        public IEnumerable<T> Data { get; set; }
+        public bool HasNext { get; set; }
 
-        protected PagingResponse(IPagingRequest request)
+        public PagingResponse(IPagingRequest request)
         {
             if (request.PageSize < 1 || request.PageIndex < 1)
                 throw new NullReferenceException();
@@ -66,45 +63,6 @@ namespace Core.Result.Paginations
             response.HasNext = response.PageSize < filterData.Count();
 
             return response;
-        }
-
-        internal static async Task<PagingResponse<T>> PagingAsync(IPagingRequest request, 
-            IQueryable<T> data)
-        {
-            var response = new PagingResponse<T>(request);
-
-            var filterData = await data
-                .Skip(response.Skip)
-                .Take(response.PageSize + 1)
-                .ToListAsync();
-            response.Data = filterData
-                .Take(response.PageSize);
-            response.HasNext = response.PageSize < filterData.Count();
-
-            return response;
-        }
-
-        /// <summary>
-        /// Paging other collection. Set Total, PageCount of PagingResponse by this collection
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public IQueryable<TEntity> Filter<TEntity>(IQueryable<TEntity> data) 
-            where TEntity : class
-        {
-
-            if (PageSize < 1 || PageIndex < 1)
-                throw new NullReferenceException();
-
-            HasNext = data
-                .Skip(Skip + PageSize)
-                .Take(1)
-                .Any();
-
-            return data
-                .Skip(Skip)
-                .Take(PageSize);
         }
     }
 }
