@@ -1,4 +1,4 @@
-﻿using Core.SharedKernel;
+﻿using Core.EntityFramework.ServiceDefault;
 
 namespace Identity.Domain.Entities.UserAggregate
 {

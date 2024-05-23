@@ -4,6 +4,4 @@
     {
         TKey Id { get; }
     }
-
-    public interface IEntity : IEntity<Ulid> { }
 }

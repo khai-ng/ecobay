@@ -2,12 +2,6 @@
 
 namespace Core.SharedKernel
 {
-    public abstract class AggregateRoot : AggregateRoot<Ulid>
-    {
-        protected AggregateRoot() : base(Ulid.NewUlid()) { }
-        protected AggregateRoot(Ulid id) : base(id)
-        { }
-    }
 
     public abstract class AggregateRoot<TKey>: BaseEntity<TKey>
     {

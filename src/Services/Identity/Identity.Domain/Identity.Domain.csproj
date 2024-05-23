@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\SharedKernel\Core.EntityFramework\Core.EntityFramework.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core\Core.csproj" />
   </ItemGroup>
 
