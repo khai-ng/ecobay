@@ -19,7 +19,6 @@ namespace Core.SharedKernel
             _events.Enqueue(@event);
             Version++;
         }
-        public TKey Id { get; set; }
 
         public long Version {get; private set; }
 

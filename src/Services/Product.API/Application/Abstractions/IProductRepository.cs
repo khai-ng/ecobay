@@ -2,7 +2,7 @@
 
 namespace Product.API.Application.Abstractions
 {
-    public interface IProductRepository: IRepository<Domain.Product>
+    public interface IProductRepository: IQueryRepository<Domain.ProductAggregate.Product>
     {
 
     }

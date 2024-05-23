@@ -7,7 +7,7 @@ using Core.AspNet.Result;
 
 namespace Product.API.Endpoint
 {
-    public class GetProductEndpoint: Endpoint<GetProductRequest, AppResult<PagingResponse<Domain.Product>>>
+    public class GetProductEndpoint: Endpoint<GetProductRequest, AppResult<PagingResponse<Domain.ProductAggregate.Product>>>
     {
         private readonly IMediator _mediator;
         public GetProductEndpoint(IMediator mediator)

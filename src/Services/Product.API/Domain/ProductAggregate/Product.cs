@@ -2,18 +2,18 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Product.API.Domain
+namespace Product.API.Domain.ProductAggregate
 {
     [BsonIgnoreExtraElements]
-    public class Product: AggregateRoot
+    public class Product : AggregateRoot
     {
         [BsonElement("main_category")]
         public string MainCategory { get; set; }
         public string Title { get; set; }
         [BsonElement("average_rating")]
-        public decimal AverageRating {  get; set; }
+        public decimal AverageRating { get; set; }
         [BsonElement("rating_number")]
-        public decimal RatingNumber {  get; set; }
+        public decimal RatingNumber { get; set; }
         //public IEnumerable<string>? Features { get; set; }
         //public IEnumerable<string>? Description { get;set; }
         public string? Price { get; set; }

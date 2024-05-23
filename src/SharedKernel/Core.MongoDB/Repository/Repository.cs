@@ -15,35 +15,34 @@ namespace Core.MongoDB.Repository
     }
 
     public abstract class Repository<TModel, TKey> :
-        ICommandRepository<TModel, TKey>,
         IRepository<TModel, TKey>
         where TModel : AggregateRoot<TKey>
     {
         private readonly IMongoContext _mongoContext;
-        private readonly IMongoCollection<TModel> _collection;
         protected Repository(IMongoContext mongoContext)
         {
             _mongoContext = mongoContext;
-            _collection = _mongoContext.GetCollection<TModel>(nameof(TModel));
         }
 
+        protected virtual IMongoCollection<TModel> Collection => _mongoContext.GetCollection<TModel>(nameof(TModel));
+        public IMongoCollection<TModel> DbSet => Collection;
 
-        public IMongoCollection<TModel> DbSet => _collection;
+        //public  => _collection;
 
         public async Task<IEnumerable<TModel>> GetAllAsync()
         {
-            var data = await _collection.FindAsync(Builders<TModel>.Filter.Empty);
+            var data = await Collection.FindAsync(Builders<TModel>.Filter.Empty);
             return await data.ToListAsync();
         }
 
         public async Task<TModel?> FindAsync(TKey id)
         {
-            var data = await _collection.FindAsync(Builders<TModel>.Filter.Eq("_id", id));
+            var data = await Collection.FindAsync(Builders<TModel>.Filter.Eq("_id", id));
             return await data.SingleOrDefaultAsync();
         }
 
         public void AddRange(IEnumerable<TModel> entities)
-            => _mongoContext.AddCommand(() => _collection.InsertManyAsync(entities));
+            => _mongoContext.AddCommand(() => Collection.InsertManyAsync(entities));
 
         public void UpdateRange(IEnumerable<TModel> entities)
             => _mongoContext.AddCommand(() =>
@@ -51,7 +50,7 @@ namespace Core.MongoDB.Repository
                 List<Task> tasks = [];
                 foreach (var item in entities)
                 {
-                    tasks.Add(_collection.ReplaceOneAsync(
+                    tasks.Add(Collection.ReplaceOneAsync(
                         Builders<TModel>.Filter.Eq("_id", item.Id),
                         item
                     ));
@@ -61,7 +60,7 @@ namespace Core.MongoDB.Repository
 
         public void RemoveRange(IEnumerable<TModel> entities)
             => _mongoContext.AddCommand(() =>
-                _collection.DeleteManyAsync(
+                Collection.DeleteManyAsync(
                     Builders<TModel>.Filter.In("_id", entities.Select(x => x.Id))
                 )
             );

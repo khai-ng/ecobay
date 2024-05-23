@@ -2,10 +2,6 @@
 
 namespace Core.Repository
 {
-    public interface IQueryRepository<TModel> : IQueryRepository<TModel, Ulid>
-        where TModel : AggregateRoot<Ulid>
-    { }
-
     public interface IQueryRepository<TModel, TKey>
         where TModel : AggregateRoot<TKey>
     {
