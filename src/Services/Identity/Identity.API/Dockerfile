@@ -16,6 +16,7 @@ COPY ["src/SharedKernel/Core.Kafka/Core.Kafka.csproj", "src/SharedKernel/Core.Ka
 COPY ["src/Services/CommonServices/Core.Contract/Core.Contract.csproj", "src/Services/CommonServices/Core.Contract/"]
 COPY ["src/SharedKernel/Core.MediaR/Core.MediaR.csproj", "src/SharedKernel/Core.MediaR/"]
 COPY ["src/Services/Identity/Identity.Application/Identity.Application.csproj", "src/Services/Identity/Identity.Application/"]
+COPY ["src/SharedKernel/Core.EntityFramework/Core.EntityFramework.csproj", "src/SharedKernel/Core.EntityFramework/"]
 COPY ["src/Services/Identity/Identity.Domain/Identity.Domain.csproj", "src/Services/Identity/Identity.Domain/"]
 COPY ["src/Services/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj", "src/Services/Identity/Identity.Infrastructure/"]
 RUN dotnet restore "./src/Services/Identity/Identity.API/./Identity.API.csproj"

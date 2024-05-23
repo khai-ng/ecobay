@@ -1,5 +1,5 @@
 ﻿using Core.Autofac;
-using Core.ServiceDefault;
+using Core.EntityFramework.Repository;
 using Identity.Application.Abstractions;
 using Identity.Domain.Entities.UserAggregate;
 using Microsoft.EntityFrameworkCore;

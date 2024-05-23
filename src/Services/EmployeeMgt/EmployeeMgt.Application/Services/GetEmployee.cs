@@ -4,6 +4,7 @@ using MediatR;
 using Core.Autofac;
 using Core.Result.Paginations;
 using Core.Result.AppResults;
+using Core.EntityFramework.Paginations;
 
 namespace EmployeeMgt.Application.Services
 {
@@ -24,9 +25,9 @@ namespace EmployeeMgt.Application.Services
                 .Where(x => string.IsNullOrEmpty(request.EmployeeName)
                     || x.Name.Contains(request.EmployeeName));
 
-            var pagingProcessor = PagingTyped.From(request);
-            var pagedData = pagingProcessor.Filter(masterData);
-            var pageEmployee = pagingProcessor.Result(pagedData);
+            var fluentPaging = FluentPaging.From(request);
+            var pagedData = fluentPaging.Filter(masterData);
+            var pageEmployee = fluentPaging.Result(pagedData);
 
             return Task.FromResult(AppResult.Success(pageEmployee));
         }

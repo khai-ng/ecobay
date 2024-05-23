@@ -1,5 +1,5 @@
 ﻿using Core.Autofac;
-using Core.SharedKernel;
+using Core.EntityFramework.Context;
 using Identity.Domain.Entities.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;

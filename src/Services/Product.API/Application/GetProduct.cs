@@ -1,39 +1,32 @@
 ﻿using Core.Autofac;
+using Core.MongoDB.Context;
+using Core.MongoDB.Paginations;
 using Core.Result.AppResults;
 using Core.Result.Paginations;
 using MediatR;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Product.API.Infrastructure;
+using Product.API.Application.Abstractions;
 
 namespace Product.API.Application
 {
     public class GetProduct : IRequestHandler<GetProductRequest, AppResult<PagingResponse<Domain.Product>>>, IScoped
     {
-        IMongoCollection<Domain.Product> _productCollection;
+        private readonly IProductRepository _productRepository;
 
-        public GetProduct(IOptions<ProductDbSetting> productDbSettings)
+        public GetProduct(IProductRepository productRepository)
         {
-            var mongoClient = new MongoClient(
-            productDbSettings.Value.ConnectionString);
-
-            var mongoDatabase = mongoClient.GetDatabase(
-                productDbSettings.Value.DatabaseName);
-
-            _productCollection = mongoDatabase.GetCollection<Domain.Product>(
-            productDbSettings.Value.CollectionName);
+            _productRepository = productRepository;
         }
 
         public async Task<AppResult<PagingResponse<Domain.Product>>> Handle(
             GetProductRequest request, 
             CancellationToken cancellationToken)
         {
-            var data = await _productCollection.Find(_ => true)
-                .Skip(request.Skip)
-                .Limit(request.PageSize + 1)
-                .ToListAsync();
+            var data = _productRepository.DbSet
+                .Find(x => x.MainCategory.Equals(request.Category));
 
-            return PagingTyped.From(request).Taking(data);
+            return await FluentPaging.From(request).PagingAsync(data);
         }
     }
 }

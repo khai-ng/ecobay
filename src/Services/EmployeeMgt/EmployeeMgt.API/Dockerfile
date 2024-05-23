@@ -17,6 +17,7 @@ COPY ["src/SharedKernel/Core.Kafka/Core.Kafka.csproj", "src/SharedKernel/Core.Ka
 COPY ["src/Services/CommonServices/Core.Contract/Core.Contract.csproj", "src/Services/CommonServices/Core.Contract/"]
 COPY ["src/SharedKernel/Core.MediaR/Core.MediaR.csproj", "src/SharedKernel/Core.MediaR/"]
 COPY ["src/Services/EmployeeMgt/EmployeeMgt.Application/EmployeeMgt.Application.csproj", "src/Services/EmployeeMgt/EmployeeMgt.Application/"]
+COPY ["src/SharedKernel/Core.EntityFramework/Core.EntityFramework.csproj", "src/SharedKernel/Core.EntityFramework/"]
 COPY ["src/Services/EmployeeMgt/EmployeeMgt.Domain/EmployeeMgt.Domain.csproj", "src/Services/EmployeeMgt/EmployeeMgt.Domain/"]
 COPY ["src/Services/EmployeeMgt/EmployeeMgt.Infrastructure/EmployeeMgt.Infrastructure.csproj", "src/Services/EmployeeMgt/EmployeeMgt.Infrastructure/"]
 RUN dotnet restore "./src/Services/EmployeeMgt/EmployeeMgt.API/./EmployeeMgt.API.csproj"

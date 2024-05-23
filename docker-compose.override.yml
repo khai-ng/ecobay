@@ -81,7 +81,7 @@ services:
         ports:
             - "5199:3306"
 
-    mongo:
+    product-db-1:
         environment:
             - MONGO_INITDB_ROOT_USERNAME=admin
             - MONGO_INITDB_ROOT_PASSWORD=1234
@@ -89,7 +89,34 @@ services:
             - /d/Dataset/extract/json/:/data/json/
         ports:
             - 27017:27017
-    
+
+    product-db-2:
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=1234
+        volumes:
+            - /d/Dataset/extract/json/:/data/json/
+        ports:
+            - 27018:27018
+
+    product-db-3:
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=1234
+        volumes:
+            - /d/Dataset/extract/json/:/data/json/
+        ports:
+            - 27019:27019
+
+    product-db-4:
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=1234
+        volumes:
+            - /d/Dataset/extract/json/:/data/json/
+        ports:
+            - 27020:27020
+
     mongo-express:
         environment:
             - ME_CONFIG_MONGODB_SERVER=mongo
