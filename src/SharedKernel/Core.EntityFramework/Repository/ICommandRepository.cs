@@ -3,6 +3,10 @@ using EFCore.BulkExtensions;
 
 namespace Core.EntityFramework.Repository
 {
+    public interface ICommandRepository<TModel> : ICommandRepository<TModel, Ulid>
+        where TModel : AggregateRoot<Ulid>
+    { }
+
     public interface ICommandRepository<TModel, TKey> : Core.Repository.ICommandRepository<TModel, TKey>
         where TModel : AggregateRoot<TKey>
     {

@@ -5,12 +5,13 @@ namespace Core.MongoDB.Paginations
 {
     public static class PagingResponseExtension
     {
-        internal static async Task<PagingResponse<T>> PagingAsync<T>(
+        internal static async Task<PagingResponse<TOut>> PagingAsync<TIn, TOut>(
             IPagingRequest request,
-            IFindFluent<T, T> data)
-            where T : class
+            IFindFluent<TIn, TOut> data)
+            where TIn : class
+            where TOut : class
         {
-            var response = new PagingResponse<T>(request);
+            var response = new PagingResponse<TOut>(request);
 
             var filterData = await data
                 .Skip(response.Skip)
@@ -29,8 +30,9 @@ namespace Core.MongoDB.Paginations
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static IFindFluent<T, T> Filter<T>(this PagingResponse<T> response, IFindFluent<T, T> data)
-            where T : class
+        public static IFindFluent<TIn, TOut> Filter<TIn, TOut>(this FluentPaging response, IFindFluent<TIn, TOut> data)
+            where TIn : class
+            where TOut : class
         {
 
             if (response.PageSize < 1 || response.PageIndex < 1)

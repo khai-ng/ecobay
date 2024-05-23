@@ -1,5 +1,4 @@
-﻿using Core.SharedKernel;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 namespace Core.MongoDB.Context
 {

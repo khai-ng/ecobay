@@ -2,10 +2,6 @@
 
 namespace Core.Repository
 {
-    public interface ICommandRepository<TModel> : ICommandRepository<TModel, Ulid>
-        where TModel : AggregateRoot<Ulid>
-    { }
-
     public interface ICommandRepository<TModel, TKey>
         where TModel : AggregateRoot<TKey>
     {

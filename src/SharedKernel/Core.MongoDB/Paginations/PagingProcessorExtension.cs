@@ -12,9 +12,10 @@ namespace Core.MongoDB.Paginations
         /// <param name="data"></param>
         /// <returns></returns>
 
-        public static async Task<PagingResponse<T>> PagingAsync<T>(this FluentPaging fluentPaging,
-            IFindFluent<T, T> data)
-            where T : class
+        public static async Task<PagingResponse<TOut>> PagingAsync<TIn, TOut>(this FluentPaging fluentPaging,
+            IFindFluent<TIn, TOut> data)
+            where TIn : class
+            where TOut: class
         {
             return await PagingResponseExtension.PagingAsync(fluentPaging, data);
         }
