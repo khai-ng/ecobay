@@ -1,5 +1,3 @@
-version: '3.4'
-
 services:
     # kafka-ui:
     #     ports:
@@ -75,7 +73,7 @@ services:
     #         CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
     #         CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
 
-    mysql:
+    indentity-db:
         environment:
             MYSQL_ROOT_PASSWORD: 1234A
         ports:
@@ -119,7 +117,7 @@ services:
 
     mongo-express:
         environment:
-            - ME_CONFIG_MONGODB_SERVER=mongo
+            - ME_CONFIG_MONGODB_SERVER=product-db-1
             - ME_CONFIG_MONGODB_PORT=27017
             - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
             - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
@@ -139,7 +137,7 @@ services:
             - Jwt__Issuer=http://identity-api
             - Jwt__Audience=http://identity-api
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - ConnectionStrings__IdentityDb=Server=mysql;Database=wksy.identity;User Id=root;Password=1234A;
+            - ConnectionStrings__IdentityDb=Server=indentity-db;Database=wksy.identity;User Id=root;Password=1234A;
             - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
             - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
             - PATH_BASE=/identity-api
@@ -156,7 +154,7 @@ services:
     #         - Jwt__Audience=http://identity-api
     #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
     #         - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-    #         - ConnectionStrings__EmployeeDb=Server=mysql;Database=wksy.employee;User Id=root;Password=1234A;
+    #         - ConnectionStrings__EmployeeDb=Server=indentity-db;Database=wksy.employee;User Id=root;Password=1234A;
     #         - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
     #         - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
     #         - PATH_BASE=/employee-api

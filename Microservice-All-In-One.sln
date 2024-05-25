@@ -90,9 +90,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonServices", "CommonSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Contract", "src\Services\CommonServices\Core.Contract\Core.Contract.csproj", "{BBD2A7BC-718E-4020-A180-577952AAC06C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.EntityFramework", "src\SharedKernel\Core.EntityFramework\Core.EntityFramework.csproj", "{FF9FE1B1-50FA-4C51-9C8A-B46C5DE7598A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.EntityFramework", "src\SharedKernel\Core.EntityFramework\Core.EntityFramework.csproj", "{FF9FE1B1-50FA-4C51-9C8A-B46C5DE7598A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.MongoDB", "src\SharedKernel\Core.MongoDB\Core.MongoDB.csproj", "{861095AB-9F2C-4A04-912D-962DB1DEE641}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.MongoDB", "src\SharedKernel\Core.MongoDB\Core.MongoDB.csproj", "{861095AB-9F2C-4A04-912D-962DB1DEE641}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
