@@ -6,7 +6,7 @@ using Product.API.Application.BackgroudJob;
 
 namespace Product.API
 {
-    public class ProductApiModule: AppModule
+    public class ProductAggregateApiModule: AppModule
     {
         protected override void Load(ContainerBuilder builder)
         {

@@ -2,9 +2,9 @@
 
 namespace Core.MongoDB.Context
 {
-    public interface IMongoContext
+    public interface IMongoContext: IMongoContextResolver
     {
         void AddCommand(Func<Task> func);
-        IMongoCollection<T> GetCollection<T>(string collectionName);
+        IMongoCollection<T> GetCollection<T>();
     }
 }

@@ -5,21 +5,16 @@ namespace Core.ConsistentHashing
 {
     public class BTreeHashing<T>
     {
-        private int _replicate = 10;    //default _replicate count
-        private int[] ringKeys = [];    //cache the ordered keys for better performance
+        private int _replicate = 100;
+        private int[] ringKeys = [];
 
         public SortedDictionary<int, T> hashRing = [];
+        public bool IsInit => hashRing.Count > 0;
 
-        //it's better you override the GetHashCode() of T.
-        //we will use GetHashCode() to identify different node.
         public void Init(IEnumerable<T> nodes)
         {
-            Init(nodes, _replicate);
-        }
-
-        public void Init(IEnumerable<T> nodes, int replicate)
-        {
-            _replicate = replicate;
+            if (IsInit)
+                return;
 
             foreach (T node in nodes)
             {
@@ -28,13 +23,24 @@ namespace Core.ConsistentHashing
             ringKeys = hashRing.Keys.ToArray();
         }
 
+        public void Init(IEnumerable<T> nodes, int replicate)
+        {
+            if (IsInit)
+                return;
+
+            _replicate = replicate;
+            Init(nodes);
+        }
+
         public void Add(T node)
         {
+            ArgumentNullException.ThrowIfNull(node);
             Add(node, true);
         }
 
         public void Remove(T node)
         {
+            ArgumentNullException.ThrowIfNull(node);
             for (int i = 0; i < _replicate; i++)
             {
                 int hash = Hash(node.GetHashCode().ToString() + i);
@@ -46,7 +52,7 @@ namespace Core.ConsistentHashing
             ringKeys = hashRing.Keys.ToArray();
         }
 
-        public T GetBucket(String key)
+        public T GetBucket(string key)
         {
             int hash = Hash(key);
             int first = Lockup(ringKeys, hash);
@@ -93,7 +99,7 @@ namespace Core.ConsistentHashing
             return end;
         }
 
-        private static int Hash(String key)
+        private static int Hash(string key)
         {
             var hash = XxHash32.HashToUInt32(Encoding.ASCII.GetBytes(key));
             return (int)hash;

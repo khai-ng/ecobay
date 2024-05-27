@@ -2,7 +2,7 @@
 
 namespace Core.Result.Paginations
 {
-    public abstract class PagingRequest : IPagingRequest
+    public class PagingRequest : IPagingRequest
     {
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
@@ -10,5 +10,10 @@ namespace Core.Result.Paginations
         public int Skip => PageIndex > 0 ? (PageIndex - 1) * PageSize : 0;
 
         protected PagingRequest() { }
+        public PagingRequest(int pageIndex, int pageSize)
+        {
+            PageIndex = pageIndex;
+            PageSize = pageSize;
+        }
     }
 }

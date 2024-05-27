@@ -108,20 +108,20 @@ namespace Core.Autofac
                 .Where(t => t.GetInterfaces().Any(i => i.IsAssignableFrom(typeof(TLifeTime))))
                 .AsImplementedInterfaces();
 
-            switch (typeof(TLifeTime))
+            if (typeof(TLifeTime).Equals(typeof(ITransient)))
             {
-                case ITransient:
-                    implement.InstancePerDependency();
-                    break;
-                case IScoped:
-                    implement.InstancePerLifetimeScope();
-                    break;
-                case ISingleton:
-                    implement.SingleInstance();
-                    break;
-                default:
-                    implement.InstancePerDependency();
-                    break;
+                implement.InstancePerDependency();
+                return;
+            }
+            if (typeof(TLifeTime).Equals(typeof(IScoped)))
+            {
+                implement.InstancePerLifetimeScope();
+                return;
+            }
+            if (typeof(TLifeTime).Equals(typeof(ISingleton)))
+            {
+                implement.SingleInstance();
+                return;
             }
         }
 
@@ -135,20 +135,20 @@ namespace Core.Autofac
                     => propertyInfo.GetCustomAttribute<PropertyDependency>() != null)
                 .AsImplementedInterfaces();
 
-            switch (typeof(TLifeTime))
+            if (typeof(TLifeTime).Equals(typeof(ITransient)))
             {
-                case ITransient:
-                    implement.InstancePerDependency();
-                    break;
-                case IScoped:
-                    implement.InstancePerLifetimeScope();
-                    break;
-                case ISingleton:
-                    implement.SingleInstance();
-                    break;
-                default:
-                    implement.InstancePerDependency();
-                    break;
+                implement.InstancePerDependency();
+                return;
+            }
+            if (typeof(TLifeTime).Equals(typeof(IScoped)))
+            {
+                implement.InstancePerLifetimeScope();
+                return;
+            }
+            if (typeof(TLifeTime).Equals(typeof(ISingleton)))
+            {
+                implement.SingleInstance();
+                return;
             }
         }
 

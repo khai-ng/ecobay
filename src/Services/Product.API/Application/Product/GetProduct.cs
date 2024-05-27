@@ -6,23 +6,23 @@ using MediatR;
 using MongoDB.Driver;
 using Product.API.Application.Abstractions;
 
-namespace Product.API.Application
+namespace Product.API.Application.Product
 {
-    public class GetProduct : IRequestHandler<GetProductRequest, AppResult<PagingResponse<GetProductResponse>>>, IScoped
+    public class GetProductHandler : IRequestHandler<GetProductRequest, AppResult<PagingResponse<GetProductResponse>>>, IScoped
     {
         private readonly IProductRepository _productRepository;
 
-        public GetProduct(IProductRepository productRepository)
+        public GetProductHandler(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
         public async Task<AppResult<PagingResponse<GetProductResponse>>> Handle(
-            GetProductRequest request, 
+            GetProductRequest request,
             CancellationToken cancellationToken)
         {
             var fluentPaging = FluentPaging.From(request);
-            var masterData = _productRepository.DbSet
+            var masterData = _productRepository.Collection
                 .Find(x => x.MainCategory.Equals(request.Category));
 
             var filterdData = await fluentPaging.Filter(masterData)

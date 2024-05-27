@@ -95,7 +95,7 @@ services:
         volumes:
             - /d/Dataset/extract/json/:/data/json/
         ports:
-            - 27018:27018
+            - 27018:27017
 
     product-db-3:
         environment:
@@ -104,7 +104,7 @@ services:
         volumes:
             - /d/Dataset/extract/json/:/data/json/
         ports:
-            - 27019:27019
+            - 27019:27017
 
     product-db-4:
         environment:
@@ -113,7 +113,7 @@ services:
         volumes:
             - /d/Dataset/extract/json/:/data/json/
         ports:
-            - 27020:27020
+            - 27020:27017
 
     mongo-express:
         environment:
@@ -126,7 +126,7 @@ services:
             - ME_CONFIG_BASICAUTH_USERNAME=admin
             - ME_CONFIG_BASICAUTH_PASSWORD=123456
         ports:
-            - 8888:8081
+            - 8081:8081
 
     identity-api:
         environment:
