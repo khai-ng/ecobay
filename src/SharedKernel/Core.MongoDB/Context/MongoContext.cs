@@ -6,18 +6,19 @@ namespace Core.MongoDB.Context
 {
     public class MongoContext : IMongoContext, IUnitOfWork
     {
-        private readonly MongoClient _mongoClient;
+        private MongoClient _mongoClient;
+        private IMongoDatabase _database;
+        private string _collectionName;
+
         private readonly List<Func<Task>> _commands = [];
-        private readonly IMongoDatabase _database;
         private readonly IOptions<MongoDbSetting> _dbSettings;
 
         private IClientSessionHandle Session;
         public MongoContext(IOptions<MongoDbSetting> dbSettings) 
         {
             _dbSettings = dbSettings;
-            _mongoClient = new MongoClient(_dbSettings.Value.ConnectionString);
-            _database = _mongoClient.GetDatabase(_dbSettings.Value.DatabaseName);
         }
+
         public void Dispose()
         {
             Session?.Dispose();
@@ -31,7 +32,13 @@ namespace Core.MongoDB.Context
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            using (Session = await _mongoClient.StartSessionAsync(cancellationToken: cancellationToken))
+            if (_mongoClient == null)
+            {
+                SetConnection(_dbSettings.Value.ConnectionString);
+                SetDatabase(_dbSettings.Value.DatabaseName);
+            }
+
+            using (Session = await _mongoClient!.StartSessionAsync(cancellationToken: cancellationToken))
             {
                 Session.StartTransaction();
                 var commandTasks = _commands.Select(c => c.Invoke());
@@ -40,7 +47,33 @@ namespace Core.MongoDB.Context
             }
         }
 
-        public IMongoCollection<T> GetCollection<T>(string collectionName)
-            => _database.GetCollection<T>(collectionName);
+        public IMongoCollection<T> GetCollection<T>()
+        {
+            if(_database is null)
+            {
+                SetConnection(_dbSettings.Value.ConnectionString);
+                SetDatabase(_dbSettings.Value.DatabaseName);
+            }
+            var collection = string.IsNullOrEmpty(_collectionName) ? typeof(T).Name : _collectionName;
+            return _database!.GetCollection<T>(collection);
+        }
+
+        public void SetConnection(string connectionString)
+        {
+            _mongoClient = new MongoClient(connectionString);
+        }
+
+        public void SetDatabase(string databaseName)
+        {
+            if(_mongoClient == null)
+                throw new ArgumentNullException(nameof(MongoClient));
+
+            _database = _mongoClient.GetDatabase(databaseName);
+        }
+
+        public void SetCollection(string collectionName)
+        {
+            _collectionName = collectionName;
+        }
     }
 }

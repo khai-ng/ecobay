@@ -1,0 +1,6 @@
+@Product.Aggregate.API_HostAddress = http://localhost:5251
+
+GET {{Product.Aggregate.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

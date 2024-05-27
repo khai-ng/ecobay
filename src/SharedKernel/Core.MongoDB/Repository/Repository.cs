@@ -1,5 +1,4 @@
 ﻿using Core.MongoDB.Context;
-using Core.Repository;
 using Core.SharedKernel;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -15,7 +14,8 @@ namespace Core.MongoDB.Repository
     }
 
     public abstract class Repository<TModel, TKey> :
-        IRepository<TModel, TKey>
+        IRepository<TModel, TKey>,
+        IMongoContextResolver
         where TModel : AggregateRoot<TKey>
     {
         private readonly IMongoContext _mongoContext;
@@ -23,11 +23,7 @@ namespace Core.MongoDB.Repository
         {
             _mongoContext = mongoContext;
         }
-
-        protected virtual IMongoCollection<TModel> Collection => _mongoContext.GetCollection<TModel>(nameof(TModel));
-        public IMongoCollection<TModel> DbSet => Collection;
-
-        //public  => _collection;
+        public IMongoCollection<TModel> Collection => _mongoContext.GetCollection<TModel>();
 
         public async Task<IEnumerable<TModel>> GetAllAsync()
         {
@@ -64,5 +60,11 @@ namespace Core.MongoDB.Repository
                     Builders<TModel>.Filter.In("_id", entities.Select(x => x.Id))
                 )
             );
+
+        public void SetConnection(string connectionString) => _mongoContext.SetConnection(connectionString);
+
+        public void SetDatabase(string databaseName) => _mongoContext.SetDatabase(databaseName);
+
+        public void SetCollection(string collectionName) => _mongoContext.SetCollection(collectionName);
     }
 }
