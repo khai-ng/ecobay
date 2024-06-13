@@ -1,11 +1,14 @@
 ﻿using Core.MongoDB.Context;
 using Core.MongoDB.Repository;
+using Core.Result.Paginations;
 using MongoDB.Bson;
+using Product.API.Application.Product;
+using Product.API.Domain.ProductAggregate;
 
 namespace Product.API.Application.Abstractions
 {
-    public interface IProductRepository: IRepository<Domain.ProductAggregate.Product>, IMongoContextResolver
+    public interface IProductRepository: IRepository<ProductItem>, IMongoContextResolver
     {
-        void UpdateProductVersion(IEnumerable<ObjectId> productIds);
+        Task<PagingResponse<ProductItem>> GetAsync(GetProductRequest request);
     }
 }

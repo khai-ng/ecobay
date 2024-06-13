@@ -8,7 +8,7 @@ namespace Core.ConsistentHashing
         private int _replicate = 100;
         private int[] ringKeys = [];
 
-        public SortedDictionary<int, T> hashRing = [];
+        private readonly SortedDictionary<int, VirtualNode<T>> hashRing = [];
         public bool IsInit => hashRing.Count > 0;
 
         public void Init(IEnumerable<T> nodes)
@@ -18,9 +18,9 @@ namespace Core.ConsistentHashing
 
             foreach (T node in nodes)
             {
-                Add(node, false);
+                AddNode(node);
             }
-            ringKeys = hashRing.Keys.ToArray();
+            ringKeys = [.. hashRing.Keys];
         }
 
         public void Init(IEnumerable<T> nodes, int replicate)
@@ -32,10 +32,20 @@ namespace Core.ConsistentHashing
             Init(nodes);
         }
 
-        public void Add(T node)
+        public IEnumerable<VirtualNode<T>> Add(T node)
         {
             ArgumentNullException.ThrowIfNull(node);
-            Add(node, true);
+            List<VirtualNode<T>> virtualNode = [];
+            for (int i = 0; i < _replicate; i++)
+            {
+                int hash = Hash(node.GetHashCode().ToString() + i);
+                hashRing[hash] = new VirtualNode<T>(i, node);
+                var next = Lockup(ringKeys, hash);
+                virtualNode.Add(hashRing[ringKeys[next]]);
+            }
+
+            ringKeys = [.. hashRing.Keys];
+            return virtualNode.Distinct();
         }
 
         public void Remove(T node)
@@ -49,32 +59,44 @@ namespace Core.ConsistentHashing
                     throw new Exception("can not remove a node that not added");
                 }
             }
-            ringKeys = hashRing.Keys.ToArray();
+            ringKeys = [.. hashRing.Keys];
         }
 
-        public T GetBucket(string key)
+        public VirtualNode<T> GetBucket(string key)
         {
             int hash = Hash(key);
-            int first = Lockup(ringKeys, hash);
+            var next = Lockup(ringKeys, hash);
 
-            return hashRing[ringKeys[first]];
+            return hashRing[ringKeys[next]];
         }
 
-        private void Add(T node, bool updateKeyArray)
+        private void AddNode(T node)
         {
+            ArgumentNullException.ThrowIfNull(node);
             for (int i = 0; i < _replicate; i++)
             {
                 int hash = Hash(node.GetHashCode().ToString() + i);
-                hashRing[hash] = node;
+                hashRing[hash] = new VirtualNode<T>(i, node);
             }
+        }
 
-            if (updateKeyArray)
-                ringKeys = hashRing.Keys.ToArray();
+        private IEnumerable<VirtualNode<T>> AddToUpdate(T node)
+        {
+            ArgumentNullException.ThrowIfNull(node);
+            List<VirtualNode<T>> updatingNode = []; 
+            for (int i = 0; i < _replicate; i++)
+            {
+                int hash = Hash(node.GetHashCode().ToString() + i);
+                hashRing[hash] = new VirtualNode<T>(i, node);
+                var next = Lockup(ringKeys, hash);
+                updatingNode.Add(hashRing[ringKeys[next]]);
+            }
+            return updatingNode.Distinct();
         }
 
         //return the index of first item that >= val.
         //if not exist, return 0;
-        //ay should be ordered array.
+        //ring should be ordered array.
         private int Lockup(int[] ring, int value)
         {
             int begin = 0;
@@ -95,14 +117,26 @@ namespace Core.ConsistentHashing
 
             if (ring[begin] > value || ring[end] < value)
                 throw new Exception("should not happen");
-
-            return end;
+            return  end;
         }
 
         private static int Hash(string key)
         {
             var hash = XxHash32.HashToUInt32(Encoding.ASCII.GetBytes(key));
             return (int)hash;
+        }
+    }
+
+    public class VirtualNode<T>: IEquatable<VirtualNode<T>>
+    {
+        public int VirtualId { get; set; }
+        public T Node { get; set; }
+        public VirtualNode(int replicateId, T node) { VirtualId = replicateId; Node = node; }
+
+        public bool Equals(VirtualNode<T>? other)
+        {
+            return VirtualId == other?.VirtualId 
+                && Node != null && Node.Equals(other.Node);
         }
     }
 }

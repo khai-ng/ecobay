@@ -2,7 +2,6 @@
 using Core.Autofac;
 using Core.MongoDB.Context;
 using Core.SharedKernel;
-using Product.API.Application.BackgroudJob;
 
 namespace Product.API
 {
