@@ -70,13 +70,6 @@ services:
         restart: on-failure
         networks:
             - local
-
-    product-db-4:
-        container_name: product-db-4
-        image: mongo:7.0.9
-        restart: on-failure
-        networks:
-            - local
         
     mongo-express:
         container_name: mongo-express
@@ -101,25 +94,25 @@ services:
                 fluentd-async: "true"
                 tag: host.identity
 
-    # employee-api:
-    #    container_name: employee-api
-    #     image: ${DOCKER_REGISTRY-}employeeapi
-    #     build:
-    #         context: .
-    #         dockerfile: src/Services/EmployeeMgt/EmployeeMgt.API/Dockerfile
-    #     # depends_on:
-    #     #     kafka:
-    #     #         condition: service_healthy 
-    #     networks:
-    #         - local
-    #     logging:
-    #         driver: fluentd
-    #         options:
-    #             fluentd-async: "true"
-    #             tag: host.employee-mgt
+    employee-api:
+        container_name: employee-api
+        image: ${DOCKER_REGISTRY-}employeeapi
+        build:
+            context: .
+            dockerfile: src/Services/EmployeeMgt/EmployeeMgt.API/Dockerfile
+        # depends_on:
+        #     kafka:
+        #         condition: service_healthy 
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.employee-mgt
                 
-    product-api:
-        container_name: product-api
+    product-api-1:
+        container_name: product-api-1
         image: ${DOCKER_REGISTRY-}productapi
         build:
             context: .
@@ -131,6 +124,48 @@ services:
             options:
                 fluentd-async: "true"
                 tag: host.product
+
+    product-api-2:
+        container_name: product-api-2
+        image: ${DOCKER_REGISTRY-}productapi
+        build:
+            context: .
+            dockerfile: src/Services/Product.API/Dockerfile
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.product
+
+    product-api-3:
+        container_name: product-api-3
+        image: ${DOCKER_REGISTRY-}productapi
+        build:
+            context: .
+            dockerfile: src/Services/Product.API/Dockerfile
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.product
+
+    productaggregate-api:
+        container_name: productaggregate-api
+        image: ${DOCKER_REGISTRY-}productaggregateapi
+        build:
+            context: .
+            dockerfile: src/Services/ProductAggregate.API/Dockerfile
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.productaggregate
 
     web-apigateway:
         container_name: web-apigateway
@@ -317,3 +352,4 @@ services:
 networks:
     local:
         driver: bridge
+

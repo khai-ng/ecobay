@@ -17,9 +17,10 @@
         /// <summary>
         /// Set collection result
         /// </summary>
+        /// <typeparam name="TProto"></typeparam>
+        /// <param name="request"></param>
         /// <param name="data"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="ArgumentException"></exception>
+        /// <returns></returns>
         internal static PagingResponse<T> Result<TProto>(IPagingResponse<TProto> request, 
             IEnumerable<T> data)
             where TProto : class

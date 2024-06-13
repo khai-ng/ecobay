@@ -21,6 +21,8 @@ namespace Product.API.Application.Product
             GetProductRequest request,
             CancellationToken cancellationToken)
         {
+            //var product = await _productRepository.GetAsync(request);
+
             var fluentPaging = FluentPaging.From(request);
             var masterData = _productRepository.Collection
                 .Find(x => x.MainCategory.Equals(request.Category));

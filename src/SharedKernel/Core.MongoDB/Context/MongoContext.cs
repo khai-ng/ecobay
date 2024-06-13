@@ -65,9 +65,7 @@ namespace Core.MongoDB.Context
 
         public void SetDatabase(string databaseName)
         {
-            if(_mongoClient == null)
-                throw new ArgumentNullException(nameof(MongoClient));
-
+            ArgumentNullException.ThrowIfNull(_mongoClient, nameof(MongoClient));
             _database = _mongoClient.GetDatabase(databaseName);
         }
 

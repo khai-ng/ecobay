@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcProduct";
+
+package ProductApi;
+
+message ProductRequest {
+	string category = 1;
+	int32 page_index = 2;
+	int32 page_size = 3;
+}
+
+message ProductItemResponse {
+	optional string main_category = 1;
+	optional string title = 2;
+	optional string price = 3;
+}
+
+message PagingProductResponse {
+	int32 page_index = 1;
+	int32 page_size = 2;
+	bool has_next = 3;
+	repeated ProductItemResponse data = 4;
+}
+
+service Product {
+	rpc GetItem (ProductRequest) returns (PagingProductResponse);
+}

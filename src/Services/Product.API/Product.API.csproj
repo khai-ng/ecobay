@@ -10,12 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FastEndpoints" Version="5.22.0" />
-    <PackageReference Include="FastEndpoints.Security" Version="5.22.0" />
-    <PackageReference Include="FastEndpoints.Swagger" Version="5.22.0" />
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.12" />
-    <PackageReference Include="Hangfire.Core" Version="1.8.12" />
-    <PackageReference Include="Hangfire.Mongo" Version="1.10.6" />
+    <PackageReference Include="FastEndpoints" Version="5.26.0" />
+    <PackageReference Include="FastEndpoints.Security" Version="5.26.0" />
+    <PackageReference Include="FastEndpoints.Swagger" Version="5.26.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.63.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -33,5 +31,13 @@
     <ProjectReference Include="..\..\SharedKernel\Core.MongoDB\Core.MongoDB.csproj" />
     <ProjectReference Include="..\..\SharedKernel\Core\Core.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\product.proto" GrpcServices="Server" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Configurations\" />
+	</ItemGroup>
 
 </Project>

@@ -18,7 +18,7 @@ namespace Core.EntityFramework.Paginations
                 .ToListAsync();
             response.Data = filterData
                 .Take(response.PageSize);
-            response.HasNext = response.PageSize < filterData.Count();
+            response.HasNext = response.PageSize < filterData.Count;
 
             return response;
         }

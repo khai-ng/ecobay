@@ -3,6 +3,7 @@ using Core.AspNet.Extensions;
 using Core.IntegrationEvents;
 using MediatR;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace Core.Kafka.Consumers
 {
@@ -10,9 +11,9 @@ namespace Core.Kafka.Consumers
     {
         private readonly ConsumerConfig _consumerConfig;
         private readonly IMediator _publisher;
-        private readonly Serilog.ILogger _logger;
+        private readonly ILogger _logger;
 
-        public KafkaConsumer(IConfiguration configuration, IMediator publisher, Serilog.ILogger logger)
+        public KafkaConsumer(IConfiguration configuration, IMediator publisher, ILogger logger)
         {
             _consumerConfig = configuration.GetRequiredConfig<ConsumerConfig>("Kafka:ConsumerConfig");
             _publisher = publisher;
@@ -32,6 +33,8 @@ namespace Core.Kafka.Consumers
                     await Task.Yield();
                     var cr = consumer.Consume(cancelToken.Token);
                     var evnentMsg = cr.ToEvent();
+                    ArgumentNullException.ThrowIfNull(evnentMsg);
+
                     await _publisher.Publish(evnentMsg, cancellationToken);
                 }
                 catch (OperationCanceledException)

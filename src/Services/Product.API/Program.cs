@@ -6,9 +6,9 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using MediatR;
 using MongoDB.Bson.Serialization.Conventions;
+using Product.API.Application.Grpc;
 using System.Reflection;
-using Product.API.Configurations;
-using Hangfire;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +18,8 @@ builder.Services.AddFastEndpoints()
 
 builder.AddServiceDefaults();
 builder.AddAutofac();
+
+builder.Services.AddGrpc();
 
 builder.Services.Configure<MongoDbSetting>(
     builder.Configuration.GetSection("ProductDatabase"));
@@ -30,8 +32,6 @@ builder.Services.AddMediatR(cfg =>
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
 
-builder.Services.AddHangfireDefaults(builder.Configuration);
-
 var app = builder.Build();
 
 app.UseHttpsRedirection();
@@ -39,7 +39,6 @@ app.UseServiceDefaults();
 app.UseFastEndpoints(config => config.CommonResponseConfigs())
     .UseSwaggerGen();
 
-app.UseHangfireDashboard();
-app.AddHangFireJob();
+app.MapGrpcService<ProductService>();
 
 await app.RunAsync();

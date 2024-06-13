@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\CommonServices\Core.Contract\Core.Contract.csproj" />
+    <ProjectReference Include="..\..\Services\CommonServices\Core.Contract\CommonContraction.csproj" />
+    <ProjectReference Include="..\..\Services\CommonServices\Shared.Contraction\Shared.Contraction.csproj" />
     <ProjectReference Include="..\Core.AspNetCore\Core.AspNet.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
