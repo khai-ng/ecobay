@@ -37,7 +37,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Configurations\" />
+	  <Folder Include="Application\Product\" />
 	</ItemGroup>
 
 </Project>

@@ -108,7 +108,12 @@ namespace Core.AspNet.Extensions
         {
             app.UseExceptionHandler(opt => { });
             app.UseDefaultAuthentication();
+            
+            return app;
+        }
 
+        public static WebApplication UseDefaultSwaggerRedirection(this WebApplication app)
+        {
             app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
             return app;
         }

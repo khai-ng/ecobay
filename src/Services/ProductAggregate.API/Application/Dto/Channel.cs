@@ -1,4 +1,4 @@
-﻿namespace ProductAggregate.API.Application.Product
+﻿namespace ProductAggregate.API.Application.Dto
 {
     public class Channel
     {

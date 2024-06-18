@@ -1,6 +1,5 @@
 ﻿using Amazon.Runtime.Internal.Transform;
 using Core.Autofac;
-using Core.MongoDB.Paginations;
 using Core.Result.AppResults;
 using Core.Result.Paginations;
 using Grpc.Net.Client;
@@ -8,39 +7,42 @@ using GrpcProduct;
 using MediatR;
 using MongoDB.Driver;
 using ProductAggregate.API.Application.Abstractions;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading;
+using ProductAggregate.API.Application.Dto;
 
 namespace ProductAggregate.API.Application.Product
 {
-    public class GetProductHandler : IRequestHandler<GetProductRequest, AppResult<PagingResponse<GetProductResponse>>>, IScoped
+    public class GetProductHandler : IRequestHandler<GetProductRequest, AppResult<PagingResponse<GetProductResponse>>>, ITransient
     {
-        private readonly IProductRepository _productRepository;
-        private readonly Serilog.ILogger _logger;
-        private readonly Dictionary<string, Channel> _channelMap = [
+        private readonly Dictionary<string, Channel> _channelMap = new([
             new("product-db-1", new() { Host = "product-api-1", Port = "81" }),
             new("product-db-2", new() { Host = "product-api-2", Port = "81" }),
-            new("product-db-3", new() { Host = "product-api-3", Port = "81" }),
-        ];
-        public GetProductHandler(IProductRepository productRepository, Serilog.ILogger logger)
+            new("product-db-3", new() { Host = "product-api-3", Port = "81" })
+            ]);
+
+
+        private readonly Serilog.ILogger _logger;
+        private readonly IHashRingManager _hashRingManager;       
+        public GetProductHandler(Serilog.ILogger logger, IHashRingManager hashRingManager)
         {
-            _productRepository = productRepository;
             _logger = logger;
+            _hashRingManager = hashRingManager;
         }
 
         public async Task<AppResult<PagingResponse<GetProductResponse>>> Handle(
             GetProductRequest request,
             CancellationToken cancellationToken)
         {
-            var req = new ProductRequest()
+            var req = new GrpcProduct.GetProductRequest()
             {
-                PageIndex = request.PageIndex,
-                PageSize = request.PageSize,
-                Category = request.Category
+                Category = request.Category,
+                PageInfo = new PagingInfo() 
+                { 
+                    PageIndex = request.PageIndex, 
+                    PageSize = Convert.ToInt32(Math.Ceiling((decimal)request.PageSize/_channelMap.Count))
+                }
             };
             var fluentPaging = FluentPaging.From(request);
-            List<Task<PagingProductResponse>> tasks = [];
+            List<Task<GrpcProduct.GetProductResponse>> tasks = []; 
 
             foreach (var item in _channelMap)
             {
@@ -49,7 +51,8 @@ namespace ProductAggregate.API.Application.Product
             var responses = await Task.WhenAll(tasks);
 
             var rs = fluentPaging.Result(
-                responses.SelectMany(r => r.Data)
+                responses.Take(request.PageSize)
+                .SelectMany(r => r.Data)
                 .Select(x => new GetProductResponse()
                 {
                     MainCategory = x.MainCategory,
@@ -61,7 +64,7 @@ namespace ProductAggregate.API.Application.Product
             return rs;
         }
 
-        private async Task<PagingProductResponse> GetProductItemFronChannel(Channel service, ProductRequest request)
+        private async Task<GrpcProduct.GetProductResponse> GetProductItemFronChannel(Channel service, GrpcProduct.GetProductRequest request)
         {
             using var channel = GrpcChannel.ForAddress($"http://{service.Host}:{service.Port}");
             var client = new GrpcProduct.Product.ProductClient(channel);
@@ -71,7 +74,7 @@ namespace ProductAggregate.API.Application.Product
                 .ForContext("Channel", service, true)
                 .ForContext("Request", request, true)
                 .ForContext("Response", rs.Data.FirstOrDefault(), true)
-                .Information("Grpc has sended get product item request");
+                .Information("Grpc has sended GetItemAsync");
 
             return rs;
         }

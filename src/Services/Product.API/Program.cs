@@ -12,9 +12,9 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints()
-    .AddSwaggerGen()
-    .SwaggerDocument();
+//builder.Services.AddFastEndpoints()
+//    .AddSwaggerGen()
+//    .SwaggerDocument();
 
 builder.AddServiceDefaults();
 builder.AddAutofac();
@@ -36,8 +36,8 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseServiceDefaults();
-app.UseFastEndpoints(config => config.CommonResponseConfigs())
-    .UseSwaggerGen();
+//app.UseFastEndpoints(config => config.CommonResponseConfigs())
+//    .UseSwaggerGen();
 
 app.MapGrpcService<ProductService>();
 

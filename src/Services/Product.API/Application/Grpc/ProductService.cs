@@ -1,7 +1,8 @@
 ﻿using Grpc.Core;
 using GrpcProduct;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using Product.API.Application.Abstractions;
-using Product.API.Application.Product;
 
 namespace Product.API.Application.Grpc
 {
@@ -14,24 +15,46 @@ namespace Product.API.Application.Grpc
             _productRepository = productRepository;
             _logger = logger;
         }
-        public override async Task<PagingProductResponse> GetItem(ProductRequest request, ServerCallContext context)
+        public override async Task<GrpcProduct.GetProductResponse> GetItem(
+            GrpcProduct.GetProductRequest request, 
+            ServerCallContext context)
         {
             var req = new GetProductRequest()
             {
                 Category = request.Category,
-                PageIndex = request.PageIndex,
-                PageSize = request.PageSize
+                PageIndex = request.PageInfo.PageIndex,
+                PageSize = request.PageInfo.PageSize
             };
             var response = await _productRepository.GetAsync(req);
 
-            var rs = new PagingProductResponse()
+            var rs = new GrpcProduct.GetProductResponse()
             {
-                PageIndex = response.PageIndex,
-                PageSize = response.PageSize,
+                PageInfo = new PagingInfo() { PageIndex = response.PageIndex, PageSize = response.PageSize },
                 HasNext = response.HasNext
             };
 
             rs.Data.AddRange(response.Data.Select(item => new ProductItemResponse()
+            {
+                MainCategory = item.MainCategory,
+                Title = item.Title,
+                Price = item.Price ?? "",
+            }));
+            return rs;
+        }
+
+        public override async Task<GetProducByIdResponse> GetById(GetProducByIdRequest request, 
+            ServerCallContext context)
+        {
+            var listId = request.Ids.Select(x => ObjectId.Parse(x));
+            _productRepository.SetCollection(request.VNode);
+            var collection = await _productRepository.Collection
+                .Find(x => listId.Contains(x.Id))
+                .ToListAsync();
+
+            var rs = new GetProducByIdResponse()
+            { };
+
+            rs.Data.AddRange(collection.Select(item => new ProductItemResponse()
             {
                 MainCategory = item.MainCategory,
                 Title = item.Title,

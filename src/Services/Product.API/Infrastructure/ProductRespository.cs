@@ -3,10 +3,10 @@ using Core.MongoDB.Context;
 using Core.MongoDB.Repository;
 using MongoDB.Driver;
 using Product.API.Application.Abstractions;
-using Product.API.Application.Product;
 using Product.API.Domain.ProductAggregate;
 using Core.MongoDB.Paginations;
 using Core.Result.Paginations;
+using Product.API.Application.Grpc;
 
 namespace Product.API.Infrastructure
 {

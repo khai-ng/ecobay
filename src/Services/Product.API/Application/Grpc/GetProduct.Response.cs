@@ -1,6 +1,6 @@
 ﻿using Product.API.Domain.ProductAggregate;
 
-namespace Product.API.Application.Product
+namespace Product.API.Application.Grpc
 {
     public class GetProductResponse
     {

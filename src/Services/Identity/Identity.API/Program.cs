@@ -49,6 +49,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 app.UseServiceDefaults();
+app.UseDefaultSwaggerRedirection();
 
 app.UseFastEndpoints(config => config.CommonResponseConfigs())
     .UseSwaggerGen();
