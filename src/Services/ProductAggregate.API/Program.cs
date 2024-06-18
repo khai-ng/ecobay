@@ -41,6 +41,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseServiceDefaults();
+app.UseDefaultSwaggerRedirection();
 app.UseFastEndpoints(config => config.CommonResponseConfigs())
     .UseSwaggerGen();
 

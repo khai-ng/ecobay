@@ -23,16 +23,14 @@ namespace ProductAggregate.API.Application.BackgroudJob
     {
         private IEnumerable<Server> _servers = [];
 
-        private readonly IServerRepository _serverRepository;
         private readonly IProductRepository _productRepository;
         private readonly IProductRepository _originProductRepository;
         private readonly IHashRingManager _hashRingManager;
-        public ProductMigrationJob(IServerRepository serverRepository,
+        public ProductMigrationJob(
             IProductRepository productRepository,
             IProductRepository originProductRepository,
             IHashRingManager hashRingManager)
         {
-            _serverRepository = serverRepository;
             _productRepository = productRepository;
             _originProductRepository = originProductRepository;
             _hashRingManager = hashRingManager;
@@ -68,11 +66,7 @@ namespace ProductAggregate.API.Application.BackgroudJob
 
         private async Task<bool> CreateHashRingAsync()
         {
-            _servers = await _serverRepository.GetAllAsync();
-            if (!_hashRingManager.HashRing.IsInit)
-            {
-                _hashRingManager.HashRing.Init(_servers);
-            }
+            await _hashRingManager.Init();
             return true;
         }
 

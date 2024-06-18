@@ -2,7 +2,7 @@
 using Core.Result.Paginations;
 using MediatR;
 
-namespace Product.API.Application.Product
+namespace Product.API.Application.Grpc
 {
     public class GetProductRequest : PagingRequest, IRequest<AppResult<PagingResponse<GetProductResponse>>>
     {

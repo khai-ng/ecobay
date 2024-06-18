@@ -4,25 +4,38 @@ option csharp_namespace = "GrpcProduct";
 
 package ProductApi;
 
-message ProductRequest {
-	string category = 1;
-	int32 page_index = 2;
-	int32 page_size = 3;
-}
-
 message ProductItemResponse {
 	optional string main_category = 1;
 	optional string title = 2;
 	optional string price = 3;
 }
 
-message PagingProductResponse {
+message PagingInfo {
 	int32 page_index = 1;
 	int32 page_size = 2;
-	bool has_next = 3;
-	repeated ProductItemResponse data = 4;
+}
+
+message GetProductRequest {
+	string category = 1;
+	PagingInfo page_info = 2;
+}
+
+message GetProductResponse {
+	repeated ProductItemResponse data = 1;
+	optional bool has_next = 2;
+	optional PagingInfo page_info = 3;
+}
+
+message GetProducByIdRequest {
+	repeated string ids = 1;
+	string v_node = 2;
+}
+
+message GetProducByIdResponse {
+	repeated ProductItemResponse data = 1;
 }
 
 service Product {
-	rpc GetItem (ProductRequest) returns (PagingProductResponse);
+	rpc GetItem (GetProductRequest) returns (GetProductResponse);
+	rpc GetById (GetProducByIdRequest) returns (GetProducByIdResponse);
 }

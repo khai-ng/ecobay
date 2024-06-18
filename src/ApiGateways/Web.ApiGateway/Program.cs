@@ -24,6 +24,7 @@ builder.Services.Configure<UrlsConfiguration>(builder.Configuration.GetSection("
 var app = builder.Build();
 
 app.UseServiceDefaults();
+app.UseDefaultSwaggerRedirection();
 app.UseHttpsRedirection();
 
 app.UseExceptionHandler(opt => { });

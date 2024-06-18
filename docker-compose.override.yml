@@ -151,7 +151,6 @@ services:
             - PATH_BASE=/employee-api
         ports:
             - "5102:80"
-            - "6102:81"
 
     product-api-1:
         environment:
@@ -164,7 +163,6 @@ services:
             - PATH_BASE=/product-api
         ports:
             - "5103:80"
-            - "6103:81"
 
     product-api-2:
         environment:
@@ -177,7 +175,6 @@ services:
             - PATH_BASE=/product-api
         ports:
             - "5104:80"
-            - "6104:81"
 
     product-api-3:
         environment:
@@ -190,7 +187,6 @@ services:
             - PATH_BASE=/product-api
         ports:
             - "5105:80"
-            - "6105:81"
 
     productaggregate-api:
         environment:
@@ -198,7 +194,7 @@ services:
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - ProductDatabase__ConnectionString=mongodb://admin:1234@product-db-1:27017
-            - ProductDatabase__DatabaseName=product
+            - ProductDatabase__DatabaseName=wksy
             - PATH_BASE=/product-api
         ports:
             - "5110:80"
