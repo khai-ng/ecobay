@@ -1,25 +1,25 @@
 ﻿using Core.AspNet.Result;
-using Core.Result.Paginations;
+using Core.Result.AppResults;
 using FastEndpoints;
 using MediatR;
 using ProductAggregate.API.Application.Product;
 
-namespace ProductAggregate.API.Endpoint
+namespace ProductAggregate.API.Presentation.Endpoint
 {
-    public class GetProductEndpoint: Endpoint<GetProductRequest, HttpResultTyped<PagingResponse<GetProductResponse>>>
+    public class GetProductByIdEndpoint : Endpoint<GetProductByIdRequest, HttpResultTyped<AppResult<IEnumerable<GrpcProduct.ProductItemResponse>>>>
     {
         private readonly IMediator _mediator;
-        public GetProductEndpoint(IMediator mediator)
+        public GetProductByIdEndpoint(IMediator mediator)
         {
             _mediator = mediator;
         }
         public override void Configure()
         {
-            Get("product/get");
+            Post("product/get-by-id");
             AllowAnonymous();
         }
 
-        public override async Task HandleAsync(GetProductRequest request, CancellationToken ct)
+        public override async Task HandleAsync(GetProductByIdRequest request, CancellationToken ct)
         {
             var result = await _mediator.Send(request, ct);
             await SendResultAsync(result.ToHttpResult());
