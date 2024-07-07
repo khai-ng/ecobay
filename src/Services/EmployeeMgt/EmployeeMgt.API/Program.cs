@@ -1,16 +1,15 @@
 using Autofac.Extensions.DependencyInjection;
+using Core.AspNet.Extensions;
+using Core.Autofac;
+using Core.MediaR;
 using EmployeeMgt.API.Extensions;
 using EmployeeMgt.Infrastructure;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using GrpcEmployee;
-using Microsoft.EntityFrameworkCore;
-using Core.AspNet.Extensions;
-using Core.Autofac;
-using System.Reflection;
-using Core.MediaR;
 using MediatR;
-using Core.Kafka;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 

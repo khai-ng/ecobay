@@ -2,8 +2,6 @@ using Core.AspNet.Extensions;
 using Core.Autofac;
 using Core.MediaR;
 using Core.MongoDB.Context;
-using FastEndpoints;
-using FastEndpoints.Swagger;
 using MediatR;
 using MongoDB.Bson.Serialization.Conventions;
 using Product.API.Application.Grpc;

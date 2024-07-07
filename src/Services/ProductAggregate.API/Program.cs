@@ -4,12 +4,8 @@ using Core.MediaR;
 using Core.MongoDB.Context;
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using Hangfire;
 using MediatR;
 using MongoDB.Bson.Serialization.Conventions;
-using Product.API.Configurations;
-using ProductAggregate.Aggregate.API.Configurations;
-using ProductAggregate.API.Configurations;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,9 +16,6 @@ builder.Services.AddFastEndpoints()
 
 builder.AddServiceDefaults();
 builder.AddAutofac();
-
-builder.Services.Configure<UrlConfiguration>(builder.Configuration.GetSection("Urls"));
-//builder.Services.AddGrpcServices();
 
 builder.Services.Configure<MongoDbSetting>(
     builder.Configuration.GetSection("ProductDatabase"));
