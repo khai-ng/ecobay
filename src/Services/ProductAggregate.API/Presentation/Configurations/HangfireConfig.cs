@@ -2,7 +2,7 @@
 using Hangfire;
 using MongoDB.Driver;
 
-namespace ProductAggregate.Aggregate.API.Configurations
+namespace ProductAggregate.API.Presentation.Configurations
 {
     public static class HangfireConfig
     {
@@ -17,18 +17,18 @@ namespace ProductAggregate.Aggregate.API.Configurations
                 .UseRecommendedSerializerSettings()
                 .UseInMemoryStorage()
 
-                //.UseMongoStorage(mongoClient, "hangfire", new MongoStorageOptions
-                //{
-                //    MigrationOptions = new MongoMigrationOptions
-                //    {
-                //        MigrationStrategy = new MigrateMongoMigrationStrategy(),
-                //        BackupStrategy = new CollectionMongoBackupStrategy(),
+            //.UseMongoStorage(mongoClient, "hangfire", new MongoStorageOptions
+            //{
+            //    MigrationOptions = new MongoMigrationOptions
+            //    {
+            //        MigrationStrategy = new MigrateMongoMigrationStrategy(),
+            //        BackupStrategy = new CollectionMongoBackupStrategy(),
 
-                //    },
-                //    CheckQueuedJobsStrategy = CheckQueuedJobsStrategy.Poll,
-                //    Prefix = "hangfire.mongo",
-                //    CheckConnection = true
-                //})
+            //    },
+            //    CheckQueuedJobsStrategy = CheckQueuedJobsStrategy.Poll,
+            //    Prefix = "hangfire.mongo",
+            //    CheckConnection = true
+            //})
             );
 
             services.AddHangfireServer(serverOptions =>

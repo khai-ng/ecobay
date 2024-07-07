@@ -1,7 +1,7 @@
 ﻿using Hangfire;
 using ProductAggregate.API.Application.BackgroudJob;
 
-namespace ProductAggregate.API.Configurations
+namespace ProductAggregate.API.Presentation.Configurations
 {
     public static class JobRegistryExtension
     {
