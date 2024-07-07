@@ -2,7 +2,7 @@
 using MediatR;
 using MongoDB.Bson;
 
-namespace Product.API.Application.Grpc
+namespace Product.API.Application.Product
 {
     public class GetProductByIdRequest : IRequest<AppResult<IEnumerable<GetProductResponse>>>
     {

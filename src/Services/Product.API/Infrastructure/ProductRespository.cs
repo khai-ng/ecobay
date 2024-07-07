@@ -6,7 +6,7 @@ using Product.API.Application.Abstractions;
 using Product.API.Domain.ProductAggregate;
 using Core.MongoDB.Paginations;
 using Core.Result.Paginations;
-using Product.API.Application.Grpc;
+using Product.API.Application.Product;
 
 namespace Product.API.Infrastructure
 {

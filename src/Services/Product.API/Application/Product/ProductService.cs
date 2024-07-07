@@ -4,9 +4,9 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Product.API.Application.Abstractions;
 
-namespace Product.API.Application.Grpc
+namespace Product.API.Application.Product
 {
-    public class ProductService: GrpcProduct.Product.ProductBase
+    public class ProductService : GrpcProduct.Product.ProductBase
     {
         private readonly IProductRepository _productRepository;
         private readonly Serilog.ILogger _logger;
@@ -16,7 +16,7 @@ namespace Product.API.Application.Grpc
             _logger = logger;
         }
         public override async Task<GrpcProduct.GetProductResponse> GetItem(
-            GrpcProduct.GetProductRequest request, 
+            GrpcProduct.GetProductRequest request,
             ServerCallContext context)
         {
             var req = new GetProductRequest()
@@ -42,7 +42,7 @@ namespace Product.API.Application.Grpc
             return rs;
         }
 
-        public override async Task<GetProducByIdResponse> GetById(GetProducByIdRequest request, 
+        public override async Task<GetProducByIdResponse> GetById(GetProducByIdRequest request,
             ServerCallContext context)
         {
             var listId = request.Ids.Select(x => ObjectId.Parse(x));

@@ -33,11 +33,11 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="Protos\product.proto" GrpcServices="Server" />
+		<Protobuf Include="Application\Protos\product.proto" GrpcServices="Server" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Application\Product\" />
+	  <Folder Include="Presentation\" />
 	</ItemGroup>
 
 </Project>

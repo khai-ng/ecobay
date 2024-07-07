@@ -2,7 +2,7 @@
 using Core.MongoDB.Repository;
 using Core.Result.Paginations;
 using MongoDB.Bson;
-using Product.API.Application.Grpc;
+using Product.API.Application.Product;
 using Product.API.Domain.ProductAggregate;
 
 namespace Product.API.Application.Abstractions
