@@ -4,7 +4,6 @@ using Core.Autofac;
 using Core.MediaR;
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using Identity.API.Extension;
 using Identity.Infrastructure;
 using Identity.Infrastructure.Authentication;
 using MediatR;
@@ -12,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Core.Kafka;
+using Identity.API.Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

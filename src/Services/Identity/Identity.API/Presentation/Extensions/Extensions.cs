@@ -3,7 +3,7 @@ using Identity.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Identity.API.Extension
+namespace Identity.API.Presentation.Extensions
 {
     public static class Extensions
     {
@@ -12,8 +12,8 @@ namespace Identity.API.Extension
             var sqlOptionsBuilder = (MySqlDbContextOptionsBuilder sqlOptions) =>
             {
                 sqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
-                sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, 
-                    maxRetryDelay: TimeSpan.FromSeconds(30), 
+                sqlOptions.EnableRetryOnFailure(maxRetryCount: 15,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
                     errorNumbersToAdd: null);
             };
 
