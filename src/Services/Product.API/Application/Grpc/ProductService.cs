@@ -47,12 +47,15 @@ namespace Product.API.Application.Grpc
         {
             var listId = request.Ids.Select(x => ObjectId.Parse(x));
             _productRepository.SetCollection(request.VNode);
-            var collection = await _productRepository.Collection
-                .Find(x => listId.Contains(x.Id))
-                .ToListAsync();
 
-            var rs = new GetProducByIdResponse()
-            { };
+            var repoRequest = new GetProductByIdRequest()
+            {
+                Ids = listId
+            };
+
+            var collection = await _productRepository.GetByIdAsync(repoRequest);
+
+            var rs = new GetProducByIdResponse() { };
 
             rs.Data.AddRange(collection.Select(item => new ProductItemResponse()
             {

@@ -29,5 +29,10 @@ namespace Product.API.Infrastructure
             var filterdData = await fluentPaging.Filter(masterData).ToListAsync();
             return fluentPaging.Result(filterdData);
         }
+
+        public async Task<IEnumerable<ProductItem>> GetByIdAsync(GetProductByIdRequest request)
+        {
+            return await Collection.Find(x => request.Ids.Contains(x.Id)).ToListAsync();
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace ProductAggregate.API.Application.BackgroudJob
     }
     public class ProductMigrationJob : IProductMigrationJob, ITransient
     {
-        private IEnumerable<Server> _servers = [];
+        private readonly IEnumerable<Server> _servers = [];
 
         private readonly IProductRepository _productRepository;
         private readonly IProductRepository _originProductRepository;

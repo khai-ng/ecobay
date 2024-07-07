@@ -1,7 +1,6 @@
 ﻿using Core.MongoDB.ServiceDefault;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using Newtonsoft.Json;
 
 namespace Product.API.Domain.ProductAggregate
 {
