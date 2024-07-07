@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Presentation\Protos\product.proto" />
+    <None Remove="Application\Protos\product.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Presentation\Protos\product.proto" GrpcServices="Client" />
+    <Protobuf Include="Application\Protos\product.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

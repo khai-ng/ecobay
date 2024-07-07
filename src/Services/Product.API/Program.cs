@@ -4,7 +4,7 @@ using Core.MediaR;
 using Core.MongoDB.Context;
 using MediatR;
 using MongoDB.Bson.Serialization.Conventions;
-using Product.API.Application.Grpc;
+using Product.API.Application.Product;
 using System.Reflection;
 
 
