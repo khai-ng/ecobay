@@ -2,7 +2,7 @@
 using FastEndpoints;
 using Identity.Application.Services;
 using MediatR;
-namespace Identity.API.Endpoint
+namespace Identity.API.Presentation.Endpoint
 {
     public class LoginEndpoint : Endpoint<LoginRequest, HttpResultTyped<string>>
     {

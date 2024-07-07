@@ -6,7 +6,7 @@ using Identity.Application.Services;
 using Identity.Domain.Entities.UserAggregate;
 using MediatR;
 
-namespace Identity.API.Endpoint
+namespace Identity.API.Presentation.Endpoint
 {
 
     public class GetUserEndPoint : Endpoint<GetUserRequest, HttpResultTyped<PagingResponse<User>>>
@@ -19,13 +19,13 @@ namespace Identity.API.Endpoint
         public override void Configure()
         {
             Get("identity/getuser");
-			Roles(Role.Admin.Name);
-			//AllowAnonymous();
-		}
+            Roles(Role.Admin.Name);
+            //AllowAnonymous();
+        }
 
         public override async Task HandleAsync(GetUserRequest request, CancellationToken ct)
         {
-			var result = await _mediator.Send(request, ct);
+            var result = await _mediator.Send(request, ct);
             await SendResultAsync(result.ToHttpResult());
         }
     }
