@@ -25,7 +25,7 @@ namespace Product.API.Application.Product
                 PageIndex = request.PageInfo.PageIndex,
                 PageSize = request.PageInfo.PageSize
             };
-            var response = await _productRepository.GetAsync(req);
+            var response = await _productRepository.GetPagingAsync(req);
 
             var rs = new GrpcProduct.GetProductResponse()
             {
@@ -53,7 +53,7 @@ namespace Product.API.Application.Product
                 Ids = listId
             };
 
-            var collection = await _productRepository.GetByIdAsync(repoRequest);
+            var collection = await _productRepository.GetAsync(repoRequest);
 
             var rs = new GetProducByIdResponse() { };
 
