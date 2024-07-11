@@ -33,7 +33,7 @@ namespace Identity.Infrastructure.Authentication
 
             using IServiceScope serviceScope = _serviceScopeFactory.CreateScope();
             var userService = serviceScope.ServiceProvider.GetRequiredService<IUserRepository>();
-            var roles = await userService.GetUserRolesAsync(parsedUserId);
+            var roles = await userService.GetListRoleAsync(parsedUserId);
 
 
             foreach (var roleRequirement in roleRequirements)
@@ -56,7 +56,7 @@ namespace Identity.Infrastructure.Authentication
 
             using IServiceScope serviceScope = _serviceScopeFactory.CreateScope();
             var userService = serviceScope.ServiceProvider.GetRequiredService<IUserRepository>();
-            var claims = await userService.GetUserPermissionAsync(pasredUserId);
+            var claims = await userService.GetListPermissionAsync(pasredUserId);
 
             if(claims.Contains(requirement.Permission))
                 context.Succeed(requirement);
