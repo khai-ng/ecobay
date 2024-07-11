@@ -70,15 +70,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Product", "Product", "{5D3E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Product.API", "src\Services\Product\Product.API\Product.API.csproj", "{3733ED3F-B0A9-48F3-BC82-B0A857700886}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmployeeMgt", "EmployeeMgt", "{64A19563-A352-46AF-8404-944F49AF1A7A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeMgt.API", "src\Services\EmployeeMgt\EmployeeMgt.API\EmployeeMgt.API.csproj", "{6ED54B2A-52E4-46DE-AEDC-143896D33389}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeMgt.Application", "src\Services\EmployeeMgt\EmployeeMgt.Application\EmployeeMgt.Application.csproj", "{76970DE1-EF7F-4F3A-9A69-7CA860AF9214}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeMgt.Domain", "src\Services\EmployeeMgt\EmployeeMgt.Domain\EmployeeMgt.Domain.csproj", "{DE25E3CE-972A-4418-BFA8-E3EAEB4A54A5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeMgt.Infrastructure", "src\Services\EmployeeMgt\EmployeeMgt.Infrastructure\EmployeeMgt.Infrastructure.csproj", "{09DDFF23-FEE0-4A55-96E4-B963CCB395CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonServices", "CommonServices", "{BF98A7B3-E60D-4F00-8E84-3330910DA602}"
 EndProject

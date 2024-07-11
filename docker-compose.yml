@@ -93,23 +93,6 @@ services:
             options:
                 fluentd-async: "true"
                 tag: host.identity
-
-    # employee-api:
-    #     container_name: employee-api
-    #     image: ${DOCKER_REGISTRY-}employeeapi
-    #     build:
-    #         context: .
-    #         dockerfile: src/Services/EmployeeMgt/EmployeeMgt.API/Dockerfile
-    #     # depends_on:
-    #     #     kafka:
-    #     #         condition: service_healthy 
-    #     networks:
-    #         - local
-    #     logging:
-    #         driver: fluentd
-    #         options:
-    #             fluentd-async: "true"
-    #             tag: host.employee-mgt
                 
     product-api-1:
         container_name: product-api-1
