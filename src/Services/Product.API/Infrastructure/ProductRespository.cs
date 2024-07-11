@@ -19,7 +19,7 @@ namespace Product.API.Infrastructure
             SetCollection("vnode1");
         }
 
-        public async Task<PagingResponse<ProductItem>> GetAsync(GetProductRequest request)
+        public async Task<PagingResponse<ProductItem>> GetPagingAsync(GetProductRequest request)
         {
             var fluentPaging = FluentPaging.From(request);
 
@@ -30,7 +30,7 @@ namespace Product.API.Infrastructure
             return fluentPaging.Result(filterdData);
         }
 
-        public async Task<IEnumerable<ProductItem>> GetByIdAsync(GetProductByIdRequest request)
+        public async Task<IEnumerable<ProductItem>> GetAsync(GetProductByIdRequest request)
         {
             return await Collection.Find(x => request.Ids.Contains(x.Id)).ToListAsync();
         }

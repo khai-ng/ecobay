@@ -9,7 +9,7 @@ namespace Product.API.Application.Abstractions
 {
     public interface IProductRepository: IRepository<ProductItem>, IMongoContextResolver
     {
-        Task<PagingResponse<ProductItem>> GetAsync(GetProductRequest request);
-        Task<IEnumerable<ProductItem>> GetByIdAsync(GetProductByIdRequest request);
+        Task<PagingResponse<ProductItem>> GetPagingAsync(GetProductRequest request);
+        Task<IEnumerable<ProductItem>> GetAsync(GetProductByIdRequest request);
     }
 }
