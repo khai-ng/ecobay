@@ -86,7 +86,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.EntityFramework", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.MongoDB", "src\SharedKernel\Core.MongoDB\Core.MongoDB.csproj", "{861095AB-9F2C-4A04-912D-962DB1DEE641}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductAggregate.API", "src\Services\ProductAggregate.API\ProductAggregate.API.csproj", "{FDBC991F-47B9-4F80-9086-3EF934B511FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductAggregate.API", "src\Services\Product\ProductAggregate.API\ProductAggregate.API.csproj", "{FDBC991F-47B9-4F80-9086-3EF934B511FE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Contraction", "src\Services\CommonServices\Shared.Contraction\Shared.Contraction.csproj", "{D30A4AC8-9A0B-4227-AE3C-D52A8FB5B1D0}"
 EndProject
