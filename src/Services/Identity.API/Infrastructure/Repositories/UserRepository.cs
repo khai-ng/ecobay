@@ -20,7 +20,7 @@ namespace Identity.Infrastructure.Repositories
             return await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
         }
 
-        public async Task<IEnumerable<string>> GetUserRolesAsync(Ulid userId)
+        public async Task<IEnumerable<string>> GetListRoleAsync(Ulid userId)
         {
             return await _context.Users
                 .Include(x => x.Roles)
@@ -30,11 +30,12 @@ namespace Identity.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<string>> GetUserPermissionAsync(Ulid userId)
+        public async Task<IEnumerable<string>> GetListPermissionAsync(Ulid userId)
         {
             IEnumerable<Permission> rolePermissions = await _context.Users
                .Include(x => x.Roles)
-               .ThenInclude(x => x.Permissions)
+               .ThenInclude(x => x.Permissions)    
+               .Where(x => x.Id == userId)
                .SelectMany(x => x.Roles)
                .SelectMany(x => x.Permissions)
                .ToListAsync();

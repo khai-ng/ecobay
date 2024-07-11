@@ -6,7 +6,7 @@ namespace Identity.Application.Abstractions
     public interface IUserRepository: IRepository<User>
     {
         Task<User?> FindAsync(string userName);
-        Task<IEnumerable<string>> GetUserRolesAsync(Ulid userId);
-        Task<IEnumerable<string>> GetUserPermissionAsync(Ulid userId);
+        Task<IEnumerable<string>> GetListRoleAsync(Ulid userId);
+        Task<IEnumerable<string>> GetListPermissionAsync(Ulid userId);
     }
 }

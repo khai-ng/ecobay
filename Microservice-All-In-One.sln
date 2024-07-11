@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{1F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4023CEDB-2D1A-4F1C-9453-1F4BD86C7BF7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.API", "src\Services\Identity\Identity.API\Identity.API.csproj", "{94B0F69C-DBD6-47DD-8D0F-A0CB84887A23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.API", "src\Services\Identity.API\Identity.API.csproj", "{94B0F69C-DBD6-47DD-8D0F-A0CB84887A23}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BDDADF63-3335-47A5-935E-81286D17AC40}"
 EndProject
