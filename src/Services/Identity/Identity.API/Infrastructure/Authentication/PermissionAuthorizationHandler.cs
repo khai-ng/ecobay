@@ -1,7 +1,6 @@
 ﻿using Identity.Application.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Identity.Infrastructure.Authentication

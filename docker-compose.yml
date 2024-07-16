@@ -158,7 +158,6 @@ services:
             dockerfile: src/ApiGateways/Web.ApiGateway/Dockerfile
         depends_on:
             - identity-api
-            # - employee-api
         networks:
             - local
         logging:

@@ -26,8 +26,8 @@ builder.AddServiceDefaults();
 builder.AddAutofac();
 builder.Services.AddDbContexts(builder.Configuration);
 
-builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
-builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+//builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+//builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
 builder.Services.AddMediatR(cfg =>
 {
@@ -35,7 +35,7 @@ builder.Services.AddMediatR(cfg =>
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
 
-builder.Services.AddKafkaProducer();
+//builder.Services.AddKafkaProducer();
 //builder.Services.AddKafkaConsumer();
 
 var app = builder.Build();
