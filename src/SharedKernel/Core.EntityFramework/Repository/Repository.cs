@@ -23,7 +23,7 @@ namespace Core.EntityFramework.Repository
             _context = context;
         }
 
-        public IQueryable<TModel> DbSet => _entity;
+        public IQueryable<TModel> Collection => _entity;
 
         public async Task<IEnumerable<TModel>> GetAllAsync()
             => await _entity.ToListAsync();

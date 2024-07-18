@@ -1,6 +1,10 @@
-﻿using Core.Autofac;
+﻿using Azure.Core;
+using Core.Autofac;
+using Core.EntityFramework.Paginations;
 using Core.EntityFramework.Repository;
+using Core.Result.Paginations;
 using Identity.Application.Abstractions;
+using Identity.Application.Services;
 using Identity.Domain.Entities.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +22,13 @@ namespace Identity.Infrastructure.Repositories
         public async Task<User?> FindAsync(string userName)
         {
             return await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
+        }
+
+        public async Task<PagingResponse<User>> GetPagedAsync(GetUserRequest request)
+        {
+            return await FluentPaging
+                .From(request)
+                .PagingAsync(_context.Users);
         }
 
         public async Task<IEnumerable<string>> GetListRoleAsync(Ulid userId)

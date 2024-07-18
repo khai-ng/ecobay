@@ -1,10 +1,8 @@
-﻿using Core.Result.AppResults;
-using Core.Result.Paginations;
-using MediatR;
+﻿using Core.Result.Paginations;
 
 namespace Product.API.Application.Product
 {
-    public class GetProductRequest : PagingRequest, IRequest<AppResult<PagingResponse<GetProductResponse>>>
+    public class GetProductRequest : PagingRequest
     {
         public string Category { get; set; }
     }

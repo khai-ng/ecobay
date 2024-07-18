@@ -1,7 +1,6 @@
 ﻿using Grpc.Core;
 using GrpcProduct;
 using MongoDB.Bson;
-using MongoDB.Driver;
 using Product.API.Application.Abstractions;
 
 namespace Product.API.Application.Product
