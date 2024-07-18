@@ -19,9 +19,7 @@ namespace Identity.Application.Services
             GetUserRequest request,
             CancellationToken ct)
         {
-            var rs = await FluentPaging
-                .From(request)
-                .PagingAsync(_userRepository.DbSet);
+            var rs = await _userRepository.GetPagedAsync(request);
             return AppResult.Success(rs);
 		}
     }
