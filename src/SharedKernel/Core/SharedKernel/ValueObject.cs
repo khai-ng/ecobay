@@ -1,6 +1,5 @@
 ﻿namespace Core.SharedKernel
 {
-    //Reference: EShopContainer by Microsoft
     public abstract class ValueObject : IEquatable<ValueObject>
     {
         protected abstract IEnumerable<object> GetEqualityComponents();
