@@ -2,7 +2,7 @@
 
 namespace Core.EntityFramework.ServiceDefault
 {
-    public abstract class Entity : BaseEntity<Ulid>
+    public abstract class Entity : Entity<Ulid>
     {
         protected Entity() : base(Ulid.NewUlid())
         { }

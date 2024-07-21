@@ -5,6 +5,6 @@
     {
         protected DomainEvent(TKey id) => Id = id;
         public TKey Id { get; protected set; }
-        public long Version { get; protected set; }
+        public DateTime TimeStamp { get; protected set; }
     }
 }

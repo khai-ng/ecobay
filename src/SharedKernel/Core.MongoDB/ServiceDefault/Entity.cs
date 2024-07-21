@@ -4,7 +4,7 @@ using MongoDB.Bson;
 namespace Core.MongoDB.ServiceDefault
 {
 
-    public abstract class Entity : BaseEntity<ObjectId>
+    public abstract class Entity : Entity<ObjectId>
     {
         protected Entity() : base(ObjectId.GenerateNewId())
         { }
