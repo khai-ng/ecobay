@@ -1,4 +1,4 @@
-﻿using Core.Enum;
+﻿using Core.SharedKernel;
 
 namespace Identity.Domain.Entities.UserAggregate
 {

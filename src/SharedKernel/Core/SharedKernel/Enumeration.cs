@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Core.Enum
+namespace Core.SharedKernel
 {
     public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>
         where TEnum : Enumeration<TEnum>
