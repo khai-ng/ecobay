@@ -1,4 +1,4 @@
-﻿namespace Identity.Domain.Constants
+﻿namespace Identity.API.Application.Constants
 {
     public static class AppEnvironment
     {
@@ -6,7 +6,7 @@
         public const string DEVELOPMENT = "Development";
         public const string PRODUCTION = "Production";
 
-        public const string DB_SCHEMA = "IdentityDb";
+        public const string DB_SCHEMA = "Default";
         public const string JWT_SECTION = "jwt";
     }
 }

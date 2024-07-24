@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.EntityFramework.Context
 {
+    /// <summary>
+    /// Abstracted <see cref="Ulid"/> converter and implemented <see cref="IUnitOfWork"/> 
+    /// </summary>
     public abstract class BaseDbContext : DbContext, IUnitOfWork
     {
         public BaseDbContext() { }
@@ -20,7 +23,14 @@ namespace Core.EntityFramework.Context
         {
             configurationBuilder
             .Properties<Ulid>()
-            .HaveConversion<UlidToStringConverter>();
+            .HaveConversion<UlidToStringConverter>()
+            //.HaveConversion<UlidToBytesConverter>()
+            ;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }

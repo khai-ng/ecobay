@@ -1,9 +1,9 @@
-﻿using Identity.API.Application.Constants;
-using Identity.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Ordering.API.Application.Constants;
+using Ordering.API.Infrastructure;
 
-namespace Identity.API.Presentation.Extensions
+namespace Ordering.API.Presentation.Extensions
 {
     public static class Extensions
     {

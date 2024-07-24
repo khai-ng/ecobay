@@ -2,6 +2,7 @@
 using Identity.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -15,14 +16,18 @@ namespace Identity.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("Identity.Domain.Entities.UserAggregate.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -39,6 +44,8 @@ namespace Identity.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -83,8 +90,8 @@ namespace Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("Identity.Domain.Entities.UserAggregate.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(26)");
+                    b.Property<byte[]>("Id")
+                        .HasColumnType("varbinary(16)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -124,8 +131,8 @@ namespace Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("Identity.Domain.Entities.UserAggregate.UserPermission", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(26)");
+                    b.Property<byte[]>("UserId")
+                        .HasColumnType("varbinary(16)");
 
                     b.Property<int>("PermissionId")
                         .HasColumnType("int");
@@ -139,8 +146,8 @@ namespace Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("Identity.Domain.Entities.UserAggregate.UserRole", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(26)");
+                    b.Property<byte[]>("UserId")
+                        .HasColumnType("varbinary(16)");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");

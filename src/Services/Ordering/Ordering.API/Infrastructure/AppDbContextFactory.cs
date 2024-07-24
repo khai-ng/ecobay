@@ -1,15 +1,18 @@
-﻿using Identity.API.Application.Constants;
+﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
+using Ordering.API.Application.Constants;
+using System.Text.Json;
 
-namespace Identity.Infrastructure
+namespace Ordering.API.Infrastructure
 {
-    internal class AppDbContextFactory: IDesignTimeDbContextFactory<AppDbContext>
+    internal class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
+        private readonly string API_ROUTE = "Ordering.API";
+
         public AppDbContext CreateDbContext(string[] args)
         {
             // Get environment
-            string environment = Environment.GetEnvironmentVariable(AppEnvironment.ASP_ENVIRONMENT) 
+            string environment = Environment.GetEnvironmentVariable(AppEnvironment.ASP_ENVIRONMENT)
                 ?? AppEnvironment.DEVELOPMENT;
 
             // Build config
@@ -23,7 +26,6 @@ namespace Identity.Infrastructure
             // Get connection string
             var builder = new DbContextOptionsBuilder<AppDbContext>();
             var connectionString = config.GetConnectionString(AppEnvironment.DB_SCHEMA)!;
-
             //builder.UseSqlServer(connectionString);
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
             builder.UseMySql(connectionString, serverVersion);
