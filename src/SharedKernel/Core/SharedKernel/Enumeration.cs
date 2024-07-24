@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace Core.SharedKernel
 {
@@ -7,6 +8,7 @@ namespace Core.SharedKernel
     {
 
         public int Id { get; protected set; }
+        [MaxLength(255)]
         public string Name { get; protected set; } = string.Empty;
 
         public Enumeration(int id, string name)

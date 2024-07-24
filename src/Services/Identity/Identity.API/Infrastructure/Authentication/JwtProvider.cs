@@ -1,7 +1,7 @@
 ﻿using Core.AspNet.Extensions;
 using Core.Autofac;
+using Identity.API.Application.Constants;
 using Identity.Application.Abstractions;
-using Identity.Domain.Constants;
 using Identity.Domain.Entities.UserAggregate;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
