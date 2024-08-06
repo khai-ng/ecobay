@@ -1,5 +1,5 @@
 ﻿using Core.Autofac;
-using Core.IntegrationEvents;
+using Core.IntegrationEvents.IntegrationEvents;
 using Core.Result.AppResults;
 using Identity.Application.Abstractions;
 using Identity.Application.Extensions;
@@ -22,6 +22,8 @@ namespace Identity.Application.Services
             LoginRequest request, 
             CancellationToken ct)
         {
+            await _producer.PublishAsync(new HelloEvent("Hello employee, i'm identity"));
+
             var user = await _userRepository.FindAsync(request.UserName);
 
             if (user == null)
@@ -32,9 +34,14 @@ namespace Identity.Application.Services
                 return AppResult.Forbidden();
 
             var token = _jwtProvider.Genereate(user!);
-            //await _producer.PublishAsync(new HelloEvent("Hello employee, i'm identity"));
 
             return AppResult.Success(token);
         }
+    }
+
+    public class HelloEvent: IntegrationEvent
+    {
+        public HelloEvent(string message) { Message = message; }
+        public string Message { get; set; } = string.Empty;
     }
 }

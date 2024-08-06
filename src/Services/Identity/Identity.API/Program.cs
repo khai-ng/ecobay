@@ -35,8 +35,7 @@ builder.Services.AddMediatR(cfg =>
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
 
-//builder.Services.AddKafkaProducer();
-//builder.Services.AddKafkaConsumer();
+builder.Services.AddKafkaProducer();
 
 var app = builder.Build();
 

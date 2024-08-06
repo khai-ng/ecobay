@@ -35,7 +35,6 @@
     <ProjectReference Include="..\..\..\SharedKernel\Core.MediaR\Core.MediaR.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core.MongoDB\Core.MongoDB.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core\Core.csproj" />
-    <ProjectReference Include="..\..\CommonServices\Shared.Contraction\Shared.Contraction.csproj" />
   </ItemGroup>
 
   <ItemGroup>

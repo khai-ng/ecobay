@@ -1,4 +1,4 @@
-﻿using Core.SharedKernel;
+﻿using Core.IntegrationEvents;
 
 namespace Core.EntityFramework.ServiceDefault
 {

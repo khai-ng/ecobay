@@ -9,10 +9,10 @@ namespace Ordering.API.Domain.OrderAgrregate
         [MaxLength(26)]
         public string PaymentMethodId { get; private set; }
         [MaxLength(255)]
-        public string Desciption { get; private set; } = string.Empty;
+        public string? Desciption { get; private set; } = string.Empty;
         public OrderStatus OrderStatus { get; private set; } = OrderStatus.Submitted;
         public Address Address { get; private set; }
 
-        public IReadOnlyCollection<OrderItem> Items;
+        public IReadOnlyCollection<OrderItem> OrderItems;
     }
 }

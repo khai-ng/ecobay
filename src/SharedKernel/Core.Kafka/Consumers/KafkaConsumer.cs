@@ -1,7 +1,6 @@
 ﻿using Confluent.Kafka;
 using Core.AspNet.Extensions;
-using Core.IntegrationEvents;
-using MediatR;
+using Core.IntegrationEvents.IntegrationEvents;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
@@ -9,21 +8,23 @@ namespace Core.Kafka.Consumers
 {
     public class KafkaConsumer : IntegrationConsumer
     {
-        private readonly ConsumerConfig _consumerConfig;
-        private readonly IMediator _publisher;
+        private readonly KafkaConsumerConfig _kafkaConfig;
+        private readonly IEventBus _eventBus;
         private readonly ILogger _logger;
 
-        public KafkaConsumer(IConfiguration configuration, IMediator publisher, ILogger logger)
+        public KafkaConsumer(IConfiguration configuration, IEventBus eventBus, ILogger logger)
         {
-            _consumerConfig = configuration.GetRequiredConfig<ConsumerConfig>("Kafka:ConsumerConfig");
-            _publisher = publisher;
+            _kafkaConfig = configuration.GetRequiredConfig<KafkaConsumerConfig>("Kafka:Consumer") 
+                ?? throw new ArgumentNullException(nameof(KafkaConsumerConfig));
+            _eventBus = eventBus
+                ?? throw new ArgumentNullException(nameof(KafkaConsumerConfig));
             _logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            using var consumer = new ConsumerBuilder<string, string>(_consumerConfig).Build();
-            consumer.Subscribe("my-topic");
+            using var consumer = new ConsumerBuilder<string, string>(_kafkaConfig.ConsumerConfig).Build();
+            consumer.Subscribe(_kafkaConfig.Topics);
             var cancelToken = new CancellationTokenSource();
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -31,11 +32,15 @@ namespace Core.Kafka.Consumers
                 {
                     //GH issue: https://github.com/dotnet/extensions/issues/2149#issuecomment-518709751
                     await Task.Yield();
-                    var cr = consumer.Consume(cancelToken.Token);
-                    var evnentMsg = cr.ToEvent();
-                    ArgumentNullException.ThrowIfNull(evnentMsg);
+                    var consumerResult = consumer.Consume(cancelToken.Token);
+                    var evnentMsg = consumerResult.ToEvent();
+                    if(evnentMsg == null)
+                    {
+                        _logger.Warning("Couldn't deserialize event of type: {EventType}", consumerResult.Message.Key);
+                        return;
+                    }    
 
-                    await _publisher.Publish(evnentMsg, cancellationToken);
+                    await _eventBus.PublishAsync(evnentMsg, cancellationToken).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
