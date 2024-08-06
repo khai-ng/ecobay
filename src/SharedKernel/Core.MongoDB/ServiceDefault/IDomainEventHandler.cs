@@ -1,4 +1,5 @@
-﻿using Core.SharedKernel;
+﻿using Core.Events;
+using Core.IntegrationEvents;
 using MongoDB.Bson;
 
 namespace Core.MongoDB.ServiceDefault

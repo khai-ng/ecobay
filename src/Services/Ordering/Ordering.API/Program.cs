@@ -8,6 +8,9 @@ using Core.MediaR;
 using MediatR;
 using Ordering.API.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Core.Kafka;
+using Core.IntegrationEvents.IntegrationEvents;
+using Ordering.API.Application.IntergrationEvents.HelloEvent;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,11 +31,13 @@ builder.Services.AddMediatR(cfg =>
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
 
+builder.Services.AddKafkaConsumer();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+	var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     if (context.Database.GetPendingMigrations().Any())
         await context.Database.MigrateAsync();
 }

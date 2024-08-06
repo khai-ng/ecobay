@@ -1,8 +1,10 @@
 ﻿using Core.SharedKernel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ordering.API.Domain.OrderAggregate
 {
+    [ComplexType]
     public class Address : ValueObject
     {
         [MaxLength(255)]

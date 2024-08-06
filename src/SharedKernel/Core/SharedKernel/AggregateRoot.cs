@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using Core.IntegrationEvents;
 
 namespace Core.SharedKernel
 {

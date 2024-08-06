@@ -4,7 +4,7 @@ using Ordering.API.Domain.OrderAgrregate;
 
 namespace Ordering.API.Infrastructure.Configurations
 {
-    public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
+    internal sealed class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {

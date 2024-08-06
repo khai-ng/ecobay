@@ -1,10 +1,10 @@
 ﻿using MediatR;
 
-namespace Core.SharedKernel
+namespace Core.IntegrationEvents
 {
     public interface IDomainEvent<TKey> : INotification
     {
         TKey Id { get; }
-       DateTime TimeStamp { get; }
+        DateTime CreatedDate { get; }
     }
 }

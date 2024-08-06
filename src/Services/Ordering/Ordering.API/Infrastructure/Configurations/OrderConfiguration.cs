@@ -4,15 +4,13 @@ using Ordering.API.Domain.OrderAgrregate;
 
 namespace Ordering.API.Infrastructure.Configurations
 {
-    public class OrderConfiguration : IEntityTypeConfiguration<Order>
+    internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.ToTable(nameof(Order));
 
-            builder.OwnsOne(x => x.Address);
-
-            builder.HasMany(x => x.Items)
+            builder.HasMany(x => x.OrderItems)
                 .WithOne()
                 .HasForeignKey(x => x.OrderId);
         }

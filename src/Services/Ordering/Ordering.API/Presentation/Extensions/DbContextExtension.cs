@@ -1,11 +1,11 @@
-﻿using Identity.API.Application.Constants;
-using Identity.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Ordering.API.Application.Constants;
+using Ordering.API.Infrastructure;
 
-namespace Identity.API.Presentation.Extensions
+namespace Ordering.API.Presentation.Extensions
 {
-    public static class Extensions
+    public static class DbContextExtension
     {
         public static IServiceCollection AddDbContexts(this IServiceCollection services, IConfiguration configuration)
         {
@@ -27,7 +27,6 @@ namespace Identity.API.Presentation.Extensions
 
                 var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
                 options.UseMySql(connection, serverVersion, sqlOptionsBuilder);
-                //options.UseMySQL(connection, sqlOptionsBuilder);
             });
 
             return services;

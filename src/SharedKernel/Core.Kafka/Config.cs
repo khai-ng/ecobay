@@ -1,4 +1,4 @@
-﻿using Core.IntegrationEvents;
+﻿using Core.IntegrationEvents.IntegrationEvents;
 using Core.Kafka.Consumers;
 using Core.Kafka.Producers;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,10 +16,17 @@ namespace Core.Kafka
 
         public static IServiceCollection AddKafkaConsumer(this IServiceCollection services) 
         {
+            services.AddSingleton<IEventBus, EventBus>();
             services.AddHostedService<KafkaConsumer>();
             return services;
         }
 
-
+        /// <summary>
+        /// Add <see cref="AddKafkaProducer"/>, <seealso cref="AddKafkaConsumer"/>
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddKafkaCompose(this IServiceCollection services)
+            => services.AddKafkaProducer().AddKafkaConsumer();
     }
 }

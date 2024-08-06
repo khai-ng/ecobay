@@ -1,16 +1,20 @@
 ﻿using Confluent.Kafka;
-using Core.Contract;
+using Core.IntegrationEvents.IntegrationEvents;
+using Core.Reflections;
 using Newtonsoft.Json;
 
 namespace Core.Kafka
 {
     public static class EventExtensions
     {
-        public static object? ToEvent(this ConsumeResult<string, string> consumeResult)
+        public static IntegrationEvent? ToEvent(this ConsumeResult<string, string> consumeResult)
         {
-            var eventType = ContractExtensions.GetContractType(consumeResult.Message.Key);
-            ArgumentNullException.ThrowIfNull(eventType);
-            return JsonConvert.DeserializeObject(consumeResult.Message.Value, eventType);
+            var eventType = TypeProvider.GetTypeFromReferenceAssembly(consumeResult.Message.Key);
+
+            if (eventType == null)
+                return null;
+
+            return JsonConvert.DeserializeObject(consumeResult.Message.Value, eventType) as IntegrationEvent;
         }
     }
 }
