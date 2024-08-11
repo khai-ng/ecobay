@@ -30,7 +30,7 @@ namespace Core.MongoDB.Context
             _commands.Add(func);
         }
 
-        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        public async Task SaveChangesAsync(CancellationToken ct = default)
         {
             if (_mongoClient == null)
             {
@@ -38,12 +38,12 @@ namespace Core.MongoDB.Context
                 SetDatabase(_dbSettings.Value.DatabaseName);
             }
 
-            using (Session = await _mongoClient!.StartSessionAsync(cancellationToken: cancellationToken))
+            using (Session = await _mongoClient!.StartSessionAsync(cancellationToken: ct))
             {
                 Session.StartTransaction();
                 var commandTasks = _commands.Select(c => c.Invoke());
                 await Task.WhenAll(commandTasks);
-                await Session.CommitTransactionAsync(cancellationToken);
+                await Session.CommitTransactionAsync(ct);
             }
         }
 

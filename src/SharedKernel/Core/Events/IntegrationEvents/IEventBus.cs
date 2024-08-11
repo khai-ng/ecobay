@@ -5,7 +5,7 @@ namespace Core.IntegrationEvents.IntegrationEvents
 {
     public interface IEventBus
     {
-        Task PublishAsync(IntegrationEvent evt, CancellationToken cancellationToken = default);
+        Task PublishAsync(IntegrationEvent evt, CancellationToken ct = default);
     }
 
     public class EventBus : IEventBus
@@ -19,7 +19,7 @@ namespace Core.IntegrationEvents.IntegrationEvents
 			_logger = logger;
 		}
 
-		public async Task PublishAsync(IntegrationEvent evt, CancellationToken cancellationToken = default)
+		public async Task PublishAsync(IntegrationEvent evt, CancellationToken ct = default)
         {
             using var scope = _serviceProvider.CreateScope();
             var eventHandleType = typeof(IIntegrationEventHandler<>).MakeGenericType(evt.GetType());
@@ -30,7 +30,7 @@ namespace Core.IntegrationEvents.IntegrationEvents
             foreach (var handler in handlers)
             {
                 var methodInfo = eventHandleType.GetMethod(nameof(IIntegrationEventHandler<IntegrationEvent>.HandleAsync));
-				var task = methodInfo?.Invoke(handler, new object[] { evt, cancellationToken }) as Task;
+				var task = methodInfo?.Invoke(handler, new object[] { evt, ct }) as Task;
 
 				if (task is null) return;
 

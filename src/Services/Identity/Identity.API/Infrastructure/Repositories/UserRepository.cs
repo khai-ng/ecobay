@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Core.Autofac;
+﻿using Core.Autofac;
 using Core.EntityFramework.Paginations;
 using Core.EntityFramework.Repository;
 using Core.Result.Paginations;

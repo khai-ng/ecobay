@@ -1,7 +1,7 @@
 services:
     kafka-ui:
         ports:
-            - 8080:8080
+            - 9080:80
         environment:
             DYNAMIC_CONFIG_ENABLED: true
             KAFKA_CLUSTERS_0_NAME: local
@@ -17,6 +17,12 @@ services:
             - ZOOKEEPER_CLIENT_PORT=2181
             - ZOOKEEPER_TICK_TIMES=2000
             - ZOOKEEPER_SYNC_LIMIT=2
+            - KAFKA_OPTS=-Dzookeeper.4lw.commands.whitelist=ruok
+        healthcheck:
+          test: echo ruok | nc 127.0.0.1 2181 || exit -1
+          interval: 10s
+          timeout: 5s
+          retries: 3
         ports:
             - 2181:2181
     kafka:
@@ -39,18 +45,18 @@ services:
             KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
             KAFKA_JMX_PORT: 9991
 
-    schemaregistry:
-        ports:
-            - 8085:8085
-        environment:
-            SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:29092
-            SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL: PLAINTEXT
-            SCHEMA_REGISTRY_HOST_NAME: schemaregistry
-            SCHEMA_REGISTRY_LISTENERS: http://schemaregistry:8085
+    # schemaregistry:
+    #     ports:
+    #         - 8085:8085
+    #     environment:
+    #         SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:29092
+    #         SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL: PLAINTEXT
+    #         SCHEMA_REGISTRY_HOST_NAME: schemaregistry
+    #         SCHEMA_REGISTRY_LISTENERS: http://schemaregistry:8085
 
-            SCHEMA_REGISTRY_SCHEMA_REGISTRY_INTER_INSTANCE_PROTOCOL: "http"
-            SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL: INFO
-            SCHEMA_REGISTRY_KAFKASTORE_TOPIC: _schemas
+    #         SCHEMA_REGISTRY_SCHEMA_REGISTRY_INTER_INSTANCE_PROTOCOL: "http"
+    #         SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL: INFO
+    #         SCHEMA_REGISTRY_KAFKASTORE_TOPIC: _schemas
 
     # kafka-connect:
     #     ports:
@@ -73,9 +79,20 @@ services:
     #         CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
     #         CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
 
+    pg-eventstore-db:
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_PASSWORD=1234
+        ports:
+            - "5432:5432"
+
     indentity-db:
         environment:
-            MYSQL_ROOT_PASSWORD: 1234A
+            MYSQL_ROOT_PASSWORD: 1234
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 5
         ports:
             - "5199:3306"
 
@@ -83,6 +100,11 @@ services:
         environment:
             - MONGO_INITDB_ROOT_USERNAME=admin
             - MONGO_INITDB_ROOT_PASSWORD=1234
+        healthcheck:
+            test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
+            interval: 10s
+            retries: 5
+            start_period: 20s
         volumes:
             - /d/Dataset/extract/json/:/data/json/
         ports:
@@ -92,6 +114,11 @@ services:
         environment:
             - MONGO_INITDB_ROOT_USERNAME=admin
             - MONGO_INITDB_ROOT_PASSWORD=1234
+        healthcheck:
+            test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
+            interval: 10s
+            retries: 5
+            start_period: 20s
         volumes:
             - /d/Dataset/extract/json/:/data/json/
         ports:
@@ -101,23 +128,28 @@ services:
         environment:
             - MONGO_INITDB_ROOT_USERNAME=admin
             - MONGO_INITDB_ROOT_PASSWORD=1234
+        healthcheck:
+            test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
+            interval: 10s
+            retries: 5
+            start_period: 20s
         volumes:
             - /d/Dataset/extract/json/:/data/json/
         ports:
             - 27019:27017
 
-    mongo-express:
-        environment:
-            - ME_CONFIG_MONGODB_SERVER=product-db-1
-            - ME_CONFIG_MONGODB_PORT=27017
-            - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
-            - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
-            - ME_CONFIG_MONGODB_AUTH_USERNAME=admin
-            - ME_CONFIG_MONGODB_AUTH_PASSWORD=1234
-            - ME_CONFIG_BASICAUTH_USERNAME=admin
-            - ME_CONFIG_BASICAUTH_PASSWORD=123456
-        ports:
-            - 8081:8081
+    # mongo-express:
+    #     environment:
+    #         - ME_CONFIG_MONGODB_SERVER=product-db-1
+    #         - ME_CONFIG_MONGODB_PORT=27017
+    #         - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+    #         - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+    #         - ME_CONFIG_MONGODB_AUTH_USERNAME=admin
+    #         - ME_CONFIG_MONGODB_AUTH_PASSWORD=1234
+    #         - ME_CONFIG_BASICAUTH_USERNAME=admin
+    #         - ME_CONFIG_BASICAUTH_PASSWORD=123456
+    #     ports:
+    #         - 2780:80
 
     identity-api:
         environment:
@@ -128,7 +160,7 @@ services:
             - Jwt__Issuer=http://identity-api
             - Jwt__Audience=http://identity-api
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - ConnectionStrings__Default=Server=indentity-db;Database=wksy.identity;User Id=root;Password=1234A;
+            - ConnectionStrings__Default=Server=indentity-db;Database=wksy.identity;User Id=root;Password=1234;
             - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
             - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
             - PATH_BASE=/identity-api

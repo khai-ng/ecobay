@@ -3,7 +3,6 @@ using Core.Result.AppResults;
 using Core.Result.Paginations;
 using Identity.Application.Abstractions;
 using Identity.Domain.Entities.UserAggregate;
-using Core.EntityFramework.Paginations;
 using MediatR;
 
 namespace Identity.Application.Services

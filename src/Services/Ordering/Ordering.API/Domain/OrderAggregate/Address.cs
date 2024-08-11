@@ -16,7 +16,7 @@ namespace Ordering.API.Domain.OrderAggregate
         [MaxLength(255)]
         public string Street { get; private set; }
 
-        public Address() { }
+        protected Address() { }
 
         public Address(string country, string city, string district, string street)
         {

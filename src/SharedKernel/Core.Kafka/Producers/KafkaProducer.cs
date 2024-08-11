@@ -16,17 +16,17 @@ namespace Core.Kafka.Producers
                 ?? throw new ArgumentNullException(nameof(KafkaProducerConfig));
         }
 
-        public async Task PublishAsync(IntegrationEvent evt, CancellationToken cancellationToken = default)
+        public async Task PublishAsync(IntegrationEvent evt, CancellationToken ct = default)
         {
-            using var p = new ProducerBuilder<string, string>(_kafkaConfig.ProducerConfig).Build();
+            using var producer = new ProducerBuilder<string, string>(_kafkaConfig.ProducerConfig).Build();
             await Task.Yield();
-            await p.ProduceAsync(_kafkaConfig.Topic,
+            var result = await producer.ProduceAsync(_kafkaConfig.Topic,
                 new Message<string, string>
                 {
                     Key = evt.GetType().Name,
                     //Value = JsonSerializer.Serialize(evt)
                     Value = JsonConvert.SerializeObject(evt)
-                }, cancellationToken).ConfigureAwait(false);
+                }, ct).ConfigureAwait(false);
         }
     }
 }

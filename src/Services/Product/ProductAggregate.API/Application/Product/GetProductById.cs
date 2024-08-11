@@ -25,7 +25,7 @@ namespace ProductAggregate.API.Application.Product
             _logger = logger;
         }
 
-        public async Task<AppResult<IEnumerable<ProductItemResponse>>> Handle(GetProductByIdRequest request, CancellationToken cancellationToken)
+        public async Task<AppResult<IEnumerable<ProductItemResponse>>> Handle(GetProductByIdRequest request, CancellationToken ct)
         {
             await _hashRingManager.Init();
             var hashedVNode = _hashRingManager.HashRing.GetBucket(request.Ids.First());

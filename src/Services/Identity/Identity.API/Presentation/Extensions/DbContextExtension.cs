@@ -7,7 +7,7 @@ namespace Identity.API.Presentation.Extensions
 {
     public static class DbContextExtension
     {
-        public static IServiceCollection AddDbContexts(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             var sqlOptionsBuilder = (MySqlDbContextOptionsBuilder sqlOptions) =>
             {

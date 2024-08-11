@@ -24,7 +24,7 @@ builder.Services.AddFastEndpoints()
 
 builder.AddServiceDefaults();
 builder.AddAutofac();
-builder.Services.AddDbContexts(builder.Configuration);
+builder.Services.AddDbContext(builder.Configuration);
 
 //builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 //builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();

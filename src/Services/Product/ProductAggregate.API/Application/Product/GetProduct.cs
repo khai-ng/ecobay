@@ -30,7 +30,7 @@ namespace ProductAggregate.API.Application.Product
 
         public async Task<AppResult<PagingResponse<GetProductResponse>>> Handle(
             GetProductRequest request,
-            CancellationToken cancellationToken)
+            CancellationToken ct)
         {
             var req = new GrpcProduct.GetProductRequest()
             {

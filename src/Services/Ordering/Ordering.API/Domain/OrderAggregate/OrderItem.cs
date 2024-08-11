@@ -11,8 +11,25 @@ namespace Ordering.API.Domain.OrderAgrregate
         [MaxLength(24)]
         public string ProductId { get; private set; }
         [Column(TypeName = "decimal(12, 2)")]
-        public decimal Price { get; private set; }
+        public decimal UnitPrice { get; private set; }
         public int Unit { get; private set; }
+
+        protected OrderItem() { }
+        public OrderItem(Ulid orderId,
+            string productId,
+            decimal unitPrice,
+            int unit)
+        {
+            OrderId = orderId;
+            ProductId = productId;
+            UnitPrice = unitPrice;
+            Unit = unit;
+        }
+
+        public void AddUnits(int units)
+        {
+            Unit += units;
+        }
 
     }
 }

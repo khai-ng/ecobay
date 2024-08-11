@@ -25,13 +25,13 @@ services:
         networks:
             - local 
 
-    schemaregistry:
-        container_name: schemaregistry
-        image: confluentinc/cp-schema-registry:7.6.0
-        depends_on:
-            - kafka
-        networks:
-            - local 
+    # schemaregistry:
+    #     container_name: schemaregistry
+    #     image: confluentinc/cp-schema-registry:7.6.0
+    #     depends_on:
+    #         - kafka
+    #     networks:
+    #         - local 
 
     # kafka-connect:
     #     container_name: kafka-connect
@@ -43,6 +43,12 @@ services:
     #         - local 
 
     ## Services
+    pg-eventstore-db:
+        container_name: pg-eventstore-db
+        image: postgres:15-alpine
+        networks:
+            - local
+
     indentity-db:
         container_name: indentity-db
         image: mysql:8.3.0
@@ -71,11 +77,11 @@ services:
         networks:
             - local
         
-    mongo-express:
-        container_name: mongo-express
-        image: mongo-express:1.0.2-20-alpine3.19
-        networks:
-            - local
+    # mongo-express:
+    #     container_name: mongo-express
+    #     image: mongo-express:1.0.2-20-alpine3.19
+    #     networks:
+    #         - local
 
     identity-api:
         container_name: identity-api
@@ -333,4 +339,3 @@ services:
 networks:
     local:
         driver: bridge
-
