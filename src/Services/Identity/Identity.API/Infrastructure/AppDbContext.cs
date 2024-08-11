@@ -9,8 +9,7 @@ namespace Identity.Infrastructure
     public class AppDbContext : BaseDbContext, IScoped
     {
         public AppDbContext(DbContextOptions options) : base(options)
-        {
-        }
+        { }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Permission> Permissions { get; set; }
@@ -20,15 +19,6 @@ namespace Identity.Infrastructure
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(builder);
-
-            //foreach (var entityType in builder.Model.GetEntityTypes())
-            //{
-            //    var tableName = entityType.GetTableName();
-            //    if (tableName.StartsWith("AspNet"))
-            //    {
-            //        entityType.SetTableName(tableName.Substring(6));
-            //    }
-            //}
-        }      
+        }
     }
 }
