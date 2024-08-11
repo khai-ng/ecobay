@@ -9,7 +9,6 @@ namespace Ordering.API.Domain.Events
         public Ulid BuyerId { get; private set; }
         public IReadOnlyCollection<OrderItem> OrderItems { get; private set; }
         public decimal TotalPrice { get; private set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
         public DateTimeOffset TimeoutAt { get; private set; } = DateTimeOffset.Now.AddDays(3);
 
         public OrderInitiated(Ulid orderId,

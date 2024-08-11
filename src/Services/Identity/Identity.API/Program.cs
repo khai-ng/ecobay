@@ -1,34 +1,27 @@
 using Autofac.Extensions.DependencyInjection;
 using Core.AspNet.Extensions;
 using Core.Autofac;
+using Core.Kafka;
 using Core.MediaR;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using Identity.API.Presentation.Extensions;
 using Identity.Infrastructure;
-using Identity.Infrastructure.Authentication;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Core.Kafka;
-using Identity.API.Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddAutofac();
+builder.AddServiceDefaults();
 
 builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
-
-//builder.Services.AddEndpointsApiExplorer()
-//.AddSwaggerGen();
-
-builder.AddServiceDefaults();
-builder.AddAutofac();
 builder.Services.AddDbContext(builder.Configuration);
-
 //builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 //builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
-
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());

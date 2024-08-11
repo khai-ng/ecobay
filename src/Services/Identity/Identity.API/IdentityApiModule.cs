@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Core.Autofac;
+using Core.EntityFramework.Context;
+using Core.SharedKernel;
 
 namespace Identity.API
 {
@@ -7,7 +9,9 @@ namespace Identity.API
     {
         protected override void Load(ContainerBuilder builder)
         {
-            base.Load(builder);
+            builder.RegisterType<UnitOfWork>()
+                .As<IUnitOfWork>()
+                .InstancePerLifetimeScope();
         }
     }
 }

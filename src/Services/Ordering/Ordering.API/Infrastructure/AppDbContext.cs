@@ -1,6 +1,5 @@
 ﻿using Core.Autofac;
 using Core.EntityFramework.Context;
-using Core.EntityFramework.Identity;
 using Core.EntityFramework.ServiceDefault;
 using Core.SharedKernel;
 using Microsoft.EntityFrameworkCore;

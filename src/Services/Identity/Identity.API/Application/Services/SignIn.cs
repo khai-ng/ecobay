@@ -32,7 +32,7 @@ namespace Identity.Application.Services
             };
             _userRepository.AddRange(new List<User>() { user });
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(ct);
             return AppResult.Success("Sign In Sucess");
         }
     }
