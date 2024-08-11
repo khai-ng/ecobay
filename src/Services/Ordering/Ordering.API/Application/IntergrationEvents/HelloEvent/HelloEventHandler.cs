@@ -12,7 +12,7 @@ namespace Ordering.API.Application.IntergrationEvents.HelloEvent
 			_logger = logger;
 		}
 
-		public Task HandleAsync(HelloEvent @event, CancellationToken cancellationToken = default)
+		public Task HandleAsync(HelloEvent @event, CancellationToken ct = default)
 		{
 			_logger.Information("Handling message: {Message}", nameof(HelloEvent));
 			return Task.CompletedTask;

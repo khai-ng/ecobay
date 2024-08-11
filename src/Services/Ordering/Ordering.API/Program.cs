@@ -9,8 +9,9 @@ using MediatR;
 using Ordering.API.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Core.Kafka;
-using Core.IntegrationEvents.IntegrationEvents;
-using Ordering.API.Application.IntergrationEvents.HelloEvent;
+using Core.Marten;
+using Autofac.Core;
+using Core.Events.EventStore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +19,9 @@ builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
 
-//builder.Services.AddEndpointsApiExplorer()
-//.AddSwaggerGen();
-
 builder.AddServiceDefaults();
 builder.AddAutofac();
-builder.Services.AddDbContexts(builder.Configuration);
+builder.Services.AddDbContext(builder.Configuration);
 
 builder.Services.AddMediatR(cfg =>
 {
@@ -32,6 +30,9 @@ builder.Services.AddMediatR(cfg =>
 });
 
 builder.Services.AddKafkaConsumer();
+
+builder.Services.AddMarten(builder.Configuration);
+builder.Services.AddScoped(typeof(IEventStoreRepository<,>), typeof(MartenRepository<>));
 
 var app = builder.Build();
 

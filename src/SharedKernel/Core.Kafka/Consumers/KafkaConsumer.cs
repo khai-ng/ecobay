@@ -21,12 +21,12 @@ namespace Core.Kafka.Consumers
             _logger = logger;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken ct)
         {
             using var consumer = new ConsumerBuilder<string, string>(_kafkaConfig.ConsumerConfig).Build();
             consumer.Subscribe(_kafkaConfig.Topics);
             var cancelToken = new CancellationTokenSource();
-            while (!cancellationToken.IsCancellationRequested)
+            while (!ct.IsCancellationRequested)
             {
                 try
                 {
@@ -40,7 +40,7 @@ namespace Core.Kafka.Consumers
                         return;
                     }    
 
-                    await _eventBus.PublishAsync(evnentMsg, cancellationToken).ConfigureAwait(false);
+                    await _eventBus.PublishAsync(evnentMsg, ct).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {

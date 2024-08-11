@@ -16,7 +16,7 @@ namespace Core.AspNet.Middlewares
 
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext,
             Exception exception,
-            CancellationToken cancellationToken)
+            CancellationToken ct)
         {
             var appResult = AppResult.Error(exception.Message);
 
@@ -25,7 +25,7 @@ namespace Core.AspNet.Middlewares
                 .Fatal("Internal server error");
 
             var httpResult = await appResult.ToHttpResult().ToValueAsync<object>();
-            await httpContext.Response.WriteAsJsonAsync(httpResult, cancellationToken);
+            await httpContext.Response.WriteAsJsonAsync(httpResult, ct);
             return true;
         }
     }
