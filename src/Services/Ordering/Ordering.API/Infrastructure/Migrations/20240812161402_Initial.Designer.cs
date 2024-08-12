@@ -13,7 +13,7 @@ using Ordering.API.Infrastructure;
 namespace Ordering.API.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240811081143_Initial")]
+    [Migration("20240812161402_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

@@ -2,7 +2,7 @@
 using Ordering.API.Domain.Events;
 using Ordering.API.Domain.OrderAggregate;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ordering.API.Domain.OrderAgrregate
 {
@@ -11,15 +11,20 @@ namespace Ordering.API.Domain.OrderAgrregate
         public Ulid BuyerId { get; private set; }
         [MaxLength(26)]
         public string PaymentId { get; private set; }
+        [ForeignKey(nameof(OrderStatus))]
+        public int OrderStatusId { get; private set; }
         [MaxLength(255)]
         public string? Desciption { get; private set; } = string.Empty;
+        [Column(TypeName = "decimal(12,2)")]
         public decimal TotoalPrice { get; private set; } = 0;
-        public OrderStatus OrderStatus { get; private set; } = OrderStatus.Submitted;
+        
         public Address Address { get; private set; }
+        
         public DateTimeOffset? CreatedDate { get; private set; }
 
         public List<OrderItem> OrderItems {  get; private set; }
 
+        public OrderStatus OrderStatus { get; private set; }
         protected Order() 
         {
             OrderItems = [];
@@ -29,7 +34,7 @@ namespace Ordering.API.Domain.OrderAgrregate
             Id = Ulid.NewUlid();
             BuyerId = buyerId;
             PaymentId = paymentId;
-            OrderStatus = OrderStatus.Submitted;
+            OrderStatusId = OrderStatus.Submitted.Id;
             Address = address;
             CreatedDate = DateTimeOffset.Now;
             OrderItems = orderItems.ToList();
@@ -55,7 +60,7 @@ namespace Ordering.API.Domain.OrderAgrregate
 
         public void SetShipped()
         {
-            if (OrderStatus != OrderStatus.Paid)
+            if (OrderStatusId != OrderStatus.Paid.Id)
                 throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Paid.Name}");
 
             ShippedOrderEvent();
@@ -63,10 +68,10 @@ namespace Ordering.API.Domain.OrderAgrregate
 
         public void SetCanceled()
         {
-            if (OrderStatus == OrderStatus.Paid || OrderStatus == OrderStatus.Shipped)
+            if (OrderStatusId == OrderStatus.Paid.Id || OrderStatusId == OrderStatus.Shipped.Id)
                 throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Shipped.Name}");
 
-            OrderStatus = OrderStatus.Cancelled;
+            OrderStatusId = OrderStatus.Cancelled.Id;
 
             CancelOrderEvent();
         }

@@ -42,10 +42,10 @@ namespace Ordering.API.Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PaymentId = table.Column<string>(type: "varchar(26)", maxLength: 26, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    OrderStatusId = table.Column<int>(type: "int", nullable: false),
                     Desciption = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TotoalPrice = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    OrderStatusId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
                     Address_City = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     Address_Country = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),

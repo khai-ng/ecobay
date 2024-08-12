@@ -6,7 +6,23 @@ using System.Text.Json.Serialization;
 
 namespace Core.AspNet.Result
 {
-    public class HttpResult<T> : IResult
+    public class HttpResult<T> : HttpResult
+    {
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        public T? Data { get; set; }
+
+        public HttpResult(IAppResult<T> appResult) : base(appResult)
+            => Data = appResult.Data;       
+
+        public HttpResult(
+            HttpStatusCode statusCode,
+            T? data,
+            string? message,
+            IEnumerable<ErrorDetail>? errors) : base(statusCode, message, errors)       
+            => Data = data;
+    }
+
+    public class HttpResult : IResult
     {
         private static Dictionary<AppStatusCode, HttpStatusMap> _mappingType = new()
         {
@@ -29,20 +45,16 @@ namespace Core.AspNet.Result
         public string? Type { get; private set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public T? Data { get; set; }
-
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Message { get; private set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public IEnumerable<ErrorDetail>? Errors { get; private set; }
 
-        public HttpResult(IAppResult<T> appResult)
+        public HttpResult(IAppResult appResult)
         {
             if (!_mappingType.TryGetValue(appResult.Status, out var appStatusMapping))
                 throw new NotSupportedException();
 
-            Data = appResult.Data;
             Message = appResult.Message;
             Errors = appResult.Errors;
             StatusCode = appStatusMapping.HttpStatusCode;
@@ -52,7 +64,6 @@ namespace Core.AspNet.Result
 
         public HttpResult(
             HttpStatusCode statusCode,
-            T? data,
             string? message,
             IEnumerable<ErrorDetail>? errors)
         {
@@ -61,7 +72,6 @@ namespace Core.AspNet.Result
             StatusCode = statusCode;
             Title = httpStatusMap.Title;
             Type = httpStatusMap.Type;
-            Data = data;
             Message = message;
             Errors = errors;
         }

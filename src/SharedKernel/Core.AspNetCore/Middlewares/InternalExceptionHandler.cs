@@ -18,7 +18,12 @@ namespace Core.AspNet.Middlewares
             Exception exception,
             CancellationToken ct)
         {
-            var appResult = AppResult.Error(exception.Message);
+            List<string> errors = [];
+            errors.Add(exception.Message);
+            if (exception.InnerException != null)
+                errors.Add(exception.InnerException.Message);
+
+            var appResult = AppResult.Error(errors.ToArray());
 
             _logger
                 .ForContext("response", appResult, true)
