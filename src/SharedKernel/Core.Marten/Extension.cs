@@ -1,8 +1,7 @@
-﻿using Core.Events.EventStore;
-using Marten;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Weasel.Core;
+using Marten;
 
 namespace Core.Marten
 {
@@ -13,7 +12,7 @@ namespace Core.Marten
         public static IServiceCollection AddMarten(this IServiceCollection services, IConfiguration configuration)
         {
             var martenOptions = configuration.GetRequiredSection(DefaultConfigKey).Get<MartenConfig>();
-            if(martenOptions == null) throw new ArgumentNullException(nameof(martenOptions));
+            if (martenOptions == null) throw new ArgumentNullException(nameof(martenOptions));
 
             services.AddMarten(options =>
             {
@@ -21,12 +20,12 @@ namespace Core.Marten
                 options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
 
                 options.Events.DatabaseSchemaName = martenOptions.WriteSchema;
-                options.DatabaseSchemaName = martenOptions.ReadSchema;
-                
+                //options.DatabaseSchemaName = martenOptions.ReadSchema;
+
                 options.UseSystemTextJsonForSerialization();
             })
             .UseLightweightSessions();
-            
+
             return services;
         }
     }

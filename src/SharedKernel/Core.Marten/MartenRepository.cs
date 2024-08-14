@@ -4,7 +4,7 @@ using Marten;
 
 namespace Core.Marten
 {
-    public class MartenRepository<TEntity> : IEventStoreRepository<TEntity, Guid>
+    public class MartenRepository<TEntity> : IEventStoreRepository<TEntity>
         where TEntity : AggregateRoot<Guid>
     {
         private readonly IDocumentSession _documentSession;

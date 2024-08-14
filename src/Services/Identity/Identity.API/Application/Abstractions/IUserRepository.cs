@@ -8,8 +8,8 @@ namespace Identity.Application.Abstractions
     public interface IUserRepository: IRepository<User>
     {
         Task<User?> FindAsync(string userName);
-        Task<IEnumerable<string>> GetListRoleAsync(Ulid userId);
-        Task<IEnumerable<string>> GetListPermissionAsync(Ulid userId);
+        Task<IEnumerable<string>> GetListRoleAsync(Guid userId);
+        Task<IEnumerable<string>> GetListPermissionAsync(Guid userId);
         Task<PagingResponse<User>> GetPagedAsync(GetUserRequest request);
     }
 }

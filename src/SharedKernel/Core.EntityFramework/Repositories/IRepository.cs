@@ -2,8 +2,8 @@
 
 namespace Core.EntityFramework.Repository
 {
-    public interface IRepository<TModel> : IRepository<TModel, Ulid>
-        where TModel : AggregateRoot<Ulid>
+    public interface IRepository<TModel> : IRepository<TModel, Guid>
+        where TModel : AggregateRoot<Guid>
     { }
 
     public interface IRepository<TModel, TKey> :

@@ -1,13 +1,12 @@
 ﻿using Core.Result.AppResults;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
 
 namespace Ordering.API.Application.Services
 {
-    public class CreateOrderRequest: IRequest<AppResult<bool>>
+    public class CreateOrderRequest: IRequest<AppResult<CreateOrderResponse>>
     {
-        public string BuyerId { get; set; }
-        public string PaymentId { get; set; }
+        public Guid BuyerId { get; set; }
+        public Guid PaymentId { get; set; }
         public string Country { get; set; }
 
         public string City { get; set; }
@@ -16,8 +15,8 @@ namespace Ordering.API.Application.Services
 
         public List<OrderItemRequest> OrderItems { get; set; }
 
-        public CreateOrderRequest(string buyerId, 
-            string paymentId,
+        public CreateOrderRequest(Guid buyerId,
+            Guid paymentId,
             string country,
             string city,
             string district,

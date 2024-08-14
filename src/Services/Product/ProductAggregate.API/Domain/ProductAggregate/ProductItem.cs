@@ -1,4 +1,5 @@
-﻿using Core.MongoDB.ServiceDefault;
+﻿using Core.Events.DomainEvents;
+using Core.MongoDB.ServiceDefault;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -24,6 +25,5 @@ namespace ProductAggregate.API.Domain.ProductAggregate
         public object? Details { get; set; }
 
         public int? VirtualId { get; set; }
-
     }
 }

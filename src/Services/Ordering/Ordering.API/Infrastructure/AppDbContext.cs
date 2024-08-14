@@ -22,19 +22,6 @@ namespace Ordering.API.Infrastructure
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
-
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                if (entityType.ClrType.IsAssignableTo(typeof(Entity<>)))
-                {
-                    var property = entityType.FindProperty(nameof(Entity.Id))!;
-                    entityType.AddKey(property);
-                }
-                if (entityType.ClrType.IsAssignableTo(typeof(AggregateRoot<>)))
-                {
-                    entityType.AddIgnored(nameof(AggregateRoot.Events));
-                }
-            }
         }
     }
 }

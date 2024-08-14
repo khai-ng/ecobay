@@ -32,7 +32,7 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddKafkaConsumer();
 
 builder.Services.AddMarten(builder.Configuration);
-builder.Services.AddScoped(typeof(IEventStoreRepository<,>), typeof(MartenRepository<>));
+builder.Services.AddScoped(typeof(IEventStoreRepository<>), typeof(MartenRepository<>));
 
 var app = builder.Build();
 

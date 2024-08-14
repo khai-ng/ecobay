@@ -1,4 +1,6 @@
-﻿using Core.MongoDB.ServiceDefault;
+﻿using Core.Events.DomainEvents;
+using Core.MongoDB.ServiceDefault;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.IO.Hashing;
 using System.Text;
@@ -30,6 +32,5 @@ namespace ProductAggregate.API.Domain.ServerAggregate
             return Equals(obj as Server);
         }
 
-        
     }
 }

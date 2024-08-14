@@ -58,7 +58,5 @@ namespace Core.SharedKernel
         {
             return Name.ToString();
         }
-
-
     }
 }
