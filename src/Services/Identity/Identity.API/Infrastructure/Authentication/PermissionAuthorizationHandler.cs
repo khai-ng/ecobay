@@ -17,7 +17,7 @@ namespace Identity.Infrastructure.Authentication
         public override async Task HandleAsync(AuthorizationHandlerContext context)
         {
             var userId = context.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
-            if (!Ulid.TryParse(userId, out Ulid parsedUserId))
+            if (!Guid.TryParse(userId, out Guid parsedUserId))
                 return;
 
 
@@ -50,7 +50,7 @@ namespace Identity.Infrastructure.Authentication
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
             var userId = context.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
-            if(!Ulid.TryParse(userId, out Ulid pasredUserId))
+            if(!Guid.TryParse(userId, out Guid pasredUserId))
                 return;
 
             using IServiceScope serviceScope = _serviceScopeFactory.CreateScope();

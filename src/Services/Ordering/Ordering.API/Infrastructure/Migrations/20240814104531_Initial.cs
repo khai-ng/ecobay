@@ -36,17 +36,14 @@ namespace Ordering.API.Infrastructure.Migrations
                 name: "Order",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(26)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    BuyerId = table.Column<string>(type: "varchar(26)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    PaymentId = table.Column<string>(type: "varchar(26)", maxLength: 26, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    BuyerId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PaymentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     OrderStatusId = table.Column<int>(type: "int", nullable: false),
-                    Desciption = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
+                    Description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TotoalPrice = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    CreatedDate = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
+                    TotalPrice = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Address_City = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     Address_Country = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     Address_District = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
@@ -69,10 +66,8 @@ namespace Ordering.API.Infrastructure.Migrations
                 name: "OrderItem",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(26)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    OrderId = table.Column<string>(type: "varchar(26)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    OrderId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ProductId = table.Column<string>(type: "varchar(24)", maxLength: 24, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UnitPrice = table.Column<decimal>(type: "decimal(12,2)", nullable: false),

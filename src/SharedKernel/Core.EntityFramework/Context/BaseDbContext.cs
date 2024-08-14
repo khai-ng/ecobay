@@ -1,7 +1,7 @@
 ﻿using Core.EntityFramework.Identity;
 using Core.EntityFramework.ServiceDefault;
+using Core.SharedKernel;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Core.EntityFramework.Context
 {
@@ -11,18 +11,30 @@ namespace Core.EntityFramework.Context
         public BaseDbContext(DbContextOptions options) : base(options)
         { }
 
-        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        //protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        //{
+        //    configurationBuilder
+        //    .Properties<Ulid>()
+        //    .HaveConversion<UlidToStringConverter>()
+        //    //.HaveConversion<UlidToBytesConverter>()
+        //    ;
+        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            configurationBuilder
-            .Properties<Ulid>()
-            .HaveConversion<UlidToStringConverter>()
-            //.HaveConversion<UlidToBytesConverter>()
-            ;
-        }
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (entityType.ClrType.IsAssignableTo(typeof(Entity<>)))
+                {
+                    var property = entityType.FindProperty(nameof(Entity.Id))!;
+                    entityType.AddKey(property);
+                }
+                if (entityType.ClrType.IsAssignableTo(typeof(AggregateRoot<>)))
+                {
+                    entityType.AddIgnored(nameof(AggregateRoot.Events));
+                }
+            }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

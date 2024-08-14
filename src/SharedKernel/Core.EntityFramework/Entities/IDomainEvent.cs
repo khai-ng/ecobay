@@ -2,5 +2,5 @@
 
 namespace Core.EntityFramework.ServiceDefault
 {
-    public interface IDomainEvent : IDomainEvent<Ulid> { }
+    public interface IDomainEvent : IDomainEvent<Guid> { }
 }

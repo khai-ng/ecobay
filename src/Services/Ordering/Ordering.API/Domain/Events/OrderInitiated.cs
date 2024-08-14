@@ -5,22 +5,11 @@ namespace Ordering.API.Domain.Events
 {
     public class OrderInitiated : DomainEvent
     {
-        public Ulid OrderId { get; private set; }
-        public Ulid BuyerId { get; private set; }
-        public IReadOnlyCollection<OrderItem> OrderItems { get; private set; }
-        public decimal TotalPrice { get; private set; }
-        public DateTimeOffset TimeoutAt { get; private set; } = DateTimeOffset.Now.AddDays(3);
+        public Order Order { get; set; }
+        public DateTime TimeoutAt { get; private set; } = DateTime.UtcNow.AddDays(3);
 
-        public OrderInitiated(Ulid orderId,
-            Ulid buyerId,
-            IReadOnlyCollection<OrderItem> orderItems) : base(orderId)
-        {
-            if (orderItems == null || orderItems.Count == 0) throw new ArgumentException(nameof(orderItems));
-
-            OrderId = orderId;
-            BuyerId = buyerId;
-            OrderItems = orderItems;
-            TotalPrice = orderItems.Sum(x => x.UnitPrice * x.Unit);
-        }
+        public OrderInitiated(Order order) : base(order.Id)     
+            => Order = order;
+        
     }
 }

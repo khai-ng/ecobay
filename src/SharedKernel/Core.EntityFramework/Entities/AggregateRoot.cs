@@ -3,12 +3,12 @@
 namespace Core.EntityFramework.ServiceDefault
 {
     /// <summary>
-    /// Base aggreate root class with <see cref="Ulid"/> type Id
+    /// Base aggreate root class with <see cref="Guid"/> type Id
     /// </summary>
-    public abstract class AggregateRoot : AggregateRoot<Ulid>
+    public abstract class AggregateRoot : AggregateRoot<Guid>
     {
-        protected AggregateRoot() : base(Ulid.NewUlid()) { }
-        protected AggregateRoot(Ulid id) : base(id)
+        protected AggregateRoot() : base(Guid.NewGuid()) { }
+        protected AggregateRoot(Guid id) : base(id)
         { }
     }
 

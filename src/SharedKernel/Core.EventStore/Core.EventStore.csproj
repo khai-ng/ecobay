@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Marten.AspNetCore" Version="7.26.1" />
+    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.3.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

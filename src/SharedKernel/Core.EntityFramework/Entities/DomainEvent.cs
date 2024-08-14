@@ -3,12 +3,12 @@
 namespace Core.EntityFramework.ServiceDefault
 {
     /// <summary>
-    /// Base domain event class with <see cref="Ulid"/> type Id
+    /// Base domain event class with <see cref="Guid"/> type Id
     /// </summary>
-    public abstract class DomainEvent : DomainEvent<Ulid>
+    public abstract class DomainEvent : DomainEvent<Guid>
     {
-        protected DomainEvent() : base(Ulid.NewUlid()) { }
-        protected DomainEvent(Ulid id) : base(id)
+        protected DomainEvent() : base(Guid.NewGuid()) { }
+        protected DomainEvent(Guid aggregate) : base(aggregate)
         {
         }
     }

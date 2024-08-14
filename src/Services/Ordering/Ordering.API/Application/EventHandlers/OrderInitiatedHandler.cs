@@ -7,18 +7,17 @@ namespace Ordering.API.Application.EventHandlers
 {
     public class OrderInitiatedHandler : IDomainEventHandler<OrderInitiated>
     {
-        //private readonly IEventStoreRepository<Order> _eventStoreRepository;
+        private readonly IEventStoreRepository<Order> _eventStoreRepository;
 
-        //public OrderInitiatedHandler(IEventStoreRepository<Order> eventStoreRepository)
-        //{
-        //    _eventStoreRepository = eventStoreRepository;
-        //}
-        public OrderInitiatedHandler() { }
-
-        public Task Handle(OrderInitiated @event, CancellationToken ct)
+        public OrderInitiatedHandler(IEventStoreRepository<Order> eventStoreRepository)
         {
-            //_eventStoreRepository.Add(@event.OrderId);
-            return Task.CompletedTask;
+            _eventStoreRepository = eventStoreRepository;
+        }
+
+        public async Task Handle(OrderInitiated @event, CancellationToken ct)
+        {
+            var eventHandled = await _eventStoreRepository.Add(@event.AggregateId, @event.Order, ct);
+
         }
     }
 }

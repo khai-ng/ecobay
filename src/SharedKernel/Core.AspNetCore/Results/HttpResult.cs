@@ -8,7 +8,7 @@ namespace Core.AspNet.Result
 {
     public class HttpResult<T> : HttpResult
     {
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public T? Data { get; set; }
 
         public HttpResult(IAppResult<T> appResult) : base(appResult)

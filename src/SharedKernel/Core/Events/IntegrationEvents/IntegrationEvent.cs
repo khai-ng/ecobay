@@ -1,11 +1,11 @@
 ﻿namespace Core.IntegrationEvents.IntegrationEvents
 {
     /// <summary>
-    /// IntegrationEvent with default <see cref="Ulid"/> Id
+    /// IntegrationEvent with default <see cref="Guid"/> Id
     /// </summary>
-    public abstract class IntegrationEvent : IntegrationEvent<Ulid> 
+    public abstract class IntegrationEvent : IntegrationEvent<Guid> 
     {
-        public IntegrationEvent() : base(Ulid.NewUlid()) { }
+        public IntegrationEvent() : base(Guid.NewGuid()) { }
     }
 
     public abstract class IntegrationEvent<TKey>

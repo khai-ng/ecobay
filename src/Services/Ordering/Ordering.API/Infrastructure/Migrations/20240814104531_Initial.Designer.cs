@@ -13,7 +13,7 @@ using Ordering.API.Infrastructure;
 namespace Ordering.API.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240812161402_Initial")]
+    [Migration("20240814104531_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -78,30 +78,28 @@ namespace Ordering.API.Infrastructure.Migrations
 
             modelBuilder.Entity("Ordering.API.Domain.OrderAgrregate.Order", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(26)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<string>("BuyerId")
-                        .IsRequired()
-                        .HasColumnType("varchar(26)");
+                    b.Property<Guid>("BuyerId")
+                        .HasColumnType("char(36)");
 
-                    b.Property<DateTimeOffset?>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Desciption")
+                    b.Property<string>("Description")
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
                     b.Property<int>("OrderStatusId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PaymentId")
-                        .IsRequired()
-                        .HasMaxLength(26)
-                        .HasColumnType("varchar(26)");
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("char(36)");
 
-                    b.Property<decimal>("TotoalPrice")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<long>("Version")
                         .HasColumnType("bigint");
@@ -140,12 +138,12 @@ namespace Ordering.API.Infrastructure.Migrations
 
             modelBuilder.Entity("Ordering.API.Domain.OrderAgrregate.OrderItem", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(26)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<string>("OrderId")
-                        .IsRequired()
-                        .HasColumnType("varchar(26)");
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ProductId")
                         .IsRequired()

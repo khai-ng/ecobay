@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.EntityFramework.Repository
 {
-    public abstract class Repository<TModel> : Repository<TModel, Ulid>
-        where TModel : AggregateRoot<Ulid>
+    public abstract class Repository<TModel> : Repository<TModel, Guid>
+        where TModel : AggregateRoot<Guid>
     {
         protected Repository(DbContext context) : base(context)
         {

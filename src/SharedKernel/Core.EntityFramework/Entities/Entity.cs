@@ -3,14 +3,14 @@
 namespace Core.EntityFramework.ServiceDefault
 {
     /// <summary>
-    /// Base entity class with <see cref="Ulid"/> type Id
+    /// Base entity class with <see cref="Guid"/> type Id
     /// </summary>
-    public abstract class Entity : Entity<Ulid>
+    public abstract class Entity : Entity<Guid>
     {
-        protected Entity() : base(Ulid.NewUlid())
+        protected Entity() : base(Guid.NewGuid())
         { }
 
-        protected Entity(Ulid id) : base(id)
+        protected Entity(Guid id) : base(id)
         { }
     }
 }

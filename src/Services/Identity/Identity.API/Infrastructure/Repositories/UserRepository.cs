@@ -30,7 +30,7 @@ namespace Identity.Infrastructure.Repositories
                 .PagingAsync(_context.Users);
         }
 
-        public async Task<IEnumerable<string>> GetListRoleAsync(Ulid userId)
+        public async Task<IEnumerable<string>> GetListRoleAsync(Guid userId)
         {
             return await _context.Users
                 .Include(x => x.Roles)
@@ -40,7 +40,7 @@ namespace Identity.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<string>> GetListPermissionAsync(Ulid userId)
+        public async Task<IEnumerable<string>> GetListPermissionAsync(Guid userId)
         {
             IEnumerable<Permission> rolePermissions = await _context.Users
                .Include(x => x.Roles)
