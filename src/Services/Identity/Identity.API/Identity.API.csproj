@@ -29,4 +29,8 @@
     <ProjectReference Include="..\..\..\SharedKernel\Core.MediaR\Core.MediaR.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\Migrations\" />
+  </ItemGroup>
+
 </Project>

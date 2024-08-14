@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Ordering.API.Application.Services
 {
-    public class CreateOrderRequest: IRequest<AppResult<CreateOrderResponse>>
+    public class CreateOrderRequest: IRequest<AppResult<Guid>>
     {
         public Guid BuyerId { get; set; }
         public Guid PaymentId { get; set; }

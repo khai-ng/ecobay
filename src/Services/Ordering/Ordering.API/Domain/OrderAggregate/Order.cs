@@ -40,7 +40,8 @@ namespace Ordering.API.Domain.OrderAgrregate
             CreatedDate = DateTime.UtcNow;
             OrderItems = orderItems.ToList();
             TotalPrice = OrderItems.Sum(x => x.UnitPrice * x.Unit);
-            AddOrderEvent();
+
+            Enqueue(new OrderInitiated(this));
         }
 
         public void AddOrderItem(OrderItem orderItem)
@@ -53,11 +54,17 @@ namespace Ordering.API.Domain.OrderAgrregate
 
             TotalPrice += orderItem.UnitPrice * orderItem.Unit;
         }
-       
+
+        public void SetStockConfirmed()
+        {
+            OrderStatusId = OrderStatus.StockConfirmed.Id;
+            Enqueue(new OrderStockConfirmed(Id));
+        }
+
         public void SetPaid()
         {
             OrderStatusId = OrderStatus.Paid.Id;
-            PaidOrderEvent();
+            Enqueue(new OrderPaid(Id));
         }
 
         public void SetShipped()
@@ -66,7 +73,7 @@ namespace Ordering.API.Domain.OrderAgrregate
                 throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Paid.Name}");
 
             OrderStatusId = OrderStatus.Shipped.Id;
-            ShippedOrderEvent();
+            Enqueue(new OrderShipped(Id));
         }
 
         public void SetCanceled()
@@ -75,34 +82,8 @@ namespace Ordering.API.Domain.OrderAgrregate
                 throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Shipped.Name}");
 
             OrderStatusId = OrderStatus.Cancelled.Id;
-            CancelOrderEvent();
+            Enqueue(new OrderCanceled(Id));
         }
-
-        //Events
-        private void AddOrderEvent()
-        {
-            var addOrderEvent = new OrderInitiated(this);
-            Enqueue(addOrderEvent);
-        }
-
-        private void PaidOrderEvent()
-        {
-            var paidOrderEvent = new OrderPaid(Id);
-            Enqueue(paidOrderEvent);
-        }
-
-        private void ShippedOrderEvent()
-        {
-            var paidOrderEvent = new OrderShipped(Id);
-            Enqueue(paidOrderEvent);
-        }
-
-        private void CancelOrderEvent()
-        {
-            var cancelOrderEvent = new OrderCanceled(Id);
-            Enqueue(cancelOrderEvent);
-        }
-
         public override void Apply(IDomainEvent<Guid> @event)
         {
             switch (@event)
@@ -117,6 +98,9 @@ namespace Ordering.API.Domain.OrderAgrregate
                     Address = orderInitiated.Order.Address;
                     CreatedDate = orderInitiated.Order.CreatedDate;
                     OrderItems = orderInitiated.Order.OrderItems;
+                    break;
+                case OrderStockConfirmed _:
+                    OrderStatusId = OrderStatus.StockConfirmed.Id;
                     break;
                 case OrderPaid _:
                     OrderStatusId = OrderStatus.Paid.Id;

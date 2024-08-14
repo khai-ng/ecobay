@@ -6,24 +6,24 @@ using Ordering.API.Application.Services;
 
 namespace Ordering.API.Presentation.Endpoint
 {
-    public class AddOrder : Endpoint<CreateOrderRequest, HttpResultTyped<AppResult<Guid>>>
+    public class ConfirmStock : Endpoint<ConfirmStockRequest, HttpResultTyped<AppResult<string>>>
     {
 		private readonly IMediator _mediator;
 
-        public AddOrder(IMediator mediator)
+        public ConfirmStock(IMediator mediator)
         {
             _mediator = mediator;
         }
       
         public override void Configure()
 		{
-			Post("order/add");
+			Get("order/confirm-stock");
 			AllowAnonymous();
         }
 
-        public override async Task HandleAsync(CreateOrderRequest req,  CancellationToken ct)
+        public override async Task HandleAsync(ConfirmStockRequest request,  CancellationToken ct)
         {
-            var result = await _mediator.Send(req, ct);
+            var result = await _mediator.Send(request, ct);
             await SendResultAsync(result.ToHttpResult());
         }
     }

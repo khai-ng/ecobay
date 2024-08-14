@@ -30,7 +30,7 @@ namespace Core.Marten
 
         public async Task<long> Update(Guid id, TEntity aggregate, long? expectedVersion = null, CancellationToken ct = default)
         {
-            var nextVersion = (expectedVersion ?? aggregate.Version) + aggregate.Events.Count;
+            var nextVersion = (expectedVersion ?? aggregate.Version);
             _documentSession.Events.Append(id, nextVersion, aggregate.Events);
             await _documentSession.SaveChangesAsync(ct).ConfigureAwait(false);
             aggregate.ClearEvents();

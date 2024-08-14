@@ -3,10 +3,11 @@ using System.Text.Json.Serialization;
 
 namespace Ordering.API.Domain.Events
 {
-    public class OrderCanceled: DomainEvent
+    public class OrderStockConfirmed : DomainEvent
     {
         [JsonConstructor]
-        private OrderCanceled() { }
-        public OrderCanceled(Guid orderId) : base(orderId) { }
+        private OrderStockConfirmed() { }
+        public OrderStockConfirmed(Guid orderId) : base(orderId) { }
+
     }
 }
