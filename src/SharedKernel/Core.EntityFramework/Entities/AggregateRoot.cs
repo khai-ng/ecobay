@@ -6,10 +6,6 @@ namespace Core.EntityFramework.ServiceDefault
     /// Base aggreate root class with <see cref="Guid"/> type Id
     /// </summary>
     public abstract class AggregateRoot : AggregateRoot<Guid>
-    {
-        protected AggregateRoot() : base(Guid.NewGuid()) { }
-        protected AggregateRoot(Guid id) : base(id)
-        { }
-    }
+    { }
 
 }

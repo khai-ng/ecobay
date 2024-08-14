@@ -9,10 +9,12 @@ namespace Core.SharedKernel
         [NonSerialized]
         private readonly Queue<IDomainEvent<TKey>> _events = new();
 
-        public long Version { get; private set; }
+        public long Version { get; protected set; }
         [JsonIgnore]
         public IReadOnlyCollection<IDomainEvent<TKey>> Events => _events.ToImmutableArray();
 
+
+        protected AggregateRoot() { }
         protected AggregateRoot(TKey id) : base(id) { }
 
         public virtual void Apply(IDomainEvent<TKey> @event) { }
@@ -27,6 +29,7 @@ namespace Core.SharedKernel
             ArgumentNullException.ThrowIfNull(nameof(@event));
 
             _events.Enqueue(@event);
+            Apply(@event);
             Version++;
         }
 

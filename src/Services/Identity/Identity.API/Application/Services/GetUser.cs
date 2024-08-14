@@ -18,7 +18,7 @@ namespace Identity.Application.Services
             GetUserRequest request,
             CancellationToken ct)
         {
-            var rs = await _userRepository.GetPagedAsync(request);
+            var rs = await _userRepository.GetPagedAsync(request).ConfigureAwait(false);
             return AppResult.Success(rs);
 		}
     }

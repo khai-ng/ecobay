@@ -22,9 +22,9 @@ namespace Identity.Application.Services
             LoginRequest request, 
             CancellationToken ct)
         {
-            await _producer.PublishAsync(new HelloEvent("Hello employee, i'm identity"));
+            //await _producer.PublishAsync(new HelloEvent("Hello employee, i'm identity"));
 
-            var user = await _userRepository.FindAsync(request.UserName);
+            var user = await _userRepository.FindAsync(request.UserName).ConfigureAwait(false);
 
             if (user == null)
                 return AppResult.NotFound("User name or password not match!");

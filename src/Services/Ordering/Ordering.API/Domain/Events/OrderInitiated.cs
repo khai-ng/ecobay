@@ -1,5 +1,6 @@
 ﻿using Core.EntityFramework.ServiceDefault;
 using Ordering.API.Domain.OrderAgrregate;
+using System.Text.Json.Serialization;
 
 namespace Ordering.API.Domain.Events
 {
@@ -7,6 +8,9 @@ namespace Ordering.API.Domain.Events
     {
         public Order Order { get; set; }
         public DateTime TimeoutAt { get; private set; } = DateTime.UtcNow.AddDays(3);
+
+        [JsonConstructor]
+        private OrderInitiated() { }
 
         public OrderInitiated(Order order) : base(order.Id)     
             => Order = order;
