@@ -22,7 +22,7 @@ namespace Core.Marten
                 options.Events.DatabaseSchemaName = martenOptions.WriteSchema;
                 //options.DatabaseSchemaName = martenOptions.ReadSchema;
 
-                //options.UseSystemTextJsonForSerialization();
+                options.UseSystemTextJsonForSerialization();
             })
             .UseLightweightSessions();
 

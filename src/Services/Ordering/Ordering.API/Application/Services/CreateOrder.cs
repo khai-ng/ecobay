@@ -25,16 +25,15 @@ namespace Ordering.API.Application.Services
 
         public async Task<AppResult<Guid>> Handle(CreateOrderRequest request, CancellationToken ct)
         {
-            var orderId = Guid.NewGuid();
             var address = new Address(request.Country, request.City, request.District, request.Street);
-            var orderItems = request.OrderItems.Select(x => new OrderItem(orderId, x.ProductId, x.UnitPrice, x.Unit));
+            var orderItems = request.OrderItems.Select(x => new OrderItem(x.ProductId, x.UnitPrice, x.Unit));
             var order = new Order(request.BuyerId, request.PaymentId, address, orderItems);
             _orderRepository.Add(order);
 
             await _eventStoreRepository.Add(order.Id, order, ct).ConfigureAwait(false);
             await _unitOfWork.SaveChangesAsync(ct).ConfigureAwait(false);
 
-            return AppResult.Success(order.Id);
+            return AppResult.Success(order.Id); 
         }
     }
 }

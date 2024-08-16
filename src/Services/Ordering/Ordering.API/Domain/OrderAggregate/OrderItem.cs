@@ -14,13 +14,12 @@ namespace Ordering.API.Domain.OrderAgrregate
         public decimal UnitPrice { get; private set; }
         public int Unit { get; private set; }
 
-        protected OrderItem() { }
-        public OrderItem(Guid orderId,
+        private OrderItem() { }
+        public OrderItem(
             string productId,
             decimal unitPrice,
             int unit)
         {
-            OrderId = orderId;
             ProductId = productId;
             UnitPrice = unitPrice;
             Unit = unit;

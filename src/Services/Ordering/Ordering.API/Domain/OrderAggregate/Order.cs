@@ -23,16 +23,15 @@ namespace Ordering.API.Domain.OrderAgrregate
         
         public DateTime? CreatedDate { get; private set; }
 
-        public List<OrderItem> OrderItems {  get; private set; }
+        public List<OrderItem> OrderItems { get; private set; } = [];
 
         public OrderStatus OrderStatus { get; private set; }
+
         [JsonConstructor]
-        protected Order()
-        {
-            OrderItems = [];
-        }
+        private Order() { }
         public Order(Guid buyerId, Guid paymentId, Address address, IEnumerable<OrderItem> orderItems)
         {
+            Id = Guid.NewGuid();
             BuyerId = buyerId;
             PaymentId = paymentId;
             OrderStatusId = OrderStatus.Submitted.Id;
