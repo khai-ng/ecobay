@@ -1,4 +1,7 @@
 services:
+    ##########################################
+    ## Kafka
+    ##########################################
     kafka-ui:
         ports:
             - 9080:80
@@ -79,6 +82,24 @@ services:
     #         CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
     #         CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
 
+    ##########################################
+    ## Services
+    ##########################################
+    web-apigateway:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8080
+            - Logging__Loglevel__Default=Debug
+            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+            - Jwt__Issuer=http://identity-api
+            - Jwt__Audience=http://identity-api
+            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+            - Reverseproxy__Clusters__identity__Destinations__default__Address=http://identity-api
+            - Urls__Identity=http://identity-api
+            - Urls__GrpcIdentity=http://identity-api:81
+        ports:
+            - "5100:80"
+
     pg-eventstore-db:
         environment:
             - POSTGRES_DB=postgres
@@ -86,71 +107,7 @@ services:
         ports:
             - "5432:5432"
 
-    indentity-db:
-        environment:
-            MYSQL_ROOT_PASSWORD: 1234
-        healthcheck:
-            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-            timeout: 20s
-            retries: 5
-        ports:
-            - "5199:3306"
-
-    product-db-1:
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=admin
-            - MONGO_INITDB_ROOT_PASSWORD=1234
-        healthcheck:
-            test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
-            interval: 10s
-            retries: 5
-            start_period: 20s
-        volumes:
-            - /d/Dataset/extract/json/:/data/json/
-        ports:
-            - 27017:27017
-
-    product-db-2:
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=admin
-            - MONGO_INITDB_ROOT_PASSWORD=1234
-        healthcheck:
-            test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
-            interval: 10s
-            retries: 5
-            start_period: 20s
-        volumes:
-            - /d/Dataset/extract/json/:/data/json/
-        ports:
-            - 27018:27017
-
-    product-db-3:
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=admin
-            - MONGO_INITDB_ROOT_PASSWORD=1234
-        healthcheck:
-            test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
-            interval: 10s
-            retries: 5
-            start_period: 20s
-        volumes:
-            - /d/Dataset/extract/json/:/data/json/
-        ports:
-            - 27019:27017
-
-    # mongo-express:
-    #     environment:
-    #         - ME_CONFIG_MONGODB_SERVER=product-db-1
-    #         - ME_CONFIG_MONGODB_PORT=27017
-    #         - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
-    #         - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
-    #         - ME_CONFIG_MONGODB_AUTH_USERNAME=admin
-    #         - ME_CONFIG_MONGODB_AUTH_PASSWORD=1234
-    #         - ME_CONFIG_BASICAUTH_USERNAME=admin
-    #         - ME_CONFIG_BASICAUTH_PASSWORD=123456
-    #     ports:
-    #         - 2780:80
-
+    # Identity
     identity-api:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
@@ -169,6 +126,28 @@ services:
         ports:
             - "5101:80"
 
+    indentity-db:
+        environment:
+            MYSQL_ROOT_PASSWORD: 1234
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 5
+        ports:
+            - "5199:3306"
+
+    # Product
+    productaggregate-api:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8080
+            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+            - ProductDatabase__ConnectionString=mongodb://admin:1234@product-db-1:27017
+            - ProductDatabase__DatabaseName=wksy
+            - PATH_BASE=/product-api
+        ports:
+            - "5110:80"
+
     product-api-1:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
@@ -180,6 +159,20 @@ services:
             - PATH_BASE=/product-api
         ports:
             - "5103:80"
+
+    product-db-1:
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=1234
+        healthcheck:
+            test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
+            interval: 10s
+            retries: 5
+            start_period: 20s
+        volumes:
+            - /d/Dataset/extract/json/:/data/json/
+        ports:
+            - 27017:27017
 
     product-api-2:
         environment:
@@ -193,6 +186,20 @@ services:
         ports:
             - "5104:80"
 
+    product-db-2:
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=1234
+        healthcheck:
+            test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
+            interval: 10s
+            retries: 5
+            start_period: 20s
+        volumes:
+            - /d/Dataset/extract/json/:/data/json/
+        ports:
+            - 27018:27017
+
     product-api-3:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
@@ -205,35 +212,23 @@ services:
         ports:
             - "5105:80"
 
-    productaggregate-api:
+    product-db-3:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_HTTP_PORTS=8080
-            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - ProductDatabase__ConnectionString=mongodb://admin:1234@product-db-1:27017
-            - ProductDatabase__DatabaseName=wksy
-            - PATH_BASE=/product-api
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=1234
+        healthcheck:
+            test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
+            interval: 10s
+            retries: 5
+            start_period: 20s
+        volumes:
+            - /d/Dataset/extract/json/:/data/json/
         ports:
-            - "5110:80"
-
-    web-apigateway:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_HTTP_PORTS=8080
-            - Logging__Loglevel__Default=Debug
-            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
-            - Jwt__Issuer=http://identity-api
-            - Jwt__Audience=http://identity-api
-            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Reverseproxy__Clusters__identity__Destinations__default__Address=http://identity-api
-            - Urls__Identity=http://identity-api
-            - Urls__GrpcIdentity=http://identity-api:81
-            # - Reverseproxy__Clusters__employee__Destinations__default__Address=http://employee-api
-            # - Urls__Employee=http://employee-api
-            # - Urls__GrpcEmployee=http://employee-api:81
-        ports:
-            - "5100:80"
-
+            - 27019:27017
+    
+    ##########################################
+    ## Monitoring
+    ##########################################
     fluent-bit:
         environment:
             # - FLB_ES_HOST=elasticsearch
@@ -245,6 +240,7 @@ services:
         ports:
             - 24224:24224
 
+    ## Fluent bit - Elasticsearch, Kibana
     # elasticsearch:
     #     mem_limit: 2g
     #     environment:
@@ -259,11 +255,13 @@ services:
     #     ports:
     #         - 5601:5601
     
-    prometheus:
+    # Fluent bit - Loki, Grafana
+    loki:
         volumes:
-            - ./prometheus:/etc/prometheus
-        expose:
-            - 9090
+            - ./loki:/etc/loki
+        command: "-config.file=/etc/loki/local-config.yaml"
+        ports:
+            - 3100:3100
 
     grafana:
         environment:
@@ -273,3 +271,70 @@ services:
             - ./grafana/provisioning/:/etc/grafana/provisioning/
         ports:
             - 3000:3000
+
+    # Observer
+    prometheus:
+        volumes:
+            - ./prometheus:/etc/prometheus
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/prometheus'
+            - '--web.console.libraries=/etc/prometheus/console_libraries'
+            - '--web.console.templates=/etc/prometheus/consoles'
+            - '--storage.tsdb.retention.time=200h'
+            - '--web.enable-lifecycle'
+        expose:
+            - 9090
+
+    nodeexporter:
+        user: root
+        privileged: true
+        volumes:
+            - /proc:/host/proc:ro
+            - /sys:/host/sys:ro
+            - /:/rootfs:ro
+        command:
+            - '--path.procfs=/host/proc'
+            - '--path.rootfs=/rootfs'
+            - '--path.sysfs=/host/sys'
+            - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+        expose:
+            - 9100
+
+    cadvisor:
+        volumes:
+            - /:/rootfs:ro
+            - /var/run:/var/run:rw
+            - /sys:/sys:ro
+            - /var/lib/docker:/var/lib/docker:ro
+            - /dev/disk/:/dev/disk:ro
+            #- /cgroup:/cgroup:ro #doesn't work on MacOS only for Linux
+        expose:
+            - 8080
+
+    pushgateway:
+        expose:
+            - 9091
+
+    # alertmanager:
+    #     volumes:
+    #         - ./alertmanager:/etc/alertmanager
+    #     command:
+    #         - '--config.file=/etc/alertmanager/config.yml'
+    #         - '--storage.path=/alertmanager'
+    #     expose:
+    #         - 9093
+
+    # caddy:
+    #     ports:
+    #         - "3000:3000"
+    #         - "8080:8080"
+    #         - "9090:9090"
+    #         - "9093:9093"
+    #         - "9091:9091"
+    #     volumes:
+    #         - ./caddy:/etc/caddy
+    #     environment:
+    #         - ADMIN_USER=${ADMIN_USER:-admin}
+    #         - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+    #         - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH:-$2a$14$1l.IozJx7xQRVmlkEQ32OeEEfP5mRxTpbDTCTcXRqn19gXD8YK1pO}

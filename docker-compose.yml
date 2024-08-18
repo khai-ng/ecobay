@@ -1,5 +1,7 @@
 services:
+    ##########################################
     ## Kafka
+    ##########################################
     kafka-ui:
         container_name: kafka-ui
         image: provectuslabs/kafka-ui:latest
@@ -42,120 +44,9 @@ services:
     #     networks:
     #         - local 
 
+    ##########################################
     ## Services
-    pg-eventstore-db:
-        container_name: pg-eventstore-db
-        image: postgres:15-alpine
-        networks:
-            - local
-
-    indentity-db:
-        container_name: indentity-db
-        image: mysql:8.3.0
-        restart: on-failure
-        networks:
-            - local
-
-    product-db-1:
-        container_name: product-db-1
-        image: mongo:7.0.9
-        restart: on-failure
-        networks:
-            - local
-    
-    product-db-2:
-        container_name: product-db-2
-        image: mongo:7.0.9
-        restart: on-failure
-        networks:
-            - local
-    
-    product-db-3:
-        container_name: product-db-3
-        image: mongo:7.0.9
-        restart: on-failure
-        networks:
-            - local
-        
-    # mongo-express:
-    #     container_name: mongo-express
-    #     image: mongo-express:1.0.2-20-alpine3.19
-    #     networks:
-    #         - local
-
-    identity-api:
-        container_name: identity-api
-        image: ${DOCKER_REGISTRY-}identityapi
-        build:
-            context: .
-            dockerfile: src/Services/Identity/Identity.API/Dockerfile
-        # depends_on:
-        #     kafka:
-        #         condition: service_healthy
-        networks:
-            - local
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: host.identity
-                
-    product-api-1:
-        container_name: product-api-1
-        image: ${DOCKER_REGISTRY-}productapi
-        build:
-            context: .
-            dockerfile: src/Services/Product.API/Dockerfile
-        networks:
-            - local
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: host.product
-
-    product-api-2:
-        container_name: product-api-2
-        image: ${DOCKER_REGISTRY-}productapi
-        build:
-            context: .
-            dockerfile: src/Services/Product.API/Dockerfile
-        networks:
-            - local
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: host.product
-
-    product-api-3:
-        container_name: product-api-3
-        image: ${DOCKER_REGISTRY-}productapi
-        build:
-            context: .
-            dockerfile: src/Services/Product.API/Dockerfile
-        networks:
-            - local
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: host.product
-
-    productaggregate-api:
-        container_name: productaggregate-api
-        image: ${DOCKER_REGISTRY-}productaggregateapi
-        build:
-            context: .
-            dockerfile: src/Services/ProductAggregate.API/Dockerfile
-        networks:
-            - local
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: host.productaggregate
-
+    ##########################################
     web-apigateway:
         container_name: web-apigateway
         image: ${DOCKER_REGISTRY-}webapigateway
@@ -172,14 +63,125 @@ services:
                 fluentd-async: "true"
                 tag: host.web-apigateway  
 
+    pg-eventstore-db:
+        container_name: pg-eventstore-db
+        image: postgres:15-alpine
+        networks:
+            - local
+
+    # Identity
+    identity-api:
+        container_name: identity-api
+        image: ${DOCKER_REGISTRY-}identityapi
+        build:
+            context: .
+            dockerfile: src/Services/Identity/Identity.API/Dockerfile
+        # depends_on:
+        #     kafka:
+        #         condition: service_healthy
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.identity
+
+    indentity-db:
+        container_name: indentity-db
+        image: mysql:8.3.0
+        restart: on-failure
+        networks:
+            - local
+
+    # Product
+    productaggregate-api:
+        container_name: productaggregate-api
+        image: ${DOCKER_REGISTRY-}productaggregateapi
+        build:
+            context: .
+            dockerfile: src/Services/ProductAggregate.API/Dockerfile
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.productaggregate
+
+    product-api-1:
+        container_name: product-api-1
+        image: ${DOCKER_REGISTRY-}productapi
+        build:
+            context: .
+            dockerfile: src/Services/Product.API/Dockerfile
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.product
+
+    product-db-1:
+        container_name: product-db-1
+        image: mongo:7.0.9
+        restart: on-failure
+        networks:
+            - local
+    
+    product-api-2:
+        container_name: product-api-2
+        image: ${DOCKER_REGISTRY-}productapi
+        build:
+            context: .
+            dockerfile: src/Services/Product.API/Dockerfile
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.product
+
+    product-db-2:
+        container_name: product-db-2
+        image: mongo:7.0.9
+        restart: on-failure
+        networks:
+            - local
+    
+    product-api-3:
+        container_name: product-api-3
+        image: ${DOCKER_REGISTRY-}productapi
+        build:
+            context: .
+            dockerfile: src/Services/Product.API/Dockerfile
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.product
+
+    product-db-3:
+        container_name: product-db-3
+        image: mongo:7.0.9
+        restart: on-failure
+        networks:
+            - local               
+
+    ##########################################
     ## Monitoring
+    ##########################################
     fluent-bit:
         container_name: fluent-bit
         image: fluent/fluent-bit:2.2.2
         networks:
             - local
 
-    ##Fluent bit - Elasticsearch, Kibana stack
+    ## Fluent bit - Elasticsearch, Kibana
     # elasticsearch:
     #     container_name: elasticsearch
     #     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
@@ -209,34 +211,13 @@ services:
     #             fluentd-async: "true"
     #             tag: logger.kibana
 
-    ##Fluent bit - Prometheus, Loki, Grafana stack
+    # Fluent bit - Loki, Grafana
     loki:
         container_name: loki
         image: grafana/loki:2.9.4
-        volumes:
-            - ./loki:/etc/loki
-        ports:
-            - 3100:3100
-        command: "-config.file=/etc/loki/local-config.yaml"
         networks:
             - local
-
-    prometheus:
-        container_name: prometheus
-        image: prom/prometheus:v2.49.1
-        command:
-            - '--config.file=/etc/prometheus/prometheus.yml'
-            - '--storage.tsdb.path=/prometheus'
-            - '--web.console.libraries=/etc/prometheus/console_libraries'
-            - '--web.console.templates=/etc/prometheus/consoles'
-            - '--storage.tsdb.retention.time=200h'
-            - '--web.enable-lifecycle'
-        restart: unless-stopped
-        networks:
-            - local
-        labels:
-            org.label-schema.group: "monitoring"
-
+    
     grafana:
         container_name: grafana
         image: grafana/grafana:10.2.4
@@ -244,26 +225,22 @@ services:
             - local
         depends_on:
             - fluent-bit
-            # - elasticsearch
             - loki
+
+    # Observer
+    prometheus:
+        container_name: prometheus
+        image: prom/prometheus:v2.49.1
+        restart: unless-stopped
+        networks:
+            - local
+        labels:
+            org.label-schema.group: "monitoring"
 
     nodeexporter:
         container_name: nodeexporter
         image: prom/node-exporter:v1.7.0
-        user: root
-        privileged: true
-        volumes:
-            - /proc:/host/proc:ro
-            - /sys:/host/sys:ro
-            - /:/rootfs:ro
-        command:
-            - '--path.procfs=/host/proc'
-            - '--path.rootfs=/rootfs'
-            - '--path.sysfs=/host/sys'
-            - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
         restart: unless-stopped
-        expose:
-            - 9100
         networks:
             - local
         labels:
@@ -272,16 +249,7 @@ services:
     cadvisor:
         container_name: cadvisor
         image: gcr.io/google-containers/cadvisor:v0.36.0
-        volumes:
-            - /:/rootfs:ro
-            - /var/run:/var/run:rw
-            - /sys:/sys:ro
-            - /var/lib/docker:/var/lib/docker:ro
-            - /dev/disk/:/dev/disk:ro
-            #- /cgroup:/cgroup:ro #doesn't work on MacOS only for Linux
         restart: unless-stopped
-        expose:
-            - 8080
         networks:
             - local
         labels:
@@ -291,8 +259,6 @@ services:
         container_name: pushgateway
         image: prom/pushgateway:v1.6.2
         restart: unless-stopped
-        expose:
-            - 9091
         networks:
             - local
         labels:
@@ -301,14 +267,7 @@ services:
     # alertmanager:
     #     container_name: alertmanager
     #     image: prom/alertmanager:v0.26.0
-    #     volumes:
-    #         - ./alertmanager:/etc/alertmanager
-    #     command:
-    #         - '--config.file=/etc/alertmanager/config.yml'
-    #         - '--storage.path=/alertmanager'
     #     restart: unless-stopped
-    #     expose:
-    #         - 9093
     #     networks:
     #         - local
     #     labels:
@@ -318,18 +277,6 @@ services:
     #     container_name: caddy
     #     image: caddy:2.7.5
     #     container_name: caddy
-    #     ports:
-    #         - "3000:3000"
-    #         - "8080:8080"
-    #         - "9090:9090"
-    #         - "9093:9093"
-    #         - "9091:9091"
-    #     volumes:
-    #         - ./caddy:/etc/caddy
-    #     environment:
-    #         - ADMIN_USER=${ADMIN_USER:-admin}
-    #         - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
-    #         - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH:-$2a$14$1l.IozJx7xQRVmlkEQ32OeEEfP5mRxTpbDTCTcXRqn19gXD8YK1pO}
     #     restart: unless-stopped
     #     networks:
     #         - local
