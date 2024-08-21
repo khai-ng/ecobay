@@ -14,9 +14,9 @@ namespace Core.EntityFramework.Context
         private readonly IServiceProvider _serviceProvider;
         private readonly IMediator _mediator;
         private readonly DbContext _dbContext;
-        private IDbContextTransaction _currentTransaction;
+        private IDbContextTransaction? _currentTransaction;
 
-        public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
+        public IDbContextTransaction? GetCurrentTransaction() => _currentTransaction;
 
         public UnitOfWork(IServiceProvider serviceProvider, IMediator mediator)
         {
@@ -45,11 +45,10 @@ namespace Core.EntityFramework.Context
             await _dbContext.SaveChangesAsync(ct);
         }
 
-        protected async Task<IDbContextTransaction> BeginTransactionAsync()
+        protected async Task<IDbContextTransaction?> BeginTransactionAsync()
         {
             if (_currentTransaction != null) return null;
             _currentTransaction = await _dbContext.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
-
             return _currentTransaction;
         }
 

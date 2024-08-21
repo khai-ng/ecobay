@@ -1,17 +1,16 @@
-using Core.Autofac;
-using FastEndpoints;
-using FastEndpoints.Swagger;
 using Core.AspNet.Extensions;
-using Ordering.API.Presentation.Extensions;
-using System.Reflection;
-using Core.MediaR;
-using MediatR;
-using Ordering.API.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using Core.Autofac;
+using Core.Events.EventStore;
 using Core.Kafka;
 using Core.Marten;
-using Autofac.Core;
-using Core.Events.EventStore;
+using Core.MediaR;
+using FastEndpoints;
+using FastEndpoints.Swagger;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Ordering.API.Infrastructure;
+using Ordering.API.Presentation.Extensions;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +24,7 @@ builder.Services.AddDbContext(builder.Configuration);
 
 builder.Services.AddMediatR(cfg =>
 {
-    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());          
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
 

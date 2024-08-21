@@ -1,7 +1,4 @@
-﻿using Core.Autofac;
-using Core.EntityFramework.Context;
-using Core.EntityFramework.ServiceDefault;
-using Core.SharedKernel;
+﻿using Core.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
 using Ordering.API.Domain.OrderAggregate;
 using Ordering.API.Domain.OrderAgrregate;
@@ -9,7 +6,7 @@ using System.Reflection;
 
 namespace Ordering.API.Infrastructure
 {
-    public class AppDbContext: BaseDbContext, IScoped
+    public class AppDbContext: BaseDbContext
     {
         public AppDbContext(DbContextOptions options) : base(options)
         { }

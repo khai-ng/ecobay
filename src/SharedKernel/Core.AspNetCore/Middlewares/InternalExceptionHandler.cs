@@ -19,9 +19,11 @@ namespace Core.AspNet.Middlewares
             CancellationToken ct)
         {
             List<string> errors = [];
-            errors.Add(exception.Message);
+            
             if (exception.InnerException != null)
                 errors.Add(exception.InnerException.Message);
+            else
+                errors.Add(exception.Message);
 
             var appResult = AppResult.Error(errors.ToArray());
 

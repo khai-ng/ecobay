@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Identity.Infrastructure
 {
-    public class AppDbContext : BaseDbContext, IScoped
+    public class AppDbContext : BaseDbContext
     {
         public AppDbContext(DbContextOptions options) : base(options)
         { }
