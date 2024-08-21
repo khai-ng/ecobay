@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Presentation\**" />
+    <Content Remove="Presentation\**" />
+    <EmbeddedResource Remove="Presentation\**" />
+    <None Remove="Presentation\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FastEndpoints" Version="5.28.0" />
     <PackageReference Include="FastEndpoints.Security" Version="5.28.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="5.28.0" />
@@ -27,10 +34,6 @@
 
 	<ItemGroup>
 		<Protobuf Include="Application\Protos\product.proto" GrpcServices="Server" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Presentation\" />
 	</ItemGroup>
 
 	<ItemGroup>

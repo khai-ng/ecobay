@@ -1,7 +1,7 @@
 ﻿using Core.EntityFramework.ServiceDefault;
 using System.Text.Json.Serialization;
 
-namespace Ordering.API.Domain.Events
+namespace Ordering.API.Domain.OrderAggregate.Events
 {
     public class OrderStockConfirmed : DomainEvent
     {

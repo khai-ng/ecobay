@@ -73,8 +73,7 @@ namespace ProductAggregate.API.Application.Product
             _logger
                 .ForContext("Channel", service, true)
                 .ForContext("Request", request, true)
-                .ForContext("Response", rs.Data.FirstOrDefault(), true)
-                .Information("Grpc has sended GetItemAsync");
+                .Information($"Grpc has sended {nameof(GetProductRequest)}");
 
             return rs;
         }

@@ -1,7 +1,7 @@
 ﻿using Core.EntityFramework.ServiceDefault;
 using Core.Events.DomainEvents;
-using Ordering.API.Domain.Events;
 using Ordering.API.Domain.OrderAggregate;
+using Ordering.API.Domain.OrderAggregate.Events;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;

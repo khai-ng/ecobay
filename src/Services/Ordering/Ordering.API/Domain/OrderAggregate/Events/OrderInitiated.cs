@@ -2,7 +2,7 @@
 using Ordering.API.Domain.OrderAgrregate;
 using System.Text.Json.Serialization;
 
-namespace Ordering.API.Domain.Events
+namespace Ordering.API.Domain.OrderAggregate.Events
 {
     public class OrderInitiated : DomainEvent
     {
@@ -12,8 +12,8 @@ namespace Ordering.API.Domain.Events
         [JsonConstructor]
         private OrderInitiated() { }
 
-        public OrderInitiated(Order order) : base(order.Id)     
+        public OrderInitiated(Order order) : base(order.Id)
             => Order = order;
-        
+
     }
 }
