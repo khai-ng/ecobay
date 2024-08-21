@@ -11,10 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\employee.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FastEndpoints" Version="5.28.0" />
     <PackageReference Include="FastEndpoints.Security" Version="5.28.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="5.28.0" />
@@ -38,7 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\employee.proto" GrpcServices="Client" />
+    <Folder Include="Endpoint\" />
+    <Folder Include="Protos\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
