@@ -8,7 +8,7 @@
         public PagingResponse(IPagingRequest request)
         {
             if (request.PageSize < 1 || request.PageIndex < 1)
-                throw new NullReferenceException();
+                throw new ArgumentOutOfRangeException();
 
             PageSize = request.PageSize;
             PageIndex = request.PageIndex;

@@ -4,11 +4,12 @@ services:
     ##########################################
     kafka-ui:
         ports:
-            - 9080:80
+            - 9080:8080
         environment:
             DYNAMIC_CONFIG_ENABLED: true
             KAFKA_CLUSTERS_0_NAME: local
             KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+            # KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
             KAFKA_CLUSTERS_0_METRICS_PORT: 9991
             # KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schemaregistry:8085
             # KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: first
@@ -20,12 +21,12 @@ services:
             - ZOOKEEPER_CLIENT_PORT=2181
             - ZOOKEEPER_TICK_TIMES=2000
             - ZOOKEEPER_SYNC_LIMIT=2
-            - KAFKA_OPTS=-Dzookeeper.4lw.commands.whitelist=ruok
-        healthcheck:
-          test: echo ruok | nc 127.0.0.1 2181 || exit -1
-          interval: 10s
-          timeout: 5s
-          retries: 3
+            # - KAFKA_OPTS=-Dzookeeper.4lw.commands.whitelist=ruok
+        # healthcheck:
+          # test: echo ruok | nc 127.0.0.1 2181 || exit -1
+          # interval: 10s
+          # timeout: 5s
+          # retries: 3
         ports:
             - 2181:2181
     kafka:
@@ -106,7 +107,7 @@ services:
             - POSTGRES_PASSWORD=1234
         ports:
             - "5432:5432"
-
+    
     # Identity
     identity-api:
         environment:
@@ -144,6 +145,8 @@ services:
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - ProductDatabase__ConnectionString=mongodb://admin:1234@product-db-1:27017
             - ProductDatabase__DatabaseName=wksy
+            - Kafka__Producer__ProducerConfig__BootstrapServers=kafka:29092 
+            - Kafka__Consumer__ConsumerConfig__BootstrapServers=kafka:29092 
             - PATH_BASE=/product-api
         ports:
             - "5110:80"
@@ -226,6 +229,26 @@ services:
         ports:
             - 27019:27017
     
+    # Ordering
+    ordering-api:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8080
+            - Logging__Loglevel__Default=Debug
+            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+            - Jwt__Issuer=http://identity-api
+            - Jwt__Audience=http://identity-api
+            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+            - ConnectionStrings__Default=Server=indentity-db;Database=wksy.ordering;User Id=root;Password=1234;
+            - EventStore__ConnectionString=PORT=5432;HOST=pg-eventstore-db;TIMEOUT=15;POOLING=True;MINPOOLSIZE=1;MAXPOOLSIZE=100;COMMANDTIMEOUT=20;DATABASE='postgres';PASSWORD='1234';USER ID='postgres';
+            - Kafka__Producer__ProducerConfig__BootstrapServers=kafka:29092 
+            - Kafka__Consumer__ConsumerConfig__BootstrapServers=kafka:29092 
+            - PATH_BASE=/ordering-api
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+        ports:
+            - "5010:80"
+
     ##########################################
     ## Monitoring
     ##########################################

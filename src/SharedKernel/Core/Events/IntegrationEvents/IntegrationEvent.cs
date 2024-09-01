@@ -1,7 +1,9 @@
-﻿namespace Core.IntegrationEvents.IntegrationEvents
+﻿using System.Text.Json.Serialization;
+
+namespace Core.IntegrationEvents.IntegrationEvents
 {
     /// <summary>
-    /// IntegrationEvent with default <see cref="Guid"/> Id
+    /// IntegrationEvent with default <see cref="Guid"/> Identity
     /// </summary>
     public abstract class IntegrationEvent : IntegrationEvent<Guid> 
     {
@@ -15,7 +17,14 @@
             Id = id;
             CreatedDate = DateTime.UtcNow;
         }
-        public TKey Id { get; set; }
+
+        [JsonConstructor]
+        protected IntegrationEvent(TKey id, DateTime createdDate)
+        {
+            Id = id;
+            CreatedDate = createdDate;
+        }
+        public TKey Id { get; private set; }
         public DateTime CreatedDate { get; private set; }
     }
 }

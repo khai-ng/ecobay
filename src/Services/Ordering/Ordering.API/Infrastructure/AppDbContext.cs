@@ -10,7 +10,7 @@ namespace Ordering.API.Infrastructure
     {
         public AppDbContext(DbContextOptions options) : base(options)
         { }
-        
+
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcProduct.Update";
+
+package ProductApi;
+
+message ProductUnit {
+	string id = 1;
+	int32 units = 2;
+}
+
+message ConfirmStockRequest {
+	repeated ProductUnit product_units = 1;
+}
+
+message UpdateProductUnitResponse {
+	bool is_success = 1;
+	string message = 2;
+}
+
+service UpdateProductService {
+	rpc ConfirmStock (ConfirmStockRequest) returns (UpdateProductUnitResponse);
+}

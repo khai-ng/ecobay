@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcProduct.Get";
+
+package ProductApi;
+
+message ProductItemResponse {
+	optional string main_category = 1;
+	optional string title = 2;
+	optional string price = 3;
+}
+
+message PagingInfo {
+	int32 page_index = 1;
+	int32 page_size = 2;
+}
+
+message GetProductRequest {
+	string category = 1;
+	PagingInfo page_info = 2;
+}
+
+message GetProductResponse {
+	repeated ProductItemResponse data = 1;
+	optional bool has_next = 2;
+	optional PagingInfo page_info = 3;
+}
+
+message GetProductByIdRequest {
+	repeated string ids = 1;
+	string v_node = 2;
+}
+
+message GetProductByIdResponse {
+	repeated ProductItemResponse data = 1;
+}
+
+service GetProductService {
+	rpc GetItem (GetProductRequest) returns (GetProductResponse);
+	rpc GetById (GetProductByIdRequest) returns (GetProductByIdResponse);
+}

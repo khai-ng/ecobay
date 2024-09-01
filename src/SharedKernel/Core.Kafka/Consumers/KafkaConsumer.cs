@@ -24,7 +24,13 @@ namespace Core.Kafka.Consumers
         protected override async Task ExecuteAsync(CancellationToken ct)
         {
             using var consumer = new ConsumerBuilder<string, string>(_kafkaConfig.ConsumerConfig).Build();
-            consumer.Subscribe(_kafkaConfig.Topics);
+
+            if(_kafkaConfig.TopicPartitions != null && _kafkaConfig.TopicPartitions.Length != 0)
+                consumer.Assign(_kafkaConfig.TopicPartitions);
+
+            if (_kafkaConfig.Topics != null && _kafkaConfig.Topics.Length != 0)
+                consumer.Subscribe(_kafkaConfig.Topics);
+
             var cancelToken = new CancellationTokenSource();
             while (!ct.IsCancellationRequested)
             {
@@ -38,8 +44,8 @@ namespace Core.Kafka.Consumers
                     {
                         _logger.Warning("Couldn't deserialize event of type: {EventType}", consumerResult.Message.Key);
                         return;
-                    }    
-
+                    }
+                    _logger.Information("Handling integration event {EventType}", consumerResult.Message.Key);
                     await _eventBus.PublishAsync(evnentMsg, ct).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)

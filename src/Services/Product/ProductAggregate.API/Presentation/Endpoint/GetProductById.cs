@@ -2,11 +2,11 @@
 using Core.Result.AppResults;
 using FastEndpoints;
 using MediatR;
-using ProductAggregate.API.Application.Product;
+using ProductAggregate.API.Application.Product.GetProduct;
 
 namespace ProductAggregate.API.Presentation.Endpoint
 {
-    public class GetProductByIdEndpoint : Endpoint<GetProductByIdRequest, HttpResultTyped<AppResult<IEnumerable<GrpcProduct.ProductItemResponse>>>>
+    public class GetProductByIdEndpoint : Endpoint<GetProductByIdRequest, HttpResultTyped<AppResult<IEnumerable<GetProductByIdItemResponse>>>>
     {
         private readonly IMediator _mediator;
         public GetProductByIdEndpoint(IMediator mediator)

@@ -68,6 +68,21 @@ services:
         image: postgres:15-alpine
         networks:
             - local
+    
+    # Ordering
+    ordering-api:
+        container_name: ordering-api
+        image: ${DOCKER_REGISTRY-}orderingapi
+        build:
+              context: .
+              dockerfile: src/Services/Ordering/Ordering.API/Dockerfile
+        networks:
+            - local
+        logging:
+            driver: fluentd
+            options:
+                fluentd-async: "true"
+                tag: host.ordering
 
     # Identity
     identity-api:
@@ -89,7 +104,7 @@ services:
 
     indentity-db:
         container_name: indentity-db
-        image: mysql:8.3.0
+        image: mysql:8.0.34
         restart: on-failure
         networks:
             - local
@@ -100,7 +115,7 @@ services:
         image: ${DOCKER_REGISTRY-}productaggregateapi
         build:
             context: .
-            dockerfile: src/Services/ProductAggregate.API/Dockerfile
+            dockerfile: src/Services/Product/ProductAggregate.API/Dockerfile
         networks:
             - local
         logging:
@@ -114,7 +129,7 @@ services:
         image: ${DOCKER_REGISTRY-}productapi
         build:
             context: .
-            dockerfile: src/Services/Product.API/Dockerfile
+            dockerfile: src/Services/Product/Product.API/Dockerfile
         networks:
             - local
         logging:
@@ -135,7 +150,7 @@ services:
         image: ${DOCKER_REGISTRY-}productapi
         build:
             context: .
-            dockerfile: src/Services/Product.API/Dockerfile
+            dockerfile: src/Services/Product/Product.API/Dockerfile
         networks:
             - local
         logging:
@@ -156,7 +171,7 @@ services:
         image: ${DOCKER_REGISTRY-}productapi
         build:
             context: .
-            dockerfile: src/Services/Product.API/Dockerfile
+            dockerfile: src/Services/Product/Product.API/Dockerfile
         networks:
             - local
         logging:

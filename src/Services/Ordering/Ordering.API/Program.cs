@@ -28,7 +28,7 @@ builder.Services.AddMediatR(cfg =>
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
 
-builder.Services.AddKafkaConsumer();
+builder.Services.AddKafkaProducer();
 
 builder.Services.AddMarten(builder.Configuration);
 builder.Services.AddScoped(typeof(IEventStoreRepository<>), typeof(MartenRepository<>));

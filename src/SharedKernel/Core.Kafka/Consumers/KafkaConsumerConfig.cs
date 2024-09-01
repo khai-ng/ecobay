@@ -6,5 +6,6 @@ namespace Core.Kafka.Consumers
     {
         public ConsumerConfig ConsumerConfig { get; set; } = default!;
         public string[]? Topics { get; set; } = default;
+        public TopicPartition[]? TopicPartitions { get; set; }
     }
 }

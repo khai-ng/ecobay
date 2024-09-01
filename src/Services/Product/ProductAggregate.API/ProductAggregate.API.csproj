@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -6,11 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..</DockerfileContext>
+    <DockerfileContext>..\..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Application\Protos\product.proto" />
+    <Compile Remove="Application\Product\UpdateProductUnit\**" />
+    <Content Remove="Application\Product\UpdateProductUnit\**" />
+    <EmbeddedResource Remove="Application\Product\UpdateProductUnit\**" />
+    <None Remove="Application\Product\UpdateProductUnit\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,19 +29,21 @@
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.12" />
     <PackageReference Include="Hangfire.Core" Version="1.8.12" />
     <PackageReference Include="Hangfire.InMemory" Version="0.10.0" />
+    <PackageReference Include="MediatR" Version="12.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\SharedKernel\Core.AspNetCore\Core.AspNet.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\Core.Kafka\Core.Kafka.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core.MediaR\Core.MediaR.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core.MongoDB\Core.MongoDB.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core\Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Application\Protos\product.proto" GrpcServices="Client" />
+	<Protobuf Include="Application\Product\Get\get_product.proto" GrpcServices="Client" />
+	<Protobuf Include="Application\Product\Update\update_product.proto" GrpcServices="Client" />
   </ItemGroup>
-
 </Project>

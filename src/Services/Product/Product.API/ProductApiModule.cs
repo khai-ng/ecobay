@@ -10,12 +10,8 @@ namespace Product.API
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<MongoContext>()
-                .As<IMongoContext>()
-                .InstancePerDependency();
-
-            builder.RegisterType<MongoContext>()
-                .As<IUnitOfWork>()
-                .InstancePerDependency();
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
 
             //builder.RegisterType<HashRingManager>()
             //    .As<IHashRingManager>()

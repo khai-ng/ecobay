@@ -23,6 +23,7 @@ namespace Product.API.Domain.ProductAggregate
         public string? Store { get; set; }
         public IEnumerable<string>? Categories { get; set; }
         public object? Details { get; set; }
+        public int Units {  get; set; }
 
         public int? VirtualId { get; set; }
     }

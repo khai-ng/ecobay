@@ -36,7 +36,7 @@ namespace Core.MongoDB.Paginations
         {
 
             if (response.PageSize < 1 || response.PageIndex < 1)
-                throw new NullReferenceException();
+                throw new ArgumentOutOfRangeException();
 
             response.HasNext = data
                 .Skip(response.Skip + response.PageSize)
