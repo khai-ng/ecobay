@@ -2,14 +2,14 @@
 using Core.EntityFramework.Paginations;
 using Core.EntityFramework.Repository;
 using Core.Result.Paginations;
-using Identity.Application.Abstractions;
+using Identity.API.Application.Common.Abstractions;
 using Identity.Application.Services;
 using Identity.Domain.Entities.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Repositories
 {
-    public class UserRepository : Repository<User>, IUserRepository, IScoped
+    public class UserRepository : Repository<User>, IUserRepository, ITransient
     {
         private readonly AppDbContext _context;
 
@@ -33,6 +33,7 @@ namespace Identity.Infrastructure.Repositories
         public async Task<IEnumerable<string>> GetListRoleAsync(Guid userId)
         {
             return await _context.Users
+                .Include(x => x.Name)
                 .Include(x => x.Roles)
                 .Where(x => x.Id == userId)
                 .SelectMany(x => x.Roles)

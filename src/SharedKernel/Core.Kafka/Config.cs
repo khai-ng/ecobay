@@ -10,7 +10,7 @@ namespace Core.Kafka
     {
         public static IServiceCollection AddKafkaProducer(this IServiceCollection services)
         {
-            services.TryAddSingleton<IIntegrationProducer, KafkaProducer>();
+            services.TryAddScoped<Producers.IKafkaProducer, KafkaProducer>();
             return services;
         }
 

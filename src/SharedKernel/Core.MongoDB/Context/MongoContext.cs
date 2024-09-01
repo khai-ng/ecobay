@@ -1,6 +1,7 @@
 ﻿using Core.SharedKernel;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Threading;
 
 namespace Core.MongoDB.Context
 {
@@ -9,19 +10,19 @@ namespace Core.MongoDB.Context
         private MongoClient _mongoClient;
         private IMongoDatabase _database;
         private string _collectionName;
+        //private IClientSessionHandle Session;
 
         private readonly List<Func<Task>> _commands = [];
-        private readonly IOptions<MongoDbSetting> _dbSettings;
+        private readonly MongoDbSetting _mongoDbSetting;
 
-        private IClientSessionHandle Session;
         public MongoContext(IOptions<MongoDbSetting> dbSettings) 
         {
-            _dbSettings = dbSettings;
+            _mongoDbSetting = dbSettings.Value;
         }
 
         public void Dispose()
         {
-            Session?.Dispose();
+            //Session?.Dispose();
             GC.SuppressFinalize(this);
         }
 
@@ -30,29 +31,31 @@ namespace Core.MongoDB.Context
             _commands.Add(func);
         }
 
-        public async Task SaveChangesAsync(CancellationToken ct = default)
+        public Task SaveChangesAsync(CancellationToken ct = default)
         {
             if (_mongoClient == null)
             {
-                SetConnection(_dbSettings.Value.ConnectionString);
-                SetDatabase(_dbSettings.Value.DatabaseName);
+                SetConnection(_mongoDbSetting.ConnectionString);
+                SetDatabase(_mongoDbSetting.DatabaseName);
             }
 
-            using (Session = await _mongoClient!.StartSessionAsync(cancellationToken: ct))
-            {
-                Session.StartTransaction();
-                var commandTasks = _commands.Select(c => c.Invoke());
-                await Task.WhenAll(commandTasks);
-                await Session.CommitTransactionAsync(ct);
-            }
+            //using (Session = await _mongoClient!.StartSessionAsync(cancellationToken: ct))
+            //{
+            //    Session.StartTransaction();
+
+            //    await Session.CommitTransactionAsync(ct);
+            //}
+
+            var commandTasks = _commands.Select(c => c.Invoke());
+            return Task.WhenAll(commandTasks);
         }
 
         public IMongoCollection<T> GetCollection<T>()
         {
             if(_database is null)
             {
-                SetConnection(_dbSettings.Value.ConnectionString);
-                SetDatabase(_dbSettings.Value.DatabaseName);
+                SetConnection(_mongoDbSetting.ConnectionString);
+                SetDatabase(_mongoDbSetting.DatabaseName);
             }
             var collection = string.IsNullOrEmpty(_collectionName) ? typeof(T).Name : _collectionName;
             return _database!.GetCollection<T>(collection);

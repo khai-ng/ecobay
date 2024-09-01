@@ -1,11 +1,13 @@
 using Core.AspNet.Extensions;
 using Core.Autofac;
+using Core.Kafka;
 using Core.MediaR;
 using Core.MongoDB.Context;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using MediatR;
 using MongoDB.Bson.Serialization.Conventions;
+using ProductAggregate.API.Presentation.Configurations;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +19,7 @@ builder.Services.AddFastEndpoints()
 builder.AddServiceDefaults();
 builder.AddAutofac();
 
-builder.Services.Configure<MongoDbSetting>(
-    builder.Configuration.GetSection("ProductDatabase"));
+builder.Services.Configure<MongoDbSetting>(builder.Configuration.GetSection("ProductDatabase"));
 var camelCaseConventionPack = new ConventionPack { new CamelCaseElementNameConvention() };
 ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
 
@@ -27,6 +28,8 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
+
+builder.Services.AddKafkaCompose();
 
 //builder.Services.AddHangfireDefaults(builder.Configuration);
 

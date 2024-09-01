@@ -1,4 +1,4 @@
-﻿using Identity.API.Application.Constants;
+﻿using Identity.API.Application.Common.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

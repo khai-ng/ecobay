@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
-using Ordering.API.Application.Constants;
 using System.Text.Json;
+using Ordering.API.Application.Common.Constants;
 
 namespace Ordering.API.Infrastructure
 {

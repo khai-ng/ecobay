@@ -1,4 +1,4 @@
-﻿using Identity.Application.Abstractions;
+﻿using Identity.API.Application.Common.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;

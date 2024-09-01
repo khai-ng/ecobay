@@ -12,13 +12,9 @@ COPY ["src/Services/Identity/Identity.API/Identity.API.csproj", "src/Services/Id
 COPY ["src/SharedKernel/Core.AspNetCore/Core.AspNet.csproj", "src/SharedKernel/Core.AspNetCore/"]
 COPY ["src/SharedKernel/Core/Core.csproj", "src/SharedKernel/Core/"]
 COPY ["src/SharedKernel/Core.Autofac/Core.Autofac.csproj", "src/SharedKernel/Core.Autofac/"]
-COPY ["src/SharedKernel/Core.Kafka/Core.Kafka.csproj", "src/SharedKernel/Core.Kafka/"]
-COPY ["src/Services/CommonServices/Shared.Contraction/Shared.Contraction.csproj", "src/Services/CommonServices/Shared.Contraction/"]
-COPY ["src/SharedKernel/Core.MediaR/Core.MediaR.csproj", "src/SharedKernel/Core.MediaR/"]
-COPY ["src/Services/Identity/Identity.Application/Identity.Application.csproj", "src/Services/Identity/Identity.Application/"]
 COPY ["src/SharedKernel/Core.EntityFramework/Core.EntityFramework.csproj", "src/SharedKernel/Core.EntityFramework/"]
-COPY ["src/Services/Identity/Identity.Domain/Identity.Domain.csproj", "src/Services/Identity/Identity.Domain/"]
-COPY ["src/Services/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj", "src/Services/Identity/Identity.Infrastructure/"]
+COPY ["src/SharedKernel/Core.Kafka/Core.Kafka.csproj", "src/SharedKernel/Core.Kafka/"]
+COPY ["src/SharedKernel/Core.MediaR/Core.MediaR.csproj", "src/SharedKernel/Core.MediaR/"]
 RUN dotnet restore "./src/Services/Identity/Identity.API/./Identity.API.csproj"
 COPY . .
 WORKDIR "/src/src/Services/Identity/Identity.API"

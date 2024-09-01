@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Ordering.API.Application.Constants;
+using Ordering.API.Application.Common.Constants;
 using Ordering.API.Infrastructure;
 
 namespace Ordering.API.Presentation.Extensions
@@ -19,7 +19,7 @@ namespace Ordering.API.Presentation.Extensions
 
             var connection = configuration.GetConnectionString(AppEnvironment.DB_SCHEMA)!;
 
-            services.AddDbContextPool<AppDbContext>(options =>
+            services.AddDbContext<AppDbContext>(options =>
             {
                 //options.EnableSensitiveDataLogging(true);
                 options.LogTo(Console.WriteLine);

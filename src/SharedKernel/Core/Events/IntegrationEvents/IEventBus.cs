@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using System.Text.Json;
 
 namespace Core.IntegrationEvents.IntegrationEvents
 {
     public interface IEventBus
     {
-        Task PublishAsync(IntegrationEvent evt, CancellationToken ct = default);
+        Task PublishAsync(IntegrationEvent @event, CancellationToken ct = default);
     }
 
     public class EventBus : IEventBus
@@ -13,29 +14,33 @@ namespace Core.IntegrationEvents.IntegrationEvents
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger _logger;
 
-		public EventBus( IServiceProvider serviceProvider, ILogger logger)
+		public EventBus(IServiceProvider serviceProvider, ILogger logger)
 		{
 			_serviceProvider = serviceProvider;
 			_logger = logger;
 		}
 
-		public async Task PublishAsync(IntegrationEvent evt, CancellationToken ct = default)
+		public async Task PublishAsync(IntegrationEvent @event, CancellationToken ct = default)
         {
             using var scope = _serviceProvider.CreateScope();
-            var eventHandleType = typeof(IIntegrationEventHandler<>).MakeGenericType(evt.GetType());
+            var eventHandleType = typeof(IIntegrationEventHandler<>).MakeGenericType(@event.GetType());
             if (eventHandleType is null) return;
 
-			var handlers = scope.ServiceProvider.GetServices(eventHandleType);
-
-            foreach (var handler in handlers)
+			var handler = scope.ServiceProvider.GetService(eventHandleType);
+            
+            if (handler == null)
             {
-                var methodInfo = eventHandleType.GetMethod(nameof(IIntegrationEventHandler<IntegrationEvent>.HandleAsync));
-				var task = methodInfo?.Invoke(handler, new object[] { evt, ct }) as Task;
-
-				if (task is null) return;
-
-				await task.ConfigureAwait(false);
+                _logger.Warning("Event bus not found handler of {Event}", @event.GetType().Name);
+                return;
             }
+
+            var methodInfo = eventHandleType.GetMethod(nameof(IIntegrationEventHandler<IntegrationEvent>.HandleAsync));
+
+            var task = methodInfo?.Invoke(handler, new object[] { @event, ct }) as Task;
+
+            if (task is null) return;
+
+            await task.ConfigureAwait(false);
         }
     }
 }

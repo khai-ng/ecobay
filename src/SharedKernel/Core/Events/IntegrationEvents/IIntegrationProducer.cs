@@ -2,6 +2,6 @@
 {
     public interface IIntegrationProducer
     {
-        Task PublishAsync(IntegrationEvent evt, CancellationToken ct = default);
+        Task PublishAsync(IntegrationEvent @event, CancellationToken ct = default);
     }
 }

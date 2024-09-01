@@ -2,14 +2,16 @@
 using Core.MongoDB.Context;
 using Core.MongoDB.Repository;
 using MongoDB.Driver;
-using Product.API.Application.Abstractions;
 using Product.API.Domain.ProductAggregate;
 using Core.MongoDB.Paginations;
 using Core.Result.Paginations;
-using Product.API.Application.Product;
+using Product.API.Application.Common.Abstractions;
+using Product.API.Application.Product.GetProducts;
+using MongoDB.Bson;
 
 namespace Product.API.Infrastructure
 {
+
     public class ProductRespository : Repository<ProductItem>, IProductRepository, ITransient
     {
         private readonly IMongoContext _context;
@@ -30,9 +32,9 @@ namespace Product.API.Infrastructure
             return fluentPaging.Result(filterdData);
         }
 
-        public async Task<IEnumerable<ProductItem>> GetAsync(GetProductByIdRequest request)
+        public async Task<IEnumerable<ProductItem>> GetAsync(IEnumerable<ObjectId> ids)
         {
-            return await Collection.Find(x => request.Ids.Contains(x.Id)).ToListAsync();
+            return await Collection.Find(x => ids.Contains(x.Id)).ToListAsync();
         }
     }
 }

@@ -70,6 +70,16 @@ namespace Core.ConsistentHashing
             return hashRing[ringKeys[next]];
         }
 
+        public Task<VirtualNode<T>> GetBucketAsync(string key)
+        {
+            return Task.Run(() =>
+            {
+                int hash = Hash(key);
+                var next = Lockup(ringKeys, hash);
+                return hashRing[ringKeys[next]];
+            });
+        }
+
         private void AddNode(T node)
         {
             ArgumentNullException.ThrowIfNull(node);
