@@ -42,32 +42,44 @@ namespace Core.Kafka.Consumers
                     var evnentMsg = consumerResult.ToEvent();
                     if(evnentMsg == null)
                     {
-                        _logger.Warning("Couldn't deserialize event of type: {EventType}", consumerResult.Message.Key);
+                        _logger
+                            .ForContext(typeof(KafkaConsumer))
+                            .Warning("Couldn't deserialize message type {EventType}", consumerResult.Message.Key);
                         return;
                     }
-                    _logger.Information("Handling integration event {EventType}", consumerResult.Message.Key);
+                    _logger
+                        .ForContext(typeof(KafkaConsumer))
+                        .Information("Handling mesage {EventType}", consumerResult.Message.Key);
                     await _eventBus.PublishAsync(evnentMsg, ct).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
-                    _logger.Warning("OperationCanceledException");
+                    _logger
+                        .ForContext(typeof(KafkaConsumer))
+                        .Warning("OperationCanceledException");
                     break;
                 }
                 catch (ConsumeException e)
                 {
                     // Consumer errors should generally be ignored (or logged) unless fatal.
-                    _logger.Error($"Consume error: {e.Error.Reason}");
+                    _logger
+                        .ForContext(typeof(KafkaConsumer))
+                        .Error($"Consume error: {e.Error.Reason}");
 
                     if (e.Error.IsFatal)
                     {
                         // https://github.com/edenhill/librdkafka/blob/master/INTRODUCTION.md#fatal-consumer-errors
-                        _logger.Fatal($"Consume fatal: {e.Error.Reason}");
+                        _logger
+                            .ForContext(typeof(KafkaConsumer))
+                            .Fatal($"Consume fatal: {e.Error.Reason}");
                         break;
                     }
                 }
                 catch (Exception e)
                 {
-                    _logger.Error($"Unexpected error: {e}");
+                    _logger
+                        .ForContext(typeof(KafkaConsumer))
+                        .Error($"Unexpected error: {e}");
                     break;
                 }
 

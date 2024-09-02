@@ -30,7 +30,9 @@ namespace Core.IntegrationEvents.IntegrationEvents
             
             if (handler == null)
             {
-                _logger.Warning("Event bus not found handler of {Event}", @event.GetType().Name);
+                _logger
+                    .ForContext(typeof(EventBus))
+                    .Warning("Event bus not found {Event} handler", @event.GetType().Name);
                 return;
             }
 

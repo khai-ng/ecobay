@@ -9,6 +9,7 @@ using ProductAggregate.API.Infrastructure.Shared;
 
 namespace ProductAggregate.API.Application.Product.Update
 {
+    [Obsolete("Moved to confirm stock integration event")]
     public class ConfimStockHandler : IRequestHandler<ConfimStockRequest, AppResult>, ITransient
     {
         private readonly IProductHashingService _productHashingService;
