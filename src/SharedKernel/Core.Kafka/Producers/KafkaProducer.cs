@@ -4,6 +4,7 @@ using Core.IntegrationEvents.IntegrationEvents;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog;
+using System.Reflection;
 
 namespace Core.Kafka.Producers
 {
@@ -43,9 +44,11 @@ namespace Core.Kafka.Producers
 
             _ = await producer.ProduceAsync(_kafkaConfig.Topic, message, ct).ConfigureAwait(false);
 
-            _logger.ForContext("Host", _kafkaConfig.ProducerConfig.BootstrapServers);
-            _logger.ForContext("Topic", topic);
-            _logger.Information("Produce message");
+            _logger.ForContext(typeof(KafkaProducer))
+                .ForContext("Host", _kafkaConfig.ProducerConfig.BootstrapServers)
+                .ForContext("Topic", topic)
+                .ForContext("Message", message, true)
+                .Information("Kafka produce message");
         }
 
         public async Task PublishAsync(TopicPartition tp, IntegrationEvent @event, CancellationToken ct = default)
@@ -62,9 +65,11 @@ namespace Core.Kafka.Producers
             var kafkaTp = new Confluent.Kafka.TopicPartition(tp.Topic, new Partition(tp.Partition));
             _ = await producer.ProduceAsync(kafkaTp, message, ct).ConfigureAwait(false);
 
-            _logger.ForContext("Host", _kafkaConfig.ProducerConfig.BootstrapServers);
-            _logger.ForContext("TopicPartition", kafkaTp);
-            _logger.Information("Produce message");
+            _logger.ForContext(typeof(KafkaProducer))
+                .ForContext("Host", _kafkaConfig.ProducerConfig.BootstrapServers)
+                .ForContext("TopicPartition", kafkaTp)
+                .ForContext("Message", message, true)
+                .Information("Kafka produce message");
         }
     }
 }

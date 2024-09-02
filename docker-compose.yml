@@ -101,9 +101,10 @@ services:
             options:
                 fluentd-async: "true"
                 tag: host.identity
-
-    indentity-db:
-        container_name: indentity-db
+    
+    # mysql db. using service per schema
+    mysql-db:
+        container_name: mysql-db
         image: mysql:8.0.34
         restart: on-failure
         networks:
