@@ -1,7 +1,6 @@
 ﻿using Core.SharedKernel;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System.Threading;
 
 namespace Core.MongoDB.Context
 {
@@ -22,7 +21,6 @@ namespace Core.MongoDB.Context
 
         public void Dispose()
         {
-            //Session?.Dispose();
             GC.SuppressFinalize(this);
         }
 
@@ -38,13 +36,6 @@ namespace Core.MongoDB.Context
                 SetConnection(_mongoDbSetting.ConnectionString);
                 SetDatabase(_mongoDbSetting.DatabaseName);
             }
-
-            //using (Session = await _mongoClient!.StartSessionAsync(cancellationToken: ct))
-            //{
-            //    Session.StartTransaction();
-
-            //    await Session.CommitTransactionAsync(ct);
-            //}
 
             var commandTasks = _commands.Select(c => c.Invoke());
             return Task.WhenAll(commandTasks);

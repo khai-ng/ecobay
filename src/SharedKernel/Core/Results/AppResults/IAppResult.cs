@@ -9,7 +9,7 @@ namespace Core.Result.Abstractions
 
     public interface IAppResult
     {
-        public bool IsSuccess => Status == AppStatusCode.Ok;
+        public bool IsSuccess { get; }
         public AppStatusCode Status { get; }
         string? Message { get; }
         IEnumerable<ErrorDetail>? Errors { get; }

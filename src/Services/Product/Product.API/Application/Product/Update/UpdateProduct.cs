@@ -17,7 +17,9 @@ namespace Product.API.Application.Product.Update
             _unitOfWork = unitOfWork;
         }
 
-        public override async Task<UpdateProductUnitResponse> ConfirmStock(GrpcProduct.Update.ConfirmStockRequest request, ServerCallContext context)
+        public override async Task<UpdateProductUnitResponse> ConfirmStock(
+            GrpcProduct.Update.ConfirmStockRequest request, 
+            ServerCallContext context)
         {
             try
             {

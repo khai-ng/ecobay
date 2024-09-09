@@ -1,8 +1,9 @@
 ﻿using Core.Autofac;
 using Core.ConsistentHashing;
 using ProductAggregate.API.Domain.ServerAggregate;
+using ProductAggregate.API.Infrastructure;
 
-namespace ProductAggregate.API.Infrastructure.Shared
+namespace ProductAggregate.API.Application.Hashing
 {
     public interface IHashRingManager
     {

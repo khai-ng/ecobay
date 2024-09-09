@@ -4,11 +4,12 @@ namespace Core.Result.AppResults
 {
     public class AppResult<T> : IAppResult<T>
     {
-        public AppStatusCode Status { get; set; }
+        public AppStatusCode Status { get; protected set; }
         public T? Data { get; set; }
         public string? Message { get; protected set; }
         public IEnumerable<ErrorDetail>? Errors { get; protected set; }
 
+        public bool IsSuccess => Status == AppStatusCode.Ok;
         protected AppResult() { }
 
         public AppResult(T data)
@@ -55,7 +56,7 @@ namespace Core.Result.AppResults
         /// <returns></returns>
         public static AppResult<T> Error(string message)
         {
-            return new AppResult<T>(AppStatusCode.Error) { Message = message };
+            return new AppResult<T>(AppStatusCode.Error) { Errors = new List<ErrorDetail> { new(message) } };
         }
 
         /// <summary>

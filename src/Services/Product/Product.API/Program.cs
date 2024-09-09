@@ -6,8 +6,7 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using MediatR;
 using MongoDB.Bson.Serialization.Conventions;
-//using Product.API.Application.Product.GetProduct;
-using Product.API.Application.Product.GetProducts;
+using Product.API.Application.Product.Get;
 using Product.API.Application.Product.Update;
 using System.Reflection;
 
@@ -41,7 +40,6 @@ app.UseFastEndpoints(config => config.CommonResponseConfigs())
     .UseSwaggerGen();
 
 app.MapGrpcService<GetProduct>();
-//app.MapGrpcService<GetProductById>();
 app.MapGrpcService<UpdateProduct>();
 
 await app.RunAsync();

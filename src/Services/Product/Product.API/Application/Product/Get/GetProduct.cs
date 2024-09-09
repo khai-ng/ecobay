@@ -2,8 +2,9 @@
 using GrpcProduct.Get;
 using MongoDB.Bson;
 using Product.API.Application.Common.Abstractions;
+using Product.API.Application.Product.GetProducts;
 
-namespace Product.API.Application.Product.GetProducts
+namespace Product.API.Application.Product.Get
 {
     public class GetProduct : GetProductService.GetProductServiceBase
     {
@@ -13,16 +14,16 @@ namespace Product.API.Application.Product.GetProducts
             _productRepository = productRepository;
         }
         public override async Task<GetProductResponse> GetItem(
-            GrpcProduct.Get.GetProductRequest request,
+            GetProductRequest request,
             ServerCallContext context)
         {
-            var req = new GetProductRequest()
+            var repoRequest = new GetProductRepoRequest()
             {
                 Category = request.Category,
                 PageIndex = request.PageInfo.PageIndex,
                 PageSize = request.PageInfo.PageSize
             };
-            var response = await _productRepository.GetPagingAsync(req);
+            var response = await _productRepository.GetPagingAsync(repoRequest);
 
             var rs = new GetProductResponse()
             {

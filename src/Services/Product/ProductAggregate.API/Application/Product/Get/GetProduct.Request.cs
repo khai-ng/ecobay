@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ProductAggregate.API.Application.Product.GetProduct
 {
-    public class GetProductRequest : PagingRequest, IRequest<AppResult<PagingResponse<GetProductItemResponse>>>
+    public class GetProductRequest : PagingRequest, IRequest<AppResult<PagingResponse<ProductItemDto>>>
     {
         public string Category { get; set; }
     }

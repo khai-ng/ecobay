@@ -1,10 +1,7 @@
-﻿using GrpcEmployee;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi;
+﻿using Microsoft.OpenApi;
 using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
-using Web.ApiGateway.Configurations;
 using Web.ApiGateway.Constants;
 using Yarp.ReverseProxy.Configuration;
 
