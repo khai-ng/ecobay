@@ -2,7 +2,7 @@
 
 namespace Product.API.Application.Product.GetProducts
 {
-    public class GetProductRequest : PagingRequest
+    public class GetProductRepoRequest : PagingRequest
     {
         public string Category { get; set; }
     }

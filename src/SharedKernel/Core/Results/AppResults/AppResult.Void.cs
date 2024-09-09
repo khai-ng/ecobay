@@ -37,7 +37,7 @@ namespace Core.Result.AppResults
         /// <returns></returns>
         public new static AppResult Error(string message)
         {
-            return new AppResult(AppStatusCode.Error) { Message = message };
+            return new AppResult(AppStatusCode.Error) { Errors = new List<ErrorDetail> { new ErrorDetail(message) } };
         }
 
         /// <summary>

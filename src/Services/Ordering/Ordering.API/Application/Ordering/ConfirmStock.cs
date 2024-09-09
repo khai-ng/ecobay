@@ -38,12 +38,6 @@ namespace Ordering.API.Application.Services
             if (order == null)
                 return AppResult.Invalid(new ErrorDetail($"Can not find order {request.OrderId}"));
 
-            //order.SetStockConfirmed();
-            //_orderRepository.Update(order);
-
-            //await _eventStoreRepository.Update(order.Id, order, order.Version, ct: ct).ConfigureAwait(false);
-            //await _unitOfWork.SaveChangesAsync(ct).ConfigureAwait(false);
-
             var orderConfirmStockEvent = 
                 new OrderConfirmStockIntegrationEvent(
                     order.Id,
@@ -54,5 +48,5 @@ namespace Ordering.API.Application.Services
 
             return AppResult.Success("Successful");
         }
-    }
+    }                                                                                           
 }

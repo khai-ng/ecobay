@@ -1,4 +1,4 @@
-﻿namespace ProductAggregate.API.Infrastructure.Shared
+﻿namespace ProductAggregate.API.Application.Hashing
 {
     public interface IHashable
     {

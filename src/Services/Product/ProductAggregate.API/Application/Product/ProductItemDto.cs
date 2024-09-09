@@ -1,8 +1,8 @@
 ﻿using ProductAggregate.API.Domain.ProductAggregate;
 
-namespace ProductAggregate.API.Application.Product.GetProduct
+namespace ProductAggregate.API.Application.Product
 {
-    public class GetProductItemResponse
+    public class ProductItemDto
     {
         public string Id { get; set; }
         public string MainCategory { get; set; }

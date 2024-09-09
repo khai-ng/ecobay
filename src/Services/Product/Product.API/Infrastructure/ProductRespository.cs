@@ -14,14 +14,12 @@ namespace Product.API.Infrastructure
 
     public class ProductRespository : Repository<ProductItem>, IProductRepository, ITransient
     {
-        private readonly IMongoContext _context;
         public ProductRespository(IMongoContext context) : base(context)
         {
-            _context = context;
             SetCollection("vnode1");
         }
 
-        public async Task<PagingResponse<ProductItem>> GetPagingAsync(GetProductRequest request)
+        public async Task<PagingResponse<ProductItem>> GetPagingAsync(GetProductRepoRequest request)
         {
             var fluentPaging = FluentPaging.From(request);
 

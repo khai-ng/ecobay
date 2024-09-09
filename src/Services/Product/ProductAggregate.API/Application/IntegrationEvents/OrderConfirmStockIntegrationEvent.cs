@@ -1,13 +1,13 @@
 ﻿using Core.IntegrationEvents.IntegrationEvents;
-using ProductAggregate.API.Application.Dto.Product;
+using ProductAggregate.API.Application.Product;
 
 namespace ProductAggregate.API.Application.IntegrationEvents
 {
     public class OrderConfirmStockIntegrationEvent(
         Guid orderId,
-        IEnumerable<ProductUnit> productUnits) : IntegrationEvent
+        IEnumerable<ProductUnitDto> productUnits) : IntegrationEvent
     {
         public Guid OrderId { get; } = orderId;
-        public IEnumerable<ProductUnit> ProductUnits { get; } = productUnits;
+        public IEnumerable<ProductUnitDto> ProductUnits { get; } = productUnits;
     }
 }
