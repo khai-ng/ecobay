@@ -11,6 +11,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/Services/Product/Product.API/Product.API.csproj", "src/Services/Product/Product.API/"]
 COPY ["src/SharedKernel/Core.AspNetCore/Core.AspNet.csproj", "src/SharedKernel/Core.AspNetCore/"]
+COPY ["src/SharedKernel/Core.OpenTelemetry/Core.OpenTelemetry.csproj", "src/SharedKernel/Core.OpenTelemetry/"]
 COPY ["src/SharedKernel/Core/Core.csproj", "src/SharedKernel/Core/"]
 COPY ["src/SharedKernel/Core.Autofac/Core.Autofac.csproj", "src/SharedKernel/Core.Autofac/"]
 COPY ["src/SharedKernel/Core.Kafka/Core.Kafka.csproj", "src/SharedKernel/Core.Kafka/"]

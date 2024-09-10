@@ -7,7 +7,6 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using MediatR;
 using MongoDB.Bson.Serialization.Conventions;
-using ProductAggregate.API.Presentation.Configurations;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);

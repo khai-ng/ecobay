@@ -13,6 +13,7 @@ using Serilog;
 using Destructurama;
 using Core.AspNet.Middlewares;
 using System.Reflection;
+using Core.OpenTelemetry;
 
 namespace Core.AspNet.Extensions
 {
@@ -23,14 +24,15 @@ namespace Core.AspNet.Extensions
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static WebApplicationBuilder AddServiceDefaults(this WebApplicationBuilder builder)
+        public static WebApplicationBuilder AddServiceDefaults(this WebApplicationBuilder builder, string? appName = null)
         {
             //builder.Services.AddDefaultHealthChecks(builder.Configuration);
             //builder.Services.AddDefaultOpenApi(builder.Configuration);
             builder.Services.AddDefaultAuthentication(builder.Configuration);
             builder.Services.AddHttpContextAccessor();
-
             builder.Services.AddDefaultLogging();
+
+            builder.AddDefaultOpenTelemetry(appName);
             builder.UseDefaultLogging();
 
             return builder;

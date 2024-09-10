@@ -10,7 +10,6 @@ using Product.API.Application.Product.Get;
 using Product.API.Application.Product.Update;
 using System.Reflection;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddFastEndpoints()
