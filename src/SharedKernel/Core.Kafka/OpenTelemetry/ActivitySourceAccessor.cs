@@ -22,7 +22,7 @@ internal static class ActivitySourceAccessor
         try
         {
             Activity? activity = ActivitySource.StartActivity(
-                $"{topic} publish", ActivityKind.Producer,
+                $"{topic} produce", ActivityKind.Producer,
                 default(ActivityContext), ProducerActivityTags(topic));
 
             if (activity == null)
@@ -56,7 +56,7 @@ internal static class ActivitySourceAccessor
         {
             var message = consumerResult.Message;
             var activity = ActivitySource.CreateActivity(
-                $"{consumerResult.Topic} process", ActivityKind.Consumer,
+                $"{consumerResult.Topic} consume", ActivityKind.Consumer,
                 default(ActivityContext), ConsumerActivityTags(consumerResult, memberId));
 
             if (activity != null)
@@ -123,7 +123,7 @@ internal static class ActivitySourceAccessor
 
     private static IEnumerable<KeyValuePair<string, object?>> ProducerActivityTags(string topic)
     {
-        var list = OperationActivityTags("publish");
+        var list = OperationActivityTags("produce");
 
         list.Add(new KeyValuePair<string, object?>("messaging.destination.kind", "topic"));
         list.Add(new KeyValuePair<string, object?>("messaging.destination.name", topic));
@@ -134,7 +134,7 @@ internal static class ActivitySourceAccessor
     private static IEnumerable<KeyValuePair<string, object?>> ConsumerActivityTags<TKey, TValue>(
         ConsumeResult<TKey, TValue> consumerResult, string memberId)
     {
-        var list = OperationActivityTags("process");
+        var list = OperationActivityTags("comsume");
 
         // messaging.consumer.id - For Kafka, set it to {messaging.kafka.consumer.group} - {messaging.kafka.client_id},
         // if both are present, or only messaging.kafka.consumer.group
