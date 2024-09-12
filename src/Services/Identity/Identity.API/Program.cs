@@ -13,12 +13,14 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddAutofac();
-builder.AddServiceDefaults();
-
 builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
+
+builder.AddKafkaOpenTelemetry();
+builder.AddServiceDefaults();
+builder.AddAutofac();
+
 builder.Services.AddDbContext(builder.Configuration);
 //builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 //builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();

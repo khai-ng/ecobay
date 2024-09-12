@@ -8,6 +8,8 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Ordering.API.Infrastructure;
 using Ordering.API.Presentation.Extensions;
 using System.Reflection;
@@ -18,8 +20,18 @@ builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
 
+builder.AddKafkaOpenTelemetry();
+//builder.AddMartenOpenTelemetry();
+//builder.Services.AddOpenTelemetry()
+//    .ConfigureResource(resource
+//        => resource.AddService(builder.Environment.ApplicationName))
+//    .WithTracing(tracing =>
+//    {
+//        tracing.AddConnectorNet();
+//    });
 builder.AddServiceDefaults();
 builder.AddAutofac();
+
 builder.Services.AddDbContext(builder.Configuration);
 
 builder.Services.AddMediatR(cfg =>

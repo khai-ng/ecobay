@@ -3,11 +3,11 @@ using Core.IntegrationEvents.IntegrationEvents;
 using Core.Reflections;
 using Newtonsoft.Json;
 
-namespace Core.Kafka
+namespace Core.Kafka.Producers
 {
-    public static class EventExtensions
+    internal static class EventExtensions
     {
-        public static IntegrationEvent? ToEvent(this ConsumeResult<string, string> consumeResult)
+        internal static IntegrationEvent? ToEvent(this ConsumeResult<string, string> consumeResult)
         {
             var eventType = TypeProvider.GetTypeFromReferenceAssembly(consumeResult.Message.Key);
 

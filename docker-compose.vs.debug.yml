@@ -1,0 +1,52 @@
+#See https://aka.ms/overrideVSDockerComposeConfiguration to understand how Visual Studio uses this override file.
+
+version: '3.4'
+
+#services:
+  #identity-api:
+    #labels:
+      #com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: "\"/app/bin/Debug/net8.0/Identity.API.dll\""
+      #com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      #com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+  #ordering-api:
+    #labels:
+      #com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: "\"/app/bin/Debug/net8.0/Ordering.API.dll\""
+      #com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      #com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+
+  #product-api-1:
+    #labels:
+      #com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: "\"/app/bin/Debug/net8.0/Product.API.dll\""
+      #com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      #com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+
+  #product-api-2:
+    #labels:
+      #com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: "\"/app/bin/Debug/net8.0/Product.API.dll\""
+      #com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      #com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+
+  #product-api-3:
+    #labels:
+      #com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: "\"/app/bin/Debug/net8.0/Product.API.dll\""
+      #com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      #com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+
+  #productaggregate-api:
+    #labels:
+      #com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: "\"/app/bin/Debug/net8.0/ProductAggregate.API.dll\""
+      #com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      #com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+
+  #web-apigateway:
+    #labels:
+      #com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: "\"/app/bin/Debug/net8.0/Web.ApiGateway.dll\""
+      #com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      #com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""

@@ -8,14 +8,17 @@ using Core.Result.Paginations;
 using Product.API.Application.Common.Abstractions;
 using Product.API.Application.Product.GetProducts;
 using MongoDB.Bson;
+using Microsoft.EntityFrameworkCore;
 
 namespace Product.API.Infrastructure
 {
 
     public class ProductRespository : Repository<ProductItem>, IProductRepository, ITransient
     {
+        private readonly IMongoContext _context;
         public ProductRespository(IMongoContext context) : base(context)
         {
+            _context = context;
             SetCollection("vnode1");
         }
 

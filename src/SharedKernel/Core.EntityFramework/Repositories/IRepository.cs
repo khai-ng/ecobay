@@ -1,4 +1,5 @@
-﻿using Core.SharedKernel;
+﻿using Core.Repository;
+using Core.SharedKernel;
 
 namespace Core.EntityFramework.Repository
 {

@@ -1,6 +1,4 @@
-﻿using Autofac.Core;
-using Confluent.Kafka;
-using Core.Autofac;
+﻿using Core.Autofac;
 using Core.Result.AppResults;
 using Grpc.Net.Client;
 using ProductAggregate.API.Application.Common.Abstractions;
@@ -8,8 +6,6 @@ using ProductAggregate.API.Application.ConsistentHashing;
 using ProductAggregate.API.Application.Product.Get;
 using ProductAggregate.API.Application.Product.Update;
 using ProductAggregate.API.Domain.ProductAggregate;
-using ProductAggregate.API.Domain.ServerAggregate;
-using System.Net.WebSockets;
 
 namespace ProductAggregate.API.Infrastructure
 {

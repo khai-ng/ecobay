@@ -14,35 +14,25 @@ namespace Core.OpenTelemetry
             builder.Services.AddOpenTelemetry()
                 .ConfigureResource(resource 
                     => resource.AddService(appName ?? builder.Environment.ApplicationName))
-                .WithMetrics(metrics =>
-                {
-                    metrics
-                        .AddAspNetCoreInstrumentation()
-                        .AddHttpClientInstrumentation()
-                        .AddOtlpExporter();
-                })
+                //.WithMetrics(metrics =>
+                //{
+                //    metrics
+                //        .AddAspNetCoreInstrumentation()
+                //        .AddHttpClientInstrumentation();
+                //})
                 .WithTracing(tracing =>
                 {
                     tracing
                         .AddAspNetCoreInstrumentation()
                         .AddHttpClientInstrumentation()
                         .AddGrpcClientInstrumentation()
+                        .AddConsoleExporter()
                         .AddOtlpExporter();
                 });
 
-            //services.AddOpenTelemetryExporters();
+            //builder.Services.AddOpenTelemetry().UseOtlpExporter();
 
             return builder;
-        }
-
-        private static IServiceCollection AddOpenTelemetryExporters(this IServiceCollection services) 
-        {
-            services.AddOpenTelemetry().UseOtlpExporter();
-
-            // builder.Services.AddOpenTelemetry()
-            //    .WithMetrics(metrics => metrics.AddPrometheusExporter());
-
-            return services;
         }
     }
 }
