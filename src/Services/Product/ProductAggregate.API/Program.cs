@@ -15,6 +15,7 @@ builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
 
+builder.AddKafkaOpenTelemetry();
 builder.AddServiceDefaults();
 builder.AddAutofac();
 

@@ -22,11 +22,11 @@ services:
             - ZOOKEEPER_TICK_TIMES=2000
             - ZOOKEEPER_SYNC_LIMIT=2
             # - KAFKA_OPTS=-Dzookeeper.4lw.commands.whitelist=ruok
-        # healthcheck:
-          # test: echo ruok | nc 127.0.0.1 2181 || exit -1
-          # interval: 10s
-          # timeout: 5s
-          # retries: 3
+        healthcheck:
+            test: echo ruok | nc 127.0.0.1 2181 || exit -1
+            interval: 10s
+            timeout: 5s
+            retries: 3
         ports:
             - 2181:2181
     kafka:

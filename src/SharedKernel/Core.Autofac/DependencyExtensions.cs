@@ -50,7 +50,7 @@ namespace Core.Autofac
                     .GetFiles(path, assembliesFetchPattern, SearchOption.TopDirectoryOnly)
                     .Select(Assembly.LoadFrom)
                     .Where(a => !string.Equals(a.FullName, "Microsoft.Data.SqlClient, Version=5.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5", StringComparison.OrdinalIgnoreCase))
-                    .Where(a => !string.Equals(a.FullName, "Pomelo.EntityFrameworkCore.MySql, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2cc498582444921b", StringComparison.OrdinalIgnoreCase))
+                    //.Where(a => !string.Equals(a.FullName, "Pomelo.EntityFrameworkCore.MySql, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2cc498582444921b", StringComparison.OrdinalIgnoreCase))
                     .ToList();
                 foreach (var item in applicationAsseblies)
                 {

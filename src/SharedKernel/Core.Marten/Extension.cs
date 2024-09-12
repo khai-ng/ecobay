@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Weasel.Core;
 using Marten;
+using Microsoft.AspNetCore.Builder;
+using OpenTelemetry.Resources;
 
 namespace Core.Marten
 {
@@ -27,6 +29,23 @@ namespace Core.Marten
             .UseLightweightSessions();
 
             return services;
+        }
+
+        public static WebApplicationBuilder AddMartenOpenTelemetry(this WebApplicationBuilder builder, string? appName = null)
+        {
+            builder.Services.AddOpenTelemetry()
+                .ConfigureResource(resource
+                    => resource.AddService(appName ?? builder.Environment.ApplicationName))
+                .WithTracing(tracing =>
+                {
+                    tracing.AddSource("Marten");
+                })
+                .WithMetrics(metrics =>
+                {
+                    metrics.AddMeter("Marten");
+                });
+
+            return builder;
         }
     }
 }

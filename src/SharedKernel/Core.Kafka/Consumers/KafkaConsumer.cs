@@ -1,12 +1,14 @@
 ﻿using Confluent.Kafka;
 using Core.AspNet.Extensions;
 using Core.IntegrationEvents.IntegrationEvents;
+using Core.Kafka.OpenTelemetry;
+using Core.Kafka.Producers;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
 namespace Core.Kafka.Consumers
 {
-    public class KafkaConsumer : IntegrationConsumer
+    internal class KafkaConsumer : IntegrationConsumer
     {
         private readonly KafkaConsumerConfig _kafkaConfig;
         private readonly IEventBus _eventBus;
@@ -38,8 +40,10 @@ namespace Core.Kafka.Consumers
                 {
                     //GH issue: https://github.com/dotnet/extensions/issues/2149#issuecomment-518709751
                     await Task.Yield();
+
                     var consumerResult = consumer.Consume(cancelToken.Token);
-                    var evnentMsg = consumerResult.ToEvent();
+                    
+                        var evnentMsg = consumerResult.ToEvent();
                     if(evnentMsg == null)
                     {
                         _logger
@@ -47,10 +51,18 @@ namespace Core.Kafka.Consumers
                             .Warning("Couldn't deserialize message type {EventType}", consumerResult.Message.Key);
                         return;
                     }
-                    _logger
-                        .ForContext(typeof(KafkaConsumer))
-                        .Information("Handling mesage {EventType}", consumerResult.Message.Key);
-                    await _eventBus.PublishAsync(evnentMsg, ct).ConfigureAwait(false);
+
+                    using (var activity = ActivitySourceAccessor.StartConsumeActivity(consumerResult, consumer.MemberId))
+                    {
+                        //internal event bus
+                        var isSuccess = await _eventBus.PublishAsync(evnentMsg, ct).ConfigureAwait(false);
+                        if (isSuccess)
+                            _logger
+                            .ForContext(typeof(KafkaConsumer))
+                            .ForContext("Topic", consumerResult.Topic)
+                            .ForContext("Partition", consumerResult.Partition)
+                            .Information("Handling mesage {EventType}", consumerResult.Message.Key);
+                    }
                 }
                 catch (OperationCanceledException)
                 {
