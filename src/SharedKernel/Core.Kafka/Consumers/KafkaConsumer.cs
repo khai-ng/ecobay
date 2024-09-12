@@ -16,7 +16,7 @@ namespace Core.Kafka.Consumers
 
         public KafkaConsumer(IConfiguration configuration, IEventBus eventBus, ILogger logger)
         {
-            _kafkaConfig = configuration.GetRequiredConfig<KafkaConsumerConfig>("Kafka:Consumer") 
+            _kafkaConfig = configuration.GetRequiredConfig<KafkaConsumerConfig>("Kafka:Consumer")
                 ?? throw new ArgumentNullException(nameof(KafkaConsumerConfig));
             _eventBus = eventBus
                 ?? throw new ArgumentNullException(nameof(KafkaConsumerConfig));
@@ -27,7 +27,7 @@ namespace Core.Kafka.Consumers
         {
             using var consumer = new ConsumerBuilder<string, string>(_kafkaConfig.ConsumerConfig).Build();
 
-            if(_kafkaConfig.TopicPartitions != null && _kafkaConfig.TopicPartitions.Length != 0)
+            if (_kafkaConfig.TopicPartitions != null && _kafkaConfig.TopicPartitions.Length != 0)
                 consumer.Assign(_kafkaConfig.TopicPartitions);
 
             if (_kafkaConfig.Topics != null && _kafkaConfig.Topics.Length != 0)
@@ -42,9 +42,9 @@ namespace Core.Kafka.Consumers
                     await Task.Yield();
 
                     var consumerResult = consumer.Consume(cancelToken.Token);
-                    
-                        var evnentMsg = consumerResult.ToEvent();
-                    if(evnentMsg == null)
+
+                    var evnentMsg = consumerResult.ToEvent();
+                    if (evnentMsg == null)
                     {
                         _logger
                             .ForContext(typeof(KafkaConsumer))
@@ -94,10 +94,8 @@ namespace Core.Kafka.Consumers
                         .Error($"Unexpected error: {e}");
                     break;
                 }
-
             }
         }
 
     }
-
 }
