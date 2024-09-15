@@ -1,33 +1,23 @@
 ﻿using Core.Autofac;
-using Core.Events.EventStore;
 using Core.Kafka.Producers;
 using Core.Result.AppResults;
-using Core.SharedKernel;
-using Marten.Events;
 using MediatR;
 using Ordering.API.Application.Common.Abstractions;
-using Ordering.API.Application.IntegrationEvents;
-using Ordering.API.Domain.OrderAgrregate;
 using Ordering.API.Application.Dto.Order;
+using Ordering.API.Application.IntegrationEvents;
 
 namespace Ordering.API.Application.Services
 {
     public class ConfirmStock : IRequestHandler<ConfirmStockRequest, AppResult<string>>, ITransient
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IEventStoreRepository<Order> _eventStoreRepository;
         private readonly IKafkaProducer _kafkaProducer;
 
         public ConfirmStock(
-            IOrderRepository orderRepository, 
-            IUnitOfWork unitOfWork, 
-            IEventStoreRepository<Order> eventStoreRepository, 
+            IOrderRepository orderRepository,
             IKafkaProducer kafkaProducer)
         {
             _orderRepository = orderRepository;
-            _unitOfWork = unitOfWork;
-            _eventStoreRepository = eventStoreRepository;
             _kafkaProducer = kafkaProducer;
         }
 

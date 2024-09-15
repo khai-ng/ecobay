@@ -45,7 +45,7 @@ namespace Core.Kafka.Producers
                 Value = JsonConvert.SerializeObject(@event)
             };
 
-            using (var activity = ActivitySourceAccessor.StartProduceActivity(topic, message))
+            using (var activity = KafkaActivityScope.StartProduceActivity(topic, message))
             {
                 using var producer = new ProducerBuilder<string, string>(_kafkaConfig.ProducerConfig).Build();
                 await Task.Yield();
@@ -53,7 +53,7 @@ namespace Core.Kafka.Producers
                 var result = await producer.ProduceAsync(_kafkaConfig.Topic, message, ct).ConfigureAwait(false);
 
                 if (activity != null)
-                    ActivitySourceAccessor.UpdateActivityTags(result, activity);
+                    KafkaActivityScope.UpdateActivityTags(result, activity);
 
                 if (result.Status == PersistenceStatus.Persisted
                     || result.Status == PersistenceStatus.PossiblyPersisted)
@@ -77,12 +77,12 @@ namespace Core.Kafka.Producers
                 Value = JsonConvert.SerializeObject(@event)
             };
             var kafkaTp = new TopicPartition(tp.Topic, new Partition(tp.Partition));
-            var activity = ActivitySourceAccessor.StartProduceActivity(kafkaTp, message);
+            var activity = KafkaActivityScope.StartProduceActivity(kafkaTp, message);
 
             var result = await producer.ProduceAsync(kafkaTp, message, ct).ConfigureAwait(false);
 
             if(activity != null)
-                ActivitySourceAccessor.UpdateActivityTags(result, activity);
+                KafkaActivityScope.UpdateActivityTags(result, activity);
 
             if (result.Status == PersistenceStatus.Persisted
                 || result.Status == PersistenceStatus.PossiblyPersisted)

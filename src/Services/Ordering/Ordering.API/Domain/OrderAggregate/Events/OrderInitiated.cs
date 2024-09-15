@@ -1,5 +1,4 @@
 ﻿using Core.EntityFramework.ServiceDefault;
-using Ordering.API.Domain.OrderAgrregate;
 using System.Text.Json.Serialization;
 
 namespace Ordering.API.Domain.OrderAggregate.Events

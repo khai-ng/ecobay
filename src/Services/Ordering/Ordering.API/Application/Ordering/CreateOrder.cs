@@ -6,7 +6,6 @@ using Marten.Events;
 using MediatR;
 using Ordering.API.Application.Common.Abstractions;
 using Ordering.API.Domain.OrderAggregate;
-using Ordering.API.Domain.OrderAgrregate;
 
 namespace Ordering.API.Application.Services
 {

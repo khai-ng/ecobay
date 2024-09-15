@@ -1,12 +1,14 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using Confluent.Kafka;
+using Core.Kafka.Consumers;
+using Core.Kafka.Producers;
 
 namespace Core.Kafka.OpenTelemetry;
 
-internal static class ActivitySourceAccessor
+internal static class KafkaActivityScope
 {
-    internal const string ActivitySourceName = "Confluent.Kafka.Diagnostics";
+    internal const string ActivitySourceName = "Kafka.Diagnostics";
     private const string TraceParentHeaderName = "traceparent";
     private const string TraceStateHeaderName = "tracestate";
 
@@ -22,7 +24,7 @@ internal static class ActivitySourceAccessor
         try
         {
             Activity? activity = ActivitySource.StartActivity(
-                $"{topic} produce", ActivityKind.Producer,
+                $"{nameof(KafkaProducer)}/{message.Key}", ActivityKind.Producer,
                 default(ActivityContext), ProducerActivityTags(topic));
 
             if (activity == null)
@@ -56,7 +58,7 @@ internal static class ActivitySourceAccessor
         {
             var message = consumerResult.Message;
             var activity = ActivitySource.CreateActivity(
-                $"{consumerResult.Topic} consume", ActivityKind.Consumer,
+                $"{nameof(KafkaConsumer)}/{message.Key}", ActivityKind.Consumer,
                 default(ActivityContext), ConsumerActivityTags(consumerResult, memberId));
 
             if (activity != null)
@@ -106,8 +108,8 @@ internal static class ActivitySourceAccessor
             activity.SetStatus(activityStatus);
             if (activityStatus == ActivityStatusCode.Ok)
             {
-                activity.SetTag("messaging.kafka.destination.partition", deliveryResult.Partition.Value.ToString());
-                activity.SetTag("messaging.kafka.message.offset", deliveryResult.Offset.Value.ToString());
+                activity.SetTag("messaging.kafka.partition", deliveryResult.Partition.Value.ToString());
+                activity.SetTag("messaging.kafka.offset", deliveryResult.Offset.Value.ToString());
             }
         }
         catch
@@ -118,15 +120,15 @@ internal static class ActivitySourceAccessor
     private static void SetKeyActivityTags<TKey, TValue>(Activity activity, Message<TKey, TValue> message)
     {
         if (message.Key != null)
-            activity.SetTag("messaging.kafka.message.key", message.Key.ToString());
+            activity.SetTag("messaging.kafka.message_key", message.Key.ToString());
     }
 
     private static IEnumerable<KeyValuePair<string, object?>> ProducerActivityTags(string topic)
     {
-        var list = OperationActivityTags("produce");
+        var list = OperationActivityTags("send");
 
-        list.Add(new KeyValuePair<string, object?>("messaging.destination.kind", "topic"));
-        list.Add(new KeyValuePair<string, object?>("messaging.destination.name", topic));
+        list.Add(new KeyValuePair<string, object?>("messaging.destination_kind", "topic"));
+        list.Add(new KeyValuePair<string, object?>("messaging.destination", topic));
 
         return list;
     }
@@ -134,14 +136,14 @@ internal static class ActivitySourceAccessor
     private static IEnumerable<KeyValuePair<string, object?>> ConsumerActivityTags<TKey, TValue>(
         ConsumeResult<TKey, TValue> consumerResult, string memberId)
     {
-        var list = OperationActivityTags("comsume");
+        var list = OperationActivityTags("receive");
 
         // messaging.consumer.id - For Kafka, set it to {messaging.kafka.consumer.group} - {messaging.kafka.client_id},
         // if both are present, or only messaging.kafka.consumer.group
-        list.Add(new("messaging.source.kind", "topic"));
-        list.Add(new("messaging.source.name", consumerResult.Topic));
-        list.Add(new("messaging.kafka.source.partition", consumerResult.Partition.Value.ToString()));
-        list.Add(new("messaging.kafka.message.offset", consumerResult.Offset.Value.ToString()));
+        list.Add(new("messaging.source_kind", "topic"));
+        list.Add(new("messaging.source", consumerResult.Topic));
+        list.Add(new("messaging.kafka.partition", consumerResult.Partition.Value.ToString()));
+        list.Add(new("messaging.kafka.offset", consumerResult.Offset.Value.ToString()));
         list.Add(new("messaging.kafka.client_id", memberId));
 
         // messaging.kafka.consumer.group - there is no way to access this information from the consumer

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Ordering.API.Domain.OrderAgrregate;
+using Ordering.API.Domain.OrderAggregate;
 
 namespace Ordering.API.Infrastructure.Configurations
 {

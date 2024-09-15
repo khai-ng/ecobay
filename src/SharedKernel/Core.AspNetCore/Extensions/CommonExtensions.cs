@@ -13,7 +13,7 @@ using Serilog;
 using Destructurama;
 using Core.AspNet.Middlewares;
 using System.Reflection;
-using Core.OpenTelemetry;
+using Core.AspNet.OpenTelemetry;
 
 namespace Core.AspNet.Extensions
 {

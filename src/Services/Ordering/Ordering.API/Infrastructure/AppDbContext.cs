@@ -1,7 +1,6 @@
 ﻿using Core.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
 using Ordering.API.Domain.OrderAggregate;
-using Ordering.API.Domain.OrderAgrregate;
 using System.Reflection;
 
 namespace Ordering.API.Infrastructure

@@ -1,5 +1,5 @@
 ﻿using Core.EntityFramework.Repository;
-using Ordering.API.Domain.OrderAgrregate;
+using Ordering.API.Domain.OrderAggregate;
 
 namespace Ordering.API.Application.Common.Abstractions
 {
