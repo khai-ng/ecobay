@@ -67,7 +67,7 @@ namespace Core.Autofac
             }
             catch (ReflectionTypeLoadException ex)
             {
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new();
                 foreach (Exception exSub in ex.LoaderExceptions)
                 {
                     sb.AppendLine(exSub.Message);

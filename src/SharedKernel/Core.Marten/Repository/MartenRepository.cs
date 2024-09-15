@@ -2,7 +2,7 @@
 using Core.SharedKernel;
 using Marten;
 
-namespace Core.Marten
+namespace Core.Marten.Repository
 {
     public class MartenRepository<TEntity> : IEventStoreRepository<TEntity>
         where TEntity : AggregateRoot<Guid>
@@ -12,6 +12,7 @@ namespace Core.Marten
         public MartenRepository(IDocumentSession documentSession)
         {
             _documentSession = documentSession;
+
         }
 
         public async Task<TEntity?> Find(Guid id, CancellationToken ct)
@@ -30,7 +31,7 @@ namespace Core.Marten
 
         public async Task<long> Update(Guid id, TEntity aggregate, long? expectedVersion = null, CancellationToken ct = default)
         {
-            var nextVersion = (expectedVersion ?? aggregate.Version);
+            var nextVersion = expectedVersion ?? aggregate.Version;
             _documentSession.Events.Append(id, nextVersion, aggregate.Events);
             await _documentSession.SaveChangesAsync(ct).ConfigureAwait(false);
             aggregate.ClearEvents();

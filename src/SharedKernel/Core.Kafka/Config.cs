@@ -36,12 +36,12 @@ namespace Core.Kafka
                 .AddKafkaProducer()
                 .AddKafkaConsumer();
 
-        public static WebApplicationBuilder AddKafkaOpenTelemetry(this WebApplicationBuilder builder, string? appName = null)
+        public static WebApplicationBuilder AddKafkaOpenTelemetry(this WebApplicationBuilder builder)
         {
             builder.Services.AddOpenTelemetry()
                 .WithTracing(tracing =>
                 {
-                    tracing.AddConfluentKafkaInstrumentation();
+                    tracing.AddSource(KafkaActivityScope.ActivitySourceName);
                 });
 
             return builder;

@@ -5,7 +5,7 @@ using Core.SharedKernel;
 using Marten.Events;
 using MediatR;
 using Ordering.API.Application.Common.Abstractions;
-using Ordering.API.Domain.OrderAgrregate;
+using Ordering.API.Domain.OrderAggregate;
 
 namespace Ordering.API.Application.Services
 {

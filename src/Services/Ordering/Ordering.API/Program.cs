@@ -1,6 +1,6 @@
 using Core.AspNet.Extensions;
 using Core.Autofac;
-using Core.Events.EventStore;
+using Core.EntityFramework;
 using Core.Kafka;
 using Core.Marten;
 using Core.MediaR;
@@ -8,8 +8,6 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using Ordering.API.Infrastructure;
 using Ordering.API.Presentation.Extensions;
 using System.Reflection;
@@ -19,31 +17,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
-
-builder.AddKafkaOpenTelemetry();
-//builder.AddMartenOpenTelemetry();
-//builder.Services.AddOpenTelemetry()
-//    .ConfigureResource(resource
-//        => resource.AddService(builder.Environment.ApplicationName))
-//    .WithTracing(tracing =>
-//    {
-//        tracing.AddConnectorNet();
-//    });
 builder.AddServiceDefaults();
 builder.AddAutofac();
+builder.AddKafkaOpenTelemetry();
+builder.AddMartenOpenTelemetry();
+builder.AddEFCoreOpenTelemetry();
 
 builder.Services.AddDbContext(builder.Configuration);
-
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());          
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
-
 builder.Services.AddKafkaCompose();
-
 builder.Services.AddMarten(builder.Configuration);
-builder.Services.AddScoped(typeof(IEventStoreRepository<>), typeof(MartenRepository<>));
+
+builder.Services.AddMartenRepository<Ordering.API.Domain.OrderAggregate.Order>();
 
 var app = builder.Build();
 

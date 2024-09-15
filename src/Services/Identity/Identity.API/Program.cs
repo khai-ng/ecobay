@@ -16,11 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
-
-builder.AddKafkaOpenTelemetry();
 builder.AddServiceDefaults();
 builder.AddAutofac();
-
 builder.Services.AddDbContext(builder.Configuration);
 //builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 //builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
@@ -29,7 +26,6 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
-
 builder.Services.AddKafkaProducer();
 
 var app = builder.Build();

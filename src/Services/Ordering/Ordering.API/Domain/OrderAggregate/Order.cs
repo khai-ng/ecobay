@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace Ordering.API.Domain.OrderAgrregate
+namespace Ordering.API.Domain.OrderAggregate
 {
     public class Order : AggregateRoot
     {

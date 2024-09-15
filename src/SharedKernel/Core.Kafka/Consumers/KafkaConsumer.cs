@@ -52,16 +52,16 @@ namespace Core.Kafka.Consumers
                         return;
                     }
 
-                    using (var activity = ActivitySourceAccessor.StartConsumeActivity(consumerResult, consumer.MemberId))
+                    using (var activity = KafkaActivityScope.StartConsumeActivity(consumerResult, consumer.MemberId))
                     {
                         //internal event bus
                         var isSuccess = await _eventBus.PublishAsync(evnentMsg, ct).ConfigureAwait(false);
                         if (isSuccess)
                             _logger
-                            .ForContext(typeof(KafkaConsumer))
-                            .ForContext("Topic", consumerResult.Topic)
-                            .ForContext("Partition", consumerResult.Partition)
-                            .Information("Handling mesage {EventType}", consumerResult.Message.Key);
+                                .ForContext(typeof(KafkaConsumer))
+                                .ForContext("Topic", consumerResult.Topic)
+                                .ForContext("Partition", consumerResult.Partition)
+                                .Information("Handling mesage {EventType}", consumerResult.Message.Key);
                     }
                 }
                 catch (OperationCanceledException)

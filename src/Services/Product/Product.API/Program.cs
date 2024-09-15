@@ -10,21 +10,18 @@ using Product.API.Application.Product.Get;
 using Product.API.Application.Product.Update;
 using System.Reflection;
 
+var camelCaseConventionPack = new ConventionPack { new CamelCaseElementNameConvention() };
+ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
-
 builder.AddServiceDefaults();
 builder.AddAutofac();
-
 builder.Services.AddGrpc();
-
 builder.Services.Configure<MongoDbSetting>(builder.Configuration.GetSection("ProductDatabase"));
-var camelCaseConventionPack = new ConventionPack { new CamelCaseElementNameConvention() };
-ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
-
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());

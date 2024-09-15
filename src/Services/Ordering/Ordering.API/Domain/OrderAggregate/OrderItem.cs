@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ordering.API.Domain.OrderAgrregate
+namespace Ordering.API.Domain.OrderAggregate
 {
     public class OrderItem: Entity
     {

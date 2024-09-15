@@ -10,17 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
-
-//builder.Services.AddEndpointsApiExplorer()
-//    .AddSwaggerGen();
-
 builder.AddServiceDefaults();
 builder.AddAutofac();
 builder.Services.AddAuthorization();
 builder.Services.AddGrpcServices();
 builder.Services.AddReverseProxy(builder.Configuration);
-
 builder.Services.Configure<UrlsConfiguration>(builder.Configuration.GetSection("urls"));
+
 var app = builder.Build();
 
 app.UseServiceDefaults();
