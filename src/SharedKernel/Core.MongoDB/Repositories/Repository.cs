@@ -8,7 +8,7 @@ namespace Core.MongoDB.Repository
     public abstract class Repository<TModel> : Repository<TModel, ObjectId>
         where TModel : AggregateRoot<ObjectId>
     {
-        protected Repository(IMongoContext context) : base(context)
+        protected Repository(MongoContext context) : base(context)
         {
         }
     }
@@ -18,43 +18,43 @@ namespace Core.MongoDB.Repository
         IMongoContextResolver
         where TModel : AggregateRoot<TKey>
     {
-        private readonly IMongoContext _mongoContext;
-        protected Repository(IMongoContext mongoContext)
+        private readonly MongoContext _mongoContext;
+        private IMongoCollection<TModel> _collection => _mongoContext.Collection<TModel>();
+        protected Repository(MongoContext mongoContext)
         {
             _mongoContext = mongoContext;
         }
-        public IMongoCollection<TModel> Collection => _mongoContext.GetCollection<TModel>();
 
         public async Task<IEnumerable<TModel>> GetAllAsync()
         {
-            var data = await Collection.FindAsync(Builders<TModel>.Filter.Empty);
+            var data = await _collection.FindAsync(Builders<TModel>.Filter.Empty);
             return await data.ToListAsync();
         }
 
         public async Task<TModel?> FindAsync(TKey id)
         {
-            var data = await Collection.FindAsync(Builders<TModel>.Filter.Eq("_id", id));
+            var data = await _collection.FindAsync(Builders<TModel>.Filter.Eq("_id", id));
             return await data.SingleOrDefaultAsync();
         }
 
         public void Add(TModel entity)
-            => _mongoContext.AddCommand(() => Collection.InsertOneAsync(entity));
+            => _mongoContext.AddCommand(() => _collection.InsertOneAsync(entity));
 
         public void Update(TModel entity)
             => _mongoContext.AddCommand(() =>
-                Collection.ReplaceOneAsync(
+                _collection.ReplaceOneAsync(
                     Builders<TModel>.Filter.Eq("_id", entity.Id),
                     entity
                 ));
 
         public void Remove(TModel entity)
             => _mongoContext.AddCommand(() =>
-                Collection.DeleteOneAsync(
+                _collection.DeleteOneAsync(
                     Builders<TModel>.Filter.Eq("_id", entity.Id)
                 ));
 
         public void AddRange(IEnumerable<TModel> entities)
-            => _mongoContext.AddCommand(() => Collection.InsertManyAsync(entities));
+            => _mongoContext.AddCommand(() => _collection.InsertManyAsync(entities));
 
         public void UpdateRange(IEnumerable<TModel> entities)
             => _mongoContext.AddCommand(() =>
@@ -62,7 +62,7 @@ namespace Core.MongoDB.Repository
                 List<Task> tasks = [];
                 foreach (var item in entities)
                 {
-                    tasks.Add(Collection.ReplaceOneAsync(
+                    tasks.Add(_collection.ReplaceOneAsync(
                         Builders<TModel>.Filter.Eq("_id", item.Id),
                         item
                     ));
@@ -72,7 +72,7 @@ namespace Core.MongoDB.Repository
 
         public void RemoveRange(IEnumerable<TModel> entities)
             => _mongoContext.AddCommand(() =>
-                Collection.DeleteManyAsync(
+                _collection.DeleteManyAsync(
                     Builders<TModel>.Filter.In("_id", entities.Select(x => x.Id))
                 )
             );
@@ -80,7 +80,5 @@ namespace Core.MongoDB.Repository
         public void SetConnection(string connectionString) => _mongoContext.SetConnection(connectionString);
 
         public void SetDatabase(string databaseName) => _mongoContext.SetDatabase(databaseName);
-
-        public void SetCollection(string collectionName) => _mongoContext.SetCollection(collectionName);
     }
 }

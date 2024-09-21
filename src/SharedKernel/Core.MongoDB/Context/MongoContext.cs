@@ -1,27 +1,20 @@
-﻿using Core.SharedKernel;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 namespace Core.MongoDB.Context
 {
-    public class MongoContext : IMongoContext, IUnitOfWork
+    public class MongoContext
     {
         private MongoClient _mongoClient;
         private IMongoDatabase _database;
-        private string _collectionName;
-        //private IClientSessionHandle Session;
 
         private readonly List<Func<Task>> _commands = [];
-        private readonly MongoDbSetting _mongoDbSetting;
+        private readonly MongoDbOptions _mongoDbSetting;
 
-        public MongoContext(IOptions<MongoDbSetting> dbSettings) 
-        {
-            _mongoDbSetting = dbSettings.Value;
-        }
+        public MongoContext() { }
 
-        public void Dispose()
+        public MongoContext(MongoDbOptions dbSettings) 
         {
-            GC.SuppressFinalize(this);
+            _mongoDbSetting = dbSettings;
         }
 
         public void AddCommand(Func<Task> func)
@@ -31,25 +24,11 @@ namespace Core.MongoDB.Context
 
         public Task SaveChangesAsync(CancellationToken ct = default)
         {
-            if (_mongoClient == null)
-            {
-                SetConnection(_mongoDbSetting.ConnectionString);
-                SetDatabase(_mongoDbSetting.DatabaseName);
-            }
+            if (_database is null)
+                SetDatabase(_mongoDbSetting.DatabaseName);           
 
             var commandTasks = _commands.Select(c => c.Invoke());
             return Task.WhenAll(commandTasks);
-        }
-
-        public IMongoCollection<T> GetCollection<T>()
-        {
-            if(_database is null)
-            {
-                SetConnection(_mongoDbSetting.ConnectionString);
-                SetDatabase(_mongoDbSetting.DatabaseName);
-            }
-            var collection = string.IsNullOrEmpty(_collectionName) ? typeof(T).Name : _collectionName;
-            return _database!.GetCollection<T>(collection);
         }
 
         public void SetConnection(string connectionString)
@@ -59,13 +38,19 @@ namespace Core.MongoDB.Context
 
         public void SetDatabase(string databaseName)
         {
-            ArgumentNullException.ThrowIfNull(_mongoClient, nameof(MongoClient));
-            _database = _mongoClient.GetDatabase(databaseName);
+            if (_mongoClient is null)
+                SetConnection(_mongoDbSetting.ConnectionString);
+
+            _database = _mongoClient!.GetDatabase(databaseName);
         }
 
-        public void SetCollection(string collectionName)
+        public IMongoCollection<T> Collection<T>(string? collectionName = null)
         {
-            _collectionName = collectionName;
+            if(_database is null)
+                SetDatabase(_mongoDbSetting.DatabaseName);
+            
+            var collection = string.IsNullOrEmpty(collectionName) ? typeof(T).Name : collectionName;
+            return _database!.GetCollection<T>(collection);
         }
     }
 }

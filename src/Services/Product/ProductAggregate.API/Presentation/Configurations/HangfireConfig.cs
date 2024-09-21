@@ -8,7 +8,7 @@ namespace ProductAggregate.API.Presentation.Configurations
     {
         public static void AddHangfireDefaults(this IServiceCollection services, IConfiguration configuration)
         {
-            var mongoDbSetting = configuration.GetSection("ProductDatabase").Get<MongoDbSetting>();
+            var mongoDbSetting = configuration.GetSection("ProductDatabase").Get<MongoDbOptions>();
             var mongoClient = new MongoClient(mongoDbSetting!.ConnectionString);
 
             services.AddHangfire(configuration => configuration

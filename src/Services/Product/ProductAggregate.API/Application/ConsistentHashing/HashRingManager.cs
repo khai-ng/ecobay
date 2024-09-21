@@ -1,7 +1,7 @@
 ﻿using Core.Autofac;
 using Core.ConsistentHashing;
 using ProductAggregate.API.Domain.ServerAggregate;
-using ProductAggregate.API.Infrastructure;
+using ProductAggregate.API.Infrastructure.Repositories;
 
 namespace ProductAggregate.API.Application.Hashing
 {

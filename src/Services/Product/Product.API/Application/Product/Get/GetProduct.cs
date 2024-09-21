@@ -19,6 +19,7 @@ namespace Product.API.Application.Product.Get
         {
             var repoRequest = new GetProductRepoRequest()
             {
+                DbName = request.DbName,
                 Category = request.Category,
                 PageIndex = request.PageInfo.PageIndex,
                 PageSize = request.PageInfo.PageSize
@@ -43,8 +44,10 @@ namespace Product.API.Application.Product.Get
         public override async Task<GetProductByIdResponse> GetById(GetProductByIdRequest request,
             ServerCallContext context)
         {
-            var listId = request.Ids.Select(x => ObjectId.Parse(x));
-            _productRepository.SetCollection(request.VNode);
+            var listId = new GetProductByIdRepoRequest(
+                request.DbName,
+                request.Ids.Select(x => ObjectId.Parse(x))
+                );
 
             var collection = await _productRepository.GetAsync(listId);
 

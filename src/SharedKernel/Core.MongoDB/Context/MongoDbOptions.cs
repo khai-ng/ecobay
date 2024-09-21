@@ -1,6 +1,6 @@
 ﻿namespace Core.MongoDB.Context
 {
-    public class MongoDbSetting
+    public class MongoDbOptions
     {
         public string ConnectionString { get; set; } = null!;
 

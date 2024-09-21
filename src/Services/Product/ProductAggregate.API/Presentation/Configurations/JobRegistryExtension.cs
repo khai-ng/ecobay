@@ -13,10 +13,10 @@ namespace ProductAggregate.API.Presentation.Configurations
             //    Cron.Never());
             ////"*/1 * * * *");
 
-            //RecurringJob.AddOrUpdate<IProductMigrationJob>(
-            //    "ProductUpdateVirtualJob",
-            //    j => j.UpdateVirtualAsync(),
-            //    Cron.Never());
+            RecurringJob.AddOrUpdate<IProductMigrationJob>(
+                nameof(IProductMigrationJob.ProcessFileMigrationAsync),
+                j => j.ProcessFileMigrationAsync(),
+                Cron.Never());
         }
     }
 }

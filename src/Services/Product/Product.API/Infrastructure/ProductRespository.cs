@@ -1,41 +1,45 @@
 ﻿using Core.Autofac;
-using Core.MongoDB.Context;
-using Core.MongoDB.Repository;
-using MongoDB.Driver;
-using Product.API.Domain.ProductAggregate;
 using Core.MongoDB.Paginations;
+using Core.MongoDB.Repository;
+using Core.Repository;
 using Core.Result.Paginations;
-using Product.API.Application.Common.Abstractions;
-using Product.API.Application.Product.GetProducts;
-using MongoDB.Bson;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using Product.API.Application.Common.Abstractions;
+using Product.API.Application.Product.Get;
+using Product.API.Application.Product.GetProducts;
+using Product.API.Domain.ProductAggregate;
 
 namespace Product.API.Infrastructure
 {
 
     public class ProductRespository : Repository<ProductItem>, IProductRepository, ITransient
     {
-        private readonly IMongoContext _context;
-        public ProductRespository(IMongoContext context) : base(context)
+        private readonly AppDbContext _context;
+        public ProductRespository(AppDbContext context) : base(context)
         {
             _context = context;
-            SetCollection("vnode1");
         }
 
         public async Task<PagingResponse<ProductItem>> GetPagingAsync(GetProductRepoRequest request)
         {
             var fluentPaging = FluentPaging.From(request);
 
-            var masterData = Collection
+            _context.SetDatabase(request.DbName);
+            var masterData = _context.ProductItems
                 .Find(x => x.MainCategory.Equals(request.Category));
 
             var filterdData = await fluentPaging.Filter(masterData).ToListAsync();
             return fluentPaging.Result(filterdData);
         }
 
-        public async Task<IEnumerable<ProductItem>> GetAsync(IEnumerable<ObjectId> ids)
+        public async Task<IEnumerable<ProductItem>> GetAsync(GetProductByIdRepoRequest request)
         {
-            return await Collection.Find(x => ids.Contains(x.Id)).ToListAsync();
+            _context.SetDatabase(request.DbName);
+            return await _context.ProductItems
+                .Find(x => request.ProductIds.Contains(x.Id))
+                .ToListAsync();
         }
     }
 }

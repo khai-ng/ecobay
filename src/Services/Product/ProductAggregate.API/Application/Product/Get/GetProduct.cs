@@ -4,6 +4,7 @@ using Core.Result.Paginations;
 using MediatR;
 using ProductAggregate.API.Application.Common.Abstractions;
 using ProductAggregate.API.Application.Product.Get;
+using ProductAggregate.API.Infrastructure.Repositories;
 
 namespace ProductAggregate.API.Application.Product.GetProduct
 {
@@ -12,15 +13,18 @@ namespace ProductAggregate.API.Application.Product.GetProduct
         private readonly Serilog.ILogger _logger;
         private readonly IProductRepository _productRepository;
         private readonly IProductHashingService _productHashingService;
+        private readonly IServerRepository _serverRepository;
 
         public GetProductHandler(
             Serilog.ILogger logger,
             IProductRepository productRepository,
-            IProductHashingService productHashingService)
+            IProductHashingService productHashingService,
+            IServerRepository serverRepository)
         {
             _logger = logger;
             _productRepository = productRepository;
             _productHashingService = productHashingService;
+            _serverRepository = serverRepository;
         }
 
         public async Task<AppResult<PagingResponse<ProductItemDto>>> Handle(
@@ -30,18 +34,31 @@ namespace ProductAggregate.API.Application.Product.GetProduct
             List<Task<AppResult<GetProductRepoResponse>>> tasks = [];
 
             //TODO: implement batching get product mechanism 
-            foreach (var item in _productHashingService.GetAllChannel())
+            var listDatabase = (await _serverRepository.GetAllAsync())
+                .Select(x => new
+                {
+                    x.Host,
+                    x.Port,
+                    x.Database
+                })
+                .Distinct()
+                .ToList();
+            foreach (var item in listDatabase)
             {
+                var channel = _productHashingService.TryGetChannel(item.Host);
+                if (channel == null) { continue; }
+
                 var channelRequest = new GetProductRepoRequest()
                 {
-                    Channel = item,
+                    Channel = channel,
+                    DbName = item.Database,
                     Category = request.Category,
                     PageIndex = request.PageIndex,
-                    PageSize = Convert.ToInt32(Math.Ceiling((decimal)request.PageSize / _productHashingService.ChannelUnits)),
-
+                    PageSize = Convert.ToInt32(Math.Ceiling((decimal)request.PageSize / listDatabase.Count)),
                 };
                 tasks.Add(_productRepository.GetAsync(channelRequest));
             }
+
             var taskResults = await Task.WhenAll(tasks);
             var data = taskResults.SelectMany(x => x.Data?.ProductItems ?? [])
                 .Take(request.PageSize)

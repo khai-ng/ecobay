@@ -3,6 +3,7 @@ using Grpc.Core;
 using GrpcProduct.Update;
 using MongoDB.Bson;
 using Product.API.Application.Common.Abstractions;
+using Product.API.Application.Product.Get;
 
 namespace Product.API.Application.Product.Update
 {
@@ -24,7 +25,9 @@ namespace Product.API.Application.Product.Update
             try
             {
                 var productUnitReq = request.ProductUnits.ToList();
-                var productRequest = productUnitReq.Select(x => ObjectId.Parse(x.Id));
+                var productRequest = new GetProductByIdRepoRequest(
+                    request.DbName, 
+                    request.ProductUnits.Select(x => ObjectId.Parse(x.Id)));
 
                 var productItems = await _productRepository.GetAsync(productRequest);
 

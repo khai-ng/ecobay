@@ -32,7 +32,7 @@ namespace ProductAggregate.API.Application.Product.GetProduct
             foreach (var productHashed in listProductHashed)
             {
                 var server = productHashed.Key.Node;
-                var channel = _productHashingService.TryGetChannelByDbName(server.Host);
+                var channel = _productHashingService.TryGetChannel(server.Host);
                 if (channel == null)
                 {
                     _logger.ForContext(typeof(GetProductByIdRequest))
@@ -43,7 +43,7 @@ namespace ProductAggregate.API.Application.Product.GetProduct
 
                 var repoRequest = new GetProductByIdRepoRequest(
                     channel,
-                    server.Collection,
+                    server.Database,
                     productHashed.Value.Select(x => x.Id));
 
                 tasks.Add(_productRepository.GetByIdAsync(repoRequest));

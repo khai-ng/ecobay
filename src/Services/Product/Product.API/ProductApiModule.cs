@@ -2,6 +2,7 @@
 using Core.Autofac;
 using Core.MongoDB.Context;
 using Core.SharedKernel;
+using Product.API.Infrastructure;
 
 namespace Product.API
 {
@@ -9,8 +10,7 @@ namespace Product.API
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<MongoContext>()
-                .AsImplementedInterfaces()
+            builder.RegisterType<AppDbContext>()
                 .InstancePerLifetimeScope();
 
             //builder.RegisterType<HashRingManager>()
