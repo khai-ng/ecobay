@@ -2,6 +2,7 @@
 using Core.Autofac;
 using Core.MongoDB.Context;
 using Core.SharedKernel;
+using ProductAggregate.API.Infrastructure;
 
 namespace ProductAggregate.API
 {
@@ -9,13 +10,12 @@ namespace ProductAggregate.API
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<MongoContext>()
-                .As<IMongoContext>()
-                .InstancePerDependency();
+            builder.RegisterType<AppDbContext>()
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<MongoContext>()
-                .As<IUnitOfWork>()
-                .InstancePerDependency();
+            //builder.RegisterType<MongoContext>()
+            //    .As<IUnitOfWork>()
+            //    .InstancePerDependency();
 
             //builder.RegisterType<HashRingManager>()
             //    .As<IHashRingManager>()

@@ -7,9 +7,9 @@ using ProductAggregate.API.Application.Product.Get;
 using ProductAggregate.API.Application.Product.Update;
 using ProductAggregate.API.Domain.ProductAggregate;
 
-namespace ProductAggregate.API.Infrastructure
+namespace ProductAggregate.API.Infrastructure.Repositories
 {
-    public class ProductRepository: IProductRepository, ITransient
+    public class ProductRepository : IProductRepository, ITransient
     {
         private readonly Serilog.ILogger _logger;
 
@@ -24,6 +24,7 @@ namespace ProductAggregate.API.Infrastructure
             {
                 var grpcRequest = new GrpcProduct.Get.GetProductRequest()
                 {
+                    DbName = request.DbName,
                     Category = request.Category,
                     PageInfo = new GrpcProduct.Get.PagingInfo()
                     {
@@ -64,7 +65,7 @@ namespace ProductAggregate.API.Infrastructure
             {
                 var grpcRequest = new GrpcProduct.Get.GetProductByIdRequest()
                 {
-                    VNode = request.VNode
+                    DbName = request.DbName
                 };
                 grpcRequest.Ids.AddRange(request.ProductIds);
 
@@ -123,10 +124,10 @@ namespace ProductAggregate.API.Infrastructure
             catch (Exception ex)
             {
                 return AppResult.Error(ex.Message);
-            }           
+            }
         }
 
-        private static GrpcChannel GetGrpcChannel(ChannelDto channel)
+        private static GrpcChannel GetGrpcChannel(AppHost channel)
             => GrpcChannel.ForAddress($"http://{channel.Host}:{channel.Port}");
     }
 }

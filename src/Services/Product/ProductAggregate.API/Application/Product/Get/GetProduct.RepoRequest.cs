@@ -7,7 +7,7 @@ namespace ProductAggregate.API.Application.Product.Get
     {
         public GetProductRepoRequest() { }
         public GetProductRepoRequest(
-            ChannelDto channel,
+            AppHost channel,
             string category,
             int pageIndex,
             int pageSize) : base(pageIndex, pageSize)
@@ -15,7 +15,8 @@ namespace ProductAggregate.API.Application.Product.Get
             Channel = channel;
             Category = category;
         }
-        public ChannelDto Channel { get; set; }
+        public AppHost Channel { get; set; }
+        public string DbName { get; set; }
         public string Category { get; set; }
     }
 

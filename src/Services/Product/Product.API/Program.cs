@@ -15,13 +15,14 @@ ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints()
-    .AddSwaggerGen()
-    .SwaggerDocument();
+//builder.Services.AddFastEndpoints()
+//    .AddSwaggerGen()
+//    .SwaggerDocument();
+
 builder.AddServiceDefaults();
 builder.AddAutofac();
 builder.Services.AddGrpc();
-builder.Services.Configure<MongoDbSetting>(builder.Configuration.GetSection("ProductDatabase"));
+builder.Services.Configure<MongoDbOptions>(builder.Configuration.GetSection("ProductDatabase"));
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
@@ -32,8 +33,8 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseServiceDefaults();
-app.UseFastEndpoints(config => config.CommonResponseConfigs())
-    .UseSwaggerGen();
+//app.UseFastEndpoints(config => config.CommonResponseConfigs())
+//    .UseSwaggerGen();
 
 app.MapGrpcService<GetProduct>();
 app.MapGrpcService<UpdateProduct>();

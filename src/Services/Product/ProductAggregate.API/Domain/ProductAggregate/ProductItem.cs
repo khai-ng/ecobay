@@ -1,5 +1,4 @@
-﻿using Core.Events.DomainEvents;
-using Core.MongoDB.ServiceDefault;
+﻿using Core.MongoDB.ServiceDefault;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -15,8 +14,8 @@ namespace ProductAggregate.API.Domain.ProductAggregate
         public decimal AverageRating { get; set; }
         [BsonElement("rating_number")]
         public decimal RatingNumber { get; set; }
-        //public IEnumerable<string>? Features { get; set; }
-        //public IEnumerable<string>? Description { get;set; }
+        public IEnumerable<string>? Features { get; set; }
+        public IEnumerable<string>? Description { get; set; }
         public string? Price { get; set; }
         public IEnumerable<Image>? Images { get; set; }
         public IEnumerable<Video>? Videos { get; set; }

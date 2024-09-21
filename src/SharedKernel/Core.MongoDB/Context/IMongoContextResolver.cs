@@ -4,6 +4,5 @@
     {
         void SetConnection(string connectionString);
         void SetDatabase(string databaseName);
-        void SetCollection(string collectionName);
     }
 }

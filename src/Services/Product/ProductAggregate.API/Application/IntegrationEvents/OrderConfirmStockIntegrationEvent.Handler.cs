@@ -36,7 +36,7 @@ namespace ProductAggregate.API.Application.IntegrationEvents
             foreach (var productUnit in productUnitHashed)
             {
                 var server = productUnit.Key.Node;
-                var channel = _productHashingService.TryGetChannelByDbName(server.Host);
+                var channel = _productHashingService.TryGetChannel(server.Host);
                 if (channel == null)
                 {
                     _logger.ForContext(typeof(OrderConfirmStockIntegrationEvent))

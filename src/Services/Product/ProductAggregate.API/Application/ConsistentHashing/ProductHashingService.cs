@@ -11,7 +11,7 @@ namespace ProductAggregate.API.Application.Hashing
         private readonly IHashRingManager _hashRingManager;
         private readonly Serilog.ILogger _logger;
 
-        private static readonly Dictionary<string, ChannelDto> GrpcServerMap = new([
+        private static readonly Dictionary<string, AppHost> GrpcServerMap = new([
             new("product-db-1", new() { Host = "product-api-1", Port = "81" }),
             new("product-db-2", new() { Host = "product-api-2", Port = "81" }),
             new("product-db-3", new() { Host = "product-api-3", Port = "81" })
@@ -23,12 +23,9 @@ namespace ProductAggregate.API.Application.Hashing
             _logger = logger;
         }
 
-        public int ChannelUnits => GrpcServerMap.Count;
-        public IEnumerable<ChannelDto> GetAllChannel() => GrpcServerMap.Values;
-
-        public ChannelDto? TryGetChannelByDbName(string name)
+        public AppHost? TryGetChannel(string host)
         {
-            var success = GrpcServerMap.TryGetValue(name, out var channel);
+            var success = GrpcServerMap.TryGetValue(host, out var channel);
             if (!success) return null;
             return channel;
         }
