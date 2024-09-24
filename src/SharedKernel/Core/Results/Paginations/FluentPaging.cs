@@ -8,20 +8,22 @@
             PageSize = request.PageSize;
         }
         public static FluentPaging From(IPagingRequest request)
-        {
-            return new FluentPaging(request);
-        }
+            => new(request);
+        
     }
 
     public static class FluentPagingExtension
     {
+        public static FluentPaging SetTotal(this FluentPaging fluentPaging, long total)
+        {
+            fluentPaging.SetTotal(total);
+            return fluentPaging;
+        }
 
         public static PagingResponse<T> Taking<T>(this FluentPaging fluentPaging, 
             IEnumerable<T> data)
             where T : class
-        {
-            return PagingResponse<T>.Taking(fluentPaging, data);
-        }
+            => PagingResponse<T>.Taking(fluentPaging, data);     
 
         /// <summary>
         /// Set result collection
@@ -32,9 +34,8 @@
         public static PagingResponse<T> Result<T>(this FluentPaging fluentPaging, 
             IEnumerable<T> data) 
             where T : class
-        {
-            return PagingResponse<T>.Result(fluentPaging, data);
-        }
+            => PagingResponse<T>.Result(fluentPaging, data);
+        
 
         /// <summary>
         /// Process paging collection
@@ -45,8 +46,7 @@
         public static PagingResponse<T> Paging<T>(this FluentPaging fluentPaging, 
             IEnumerable<T> data)
             where T : class
-        {
-            return PagingResponse<T>.Paging(fluentPaging, data);
-        }
+            => PagingResponse<T>.Paging(fluentPaging, data);
+        
     }
 }

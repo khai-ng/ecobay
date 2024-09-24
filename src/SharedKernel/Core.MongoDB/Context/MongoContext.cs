@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using System.Reflection;
 
 namespace Core.MongoDB.Context
 {
@@ -44,12 +45,13 @@ namespace Core.MongoDB.Context
             _database = _mongoClient!.GetDatabase(databaseName);
         }
 
-        public IMongoCollection<T> Collection<T>(string? collectionName = null)
+        public IMongoCollection<T> Collection<T>()
         {
             if(_database is null)
                 SetDatabase(_mongoDbSetting.DatabaseName);
-            
-            var collection = string.IsNullOrEmpty(collectionName) ? typeof(T).Name : collectionName;
+
+            var dbNameAttr = typeof(T).GetCustomAttribute<MongoDbNameAttribute>();
+            var collection = dbNameAttr != null ? dbNameAttr.DbName : typeof(T).Name;
             return _database!.GetCollection<T>(collection);
         }
     }

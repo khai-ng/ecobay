@@ -47,7 +47,8 @@ namespace ProductAggregate.API.Application.IntegrationEvents
                     return;
                 }
 
-                var repoRequest = new ConfimStockRepoRequest(channel, productUnit.Value);
+                var repoRequest = new ConfimStockRepoRequest(server.Database, channel, productUnit.Value);
+                //TODO: dispatch dbName
                 confirmStockTasks.Add(_productRepository.ChannelConfimStockAsync(repoRequest));
             }
 

@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace Core.MongoDB.Paginations
 {
-    public static class PagingResponseExtension
+    public static class PagingExtensions
     {
         internal static async Task<PagingResponse<TOut>> PagingAsync<TIn, TOut>(
             IPagingRequest request,
@@ -17,8 +17,8 @@ namespace Core.MongoDB.Paginations
                 .Skip(response.Skip)
                 .Limit(response.PageSize + 1)
                 .ToListAsync();
-            response.Data = filterData
-                .Take(response.PageSize);
+            response.SetData(filterData
+                .Take(response.PageSize));
             response.HasNext = response.PageSize < filterData.Count;
 
             return response;
@@ -30,13 +30,14 @@ namespace Core.MongoDB.Paginations
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static IFindFluent<TIn, TOut> Filter<TIn, TOut>(this FluentPaging response, IFindFluent<TIn, TOut> data)
+
+        public static IFindFluent<TIn, TOut> Filter<TIn, TOut, TPage>(
+            this PagingResponse<TPage> response, 
+            IFindFluent<TIn, TOut> data)
             where TIn : class
             where TOut : class
+            where TPage : class
         {
-
-            if (response.PageSize < 1 || response.PageIndex < 1)
-                throw new ArgumentOutOfRangeException();
 
             response.HasNext = data
                 .Skip(response.Skip + response.PageSize)
@@ -47,7 +48,5 @@ namespace Core.MongoDB.Paginations
                 .Skip(response.Skip)
                 .Limit(response.PageSize);
         }
-
-
     }
 }

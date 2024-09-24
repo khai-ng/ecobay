@@ -13,9 +13,7 @@ namespace Core.MongoDB.Repository
         }
     }
 
-    public abstract class Repository<TModel, TKey> :
-        IRepository<TModel, TKey>,
-        IMongoContextResolver
+    public abstract class Repository<TModel, TKey> : IRepository<TModel, TKey>
         where TModel : AggregateRoot<TKey>
     {
         private readonly MongoContext _mongoContext;
@@ -76,9 +74,5 @@ namespace Core.MongoDB.Repository
                     Builders<TModel>.Filter.In("_id", entities.Select(x => x.Id))
                 )
             );
-
-        public void SetConnection(string connectionString) => _mongoContext.SetConnection(connectionString);
-
-        public void SetDatabase(string databaseName) => _mongoContext.SetDatabase(databaseName);
     }
 }

@@ -99,7 +99,10 @@ namespace ProductAggregate.API.Infrastructure.Repositories
         {
             try
             {
-                var grpcRequest = new GrpcProduct.Update.ConfirmStockRequest() { };
+                var grpcRequest = new GrpcProduct.Update.ConfirmStockRequest() 
+                {
+                    DbName = request.DbName
+                };
                 grpcRequest.ProductUnits.AddRange(
                     request.ProductUnits
                     .Select(x => new GrpcProduct.Update.ProductUnit()

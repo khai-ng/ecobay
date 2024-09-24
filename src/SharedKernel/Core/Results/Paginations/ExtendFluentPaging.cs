@@ -13,9 +13,8 @@
     public static class ExtendFluentPagingExtension
     {
         public static ExtendFluentPaging Extend(this FluentPaging fluentPaging)
-        {
-            return new ExtendFluentPaging(fluentPaging);
-        }
+            => new(fluentPaging);
+        
 
         /// <summary>
         /// Set result collection
@@ -23,12 +22,11 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static ExtendPagingResponse<T> Result<T>(this ExtendFluentPaging pagingProcessor, 
+        public static ExtendPagingResponse<T> Result<T>(this ExtendFluentPaging extendFluentPaging, 
             IEnumerable<T> data) 
             where T : class
-        {
-            return ExtendPagingResponse<T>.Result(pagingProcessor, data);
-        }
+            => ExtendPagingResponse<T>.Result(extendFluentPaging, data);
+        
 
         /// <summary>
         /// Process paging collection
@@ -36,11 +34,10 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static ExtendPagingResponse<T> Paging<T>(this ExtendFluentPaging pagingProcessor, 
+        public static ExtendPagingResponse<T> Paging<T>(this ExtendFluentPaging extendFluentPaging, 
             IEnumerable<T> data)
             where T : class
-        {
-            return ExtendPagingResponse<T>.Paging(pagingProcessor, data);
-        }
+            => ExtendPagingResponse<T>.Paging(extendFluentPaging, data);
+        
     }
 }

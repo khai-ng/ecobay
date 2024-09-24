@@ -100,7 +100,7 @@ namespace Core.AspNet.Extensions
 
         public static IServiceCollection AddDefaultLogging(this IServiceCollection services)
         {
-            services.AddScoped<IExceptionHandler, InternalExceptionHandler>();
+            services.AddExceptionHandler<InternalExceptionHandler>();
             services.AddScoped<ILogEventEnricher, HttpContextEnricher>();
             return services;
         }

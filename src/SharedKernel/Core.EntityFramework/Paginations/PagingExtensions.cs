@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.EntityFramework.Paginations
 {
-    public static class PagingResponseExtension
+    public static class PagingExtensions
     {
-        internal static async Task<PagingResponse<T>> PagingAsync<T>(
-            IPagingRequest request,
+        public static async Task<PagingResponse<T>> PagingAsync<T>(
+            this IPagingRequest request,
             IQueryable<T> data)
             where T : class
         {
@@ -16,36 +16,32 @@ namespace Core.EntityFramework.Paginations
                 .Skip(response.Skip)
                 .Take(response.PageSize + 1)
                 .ToListAsync();
-            response.Data = filterData
-                .Take(response.PageSize);
+
+            response.SetData(filterData
+                .Take(response.PageSize));
             response.HasNext = response.PageSize < filterData.Count;
 
             return response;
         }
 
         /// <summary>
-        /// Paging other collection. Set Total, PageCount of PagingResponse by this collection
+        /// Filter master collection
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static IQueryable<T> Filter<T>(this FluentPaging response, IQueryable<T> data)
+        public static IQueryable<T> Filter<T, TPage>(this PagingResponse<TPage> paging, IQueryable<T> data)
             where T : class
+            where TPage : class
         {
-
-            if (response.PageSize < 1 || response.PageIndex < 1)
-                throw new ArgumentOutOfRangeException();
-
-            response.HasNext = data
-                .Skip(response.Skip + response.PageSize)
+            paging.HasNext = data
+                .Skip(paging.Skip + paging.PageSize)
                 .Take(1)
                 .Any();
 
             return data
-                .Skip(response.Skip)
-                .Take(response.PageSize);
+                .Skip(paging.Skip)
+                .Take(paging.PageSize);
         }
-
-
     }
 }

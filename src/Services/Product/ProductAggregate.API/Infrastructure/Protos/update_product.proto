@@ -10,7 +10,8 @@ message ProductUnit {
 }
 
 message ConfirmStockRequest {
-	repeated ProductUnit product_units = 1;
+	string db_name = 1;
+	repeated ProductUnit product_units = 2;
 }
 
 message UpdateProductUnitResponse {

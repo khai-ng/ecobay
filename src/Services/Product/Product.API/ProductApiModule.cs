@@ -13,9 +13,9 @@ namespace Product.API
             builder.RegisterType<AppDbContext>()
                 .InstancePerLifetimeScope();
 
-            //builder.RegisterType<HashRingManager>()
-            //    .As<IHashRingManager>()
-            //    .SingleInstance();
+            builder.RegisterType<UnitOfWork>()
+                .As<IUnitOfWork>()
+                .InstancePerLifetimeScope();
         }
     }
 }

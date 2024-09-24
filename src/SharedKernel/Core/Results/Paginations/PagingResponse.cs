@@ -2,7 +2,7 @@
 {
     public class PagingResponse<T> : PagingRequest, IPagingResponse<T> where T : class
     {
-        public IEnumerable<T> Data { get; set; }
+        public IEnumerable<T> Data { get; protected set; }
         public bool HasNext { get; set; }
 
         public PagingResponse(IPagingRequest request)
@@ -14,16 +14,11 @@
             PageIndex = request.PageIndex;
         }
 
-        /// <summary>
-        /// Set collection result
-        /// </summary>
-        /// <typeparam name="TProto"></typeparam>
-        /// <param name="request"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        internal static PagingResponse<T> Result<TProto>(IPagingResponse<TProto> request, 
+        public void SetData(IEnumerable<T> data) => Data = data;
+
+        internal static PagingResponse<T> Result<TModel>(IPagingResponse<TModel> request,
             IEnumerable<T> data)
-            where TProto : class
+            where TModel : class
         {
             var response = new PagingResponse<T>(request)
             {
@@ -33,7 +28,7 @@
             return response;
         }
 
-        internal static PagingResponse<T> Taking(IPagingRequest request, 
+        internal static PagingResponse<T> Taking(IPagingRequest request,
             IEnumerable<T> data)
         {
             var response = new PagingResponse<T>(request);
@@ -51,7 +46,7 @@
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        internal static PagingResponse<T> Paging(IPagingRequest request, 
+        internal static PagingResponse<T> Paging(IPagingRequest request,
             IEnumerable<T> data)
         {
             var response = new PagingResponse<T>(request);

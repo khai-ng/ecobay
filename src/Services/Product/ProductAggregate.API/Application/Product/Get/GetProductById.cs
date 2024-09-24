@@ -42,8 +42,8 @@ namespace ProductAggregate.API.Application.Product.GetProduct
                 }
 
                 var repoRequest = new GetProductByIdRepoRequest(
-                    channel,
                     server.Database,
+                    channel,
                     productHashed.Value.Select(x => x.Id));
 
                 tasks.Add(_productRepository.GetByIdAsync(repoRequest));

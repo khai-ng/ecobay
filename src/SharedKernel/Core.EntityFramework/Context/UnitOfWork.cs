@@ -11,7 +11,6 @@ namespace Core.EntityFramework.Context
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IServiceProvider _serviceProvider;
         private readonly IMediator _mediator;
         private readonly DbContext _dbContext;
         private IDbContextTransaction? _currentTransaction;
@@ -20,11 +19,12 @@ namespace Core.EntityFramework.Context
 
         public UnitOfWork(IServiceProvider serviceProvider, IMediator mediator)
         {
-            _serviceProvider = serviceProvider;
             _mediator = mediator;
-
-            var baseDbContextTypes = Assembly.GetEntryAssembly()?.GetTypes().Where(x => x.IsSubclassOf(typeof(BaseDbContext))).First();
-            _dbContext = (DbContext)_serviceProvider.GetRequiredService(baseDbContextTypes!);
+            var baseDbContextTypes = Assembly.GetEntryAssembly()?
+                .GetTypes()
+                .Where(x => x.IsSubclassOf(typeof(BaseDbContext)))
+                .First();
+            _dbContext = (DbContext)serviceProvider.GetRequiredService(baseDbContextTypes!);
         }
 
         public async Task SaveChangesAsync(CancellationToken ct = default)
