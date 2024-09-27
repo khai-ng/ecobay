@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Core.Result.AppResults
+namespace Core.AppResults
 {
     public class ErrorDetail
     {

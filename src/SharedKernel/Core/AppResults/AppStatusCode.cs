@@ -1,4 +1,4 @@
-﻿namespace Core.Result.AppResults
+﻿namespace Core.AppResults
 {
     public enum AppStatusCode
     {

@@ -1,6 +1,6 @@
 ﻿using Core.Autofac;
 using Core.Kafka.Producers;
-using Core.Result.AppResults;
+using Core.AppResults;
 using MediatR;
 using Ordering.API.Application.Common.Abstractions;
 using Ordering.API.Application.Dto.Order;

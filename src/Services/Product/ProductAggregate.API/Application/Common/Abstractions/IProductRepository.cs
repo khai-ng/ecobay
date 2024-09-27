@@ -1,4 +1,4 @@
-﻿using Core.Result.AppResults;
+﻿using Core.AppResults;
 using ProductAggregate.API.Application.Product.Get;
 using ProductAggregate.API.Application.Product.Update;
 using ProductAggregate.API.Domain.ProductAggregate;

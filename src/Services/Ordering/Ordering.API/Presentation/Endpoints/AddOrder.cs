@@ -1,5 +1,5 @@
 ﻿using Core.AspNet.Result;
-using Core.Result.AppResults;
+using Core.AppResults;
 using FastEndpoints;
 using MediatR;
 using Ordering.API.Application.Services;

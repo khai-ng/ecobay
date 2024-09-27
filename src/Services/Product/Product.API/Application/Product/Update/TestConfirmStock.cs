@@ -1,4 +1,4 @@
-﻿using Core.Result.AppResults;
+﻿using Core.AppResults;
 using Core.SharedKernel;
 using MediatR;
 using MongoDB.Bson;

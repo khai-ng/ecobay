@@ -1,6 +1,6 @@
 ﻿using Core.Autofac;
-using Core.Result.AppResults;
-using Core.Result.Paginations;
+using Core.Pagination;
+using Core.AppResults;
 using Identity.API.Application.Common.Abstractions;
 using Identity.Domain.Entities.UserAggregate;
 using MediatR;

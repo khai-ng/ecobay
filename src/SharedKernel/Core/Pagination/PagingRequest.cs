@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Core.Result.Paginations
+namespace Core.Pagination
 {
     public class PagingRequest : IPagingRequest
     {
@@ -8,12 +8,14 @@ namespace Core.Result.Paginations
         public int PageSize { get; set; }
         [JsonIgnore]
         public int Skip => PageIndex > 0 ? (PageIndex - 1) * PageSize : 0;
-
+        [JsonIgnore]
+        public bool GetAll { get; set; } = false;
         protected PagingRequest() { }
-        public PagingRequest(int pageIndex, int pageSize)
+        public PagingRequest(int pageIndex, int pageSize, bool getAll = false)
         {
             PageIndex = pageIndex;
             PageSize = pageSize;
+            GetAll = getAll;
         }
     }
 }

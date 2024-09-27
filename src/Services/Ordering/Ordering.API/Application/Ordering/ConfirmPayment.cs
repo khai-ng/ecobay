@@ -1,8 +1,7 @@
-﻿using Core.Autofac;
+﻿using Core.AppResults;
+using Core.Autofac;
 using Core.Events.EventStore;
-using Core.Result.AppResults;
 using Core.SharedKernel;
-using Marten.Events;
 using MediatR;
 using Ordering.API.Application.Common.Abstractions;
 using Ordering.API.Domain.OrderAggregate;

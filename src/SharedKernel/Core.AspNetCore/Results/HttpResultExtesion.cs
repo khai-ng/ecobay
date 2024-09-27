@@ -1,4 +1,4 @@
-﻿using Core.Result.Abstractions;
+﻿using Core.AppResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;

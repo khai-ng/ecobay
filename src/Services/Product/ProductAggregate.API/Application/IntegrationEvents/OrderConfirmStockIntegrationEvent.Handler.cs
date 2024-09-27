@@ -1,7 +1,7 @@
 ﻿using Core.Autofac;
 using Core.IntegrationEvents.IntegrationEvents;
 using Core.Kafka.Producers;
-using Core.Result.AppResults;
+using Core.AppResults;
 using ProductAggregate.API.Application.Common.Abstractions;
 using ProductAggregate.API.Application.Product.Update;
 

@@ -1,10 +1,8 @@
 ﻿using Core.Autofac;
 using Core.MongoDB.Paginations;
 using Core.MongoDB.Repository;
-using Core.Repository;
-using Core.Result.Paginations;
+using Core.Pagination;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Product.API.Application.Common.Abstractions;
 using Product.API.Application.Product.Get;
@@ -30,7 +28,7 @@ namespace Product.API.Infrastructure
             var masterData = _context.ProductItems
                 .Find(x => x.MainCategory.Equals(request.Category));
 
-            var filterdData = await fluentPaging.Filter(masterData).ToListAsync();
+            var filterdData = await fluentPaging.FilterApply(masterData).ToListAsync();
             return fluentPaging.Result(filterdData);
         }
 

@@ -1,4 +1,4 @@
-﻿using Core.Result.Paginations;
+﻿using Core.Pagination;
 
 namespace Product.API.Application.Product.GetProducts
 {

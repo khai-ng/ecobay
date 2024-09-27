@@ -1,5 +1,4 @@
-﻿using Core.Result.Abstractions;
-using Core.Result.AppResults;
+﻿using Core.AppResults;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Text.Json.Serialization;

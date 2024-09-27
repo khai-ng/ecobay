@@ -1,5 +1,5 @@
-﻿using Core.Result.AppResults;
-using Core.Result.Paginations;
+﻿using Core.Pagination;
+using Core.AppResults;
 using MediatR;
 
 namespace ProductAggregate.API.Application.Product.GetProduct

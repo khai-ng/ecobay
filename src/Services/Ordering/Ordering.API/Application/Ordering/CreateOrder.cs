@@ -1,6 +1,6 @@
 ﻿using Core.Autofac;
 using Core.Events.EventStore;
-using Core.Result.AppResults;
+using Core.AppResults;
 using Core.SharedKernel;
 using Marten.Events;
 using MediatR;

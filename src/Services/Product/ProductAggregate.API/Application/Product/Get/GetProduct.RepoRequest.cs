@@ -1,4 +1,4 @@
-﻿using Core.Result.Paginations;
+﻿using Core.Pagination;
 using ProductAggregate.API.Application.ConsistentHashing;
 
 namespace ProductAggregate.API.Application.Product.Get

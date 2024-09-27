@@ -1,4 +1,4 @@
-﻿using Core.Result.AppResults;
+﻿using Core.AppResults;
 using System.Net;
 
 namespace Core.AspNet.Result

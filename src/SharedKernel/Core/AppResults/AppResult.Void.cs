@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Core.Result.AppResults
+namespace Core.AppResults
 {
     public class AppResult : AppResult<AppResult>
     {

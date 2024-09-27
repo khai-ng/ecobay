@@ -1,6 +1,6 @@
 ﻿using Core.Autofac;
 using Core.IntegrationEvents.IntegrationEvents;
-using Core.Result.AppResults;
+using Core.AppResults;
 using Identity.API.Application.Common.Abstractions;
 using Identity.API.Application.Common.Extensions;
 using MediatR;

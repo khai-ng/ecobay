@@ -1,5 +1,5 @@
-﻿using Core.Repository;
-using Core.Result.Paginations;
+﻿using Core.Pagination;
+using Core.Repository;
 using MongoDB.Bson;
 using Product.API.Application.Product.Get;
 using Product.API.Application.Product.GetProducts;

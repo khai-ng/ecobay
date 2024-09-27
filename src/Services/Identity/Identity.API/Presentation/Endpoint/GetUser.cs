@@ -1,6 +1,6 @@
 ﻿using Core.AspNet.Result;
-using Core.Result.AppResults;
-using Core.Result.Paginations;
+using Core.Pagination;
+using Core.AppResults;
 using FastEndpoints;
 using Identity.Application.Services;
 using Identity.Domain.Entities.UserAggregate;

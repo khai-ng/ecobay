@@ -1,5 +1,5 @@
 ﻿using Core.AspNet.Result;
-using Core.Result.Paginations;
+using Core.Pagination;
 using FastEndpoints;
 using MediatR;
 using ProductAggregate.API.Application.Product;

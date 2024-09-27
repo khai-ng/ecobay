@@ -1,4 +1,4 @@
-﻿using Core.Result.AppResults;
+﻿using Core.AppResults;
 using MediatR;
 
 namespace ProductAggregate.API.Application.Product.GetProduct

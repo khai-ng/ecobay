@@ -1,5 +1,5 @@
 ﻿using Core.Autofac;
-using Core.Result.AppResults;
+using Core.AppResults;
 using MediatR;
 using ProductAggregate.API.Application.Common.Abstractions;
 using ProductAggregate.API.Application.Hashing;

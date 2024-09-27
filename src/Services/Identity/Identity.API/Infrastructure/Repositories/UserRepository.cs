@@ -1,7 +1,7 @@
 ﻿using Core.Autofac;
-using Core.EntityFramework.Paginations;
+using Core.EntityFramework.Pagination;
 using Core.EntityFramework.Repository;
-using Core.Result.Paginations;
+using Core.Pagination;
 using Identity.API.Application.Common.Abstractions;
 using Identity.Application.Services;
 using Identity.Domain.Entities.UserAggregate;

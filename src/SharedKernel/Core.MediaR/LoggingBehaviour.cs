@@ -1,4 +1,4 @@
-﻿using Core.Result.Abstractions;
+﻿using Core.AppResults;
 using MediatR;
 using Serilog;
 

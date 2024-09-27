@@ -1,6 +1,4 @@
-﻿using Core.Result.AppResults;
-
-namespace Core.Result.Abstractions
+﻿namespace Core.AppResults
 {
     public interface IAppResult<T> : IAppResult
     {

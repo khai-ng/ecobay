@@ -1,5 +1,5 @@
 ﻿using Core.EntityFramework.Repository;
-using Core.Result.Paginations;
+using Core.Pagination;
 using Identity.Application.Services;
 using Identity.Domain.Entities.UserAggregate;
 

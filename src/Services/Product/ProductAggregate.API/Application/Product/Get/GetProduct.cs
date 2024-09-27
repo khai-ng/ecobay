@@ -1,6 +1,6 @@
 ﻿using Core.Autofac;
-using Core.Result.AppResults;
-using Core.Result.Paginations;
+using Core.Pagination;
+using Core.AppResults;
 using MediatR;
 using ProductAggregate.API.Application.Common.Abstractions;
 using ProductAggregate.API.Application.Product.Get;
