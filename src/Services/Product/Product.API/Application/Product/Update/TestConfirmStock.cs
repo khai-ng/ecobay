@@ -21,27 +21,24 @@ namespace Product.API.Application.Product.Update
 
         public async Task<AppResult> Handle(ConfirmStockRequest request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var productRequest = new GetProductByIdRepoRequest(
-                    "vnode-2",
-                    new List<ObjectId> { ObjectId.Parse(request.Id) });
-                var product = (await _productRepository.GetAsync(productRequest)).Single();
+            var productRequest = new GetProductByIdRepoRequest(
+                "vnode-2",
+                new List<ObjectId> { ObjectId.Parse(request.Id) });
+            var product = (await _productRepository.GetAsync(productRequest)).Single();
 
-                if (request.Units > product.Units)
-                    throw new ArgumentOutOfRangeException(nameof(ConfirmStockRequest));
+            if (product == null)
+                return AppResult.NotFound($"Not found product: {request.Id}");
 
-                product.Units -= request.Units;
+            if (request.Units > product.Units)
+                return AppResult.Invalid(new ErrorDetail(nameof(ArgumentOutOfRangeException)));
 
-                _productRepository.Update(product);
-                await _unitOfWork.SaveChangesAsync();
+            product.Units -= request.Units;
 
-                return AppResult.Success();
-            }
-            catch (Exception ex)
-            {
-                return AppResult.Error(ex.Message);
-            }
+            _productRepository.Update(product);
+            await _unitOfWork.SaveChangesAsync();
+
+            return AppResult.Success();
         }
+        
     }
 }

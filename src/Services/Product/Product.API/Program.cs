@@ -1,6 +1,7 @@
 using Core.AspNet.Extensions;
 using Core.Autofac;
 using Core.MediaR;
+using Core.MongoDB;
 using Core.MongoDB.Context;
 using FastEndpoints;
 using FastEndpoints.Swagger;
@@ -8,6 +9,7 @@ using MediatR;
 using MongoDB.Bson.Serialization.Conventions;
 using Product.API.Application.Product.Get;
 using Product.API.Application.Product.Update;
+using Product.API.Infrastructure;
 using System.Reflection;
 
 var camelCaseConventionPack = new ConventionPack { new CamelCaseElementNameConvention() };
@@ -19,10 +21,16 @@ builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
 
+builder.AddMongoTelemetry();
 builder.AddServiceDefaults();
 builder.AddAutofac();
+builder.Services.AddMongoDbContext<AppDbContext>(options =>
+{
+    var connections = builder.Configuration.GetSection("ProductDatabase").Get<MongoConnectionOptions>();
+    options.Connection = connections;
+    options.Telemetry.Enable = true;
+});
 builder.Services.AddGrpc();
-builder.Services.Configure<MongoDbOptions>(builder.Configuration.GetSection("ProductDatabase"));
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());

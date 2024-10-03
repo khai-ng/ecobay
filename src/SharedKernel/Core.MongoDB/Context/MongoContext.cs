@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using Core.MongoDB.OpenTelemetry;
+using MongoDB.Driver;
+using Serilog;
 using System.Reflection;
 
 namespace Core.MongoDB.Context
@@ -9,13 +11,19 @@ namespace Core.MongoDB.Context
         private IMongoDatabase _database;
 
         private readonly List<Func<Task>> _commands = [];
-        private readonly MongoDbOptions _mongoDbSetting;
+        private readonly MongoContextOptions _dbSetting;
 
-        public MongoContext() { }
+        private readonly ILogger _logger;
 
-        public MongoContext(MongoDbOptions dbSettings) 
+        public MongoContext(ILogger logger) 
         {
-            _mongoDbSetting = dbSettings;
+            _logger = logger;
+        }
+
+        public MongoContext(MongoContextOptions dbSettings) 
+        {
+            _dbSetting = dbSettings;
+            SetDatabase(_dbSetting.Connection.DatabaseName);
         }
 
         public void AddCommand(Func<Task> func)
@@ -26,29 +34,38 @@ namespace Core.MongoDB.Context
         public Task SaveChangesAsync(CancellationToken ct = default)
         {
             if (_database is null)
-                SetDatabase(_mongoDbSetting.DatabaseName);           
+                SetDatabase(_dbSetting.Connection.DatabaseName);           
 
             var commandTasks = _commands.Select(c => c.Invoke());
             return Task.WhenAll(commandTasks);
         }
 
-        public void SetConnection(string connectionString)
+        public MongoContext SetConnection(string connectionString)
         {
-            _mongoClient = new MongoClient(connectionString);
+            var clientSettings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
+            var options = new InstrumentationOptions { CaptureCommandText = true };
+            if (_dbSetting.Telemetry.Enable)         
+                clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber(options));
+
+            _mongoClient = new MongoClient(clientSettings);
+
+            return this;
         }
 
-        public void SetDatabase(string databaseName)
+        public MongoContext SetDatabase(string databaseName)
         {
             if (_mongoClient is null)
-                SetConnection(_mongoDbSetting.ConnectionString);
+                SetConnection(_dbSetting.Connection.ConnectionString);
 
             _database = _mongoClient!.GetDatabase(databaseName);
+
+            return this;
         }
 
         public IMongoCollection<T> Collection<T>()
         {
             if(_database is null)
-                SetDatabase(_mongoDbSetting.DatabaseName);
+                SetDatabase(_dbSetting.Connection.DatabaseName);
 
             var dbNameAttr = typeof(T).GetCustomAttribute<MongoDbNameAttribute>();
             var collection = dbNameAttr != null ? dbNameAttr.DbName : typeof(T).Name;

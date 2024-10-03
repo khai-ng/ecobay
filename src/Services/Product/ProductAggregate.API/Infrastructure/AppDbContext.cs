@@ -1,12 +1,10 @@
-﻿using Core.Autofac;
-using Core.MongoDB.Context;
-using Microsoft.Extensions.Options;
+﻿using Core.MongoDB.Context;
 
 namespace ProductAggregate.API.Infrastructure
 {
     public class AppDbContext : MongoContext
     {
-        public AppDbContext(IOptions<MongoDbOptions> dbSettings) : base(dbSettings.Value)
+        public AppDbContext(MongoContextOptions options) : base(options)
         {
         }
 

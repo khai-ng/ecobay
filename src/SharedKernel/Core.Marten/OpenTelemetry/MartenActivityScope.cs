@@ -13,17 +13,10 @@ namespace Core.Marten.OpenTelemetry
         private static ActivitySource ActivitySource { get; } = new(ActivitySourceName);
         internal static Activity? StartActivity(string name)
         {
-            try
-            {
-                Activity? activity = ActivitySource.StartActivity($"MartenRepository/{name}");
-                if (activity == null) return null;
+            Activity? activity = ActivitySource.StartActivity($"MartenRepository/{name}");
+            if (activity == null) return null;
 
-                return activity;
-            }
-            catch
-            {
-                return null;
-            }
+            return activity;
         }
         
         internal static void PropagateTelemetry(this IDocumentSession documentSession, Activity? activity)
