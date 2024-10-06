@@ -26,8 +26,7 @@ builder.AddServiceDefaults();
 builder.AddAutofac();
 builder.Services.AddMongoDbContext<AppDbContext>(options =>
 {
-    var connections = builder.Configuration.GetSection("ProductDatabase").Get<MongoConnectionOptions>();
-    options.Connection = connections;
+    options.Connection = builder.Configuration.GetSection("ProductDatabase").Get<MongoConnectionOptions>()!;
     options.Telemetry.Enable = true;
 });
 builder.Services.AddGrpc();
