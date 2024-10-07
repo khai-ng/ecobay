@@ -53,8 +53,8 @@ services:
         build:
             context: .
             dockerfile: src/ApiGateways/Web.ApiGateway/Dockerfile
-        depends_on:
-            - identity-api
+        # depends_on:
+        #     - identity-api
         networks:
             - local
         logging:
@@ -85,23 +85,30 @@ services:
                 tag: host.ordering
 
     # Identity
-    identity-api:
-        container_name: identity-api
-        image: ${DOCKER_REGISTRY-}identityapi
-        build:
-            context: .
-            dockerfile: src/Services/Identity/Identity.API/Dockerfile
-        # depends_on:
-        #     kafka:
-        #         condition: service_healthy
+    # identity-api:
+    #     container_name: identity-api
+    #     image: ${DOCKER_REGISTRY-}identityapi
+    #     build:
+    #         context: .
+    #         dockerfile: src/Services/Identity/Identity.API/Dockerfile
+    #     # depends_on:
+    #     #     kafka:
+    #     #         condition: service_healthy
+    #     networks:
+    #         - local
+    #     logging:
+    #         driver: fluentd
+    #         options:
+    #             fluentd-async: "true"
+    #             tag: host.identity
+    
+    keycloak:
+        container_name: keycloak
+        image: quay.io/keycloak/keycloak:26.0.0
+        restart: on-failure
         networks:
             - local
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: host.identity
-    
+
     # mysql db. using service per schema
     mysql-db:
         container_name: mysql-db
@@ -303,13 +310,6 @@ services:
         # profiles: [ otel, otel-all, all ]
         image: jaegertracing/all-in-one:latest
         container_name: jaeger
-        ports:
-            - "6831:6831/udp"
-            - "4317:4317"
-            - "4318:4318"
-            - "16686:16686"
-            - "14268:14268"
-            - "14250:14250"
         networks:
             - local
 networks:

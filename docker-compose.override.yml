@@ -110,24 +110,41 @@ services:
             - "5432:5432"
     
     # Identity
-    identity-api:
+    # identity-api:
+    #     environment:
+    #         - ASPNETCORE_ENVIRONMENT=Development
+    #         - ASPNETCORE_HTTP_PORTS=8080
+    #         - Logging__Loglevel__Default=Debug
+    #         - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+    #         - Jwt__Issuer=http://identity-api
+    #         - Jwt__Audience=http://identity-api
+    #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+    #         - ConnectionStrings__Default=Server=mysql-db;Database=wksy.identity;User Id=root;Password=1234;
+    #         - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
+    #         - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
+    #         - PATH_BASE=/identity-api
+    #         - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+    #     volumes:
+    #         - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+    #     ports:
+    #         - "5101:80"
+
+    keycloak:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_HTTP_PORTS=8080
-            - Logging__Loglevel__Default=Debug
-            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
-            - Jwt__Issuer=http://identity-api
-            - Jwt__Audience=http://identity-api
-            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - ConnectionStrings__Default=Server=mysql-db;Database=wksy.identity;User Id=root;Password=1234;
-            - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
-            - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
-            - PATH_BASE=/identity-api
-            - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
-        volumes:
-            - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+            KC_BOOTSTRAP_ADMIN_USERNAME: admin
+            KC_BOOTSTRAP_ADMIN_PASSWORD: 1234
+            KC_DB: mysql
+            KC_DB_URL_HOST: mysql-db
+            KC_DB_SCHEMA: keycloak
+            KC_DB_USERNAME: root
+            KC_DB_PASSWORD: 1234
+            KC_HOSTNAME_STRICT: "false"
+            KC_HTTP_RELATIVE_PATH: "/keycloak"
+            KC_PROXY: "edge"
+        command:
+            - start
         ports:
-            - "5101:80"
+            - "5101:8080"
 
     mysql-db:
         environment:
@@ -368,3 +385,12 @@ services:
     #         - ADMIN_USER=${ADMIN_USER:-admin}
     #         - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
     #         - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH:-$2a$14$1l.IozJx7xQRVmlkEQ32OeEEfP5mRxTpbDTCTcXRqn19gXD8YK1pO}
+
+    jaeger:
+        ports:
+            - "6831:6831/udp"
+            - "4317:4317"
+            - "4318:4318"
+            - "16686:16686"
+            - "14268:14268"
+            - "14250:14250"
