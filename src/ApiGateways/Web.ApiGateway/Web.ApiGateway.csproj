@@ -11,6 +11,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Protos\**" />
+    <Compile Remove="Services\**" />
+    <Content Remove="Protos\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Protos\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Protos\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FastEndpoints" Version="5.28.0" />
     <PackageReference Include="FastEndpoints.Security" Version="5.28.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="5.28.0" />
@@ -32,11 +43,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SharedKernel\Core.AspNetCore\Core.AspNet.csproj" />
     <ProjectReference Include="..\..\SharedKernel\Core.Autofac\Core.Autofac.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Protos\" />
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\..\SharedKernel\Core.EntityFramework\Core.EntityFramework.csproj" />
   </ItemGroup>
 
 </Project>

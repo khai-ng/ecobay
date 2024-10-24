@@ -18,7 +18,7 @@ namespace Ordering.API.Presentation.Endpoint
         public override void Configure()
 		{
 			Post("order/add");
-			AllowAnonymous();
+			//AllowAnonymous();
         }
 
         public override async Task HandleAsync(CreateOrderRequest req,  CancellationToken ct)

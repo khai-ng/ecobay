@@ -18,7 +18,7 @@ namespace Ordering.API.Presentation.Endpoint
         public override void Configure()
 		{
 			Get("order/confirm-payment");
-			AllowAnonymous();
+			//AllowAnonymous();
         }
 
         public override async Task HandleAsync(ConfirmPaymentRequest request,  CancellationToken ct)

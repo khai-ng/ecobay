@@ -1,14 +1,15 @@
-﻿using FastEndpoints;
-using System.Security.Claims;
+﻿using Core.AppResults;
+using Core.AspNet.Result;
+using FastEndpoints;
 
 namespace Web.ApiGateway.Endpoint
 {
-	public class Me: EndpointWithoutRequest<object>
+    public class Me: EndpointWithoutRequest<HttpResultTyped<Dictionary<string, string>>>
 	{
-		private readonly IHttpContextAccessor _principal;
-		public Me(IHttpContextAccessor principal)
+		private readonly IHttpContextAccessor _httpContext;
+		public Me(IHttpContextAccessor httpContext)
 		{
-			_principal = principal;
+            _httpContext = httpContext;
 		}
 
 		public override void Configure()
@@ -16,9 +17,11 @@ namespace Web.ApiGateway.Endpoint
 			Get("user/me");
 		}
 
-		public override async Task HandleAsync(CancellationToken ct)
-		{
-			await SendAsync(_principal.HttpContext);
-		}
-	}
+        public override async Task HandleAsync(CancellationToken ct)
+        {
+            var claim = _httpContext.HttpContext?.User.Claims.ToDictionary(x => x.Type, x => x.Value) ?? [];
+            var appResult = AppResult.Success(claim);
+            await SendResultAsync(appResult.ToHttpResult());
+        }
+    }
 }

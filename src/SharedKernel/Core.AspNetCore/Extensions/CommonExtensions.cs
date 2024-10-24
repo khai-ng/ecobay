@@ -28,7 +28,7 @@ namespace Core.AspNet.Extensions
         {
             //builder.Services.AddDefaultHealthChecks(builder.Configuration);
             //builder.Services.AddDefaultOpenApi(builder.Configuration);
-            builder.Services.AddDefaultAuthentication(builder.Configuration);
+            //builder.Services.AddDefaultAuthentication(builder.Configuration);
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddDefaultLogging();
 
@@ -109,7 +109,7 @@ namespace Core.AspNet.Extensions
         public static WebApplication UseServiceDefaults(this WebApplication app)
         {
             app.UseExceptionHandler(opt => { });
-            app.UseDefaultAuthentication();
+            //app.UseDefaultAuthentication();
             
             return app;
         }

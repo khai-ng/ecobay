@@ -7,17 +7,11 @@ using Yarp.ReverseProxy.Configuration;
 
 namespace Web.ApiGateway.Extensions
 {
-    public static class Extensions
+    public static class YarpExtensions
     {
         public static IServiceCollection AddReverseProxy(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddReverseProxy().LoadFromConfig(configuration.GetRequiredSection(ConfigConstants.YARP_CONFIG));
-            return services;
-        }
-        public static IServiceCollection AddGrpcServices(this IServiceCollection services)
-        {
-            
-
             return services;
         }
         
@@ -25,7 +19,7 @@ namespace Web.ApiGateway.Extensions
         {
             var clusters = configuration.GetSection("ReverseProxy:Clusters");
             var routes = configuration.GetSection("ReverseProxy:Routes").Get<List<RouteConfig>>();
-            if (clusters != null)
+            if (clusters != null && routes != null && routes.Any())
             {
                 foreach (var child in clusters.GetChildren())
                 {
@@ -40,7 +34,11 @@ namespace Web.ApiGateway.Extensions
             }
         }
 
-        public static void MapSwaggerSpecs(this IEndpointRouteBuilder endpoints, List<RouteConfig> config, ClusterConfig cluster, GatewaySwaggerSpec swagger)
+        private static void MapSwaggerSpecs(
+            this IEndpointRouteBuilder endpoints, 
+            List<RouteConfig> config, 
+            ClusterConfig cluster, 
+            GatewaySwaggerSpec swagger)
         {
             endpoints.MapGet(swagger.Endpoint, async (context) =>
             { 

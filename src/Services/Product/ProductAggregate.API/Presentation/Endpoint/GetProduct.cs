@@ -17,7 +17,7 @@ namespace ProductAggregate.API.Presentation.Endpoint
         public override void Configure()
         {
             Get("product/get");
-            AllowAnonymous();
+            //AllowAnonymous();
         }
 
         public override async Task HandleAsync(GetProductRequest request, CancellationToken ct)

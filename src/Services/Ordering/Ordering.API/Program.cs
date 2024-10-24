@@ -7,7 +7,9 @@ using Core.MediaR;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Resources;
 using Ordering.API.Infrastructure;
 using Ordering.API.Presentation.Extensions;
 using System.Reflection;
@@ -19,9 +21,9 @@ builder.Services.AddFastEndpoints()
     .SwaggerDocument();
 builder.AddServiceDefaults();
 builder.AddAutofac();
-builder.AddKafkaOpenTelemetry();
-builder.AddMartenOpenTelemetry();
-builder.AddEFCoreOpenTelemetry();
+builder.AddKafkaOpenTelemetry()
+    .AddMartenOpenTelemetry()
+    .AddEFCoreOpenTelemetry();
 
 builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddMediatR(cfg =>
@@ -34,7 +36,25 @@ builder.Services.AddMarten(builder.Configuration);
 
 builder.Services.AddMartenRepository<Ordering.API.Domain.OrderAggregate.Order>();
 
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(opt =>
+	{
+		opt.RequireHttpsMetadata = false;
+		opt.Audience = builder.Configuration["Authentication:Audience"];
+		opt.MetadataAddress = builder.Configuration["Authentication:MetadataAddress"]!;
+		opt.TokenValidationParameters = new()
+		{
+			ValidIssuer = builder.Configuration["Authentication:ValidateIssuer"]
+		};
+	});
+
+builder.Services.AddOpenTelemetry()
+	.ConfigureResource(rb => rb.AddService("Ordering.API"));
+
 var app = builder.Build();
+
+app.UseServiceDefaults();
 
 using (var scope = app.Services.CreateScope())
 {
@@ -44,10 +64,11 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
-app.UseServiceDefaults();
 app.UseDefaultSwaggerRedirection();
-
 app.UseFastEndpoints(config => config.CommonResponseConfigs())
     .UseSwaggerGen();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 await app.RunAsync();
