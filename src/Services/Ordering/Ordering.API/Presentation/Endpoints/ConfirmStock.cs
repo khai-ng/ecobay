@@ -18,7 +18,7 @@ namespace Ordering.API.Presentation.Endpoint
         public override void Configure()
 		{
 			Get("order/confirm-stock");
-			AllowAnonymous();
+			//AllowAnonymous();
         }
 
         public override async Task HandleAsync(ConfirmStockRequest request,  CancellationToken ct)

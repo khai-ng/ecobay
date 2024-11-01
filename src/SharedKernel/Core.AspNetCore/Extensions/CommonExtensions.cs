@@ -28,16 +28,16 @@ namespace Core.AspNet.Extensions
         {
             //builder.Services.AddDefaultHealthChecks(builder.Configuration);
             //builder.Services.AddDefaultOpenApi(builder.Configuration);
-            builder.Services.AddDefaultAuthentication(builder.Configuration);
+            //builder.Services.AddDefaultAuthentication(builder.Configuration);
             builder.Services.AddHttpContextAccessor();
-            builder.Services.AddDefaultLogging();
-
+            builder.Services.AddDefaultExceptionHandler();
+            builder.AddDefaultLogging();
             builder.AddDefaultOpenTelemetry(appName);
-            builder.UseDefaultLogging();
 
             return builder;
         }
 
+        [Obsolete]
         public static IServiceCollection AddDefaultOpenApi(this IServiceCollection services, IConfiguration configuration)
         {
             var openApi = configuration.GetSection("OpenApi");
@@ -65,6 +65,7 @@ namespace Core.AspNet.Extensions
             });
         }
 
+        [Obsolete]
         public static IServiceCollection AddDefaultAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSection = configuration.GetSection("Jwt");
@@ -98,18 +99,44 @@ namespace Core.AspNet.Extensions
             return services;
         }
 
-        public static IServiceCollection AddDefaultLogging(this IServiceCollection services)
+        public static IServiceCollection AddDefaultExceptionHandler(this IServiceCollection services)
         {
             services.AddExceptionHandler<InternalExceptionHandler>();
-            services.AddScoped<ILogEventEnricher, HttpContextEnricher>();
             return services;
+        }
+
+        public static WebApplicationBuilder AddDefaultLogging(this WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                        .CreateBootstrapLogger();
+
+            builder.Host.UseSerilog((context, serviceProvider, config) =>
+            {
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                IConfiguration configure = new ConfigurationBuilder()
+                    .SetBasePath(path!)
+                    .AddJsonFile("common.appsettings.json", optional: false, reloadOnChange: true)
+                    .AddEnvironmentVariables()
+                    .Build();
+
+                config.ReadFrom.Configuration(configure);
+                config.Destructure.UsingAttributes();
+                var enrichers = serviceProvider.GetServices<ILogEventEnricher>();
+
+                if (enrichers is not null)
+                    config.Enrich.With(enrichers.ToArray());
+            });
+
+            builder.Services.AddScoped<ILogEventEnricher, HttpContextEnricher>();
+
+            return builder;
         }
 
         #region UseService
         public static WebApplication UseServiceDefaults(this WebApplication app)
         {
             app.UseExceptionHandler(opt => { });
-            app.UseDefaultAuthentication();
+            //app.UseDefaultAuthentication();
             
             return app;
         }
@@ -120,6 +147,7 @@ namespace Core.AspNet.Extensions
             return app;
         }
 
+        [Obsolete]
         public static IApplicationBuilder UseDefaultOpenApi(this WebApplication app, IConfiguration configuration)
         {
             var openApiSection = configuration.GetSection("OpenApi");
@@ -151,6 +179,7 @@ namespace Core.AspNet.Extensions
             return app;
         }
 
+        [Obsolete]
         public static IApplicationBuilder UseDefaultAuthentication(this WebApplication app)
         {
             var identitySection = app.Configuration.GetSection("Jwt");
@@ -160,30 +189,6 @@ namespace Core.AspNet.Extensions
                 app.UseAuthorization();
             }
             return app;
-        }
-
-        public static WebApplicationBuilder UseDefaultLogging(this WebApplicationBuilder builder)
-        {
-            Log.Logger = new LoggerConfiguration()
-                        .CreateBootstrapLogger();
-
-            builder.Host.UseSerilog((context, serviceProvider, config) =>
-            {
-                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                IConfiguration configure = new ConfigurationBuilder()
-                    .SetBasePath(path!)
-                    .AddJsonFile("common.appsettings.json", optional: false, reloadOnChange: true)
-                    .AddEnvironmentVariables()
-                    .Build();
-
-                config.ReadFrom.Configuration(configure);
-                config.Destructure.UsingAttributes();
-                var enrichers = serviceProvider.GetServices<ILogEventEnricher>();
-
-                if (enrichers is not null)
-                    config.Enrich.With(enrichers.ToArray());
-            });
-            return builder;
         }
         #endregion
     }

@@ -91,13 +91,13 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
             - Logging__Loglevel__Default=Debug
-            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
-            - Jwt__Issuer=http://identity-api
-            - Jwt__Audience=http://identity-api
+            - Logging__Loglevel__Microsoft.AspNetCore=Debug
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Reverseproxy__Clusters__identity__Destinations__default__Address=http://identity-api
-            - Urls__Identity=http://identity-api
-            - Urls__GrpcIdentity=http://identity-api:81
+            - Reverseproxy__Clusters__ordering__Destinations__default__Address=http://ordering-api
+            - Reverseproxy__Clusters__product__Destinations__default__Address=http://productaggregate-api
+            - Keycloak__AuthorizationUrl=http://localhost:5101/keycloak/realms/wksy/protocol/openid-connect/auth
+            - Authentication__MetadataAddress=http://keycloak:8080/keycloak/realms/wksy/.well-known/openid-configuration
+            - Authentication__ValidIssuer=http://localhost:5101/keycloak/realms/wksy
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
             - "5100:80"
@@ -110,24 +110,40 @@ services:
             - "5432:5432"
     
     # Identity
-    identity-api:
+    # identity-api:
+    #     environment:
+    #         - ASPNETCORE_ENVIRONMENT=Development
+    #         - ASPNETCORE_HTTP_PORTS=8080
+    #         - Logging__Loglevel__Default=Debug
+    #         - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+    #         - Jwt__Issuer=http://identity-api
+    #         - Jwt__Audience=http://identity-api
+    #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+    #         - ConnectionStrings__Default=Server=mysql-db;Database=wksy.identity;User Id=root;Password=1234;
+    #         - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
+    #         - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
+    #         - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+    #     volumes:
+    #         - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+    #     ports:
+    #         - "5101:80"
+
+    keycloak:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_HTTP_PORTS=8080
-            - Logging__Loglevel__Default=Debug
-            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
-            - Jwt__Issuer=http://identity-api
-            - Jwt__Audience=http://identity-api
-            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - ConnectionStrings__Default=Server=mysql-db;Database=wksy.identity;User Id=root;Password=1234;
-            - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
-            - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
-            - PATH_BASE=/identity-api
-            - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
-        volumes:
-            - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+            KC_BOOTSTRAP_ADMIN_USERNAME: admin
+            KC_BOOTSTRAP_ADMIN_PASSWORD: 1234
+            KC_DB: mysql
+            KC_DB_URL_HOST: mysql-db
+            KC_DB_SCHEMA: keycloak
+            KC_DB_USERNAME: root
+            KC_DB_PASSWORD: 1234
+            KC_HOSTNAME_STRICT: "false"
+            KC_HTTP_RELATIVE_PATH: "/keycloak"
+            KC_PROXY: "edge"
+        command:
+            - start
         ports:
-            - "5101:80"
+            - "5101:8080"
 
     mysql-db:
         environment:
@@ -149,7 +165,9 @@ services:
             - ProductDatabase__DatabaseName=wksy
             - Kafka__Producer__ProducerConfig__BootstrapServers=kafka:29092 
             - Kafka__Consumer__ConsumerConfig__BootstrapServers=kafka:29092 
-            - PATH_BASE=/product-api
+            - Keycloak__AuthorizationUrl=http://localhost:5101/keycloak/realms/wksy/protocol/openid-connect/auth
+            - Authentication__MetadataAddressds=http://keycloak:8080/keycloak/realms/wksy/.well-known/openid-configuration
+            - Authentication__ValidIssuer=http://localhost:5101/keycloak/realms/wksy
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
             - "5110:80"
@@ -162,7 +180,6 @@ services:
             - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
             - ProductDatabase__ConnectionString=mongodb://admin:1234@product-db-1:27017
             - ProductDatabase__DatabaseName=product
-            - PATH_BASE=/product-api
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
             - "5103:80"
@@ -189,7 +206,6 @@ services:
             - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
             - ProductDatabase__ConnectionString=mongodb://admin:1234@product-db-2:27017
             - ProductDatabase__DatabaseName=product
-            - PATH_BASE=/product-api
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
             - "5104:80"
@@ -216,7 +232,6 @@ services:
             - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
             - ProductDatabase__ConnectionString=mongodb://admin:1234@product-db-3:27017
             - ProductDatabase__DatabaseName=product
-            - PATH_BASE=/product-api
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
             - "5105:80"
@@ -241,15 +256,15 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
             - Logging__Loglevel__Default=Debug
-            - Logging__Loglevel__Microsoft.AspNetCore=Debug 
-            - Jwt__Issuer=http://identity-api
-            - Jwt__Audience=http://identity-api
+            - Logging__Loglevel__Microsoft.AspNetCore=Debug
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - ConnectionStrings__Default=Server=mysql-db;Database=wksy.ordering;User Id=root;Password=1234;
             - EventStore__ConnectionString=PORT=5432;HOST=pg-eventstore-db;TIMEOUT=15;POOLING=True;MINPOOLSIZE=1;MAXPOOLSIZE=100;COMMANDTIMEOUT=20;DATABASE='postgres';PASSWORD='1234';USER ID='postgres';
             - Kafka__Producer__ProducerConfig__BootstrapServers=kafka:29092 
             - Kafka__Consumer__ConsumerConfig__BootstrapServers=kafka:29092 
-            - PATH_BASE=/ordering-api
+            - Keycloak__AuthorizationUrl=http://localhost:5101/keycloak/realms/wksy/protocol/openid-connect/auth
+            - Authentication__MetadataAddress=http://keycloak:8080/keycloak/realms/wksy/.well-known/openid-configuration
+            - Authentication__ValidIssuer=http://localhost:5101/keycloak/realms/wksy
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         volumes:
             - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
@@ -368,3 +383,12 @@ services:
     #         - ADMIN_USER=${ADMIN_USER:-admin}
     #         - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
     #         - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH:-$2a$14$1l.IozJx7xQRVmlkEQ32OeEEfP5mRxTpbDTCTcXRqn19gXD8YK1pO}
+
+    jaeger:
+        ports:
+            - "6831:6831/udp"
+            - "4317:4317"
+            - "4318:4318"
+            - "16686:16686"
+            - "14268:14268"
+            - "14250:14250"
