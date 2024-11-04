@@ -1,3 +1,4 @@
+using Core.AspNet.Endpoints;
 using Core.AspNet.Extensions;
 using Core.Autofac;
 using Core.EntityFramework;
@@ -13,6 +14,7 @@ using OpenTelemetry.Resources;
 using Ordering.API.Infrastructure;
 using Ordering.API.Presentation.Extensions;
 using System.Reflection;
+using Core.AspNet.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +30,7 @@ builder.AddKafkaOpenTelemetry()
 builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddMediatR(cfg =>
 {
-    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());          
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
 builder.Services.AddKafkaCompose();
@@ -40,14 +42,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(opt =>
 	{
-		opt.RequireHttpsMetadata = false;
-		opt.Audience = builder.Configuration["Authentication:Audience"];
-		opt.MetadataAddress = builder.Configuration["Authentication:MetadataAddress"]!;
-		opt.TokenValidationParameters = new()
-		{
-			ValidIssuer = builder.Configuration["Authentication:ValidateIssuer"]
-		};
-	});
+        opt.AddKeyCloakConfigs(builder.Configuration);
+
+    });
 
 builder.Services.AddOpenTelemetry()
 	.ConfigureResource(rb => rb.AddService("Ordering.API"));
@@ -65,7 +62,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 app.UseDefaultSwaggerRedirection();
-app.UseFastEndpoints(config => config.CommonResponseConfigs())
+app.UseFastEndpoints(config => config.DefaultResponseConfigs())
     .UseSwaggerGen();
 
 app.UseAuthentication();

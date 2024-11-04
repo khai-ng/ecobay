@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Core.MongoDB
 {
-    public static class Config
+    public static class Configs
     {
         public static IServiceCollection AddMongoDbContext<TContext>(
             this IServiceCollection services, 

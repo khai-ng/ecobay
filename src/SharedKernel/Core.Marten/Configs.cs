@@ -11,7 +11,7 @@ using Weasel.Core;
 
 namespace Core.Marten
 {
-    public static class Config
+    public static class Configs
     {
         private const string DefaultConfigKey = "EventStore";
 

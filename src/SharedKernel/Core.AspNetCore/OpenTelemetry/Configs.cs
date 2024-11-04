@@ -6,7 +6,7 @@ using OpenTelemetry.Trace;
 
 namespace Core.AspNet.OpenTelemetry
 {
-    public static class Config
+    public static class Configs
     {
         public static WebApplicationBuilder AddDefaultOpenTelemetry(this WebApplicationBuilder builder, string? appName = null)
         {

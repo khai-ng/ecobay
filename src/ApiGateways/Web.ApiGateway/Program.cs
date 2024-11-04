@@ -1,3 +1,4 @@
+using Core.AspNet.Endpoints;
 using Core.AspNet.Extensions;
 using Core.Autofac;
 using FastEndpoints;
@@ -5,6 +6,7 @@ using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using OpenTelemetry.Resources;
 using Web.ApiGateway.Extensions;
+using Core.AspNet.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,13 +22,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
     {
-        opt.RequireHttpsMetadata = false;
-        opt.Audience = builder.Configuration["Authentication:Audience"];
-        opt.MetadataAddress = builder.Configuration["Authentication:MetadataAddress"]!;
-        opt.TokenValidationParameters = new()
-        {
-            ValidIssuer = builder.Configuration["Authentication:ValidateIssuer"]
-        };
+        opt.AddKeyCloakConfigs(builder.Configuration);
     });
 
 builder.Services.AddOpenTelemetry()
@@ -37,7 +33,7 @@ var app = builder.Build();
 app.UseServiceDefaults();
 app.UseHttpsRedirection();
 app.UseDefaultSwaggerRedirection();
-app.UseFastEndpoints(config => config.CommonResponseConfigs());
+app.UseFastEndpoints(config => config.DefaultResponseConfigs());
 
 app.UseSwagger();
 app.UseSwaggerUI(opt =>

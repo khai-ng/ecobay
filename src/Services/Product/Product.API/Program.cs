@@ -1,3 +1,4 @@
+using Core.AspNet.Endpoints;
 using Core.AspNet.Extensions;
 using Core.Autofac;
 using Core.MediaR;
@@ -40,7 +41,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseServiceDefaults();
-app.UseFastEndpoints(config => config.CommonResponseConfigs())
+app.UseFastEndpoints(config => config.DefaultResponseConfigs())
     .UseSwaggerGen();
 
 app.MapGrpcService<GetProduct>();

@@ -152,6 +152,8 @@ services:
             test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
             timeout: 20s
             retries: 5
+        volumes:
+            - ./configs/dbs/init-keycloak.sql:/docker-entrypoint-initdb.d/init-keycloak.sql
         ports:
             - "5199:3306"
 
@@ -281,7 +283,7 @@ services:
             - LOKI_HOST=loki
             - LOKI_PORT=3100
         volumes:
-            - ./fluent-bit:/fluent-bit/etc
+            - ./configs/fluent-bit:/fluent-bit/etc
         ports:
             - 24224:24224
 
@@ -303,7 +305,7 @@ services:
     # Fluent bit - Loki, Grafana
     loki:
         volumes:
-            - ./loki:/etc/loki
+            - ./configs/loki:/etc/loki
         command: "-config.file=/etc/loki/local-config.yaml"
         ports:
             - 3100:3100
@@ -313,14 +315,14 @@ services:
               - GF_SECURITY_ADMIN_USER=admin
               - GF_SECURITY_ADMIN_PASSWORD=1234
         volumes:
-            - ./grafana/provisioning/:/etc/grafana/provisioning/
+            - ./configs/grafana/provisioning/:/etc/grafana/provisioning/
         ports:
             - 3000:3000
 
     # Observer
     prometheus:
         volumes:
-            - ./prometheus:/etc/prometheus
+            - ./configs/prometheus:/etc/prometheus
         command:
             - '--config.file=/etc/prometheus/prometheus.yml'
             - '--storage.tsdb.path=/prometheus'
@@ -363,7 +365,7 @@ services:
 
     # alertmanager:
     #     volumes:
-    #         - ./alertmanager:/etc/alertmanager
+    #         - .configs/alertmanager:/etc/alertmanager
     #     command:
     #         - '--config.file=/etc/alertmanager/config.yml'
     #         - '--storage.path=/alertmanager'
@@ -378,7 +380,7 @@ services:
     #         - "9093:9093"
     #         - "9091:9091"
     #     volumes:
-    #         - ./caddy:/etc/caddy
+    #         - ./configs/caddy:/etc/caddy
     #     environment:
     #         - ADMIN_USER=${ADMIN_USER:-admin}
     #         - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}

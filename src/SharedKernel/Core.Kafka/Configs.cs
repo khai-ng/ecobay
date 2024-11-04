@@ -5,13 +5,10 @@ using Core.Kafka.Producers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 
 namespace Core.Kafka
 {
-    public static class Config
+    public static class Configs
     {
         public static IServiceCollection AddKafkaProducer(this IServiceCollection services)
         {

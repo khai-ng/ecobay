@@ -1,4 +1,6 @@
+using Core.AspNet.Endpoints;
 using Core.AspNet.Extensions;
+using Core.AspNet.Identity;
 using Core.Autofac;
 using Core.Kafka;
 using Core.MediaR;
@@ -7,15 +9,11 @@ using Core.MongoDB.Context;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MongoDB.Bson.Serialization.Conventions;
+using OpenTelemetry.Resources;
 using ProductAggregate.API.Infrastructure;
 using System.Reflection;
-using Hangfire;
-using ProductAggregate.API.Application.Common.Abstractions;
-using ProductAggregate.API.Infrastructure.Repositories;
-using ProductAggregate.API.Presentation.Configurations;
-using OpenTelemetry.Resources;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var camelCaseConventionPack = new ConventionPack { new CamelCaseElementNameConvention() };
 ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
@@ -45,14 +43,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(opt =>
 	{
-		opt.RequireHttpsMetadata = false;
-		opt.Audience = builder.Configuration["Authentication:Audience"];
-		opt.MetadataAddress = builder.Configuration["Authentication:MetadataAddress"]!;
-		opt.TokenValidationParameters = new()
-		{
-			ValidIssuer = builder.Configuration["Authentication:ValidateIssuer"]
-		};
-	});
+		opt.AddKeyCloakConfigs(builder.Configuration);
+    });
 builder.Services.AddOpenTelemetry()
 	.ConfigureResource(rb => rb.AddService("ProductAggregate.API"));
 
@@ -64,7 +56,7 @@ var app = builder.Build();
 app.UseServiceDefaults();
 app.UseHttpsRedirection();
 app.UseDefaultSwaggerRedirection();
-app.UseFastEndpoints(config => config.CommonResponseConfigs())
+app.UseFastEndpoints(config => config.DefaultResponseConfigs())
     .UseSwaggerGen();
 
 app.UseAuthentication();

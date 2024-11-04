@@ -14,10 +14,11 @@ using Destructurama;
 using Core.AspNet.Middlewares;
 using System.Reflection;
 using Core.AspNet.OpenTelemetry;
+using Core.AspNet.Identity;
 
 namespace Core.AspNet.Extensions
 {
-    public static class CommonExtensions
+    public static class Configs
     {
         /// <summary>
         /// Include: Authentication, HttpContextAccessor, Log, Exceptionhandler
@@ -27,8 +28,6 @@ namespace Core.AspNet.Extensions
         public static WebApplicationBuilder AddServiceDefaults(this WebApplicationBuilder builder, string? appName = null)
         {
             //builder.Services.AddDefaultHealthChecks(builder.Configuration);
-            //builder.Services.AddDefaultOpenApi(builder.Configuration);
-            //builder.Services.AddDefaultAuthentication(builder.Configuration);
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddDefaultExceptionHandler();
             builder.AddDefaultLogging();

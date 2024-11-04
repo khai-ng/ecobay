@@ -3,6 +3,7 @@ services:
     ## Kafka
     ##########################################
     kafka-ui:
+        profiles: [ kafka, all ]
         container_name: kafka-ui
         image: provectuslabs/kafka-ui:latest
         depends_on:
@@ -14,12 +15,14 @@ services:
             - local 
 
     zookeeper:
+        profiles: [ kafka, minimal-workflow, all ]
         container_name: zookeeper
         image: confluentinc/cp-zookeeper:7.6.0
         networks:
             - local 
  
     kafka:
+        profiles: [ kafka, minimal-workflow, all ]
         container_name: kafka
         image: confluentinc/cp-kafka:7.6.0
         depends_on:
@@ -48,6 +51,7 @@ services:
     ## Services
     ##########################################
     web-apigateway:
+        profiles: [ services, minimal-workflow, all ]
         container_name: web-apigateway
         image: ${DOCKER_REGISTRY-}webapigateway
         build:
@@ -64,6 +68,7 @@ services:
                 tag: host.web-apigateway  
 
     pg-eventstore-db:
+        profiles: [ events-store, minimal-workflow, services, all ]
         container_name: pg-eventstore-db
         image: postgres:15-alpine
         networks:
@@ -71,6 +76,7 @@ services:
     
     # Ordering
     ordering-api:
+        profiles: [ events-store, minimal-workflow, services, all ]
         container_name: ordering-api
         image: ${DOCKER_REGISTRY-}orderingapi
         build:
@@ -103,6 +109,7 @@ services:
     #             tag: host.identity
     
     keycloak:
+        profiles: [ services, minimal-workflow, all ]
         container_name: keycloak
         image: quay.io/keycloak/keycloak:26.0.0
         restart: on-failure
@@ -111,6 +118,7 @@ services:
 
     # mysql db. using service per schema
     mysql-db:
+        profiles: [ services, minimal-workflow, all ]
         container_name: mysql-db
         image: mysql:8.0.34
         restart: on-failure
@@ -119,6 +127,7 @@ services:
 
     # Product
     productaggregate-api:
+        profiles: [ services, minimal-workflow, all ]
         container_name: productaggregate-api
         image: ${DOCKER_REGISTRY-}productaggregateapi
         build:
@@ -133,6 +142,7 @@ services:
                 tag: host.productaggregate
 
     product-api-1:
+        profiles: [ services, minimal-workflow, all ]
         container_name: product-api-1
         image: ${DOCKER_REGISTRY-}productapi
         build:
@@ -147,6 +157,7 @@ services:
                 tag: host.product
 
     product-db-1:
+        profiles: [ services, minimal-workflow, all ]
         container_name: product-db-1
         image: mongo:7.0.9
         restart: on-failure
@@ -154,6 +165,7 @@ services:
             - local
     
     product-api-2:
+        profiles: [ services, all ]
         container_name: product-api-2
         image: ${DOCKER_REGISTRY-}productapi
         build:
@@ -168,6 +180,7 @@ services:
                 tag: host.product
 
     product-db-2:
+        profiles: [ services, all ]
         container_name: product-db-2
         image: mongo:7.0.9
         restart: on-failure
@@ -175,6 +188,7 @@ services:
             - local
     
     product-api-3:
+        profiles: [ services, all ]
         container_name: product-api-3
         image: ${DOCKER_REGISTRY-}productapi
         build:
@@ -189,6 +203,7 @@ services:
                 tag: host.product
 
     product-db-3:
+        profiles: [ services, all ]
         container_name: product-db-3
         image: mongo:7.0.9
         restart: on-failure
@@ -199,6 +214,7 @@ services:
     ## Monitoring
     ##########################################
     fluent-bit:
+        profiles: [ logging, all ]
         container_name: fluent-bit
         image: fluent/fluent-bit:2.2.2
         networks:
@@ -236,12 +252,14 @@ services:
 
     # Fluent bit - Loki, Grafana
     loki:
+        profiles: [ logging, all ]
         container_name: loki
         image: grafana/loki:2.9.4
         networks:
             - local
     
     grafana:
+        profiles: [ logging, obverser, all ]
         container_name: grafana
         image: grafana/grafana:10.2.4
         networks:
@@ -252,6 +270,7 @@ services:
 
     # Observer
     prometheus:
+        profiles: [ obverser, all ]
         container_name: prometheus
         image: prom/prometheus:v2.49.1
         restart: unless-stopped
@@ -261,6 +280,7 @@ services:
             org.label-schema.group: "monitoring"
 
     nodeexporter:
+        profiles: [ obverser, all ]
         container_name: nodeexporter
         image: prom/node-exporter:v1.7.0
         restart: unless-stopped
@@ -270,6 +290,7 @@ services:
             org.label-schema.group: "monitoring"
 
     cadvisor:
+        profiles: [ obverser, all ]
         container_name: cadvisor
         image: gcr.io/google-containers/cadvisor:v0.36.0
         restart: unless-stopped
@@ -279,6 +300,7 @@ services:
             org.label-schema.group: "monitoring"
 
     pushgateway:
+        profiles: [ obverser, all ]
         container_name: pushgateway
         image: prom/pushgateway:v1.6.2
         restart: unless-stopped
@@ -307,7 +329,7 @@ services:
     #         org.label-schema.group: "monitoring"
 
     jaeger:
-        # profiles: [ otel, otel-all, all ]
+        profiles: [ tracing, minimal-workflow, all ]
         image: jaegertracing/all-in-one:latest
         container_name: jaeger
         networks:
@@ -315,3 +337,7 @@ services:
 networks:
     local:
         driver: bridge
+    # kafka:
+    #     driver: bridge
+    # monitoring:
+    #     driver: bridge

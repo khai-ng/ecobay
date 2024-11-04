@@ -10,14 +10,16 @@ namespace Ordering.API.Application.Services
 {
     public class ConfirmPayment : IRequestHandler<ConfirmPaymentRequest, AppResult<string>>, ITransient
     {
-        private readonly IOrderRepository _orderRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IOrderRepository _orderRepository;
         private readonly IEventStoreRepository<Order> _eventStoreRepository;
 
-        public ConfirmPayment(IOrderRepository orderRepository, IUnitOfWork unitOfWork, IEventStoreRepository<Order> eventStoreRepository)
+        public ConfirmPayment(IUnitOfWork unitOfWork, 
+            IOrderRepository orderRepository, 
+            IEventStoreRepository<Order> eventStoreRepository)
         {
-            _orderRepository = orderRepository;
             _unitOfWork = unitOfWork;
+            _orderRepository = orderRepository;
             _eventStoreRepository = eventStoreRepository;
         }
 
@@ -31,7 +33,7 @@ namespace Ordering.API.Application.Services
             order.SetPaid();
             _orderRepository.Update(order);
 
-            await _eventStoreRepository.Update(order.Id, order, order.Version, ct: ct).ConfigureAwait(false);
+            await _eventStoreRepository.Update(order.Id, order, order.Version, ct).ConfigureAwait(false);
             await _unitOfWork.SaveChangesAsync(ct).ConfigureAwait(false);
 
             return AppResult.Success("Successful");

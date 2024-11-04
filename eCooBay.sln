@@ -19,8 +19,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fluent-bit", "fluent-bit", "{DB73BB76-6D14-48C0-A365-5E64D0D97982}"
 	ProjectSection(SolutionItems) = preProject
-		fluent-bit\fluent-bit.conf = fluent-bit\fluent-bit.conf
-		fluent-bit\parsers.conf = fluent-bit\parsers.conf
+		configs\fluent-bit\fluent-bit.conf = configs\fluent-bit\fluent-bit.conf
+		configs\fluent-bit\parsers.conf = configs\fluent-bit\parsers.conf
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grafana", "grafana", "{08E09F41-DA0A-4791-8168-A53D235AE3D3}"
@@ -29,27 +29,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "provisioning", "provisionin
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "datasources", "datasources", "{A70C9FEC-FB89-45A8-A490-7ED99D0E836C}"
 	ProjectSection(SolutionItems) = preProject
-		grafana\provisioning\datasources\datasouces.yaml = grafana\provisioning\datasources\datasouces.yaml
+		configs\grafana\provisioning\datasources\datasouces.yaml = configs\grafana\provisioning\datasources\datasouces.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dashboards", "dashboards", "{0030F574-AC5B-41AA-A55A-161507214AAF}"
 	ProjectSection(SolutionItems) = preProject
-		grafana\provisioning\dashboards\dashboard.yml = grafana\provisioning\dashboards\dashboard.yml
-		grafana\provisioning\dashboards\docker_containers.json = grafana\provisioning\dashboards\docker_containers.json
-		grafana\provisioning\dashboards\docker_host.json = grafana\provisioning\dashboards\docker_host.json
-		grafana\provisioning\dashboards\monitor_services.json = grafana\provisioning\dashboards\monitor_services.json
-		grafana\provisioning\dashboards\nginx_container.json = grafana\provisioning\dashboards\nginx_container.json
+		configs\grafana\provisioning\dashboards\dashboard.yml = configs\grafana\provisioning\dashboards\dashboard.yml
+		configs\grafana\provisioning\dashboards\docker_containers.json = configs\grafana\provisioning\dashboards\docker_containers.json
+		configs\grafana\provisioning\dashboards\docker_host.json = configs\grafana\provisioning\dashboards\docker_host.json
+		configs\grafana\provisioning\dashboards\monitor_services.json = configs\grafana\provisioning\dashboards\monitor_services.json
+		configs\grafana\provisioning\dashboards\nginx_container.json = configs\grafana\provisioning\dashboards\nginx_container.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prometheus", "prometheus", "{14EA41F3-2965-4052-946C-589AE6CF6236}"
 	ProjectSection(SolutionItems) = preProject
-		prometheus\alert.rules = prometheus\alert.rules
-		prometheus\prometheus.yml = prometheus\prometheus.yml
+		configs\prometheus\alert.rules = configs\prometheus\alert.rules
+		configs\prometheus\prometheus.yml = configs\prometheus\prometheus.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "loki", "loki", "{9329F5C0-2501-44A5-A83F-47C575F37A5A}"
 	ProjectSection(SolutionItems) = preProject
-		loki\local-config.yaml = loki\local-config.yaml
+		configs\loki\local-config.yaml = configs\loki\local-config.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\SharedKernel\Core\Core.csproj", "{E2C0B317-70DE-4CAE-8458-3EF0CFE008E1}"
@@ -85,6 +85,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Seller", "Seller", "{F3E136F1-D24C-4856-9419-C3264F2625C4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seller.API", "src\Services\Seller\Seller.API\Seller.API.csproj", "{E026F64B-63CF-4D02-860E-ADBB954F2E96}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dbs", "dbs", "{1A4B7B84-83E9-42CF-8155-9CE2E6D42513}"
+	ProjectSection(SolutionItems) = preProject
+		configs\dbs\init-keycloak.sql = configs\dbs\init-keycloak.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{C7C06028-591B-4FFF-A5AB-3F0AB203D009}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -161,9 +168,13 @@ Global
 		{F05225D2-2AE2-44E0-B1C2-EAC88CE8DF6C} = {4023CEDB-2D1A-4F1C-9453-1F4BD86C7BF7}
 		{8AAD5322-2C93-4CE4-8228-7000E746BEA0} = {4023CEDB-2D1A-4F1C-9453-1F4BD86C7BF7}
 		{B71FB92E-7F8A-45B7-9EC0-D324031DBEB6} = {55E4A1E9-752A-41E5-8D82-A01450731502}
+		{DB73BB76-6D14-48C0-A365-5E64D0D97982} = {C7C06028-591B-4FFF-A5AB-3F0AB203D009}
+		{08E09F41-DA0A-4791-8168-A53D235AE3D3} = {C7C06028-591B-4FFF-A5AB-3F0AB203D009}
 		{444978F9-B99E-438C-8A0A-3B3110B38166} = {08E09F41-DA0A-4791-8168-A53D235AE3D3}
 		{A70C9FEC-FB89-45A8-A490-7ED99D0E836C} = {444978F9-B99E-438C-8A0A-3B3110B38166}
 		{0030F574-AC5B-41AA-A55A-161507214AAF} = {444978F9-B99E-438C-8A0A-3B3110B38166}
+		{14EA41F3-2965-4052-946C-589AE6CF6236} = {C7C06028-591B-4FFF-A5AB-3F0AB203D009}
+		{9329F5C0-2501-44A5-A83F-47C575F37A5A} = {C7C06028-591B-4FFF-A5AB-3F0AB203D009}
 		{E2C0B317-70DE-4CAE-8458-3EF0CFE008E1} = {F05225D2-2AE2-44E0-B1C2-EAC88CE8DF6C}
 		{E080A302-C07C-4AD7-A383-77CC32BFAF2C} = {F05225D2-2AE2-44E0-B1C2-EAC88CE8DF6C}
 		{2DD701A7-4865-43F4-B46F-5692A3955D63} = {F05225D2-2AE2-44E0-B1C2-EAC88CE8DF6C}
@@ -181,6 +192,7 @@ Global
 		{D8DB2185-A787-47AA-921C-8474CF233865} = {E96B9836-F3B8-4BEF-BFC4-D8C5E77C944F}
 		{F3E136F1-D24C-4856-9419-C3264F2625C4} = {8AAD5322-2C93-4CE4-8228-7000E746BEA0}
 		{E026F64B-63CF-4D02-860E-ADBB954F2E96} = {F3E136F1-D24C-4856-9419-C3264F2625C4}
+		{1A4B7B84-83E9-42CF-8155-9CE2E6D42513} = {C7C06028-591B-4FFF-A5AB-3F0AB203D009}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {99FAD885-0804-4859-94E6-346559EF4C54}

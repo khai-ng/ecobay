@@ -1,4 +1,4 @@
-﻿namespace Core.AspNet.Extensions
+﻿namespace Core.AspNet.Identity
 {
     public class JwtOption
     {

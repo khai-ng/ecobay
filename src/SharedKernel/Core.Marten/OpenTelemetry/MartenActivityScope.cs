@@ -1,8 +1,6 @@
 ﻿using Core.OpenTelemetry;
 using Marten;
-using OpenTelemetry.Context.Propagation;
 using System.Diagnostics;
-using System.Text;
 
 namespace Core.Marten.OpenTelemetry
 {

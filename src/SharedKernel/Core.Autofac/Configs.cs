@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Core.Autofac
 {
-    public static class DependencyExtensions
+    public static class Configs
     {
         public static WebApplicationBuilder AddAutofac(this WebApplicationBuilder builder)
         {
@@ -21,7 +21,7 @@ namespace Core.Autofac
             });
 
             return builder;
-        }
+        } 
 
         private static void AutofacRegister(this ContainerBuilder builder)
         {

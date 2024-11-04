@@ -5,16 +5,16 @@ using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Text.Json;
 
-namespace Core.AspNet.Extensions
+namespace Core.AspNet.Endpoints
 {
-    public static class FastEndpointExtensions
+    public static class FastEndpointConfigs
     {
         /// <summary>
         /// Handle validation failure (400 code), and serialize dto
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static Config CommonResponseConfigs(this Config config)
+        public static Config DefaultResponseConfigs(this Config config)
         {
             var jsonSerializerOptions = new JsonSerializerOptions
             {

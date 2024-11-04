@@ -11,14 +11,16 @@ namespace Ordering.API.Application.Services
 {
     public class CreateOrder : IRequestHandler<CreateOrderRequest, AppResult<Guid>>, ITransient
     {
-        private readonly IOrderRepository _orderRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IOrderRepository _orderRepository;
         private readonly IEventStoreRepository<Order> _eventStoreRepository;
 
-        public CreateOrder(IOrderRepository orderRepository, IUnitOfWork unitOfWork, IEventStoreRepository<Order> eventStoreRepository)
+        public CreateOrder(IUnitOfWork unitOfWork, 
+            IOrderRepository orderRepository, 
+            IEventStoreRepository<Order> eventStoreRepository)
         {
-            _orderRepository = orderRepository;
             _unitOfWork = unitOfWork;
+            _orderRepository = orderRepository;
             _eventStoreRepository = eventStoreRepository;
         }
 

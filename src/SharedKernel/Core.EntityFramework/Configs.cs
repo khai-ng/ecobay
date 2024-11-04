@@ -4,7 +4,7 @@ using OpenTelemetry.Trace;
 
 namespace Core.EntityFramework
 {
-    public static class Config
+    public static class Configs
     {
         public static WebApplicationBuilder AddEFCoreOpenTelemetry(this WebApplicationBuilder builder)
         {
