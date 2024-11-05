@@ -14,7 +14,7 @@ namespace Web.ApiGateway.Extensions
                 {
                     Implicit = new()
                     {
-                        AuthorizationUrl = new Uri(authorizationUrl), // new Uri(builder.Configuration["Keycloak:AuthorizationUrl"]!),
+                        AuthorizationUrl = new Uri(authorizationUrl),
                         Scopes = new Dictionary<string, string>
                                 {
                                     { "openid", "openid" },

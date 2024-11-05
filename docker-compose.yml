@@ -111,7 +111,7 @@ services:
     keycloak:
         profiles: [ services, minimal-workflow, all ]
         container_name: keycloak
-        image: quay.io/keycloak/keycloak:26.0.0
+        image: quay.io/keycloak/keycloak:latest
         restart: on-failure
         networks:
             - local

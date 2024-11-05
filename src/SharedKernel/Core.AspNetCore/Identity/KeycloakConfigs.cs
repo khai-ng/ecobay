@@ -12,7 +12,7 @@ namespace Core.AspNet.Identity
             opt.MetadataAddress = configuration["Authentication:MetadataAddress"]!;
             opt.TokenValidationParameters = new()
             {
-                ValidIssuer = configuration["Authentication:ValidateIssuer"]
+                ValidIssuer = configuration["Authentication:ValidIssuer"]
             };
 
             return opt;
