@@ -160,10 +160,11 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - ProductDatabase__ConnectionString=mongodb://admin:1234@product-db-1:27017
-            - ProductDatabase__DatabaseName=ecoobay
+            - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-1:27017
+            - Mongo__Connection__DatabaseName=hangfire
             - Kafka__Producer__ProducerConfig__BootstrapServers=kafka:29092
             - Kafka__Consumer__ConsumerConfig__BootstrapServers=kafka:29092
+            - Authentication__MetadataAddress=http://keycloak:8080/realms/ecoobay/.well-known/openid-configuration
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
             - "5110:80"
@@ -174,8 +175,8 @@ services:
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-            - ProductDatabase__ConnectionString=mongodb://admin:1234@product-db-1:27017
-            - ProductDatabase__DatabaseName=product
+            - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-1:27017
+            - Mongo__Connection__DatabaseName=product
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
             - "5103:80"
@@ -200,8 +201,8 @@ services:
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-            - ProductDatabase__ConnectionString=mongodb://admin:1234@product-db-2:27017
-            - ProductDatabase__DatabaseName=product
+            - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-2:27017
+            - Mongo__Connection__DatabaseName=product
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
             - "5104:80"
@@ -226,8 +227,8 @@ services:
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-            - ProductDatabase__ConnectionString=mongodb://admin:1234@product-db-3:27017
-            - ProductDatabase__DatabaseName=product
+            - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-3:27017
+            - Mongo__Connection__DatabaseName=product
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
             - "5105:80"
@@ -258,6 +259,7 @@ services:
             - EventStore__ConnectionString=PORT=5432;HOST=pg-eventstore-db;TIMEOUT=15;POOLING=True;MINPOOLSIZE=1;MAXPOOLSIZE=100;COMMANDTIMEOUT=20;DATABASE='postgres';PASSWORD='1234';USER ID='postgres';
             - Kafka__Producer__ProducerConfig__BootstrapServers=kafka:29092
             - Kafka__Consumer__ConsumerConfig__BootstrapServers=kafka:29092
+            - Authentication__MetadataAddress=http://keycloak:8080/realms/ecoobay/.well-known/openid-configuration
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         volumes:
             - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro

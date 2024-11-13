@@ -1,6 +1,4 @@
-﻿using Core.Events.DomainEvents;
-using Core.MongoDB.ServiceDefault;
-using MongoDB.Bson;
+﻿using Core.MongoDB.ServiceDefault;
 using MongoDB.Bson.Serialization.Attributes;
 using System.IO.Hashing;
 using System.Text;

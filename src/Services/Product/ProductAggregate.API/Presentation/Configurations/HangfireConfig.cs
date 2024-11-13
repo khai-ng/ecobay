@@ -8,8 +8,8 @@ namespace ProductAggregate.API.Presentation.Configurations
     {
         public static void AddHangfireDefaults(this IServiceCollection services, IConfiguration configuration)
         {
-            var mongoDbSetting = configuration.GetSection("ProductDatabase").Get<MongoContextOptions>();
-            var mongoClient = new MongoClient(mongoDbSetting!.Connection.ConnectionString);
+            //var mongoDbSetting = configuration.GetSection("MongoConnection:Connection").Get<MongoConnectionOptions>();
+            //var mongoClient = new MongoClient(mongoDbSetting!.ConnectionString);
 
             services.AddHangfire(configuration => configuration
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
@@ -17,18 +17,18 @@ namespace ProductAggregate.API.Presentation.Configurations
                 .UseRecommendedSerializerSettings()
                 .UseInMemoryStorage()
 
-            //.UseMongoStorage(mongoClient, "hangfire", new MongoStorageOptions
-            //{
-            //    MigrationOptions = new MongoMigrationOptions
-            //    {
-            //        MigrationStrategy = new MigrateMongoMigrationStrategy(),
-            //        BackupStrategy = new CollectionMongoBackupStrategy(),
+                //.UseMongoStorage(mongoClient, "hangfire", new MongoStorageOptions
+                //{
+                //    MigrationOptions = new MongoMigrationOptions
+                //    {
+                //        MigrationStrategy = new MigrateMongoMigrationStrategy(),
+                //        BackupStrategy = new CollectionMongoBackupStrategy(),
 
-            //    },
-            //    CheckQueuedJobsStrategy = CheckQueuedJobsStrategy.Poll,
-            //    Prefix = "hangfire.mongo",
-            //    CheckConnection = true
-            //})
+                //    },
+                //    CheckQueuedJobsStrategy = CheckQueuedJobsStrategy.Poll,
+                //    Prefix = "hangfire.mongo",
+                //    CheckConnection = true
+                //})
             );
 
             services.AddHangfireServer(serverOptions =>

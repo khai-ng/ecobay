@@ -67,8 +67,8 @@ namespace Core.MongoDB.Context
             if(_database is null)
                 SetDatabase(_dbSetting.Connection.DatabaseName);
 
-            var dbNameAttr = typeof(T).GetCustomAttribute<MongoDbNameAttribute>();
-            var collection = dbNameAttr != null ? dbNameAttr.DbName : typeof(T).Name;
+            var collectionAttribute = typeof(T).GetCustomAttribute<MongoCollectionAttribute>();
+            var collection = collectionAttribute != null ? collectionAttribute.CollectionName : typeof(T).Name;
             return _database!.GetCollection<T>(collection);
         }
     }

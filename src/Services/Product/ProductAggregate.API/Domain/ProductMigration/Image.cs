@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace ProductAggregate.API.Domain.ProductMigration
+﻿namespace ProductAggregate.API.Domain.ProductMigration
 {
     public class Image
     {

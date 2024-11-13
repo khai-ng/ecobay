@@ -1,0 +1,44 @@
+[{
+  "_id": {
+    "$oid": "6652b759aedb062bc1e24e80"
+  },
+  "host": "product-db-1",
+  "port": "27017",
+  "collection": "ProductItem",
+  "username": "admin",
+  "password": "1234",
+  "database": "product-1"
+},
+{
+  "_id": {
+    "$oid": "6652b76aaedb062bc1e24e82"
+  },
+  "host": "product-db-1",
+  "port": "27017",
+  "collection": "ProductItem",
+  "username": "admin",
+  "password": "1234",
+  "database": "product-2"
+},
+{
+  "_id": {
+    "$oid": "6652b781aedb062bc1e24e84"
+  },
+  "host": "product-db-1",
+  "port": "27017",
+  "collection": "ProductItem",
+  "username": "admin",
+  "password": "1234",
+  "database": "product-3"
+},
+{
+  "_id": {
+    "$oid": "6652b789aedb062bc1e24e86"
+  },
+  "host": "product-db-1",
+  "port": "27017",
+  "collection": "ProductItem",
+  "username": "admin",
+  "password": "1234",
+  "database": "product-4"
+}]

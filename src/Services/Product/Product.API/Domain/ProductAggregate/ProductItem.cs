@@ -1,11 +1,9 @@
-﻿using Core.MongoDB.Context;
-using Core.MongoDB.ServiceDefault;
+﻿using Core.MongoDB.ServiceDefault;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Product.API.Domain.ProductAggregate
 {
-    [MongoDbName("product")]
     [BsonIgnoreExtraElements]
     public class ProductItem : AggregateRoot
     {

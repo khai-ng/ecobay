@@ -19,10 +19,10 @@ namespace Product.API.Application.Product.Update
         }
 
 
-        public async Task<AppResult> Handle(ConfirmStockRequest request, CancellationToken cancellationToken)
+        public async Task<AppResult> Handle(ConfirmStockRequest request, CancellationToken ct)
         {
             var productRequest = new GetProductByIdRepoRequest(
-                "vnode-2",
+                "product-1",
                 new List<ObjectId> { ObjectId.Parse(request.Id) });
             var product = (await _productRepository.GetAsync(productRequest)).Single();
 
@@ -35,7 +35,7 @@ namespace Product.API.Application.Product.Update
             product.Units -= request.Units;
 
             _productRepository.Update(product);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(ct);
 
             return AppResult.Success();
         }

@@ -10,7 +10,6 @@ using ProductAggregate.API.Domain.ServerAggregate;
 using ProductAggregate.API.Infrastructure;
 using System.Collections.Concurrent;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace ProductAggregate.API.Application.ConsistentHashing
 {
@@ -56,39 +55,28 @@ namespace ProductAggregate.API.Application.ConsistentHashing
                     while ((line = await reader.ReadLineAsync()) != null)
                     {
                         count++;
-                        var processTask = Task.Run(() =>
-                        {
-                            semaphore.Wait();
-                            try
-                            {
-                                var migrateProduct = JsonSerializer.Deserialize<Domain.ProductMigration.ProductItem>(line, serializeOptions);
-                                if (migrateProduct == null) return;
+                        var migrateProduct = JsonSerializer.Deserialize<Domain.ProductMigration.ProductItem>(line, serializeOptions);
+                        if (migrateProduct == null) return "";
 
-                                var product = BsonSerializer.Deserialize<ProductItem>(JsonSerializer.Serialize(migrateProduct));
-                                var hashedVNode = _hashRingManager.HashRing.GetBucket(product.Id.ToString());
-                                var vNode = productServer.Keys.SingleOrDefault(x => x == hashedVNode.Node);
+                        var product = BsonSerializer.Deserialize<ProductItem>(JsonSerializer.Serialize(migrateProduct));
+                        var hashedVNode = _hashRingManager.HashRing.GetBucket(product.Id.ToString());
+                        var vNode = productServer.Keys.SingleOrDefault(x => x == hashedVNode.Node);
 
-                                product.VirtualId = hashedVNode.VirtualId;
-                                if (vNode is null)
-                                    productServer.TryAdd(hashedVNode.Node,  []);
+                        product.VirtualId = hashedVNode.VirtualId;
+                        if (vNode is null)
+                            productServer.TryAdd(hashedVNode.Node, []);
 
-                                productServer[hashedVNode.Node].Add(product);
-                            }
-                            finally
-                            {
-                                semaphore.Release();
-                            }
-                        });
-                        processTasks.Add(processTask);
+                        productServer[hashedVNode.Node].Add(product);
 
                         if (count % 10_000 == 0)
                         {
                             await Task.WhenAll(processTasks);
                             foreach (var item in productServer)
                             {
-                                addTasks.Add(AddServerProductAsync(item.Key, item.Value));
+                                //addTasks.Add(AddServerProductAsync(item.Key, item.Value));
+                                await AddServerProductAsync(item.Key, item.Value);
                             }
-                            await Task.WhenAll(addTasks);
+                            //await Task.WhenAll(addTasks);
                             productServer.Clear();
                         }
                     }
@@ -96,18 +84,19 @@ namespace ProductAggregate.API.Application.ConsistentHashing
                     await Task.WhenAll(processTasks);
                     foreach (var item in productServer)
                     {
-                        addTasks.Add(AddServerProductAsync(item.Key, item.Value));
+                        //addTasks.Add(AddServerProductAsync(item.Key, item.Value));
+                        await AddServerProductAsync(item.Key, item.Value);
                     }
                     await Task.WhenAll(addTasks);
                     rs.Add($"File {filePath}, processed: {count}");
                 }
             }
 
-            return JsonSerializer.Serialize(rs);
+            return string.Join("/n", rs);
         }
+
         private async Task AddServerProductAsync(Server server, IEnumerable<ProductItem> productItems)
         {
-
             using var scope = _serviceProvider.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             //TODO: Hidden mongo connection logic
