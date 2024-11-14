@@ -17,7 +17,7 @@ namespace Ordering.API.Presentation.Endpoint
       
         public override void Configure()
 		{
-			Post("order/add");
+			Post("ordering/add");
 			//AllowAnonymous();
         }
 

@@ -17,7 +17,7 @@ namespace Ordering.API.Presentation.Endpoint
       
         public override void Configure()
 		{
-			Get("order/confirm-payment");
+			Get("ordering/confirm-payment");
 			//AllowAnonymous();
         }
 
