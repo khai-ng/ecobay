@@ -21,12 +21,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
-builder.AddServiceDefaults();
-builder.AddAutofac();
+
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(rb => rb.AddService("Ordering.API"));
 builder.AddKafkaOpenTelemetry()
     .AddMartenOpenTelemetry()
     .AddEFCoreOpenTelemetry();
-
+builder.AddAutofac();
+builder.AddServiceDefaults();
 builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddMediatR(cfg =>
 {
@@ -35,7 +37,6 @@ builder.Services.AddMediatR(cfg =>
 });
 builder.Services.AddKafkaCompose();
 builder.Services.AddMarten(builder.Configuration);
-
 builder.Services.AddMartenRepository<Ordering.API.Domain.OrderAggregate.Order>();
 
 builder.Services.AddAuthorization();
@@ -46,12 +47,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
     });
 
-builder.Services.AddOpenTelemetry()
-	.ConfigureResource(rb => rb.AddService("Ordering.API"));
-
 var app = builder.Build();
-
-app.UseServiceDefaults();
 
 using (var scope = app.Services.CreateScope())
 {
@@ -60,6 +56,7 @@ using (var scope = app.Services.CreateScope())
         await context.Database.MigrateAsync();
 }
 
+app.UseServiceDefaults();
 app.UseHttpsRedirection();
 app.UseDefaultSwaggerRedirection();
 app.UseFastEndpoints(config => config.DefaultResponseConfigs())

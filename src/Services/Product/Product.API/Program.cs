@@ -8,6 +8,7 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using MediatR;
 using MongoDB.Bson.Serialization.Conventions;
+using OpenTelemetry.Resources;
 using Product.API.Application.Product.Get;
 using Product.API.Application.Product.Update;
 using Product.API.Infrastructure;
@@ -22,6 +23,8 @@ builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
 
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(rb => rb.AddService("Product.API"));
 builder.AddMongoTelemetry();
 builder.AddServiceDefaults();
 builder.AddAutofac();
@@ -39,8 +42,8 @@ builder.Services.AddMediatR(cfg =>
 
 var app = builder.Build();
 
-app.UseHttpsRedirection();
 app.UseServiceDefaults();
+app.UseHttpsRedirection();
 app.UseFastEndpoints(config => config.DefaultResponseConfigs())
     .UseSwaggerGen();
 

@@ -21,7 +21,7 @@ namespace Core.AspNet.Extensions
     public static class Configs
     {
         /// <summary>
-        /// Include: Authentication, HttpContextAccessor, Log, Exceptionhandler
+        /// Included: HttpContextAccessor, Logging, Exceptionhandler
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>

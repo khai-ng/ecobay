@@ -154,7 +154,7 @@ services:
             driver: fluentd
             options:
                 fluentd-async: "true"
-                tag: host.product
+                tag: host.product-1
 
     product-db-1:
         profiles: [ services, minimal-workflow, all ]
@@ -177,7 +177,7 @@ services:
             driver: fluentd
             options:
                 fluentd-async: "true"
-                tag: host.product
+                tag: host.product-2
 
     product-db-2:
         profiles: [ services, all ]
@@ -200,7 +200,7 @@ services:
             driver: fluentd
             options:
                 fluentd-async: "true"
-                tag: host.product
+                tag: host.product-3
 
     product-db-3:
         profiles: [ services, all ]
@@ -229,11 +229,6 @@ services:
     #         - local
     #     depends_on:
     #         - fluent-bit
-    #     logging:
-    #         driver: fluentd
-    #         options:
-    #             fluentd-async: "true"
-    #             tag: logger.es
 
     # kibana:
     #     container_name: kibana
@@ -244,11 +239,6 @@ services:
     #     depends_on:
     #         - fluent-bit
     #         - elasticsearch
-    #     logging:
-    #         driver: fluentd
-    #         options:
-    #             fluentd-async: "true"
-    #             tag: logger.kibana
 
     # Fluent bit - Loki, Grafana
     loki:
@@ -299,29 +289,9 @@ services:
         labels:
             org.label-schema.group: "monitoring"
 
-    pushgateway:
-        profiles: [ obverser, all ]
-        container_name: pushgateway
-        image: prom/pushgateway:v1.6.2
-        restart: unless-stopped
-        networks:
-            - local
-        labels:
-            org.label-schema.group: "monitoring"
-
     # alertmanager:
     #     container_name: alertmanager
     #     image: prom/alertmanager:v0.26.0
-    #     restart: unless-stopped
-    #     networks:
-    #         - local
-    #     labels:
-    #         org.label-schema.group: "monitoring"
-
-    # caddy:
-    #     container_name: caddy
-    #     image: caddy:2.7.5
-    #     container_name: caddy
     #     restart: unless-stopped
     #     networks:
     #         - local

@@ -35,10 +35,10 @@ namespace Product.API.Application.Product.Update
                 {
                     var product = productItems.Single(x => x.Id == ObjectId.Parse(req.Id));
                     if (product == null)
-                        throw new NullReferenceException(nameof(product));
+                        return new UpdateProductUnitResponse() { IsSuccess = false, Message = $"Product {req.Id} not found" };
 
-                    if(req.Units > product.Units)
-                        throw new ArgumentOutOfRangeException(nameof(product));
+                    if (req.Units > product.Units)
+                        return new UpdateProductUnitResponse() { IsSuccess = false, Message = $"Product {req.Id} invalid unit {req.Units}" };
 
                     product.Units -= req.Units;
                 }

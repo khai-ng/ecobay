@@ -27,8 +27,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints()
     .AddSwaggerGen()
     .SwaggerDocument();
-builder.AddKafkaOpenTelemetry();
-builder.AddMongoTelemetry();
+
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(rb => rb.AddService("ProductAggregate.API"));
+builder.AddKafkaOpenTelemetry()
+    .AddMongoTelemetry();
 builder.AddServiceDefaults();
 builder.AddAutofac();
 builder.Services.AddMongoDbContext<AppDbContext>(options =>
@@ -42,23 +45,20 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 });
-
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(opt =>
 	{
 		opt.AddKeyCloakConfigs(builder.Configuration);
     });
-builder.Services.AddOpenTelemetry()
-	.ConfigureResource(rb => rb.AddService("ProductAggregate.API"));
-
 builder.Services.AddTransient<IProductMigrationRepository, ProductMigrationRepository>();
 
-
-builder.Services.AddHangfireDefaults(builder.Configuration);
+if(builder.Environment.IsDevelopment())
+{
+    builder.Services.AddHangfireDefaults(builder.Configuration);
+}
 
 var app = builder.Build();
-
 
 app.UseServiceDefaults();
 app.UseHttpsRedirection();
@@ -69,8 +69,10 @@ app.UseFastEndpoints(config => config.DefaultResponseConfigs())
 app.UseAuthentication();
 app.UseAuthorization();
 
-if(app.)
-app.UseHangfireDashboard();
-app.AddHangFireJob();
+if(app.Environment.IsDevelopment())
+{
+    app.UseHangfireDashboard();
+    app.AddHangFireJob();
+}
 
 await app.RunAsync();
