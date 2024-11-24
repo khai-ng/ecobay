@@ -35,4 +35,8 @@
 	  <ProjectReference Include="..\..\..\SharedKernel\Core\Core.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Presentation\" />
+	</ItemGroup>
+
 </Project>

@@ -16,7 +16,7 @@ namespace ProductAggregate.API.Presentation.Endpoint
         }
         public override void Configure()
         {
-            Get("product/get");
+            Get("product");
             //AllowAnonymous();
         }
 

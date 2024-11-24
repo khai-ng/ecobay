@@ -164,51 +164,51 @@ services:
         networks:
             - local
     
-    product-api-2:
-        profiles: [ services, all ]
-        container_name: product-api-2
-        image: ${DOCKER_REGISTRY-}productapi
-        build:
-            context: .
-            dockerfile: src/Services/Product/Product.API/Dockerfile
-        networks:
-            - local
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: host.product-2
+    # product-api-2:
+    #     profiles: [ services, all ]
+    #     container_name: product-api-2
+    #     image: ${DOCKER_REGISTRY-}productapi
+    #     build:
+    #         context: .
+    #         dockerfile: src/Services/Product/Product.API/Dockerfile
+    #     networks:
+    #         - local
+    #     logging:
+    #         driver: fluentd
+    #         options:
+    #             fluentd-async: "true"
+    #             tag: host.product-2
 
-    product-db-2:
-        profiles: [ services, all ]
-        container_name: product-db-2
-        image: mongo:7.0.9
-        restart: on-failure
-        networks:
-            - local
+    # product-db-2:
+    #     profiles: [ services, all ]
+    #     container_name: product-db-2
+    #     image: mongo:7.0.9
+    #     restart: on-failure
+    #     networks:
+    #         - local
     
-    product-api-3:
-        profiles: [ services, all ]
-        container_name: product-api-3
-        image: ${DOCKER_REGISTRY-}productapi
-        build:
-            context: .
-            dockerfile: src/Services/Product/Product.API/Dockerfile
-        networks:
-            - local
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: host.product-3
+    # product-api-3:
+    #     profiles: [ services, all ]
+    #     container_name: product-api-3
+    #     image: ${DOCKER_REGISTRY-}productapi
+    #     build:
+    #         context: .
+    #         dockerfile: src/Services/Product/Product.API/Dockerfile
+    #     networks:
+    #         - local
+    #     logging:
+    #         driver: fluentd
+    #         options:
+    #             fluentd-async: "true"
+    #             tag: host.product-3
 
-    product-db-3:
-        profiles: [ services, all ]
-        container_name: product-db-3
-        image: mongo:7.0.9
-        restart: on-failure
-        networks:
-            - local               
+    # product-db-3:
+    #     profiles: [ services, all ]
+    #     container_name: product-db-3
+    #     image: mongo:7.0.9
+    #     restart: on-failure
+    #     networks:
+    #         - local               
 
     ##########################################
     ## Monitoring

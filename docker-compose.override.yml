@@ -88,10 +88,10 @@ services:
     ##########################################
     web-apigateway:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_HTTP_PORTS=8080
-            - Logging__Loglevel__Default=Debug
-            - Logging__Loglevel__Microsoft.AspNetCore=Debug
+            # - Logging__Loglevel__Default=Debug
+            # - Logging__Loglevel__Microsoft=Debug
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - Reverseproxy__Clusters__ordering__Destinations__default__Address=http://ordering-api
             - Reverseproxy__Clusters__product__Destinations__default__Address=http://productaggregate-api
@@ -110,10 +110,10 @@ services:
     # Identity
     # identity-api:
     #     environment:
-    #         - ASPNETCORE_ENVIRONMENT=Development
+    #         - ASPNETCORE_ENVIRONMENT=Production
     #         - ASPNETCORE_HTTP_PORTS=8080
     #         - Logging__Loglevel__Default=Debug
-    #         - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+    #         - Logging__Loglevel__Microsoft=Debug 
     #         - Jwt__Issuer=http://identity-api
     #         - Jwt__Audience=http://identity-api
     #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
@@ -157,7 +157,7 @@ services:
     # Product
     productaggregate-api:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-1:27017
@@ -171,7 +171,7 @@ services:
 
     product-api-1:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
@@ -195,68 +195,69 @@ services:
         ports:
             - 27017:27017
 
-    product-api-2:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_HTTP_PORTS=8080
-            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-            - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-2:27017
-            - Mongo__Connection__DatabaseName=product
-            - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
-        ports:
-            - "5104:80"
+    # product-api-2:
+    #     environment:
+    #         - ASPNETCORE_ENVIRONMENT=Production
+    #         - ASPNETCORE_HTTP_PORTS=8080
+    #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+    #         - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
+    #         - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-2:27017
+    #         - Mongo__Connection__DatabaseName=product
+    #         - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+    #     ports:
+    #         - "5104:80"
 
-    product-db-2:
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=admin
-            - MONGO_INITDB_ROOT_PASSWORD=1234
-        healthcheck:
-            test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
-            interval: 10s
-            retries: 5
-            start_period: 20s
-        volumes:
-            - /d/Dataset/extract/json/:/data/json/
-        ports:
-            - 27018:27017
+    # product-db-2:
+    #     environment:
+    #         - MONGO_INITDB_ROOT_USERNAME=admin
+    #         - MONGO_INITDB_ROOT_PASSWORD=1234
+    #     healthcheck:
+    #         test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
+    #         interval: 10s
+    #         retries: 5
+    #         start_period: 20s
+    #     volumes:
+    #         - /d/Dataset/extract/json/:/data/json/
+    #     ports:
+    #         - 27018:27017
 
-    product-api-3:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_HTTP_PORTS=8080
-            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-            - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-3:27017
-            - Mongo__Connection__DatabaseName=product
-            - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
-        ports:
-            - "5105:80"
+    # product-api-3:
+    #     environment:
+    #         - ASPNETCORE_ENVIRONMENT=Production
+    #         - ASPNETCORE_HTTP_PORTS=8080
+    #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+    #         - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
+    #         - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-3:27017
+    #         - Mongo__Connection__DatabaseName=product
+    #         - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+    #     ports:
+    #         - "5105:80"
 
-    product-db-3:
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=admin
-            - MONGO_INITDB_ROOT_PASSWORD=1234
-        healthcheck:
-            test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
-            interval: 10s
-            retries: 5
-            start_period: 20s
-        volumes:
-            - /d/Dataset/extract/json/:/data/json/
-        ports:
-            - 27019:27017
+    # product-db-3:
+    #     environment:
+    #         - MONGO_INITDB_ROOT_USERNAME=admin
+    #         - MONGO_INITDB_ROOT_PASSWORD=1234
+    #     healthcheck:
+    #         test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
+    #         interval: 10s
+    #         retries: 5
+    #         start_period: 20s
+    #     volumes:
+    #         - /d/Dataset/extract/json/:/data/json/
+    #     ports:
+    #         - 27019:27017
     
     # Ordering
     ordering-api:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_HTTP_PORTS=8080
-            - Logging__Loglevel__Default=Debug
-            - Logging__Loglevel__Microsoft.AspNetCore=Debug
+            - Logging__Loglevel__Default=Information
+            - Logging__Loglevel__Microsoft=Warning
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - ConnectionStrings__Default=Server=mysql-db;Database=ecoobay.ordering;User Id=root;Password=1234;
             - EventStore__ConnectionString=PORT=5432;HOST=pg-eventstore-db;TIMEOUT=15;POOLING=True;MINPOOLSIZE=1;MAXPOOLSIZE=100;COMMANDTIMEOUT=20;DATABASE='postgres';PASSWORD='1234';USER ID='postgres';
+            - EventStore__WriteSchema=orders_write
             - Kafka__Producer__ProducerConfig__BootstrapServers=kafka:29092
             - Kafka__Consumer__ConsumerConfig__BootstrapServers=kafka:29092
             - Authentication__MetadataAddress=http://keycloak:8080/realms/ecoobay/.well-known/openid-configuration

@@ -19,9 +19,9 @@ ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints()
-    .AddSwaggerGen()
-    .SwaggerDocument();
+//builder.Services.AddFastEndpoints()
+//    .AddSwaggerGen()
+//    .SwaggerDocument();
 
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(rb => rb.AddService("Product.API"));
@@ -44,8 +44,8 @@ var app = builder.Build();
 
 app.UseServiceDefaults();
 app.UseHttpsRedirection();
-app.UseFastEndpoints(config => config.DefaultResponseConfigs())
-    .UseSwaggerGen();
+//app.UseFastEndpoints(config => config.DefaultResponseConfigs())
+//    .UseSwaggerGen();
 
 app.MapGrpcService<GetProduct>();
 app.MapGrpcService<UpdateProduct>();
