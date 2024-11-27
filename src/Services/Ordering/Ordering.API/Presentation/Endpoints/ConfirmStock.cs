@@ -6,7 +6,7 @@ using Ordering.API.Application.Services;
 
 namespace Ordering.API.Presentation.Endpoint
 {
-    public class ConfirmStock : Endpoint<Guid, HttpResultTyped<AppResult<string>>>
+    public class ConfirmStock : EndpointWithoutRequest<HttpResultTyped<AppResult<string>>>
     {
 		private readonly IMediator _mediator;
 
@@ -21,8 +21,9 @@ namespace Ordering.API.Presentation.Endpoint
 			//AllowAnonymous();
         }
 
-        public override async Task HandleAsync(Guid id,  CancellationToken ct)
+        public override async Task HandleAsync(CancellationToken ct)
         {
+            var id = Route<Guid>("id");
             var request = new ConfirmStockRequest() { OrderId = id };
             var result = await _mediator.Send(request, ct);
             await SendResultAsync(result.ToHttpResult());

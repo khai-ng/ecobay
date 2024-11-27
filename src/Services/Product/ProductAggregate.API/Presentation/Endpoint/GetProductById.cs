@@ -7,7 +7,7 @@ using ProductAggregate.API.Application.Product.GetProduct;
 
 namespace ProductAggregate.API.Presentation.Endpoint
 {
-    public class GetProductByIdEndpoint : Endpoint<string, HttpResultTyped<AppResult<IEnumerable<ProductItemDto>>>>
+    public class GetProductByIdEndpoint : EndpointWithoutRequest<HttpResultTyped<AppResult<IEnumerable<ProductItemDto>>>>
     {
         private readonly IMediator _mediator;
         public GetProductByIdEndpoint(IMediator mediator)
@@ -20,8 +20,9 @@ namespace ProductAggregate.API.Presentation.Endpoint
             //AllowAnonymous();
         }
 
-        public override async Task HandleAsync(string id, CancellationToken ct)
+        public override async Task HandleAsync(CancellationToken ct)
         {
+            var id = Route<string>("id");
             var request = new GetProductByIdRequest() { Ids = new[] { id } };
             var result = await _mediator.Send(request, ct);
             await SendResultAsync(result.ToHttpResult());
