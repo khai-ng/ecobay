@@ -33,15 +33,15 @@ namespace Core.Kafka
                 .AddKafkaProducer()
                 .AddKafkaConsumer();
 
-        public static WebApplicationBuilder AddKafkaOpenTelemetry(this WebApplicationBuilder builder)
+        public static IServiceCollection AddKafkaOpenTelemetry(this IServiceCollection services)
         {
-            builder.Services.AddOpenTelemetry()
+            services.AddOpenTelemetry()
                 .WithTracing(tracing =>
                 {
                     tracing.AddSource(KafkaActivityScope.ActivitySourceName);
                 });
 
-            return builder;
+            return services;
         }
     }
 }

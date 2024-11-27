@@ -1,12 +1,11 @@
-using Core.AspNet.Endpoints;
 using Core.AspNet.Extensions;
 using Core.Autofac;
 using Core.MediaR;
 using Core.MongoDB;
 using Core.MongoDB.Context;
-using FastEndpoints;
-using FastEndpoints.Swagger;
 using MediatR;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MongoDB.Bson.Serialization.Conventions;
 using OpenTelemetry.Resources;
 using Product.API.Application.Product.Get;
@@ -19,33 +18,41 @@ ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddFastEndpoints()
-//    .AddSwaggerGen()
-//    .SwaggerDocument();
+builder.AddServiceDefaults()
+    .AddAutofac();
 
-builder.Services.AddOpenTelemetry()
+builder.Services
+    .AddMongoTelemetry()
+    .AddOpenTelemetry()
     .ConfigureResource(rb => rb.AddService("Product.API"));
-builder.AddMongoTelemetry();
-builder.AddServiceDefaults();
-builder.AddAutofac();
-builder.Services.AddMongoDbContext<AppDbContext>(options =>
-{
-    options.Connection = builder.Configuration.GetSection("Mongo:Connection").Get<MongoConnectionOptions>()!;
-    options.Telemetry.Enable = true;
-});
-builder.Services.AddGrpc();
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
-});
+
+builder.Services
+    .AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy());
+
+builder.Services
+    .AddMongoDbContext<AppDbContext>(options =>
+    {
+        options.Connection = builder.Configuration.GetSection("Mongo:Connection").Get<MongoConnectionOptions>()!;
+        options.Telemetry.Enable = true;
+    })
+    .AddMediatR(cfg =>
+    {
+        cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+        cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+    })
+    .AddGrpc();
 
 var app = builder.Build();
 
 app.UseServiceDefaults();
 app.UseHttpsRedirection();
-//app.UseFastEndpoints(config => config.DefaultResponseConfigs())
-//    .UseSwaggerGen();
+
+app.MapHealthChecks("/hc");
+app.MapHealthChecks("/liveness", new HealthCheckOptions
+{
+    Predicate = r => r.Name.Contains("self")
+});
 
 app.MapGrpcService<GetProduct>();
 app.MapGrpcService<UpdateProduct>();

@@ -24,7 +24,7 @@
         "Args": {
           "Formatter": {
             "Type": "Serilog.Templates.ExpressionTemplate, Serilog.Expressions",
-            "Template": "{ {lv: @l:u3, msg: @m, ex: @x, sc: @sc, props: @p} }\n"
+            "Template": "{ {lv: @l, msg: @m, ex: @x, sc: @sc, props: @p} }\n"
           }
         }
       }

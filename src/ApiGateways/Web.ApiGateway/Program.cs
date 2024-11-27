@@ -7,44 +7,64 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using OpenTelemetry.Resources;
 using Web.ApiGateway.Extensions;
 using Core.AspNet.Identity;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints()
+builder.AddAutofac()
+    .AddServiceDefaults();
+
+builder.Services
     .AddSwaggerGen(opt => opt.AddKeyCloakSecurity(builder.Configuration["Keycloak:AuthorizationUrl"]!))
     .SwaggerDocument();
-builder.AddServiceDefaults();
-builder.AddAutofac();
 
-builder.Services.AddReverseProxy(builder.Configuration);
+builder.Services  
+    .AddOpenTelemetry()
+    .ConfigureResource(rb => rb.AddService("Web.ApiGateway"));
 
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services
+    .AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy());
+
+builder.Services
+    .AddFastEndpoints()
+    .AddReverseProxy(builder.Configuration)
+    .AddAuthorization()
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
     {
         opt.AddKeyCloakConfigs(builder.Configuration);
     });
 
-builder.Services.AddOpenTelemetry()
-    .ConfigureResource(rb => rb.AddService("Web.ApiGateway"));
-
 var app = builder.Build();
 
-app.UseServiceDefaults();
-app.UseHttpsRedirection();
-app.UseDefaultSwaggerRedirection();
-app.UseFastEndpoints(config => config.DefaultResponseConfigs());
+app.UseServiceDefaults()
+    .UseHttpsRedirection()
+    .UseFastEndpoints(config => config.DefaultResponseConfigs());
 
-app.UseSwagger();
-app.UseSwaggerUI(opt =>
-{
-    opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Web ApiGateway");
-    opt.SwaggerEndpoint("/ordering/swagger/v1/swagger.json", "Ordering Api");
-    opt.SwaggerEndpoint("/product/swagger/v1/swagger.json", "Product Api");
-});
-
+app.UseDefaultSwaggerRedirection()
+    .UseSwagger()
+    .UseSwaggerUI(opt =>
+    {
+        opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Web ApiGateway");
+        opt.SwaggerEndpoint("/ordering/swagger/v1/swagger.json", "Ordering Api");
+        opt.SwaggerEndpoint("/product/swagger/v1/swagger.json", "Product Api");
+    });
 app.MapGetSwaggerForYarp(app.Configuration);
+
 app.MapReverseProxy();
+
+//app.MapHealthChecks("/hc", new HealthCheckOptions()
+//{
+//    Predicate = _ => true,
+//    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+//});
+app.MapHealthChecks("/hc");
+app.MapHealthChecks("/liveness", new HealthCheckOptions
+{
+    Predicate = r => r.Name.Contains("self")
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

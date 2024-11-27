@@ -15,36 +15,47 @@ using Ordering.API.Infrastructure;
 using Ordering.API.Presentation.Extensions;
 using System.Reflection;
 using Core.AspNet.Identity;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints()
+builder.AddAutofac()
+    .AddServiceDefaults();
+
+builder.Services
     .AddSwaggerGen()
     .SwaggerDocument();
 
-builder.Services.AddOpenTelemetry()
-    .ConfigureResource(rb => rb.AddService("Ordering.API"));
-builder.AddKafkaOpenTelemetry()
+builder.Services
+    .AddKafkaOpenTelemetry()
+    .AddEFCoreOpenTelemetry()
     .AddMartenOpenTelemetry()
-    .AddEFCoreOpenTelemetry();
-builder.AddAutofac();
-builder.AddServiceDefaults();
-builder.Services.AddDbContext(builder.Configuration);
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
-});
-builder.Services.AddKafkaCompose();
-builder.Services.AddMarten(builder.Configuration);
-builder.Services.AddMartenRepository<Ordering.API.Domain.OrderAggregate.Order>();
+    .AddOpenTelemetry()
+    .ConfigureResource(rb => rb.AddService("Ordering.API"));
 
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services
+    .AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy());
+
+builder.Services
+    .AddFastEndpoints()
+    .AddDbContext(builder.Configuration)
+    .AddMediatR(cfg =>
+    {
+        cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+        cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+    })
+    .AddKafkaCompose()
+    .AddMarten(builder.Configuration)
+    .AddMartenRepository<Ordering.API.Domain.OrderAggregate.Order>();
+
+builder.Services
+    .AddAuthorization()
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(opt =>
 	{
         opt.AddKeyCloakConfigs(builder.Configuration);
-
     });
 
 var app = builder.Build();
@@ -56,11 +67,18 @@ using (var scope = app.Services.CreateScope())
         await context.Database.MigrateAsync();
 }
 
-app.UseServiceDefaults();
-app.UseHttpsRedirection();
-app.UseDefaultSwaggerRedirection();
-app.UseFastEndpoints(config => config.DefaultResponseConfigs())
+app.UseServiceDefaults()
+    .UseHttpsRedirection()
+    .UseFastEndpoints(config => config.DefaultResponseConfigs());
+
+app.UseDefaultSwaggerRedirection()
     .UseSwaggerGen();
+
+app.MapHealthChecks("/hc");
+app.MapHealthChecks("/liveness", new HealthCheckOptions
+{
+    Predicate = r => r.Name.Contains("self")
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

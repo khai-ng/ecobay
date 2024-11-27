@@ -4,7 +4,6 @@ using Core.Marten.Repository;
 using Core.SharedKernel;
 using Marten;
 using Marten.Services;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Weasel.Core;
@@ -60,15 +59,15 @@ namespace Core.Marten
             return services;
         }
 
-        public static WebApplicationBuilder AddMartenOpenTelemetry(this WebApplicationBuilder builder)
+        public static IServiceCollection AddMartenOpenTelemetry(this IServiceCollection services)
         {
-            builder.Services.AddOpenTelemetry()
+            services.AddOpenTelemetry()
                 .WithTracing(tracing =>
                 {
                     tracing.AddSource(MartenActivityScope.ActivitySourceName);
                 });
 
-            return builder;
+            return services;
         }
     }
 }

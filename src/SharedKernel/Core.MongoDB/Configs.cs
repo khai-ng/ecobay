@@ -30,15 +30,15 @@ namespace Core.MongoDB
             return services;
         }
 
-        public static WebApplicationBuilder AddMongoTelemetry(this WebApplicationBuilder builder)
+        public static IServiceCollection AddMongoTelemetry(this IServiceCollection services)
         {
-            builder.Services.AddOpenTelemetry()
+            services.AddOpenTelemetry()
                 .WithTracing(tracing =>
                 {
                     tracing.AddSource(DiagnosticsActivityEventSubscriber.ActivitySourceName);
                 });
 
-            return builder;
+            return services;
         }
     }
 }
