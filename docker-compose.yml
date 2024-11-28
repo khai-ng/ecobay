@@ -7,10 +7,10 @@ services:
         container_name: kafka-ui
         image: provectuslabs/kafka-ui:latest
         depends_on:
-            - kafka
-            - zookeeper
-            # - schemaregistry
-            # - kafka-connect
+            kafka:
+                condition: service_healthy
+            zookeeper:
+                condition: service_healthy
         networks:
             - local 
 
@@ -18,6 +18,11 @@ services:
         profiles: [ kafka, minimal-workflow, all ]
         container_name: zookeeper
         image: confluentinc/cp-zookeeper:7.6.0
+        healthcheck:
+            test: echo ruok | nc 127.0.0.1 2181 || exit -1
+            interval: 10s
+            timeout: 10s
+            retries: 3
         networks:
             - local 
  
@@ -25,8 +30,14 @@ services:
         profiles: [ kafka, minimal-workflow, all ]
         container_name: kafka
         image: confluentinc/cp-kafka:7.6.0
+        healthcheck:
+            test: nc -z localhost 9092 || exit -1
+            interval: 10s
+            timeout: 5s
+            retries: 5
         depends_on:
-            - zookeeper
+            zookeeper:
+                condition: service_healthy
         networks:
             - local 
 
@@ -71,6 +82,11 @@ services:
         profiles: [ events-store, minimal-workflow, services, all ]
         container_name: pg-eventstore-db
         image: postgres:15-alpine
+        healthcheck:
+            test: pg_isready -U postgres -d postgres
+            interval: 10s
+            timeout: 3s
+            retries: 3
         networks:
             - local
     
@@ -82,6 +98,11 @@ services:
         build:
               context: .
               dockerfile: src/Services/Ordering/Ordering.API/Dockerfile
+        healthcheck:
+            test: curl --fail https://ordering-api/hc || exit 1
+            interval: 30s
+            timeout: 5s
+            retries: 3
         networks:
             - local
         logging:
@@ -121,6 +142,10 @@ services:
         profiles: [ services, minimal-workflow, all ]
         container_name: mysql-db
         image: mysql:8.0.34
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 5
         restart: on-failure
         networks:
             - local
@@ -133,6 +158,11 @@ services:
         build:
             context: .
             dockerfile: src/Services/Product/ProductAggregate.API/Dockerfile
+        healthcheck:
+            test: curl --fail https://productaggregate-api/hc || exit 1
+            interval: 30s
+            timeout: 5s
+            retries: 3
         networks:
             - local
         logging:
@@ -148,6 +178,11 @@ services:
         build:
             context: .
             dockerfile: src/Services/Product/Product.API/Dockerfile
+        healthcheck:
+            test: curl --fail https://product-api-1/hc || exit 1
+            interval: 30s
+            timeout: 5s
+            retries: 3
         networks:
             - local
         logging:
@@ -160,6 +195,11 @@ services:
         profiles: [ services, minimal-workflow, all ]
         container_name: product-db-1
         image: mongo:7.0.9
+        healthcheck:
+            test: echo 'db.runCommand("ping").ok' || mongosh product-db-1/test --quiet
+            interval: 10s
+            retries: 5
+            start_period: 20s
         restart: on-failure
         networks:
             - local
