@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="8.1.0" />
     <PackageReference Include="FastEndpoints" Version="5.28.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="5.28.0" />
     <PackageReference Include="Google.Protobuf" Version="3.27.0" />

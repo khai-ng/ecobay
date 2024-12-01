@@ -1,7 +1,4 @@
-﻿using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
-
-namespace ProductAggregate.API.Domain.ProductAggregate
+﻿namespace ProductAggregate.API.Domain.ProductAggregate
 {
     public class BsonPriceConverter : SerializerBase<string>
     {

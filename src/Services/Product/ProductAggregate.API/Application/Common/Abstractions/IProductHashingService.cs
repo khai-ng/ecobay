@@ -1,9 +1,4 @@
-﻿using Core.ConsistentHashing;
-using ProductAggregate.API.Application.ConsistentHashing;
-using ProductAggregate.API.Application.Hashing;
-using ProductAggregate.API.Domain.ServerAggregate;
-
-namespace ProductAggregate.API.Application.Common.Abstractions
+﻿namespace ProductAggregate.API.Application.Common.Abstractions
 {
     public interface IProductHashingService
     {

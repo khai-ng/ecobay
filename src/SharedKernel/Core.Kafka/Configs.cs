@@ -5,6 +5,7 @@ using Core.Kafka.Producers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using OpenTelemetry;
 
 namespace Core.Kafka
 {
@@ -33,15 +34,15 @@ namespace Core.Kafka
                 .AddKafkaProducer()
                 .AddKafkaConsumer();
 
-        public static IServiceCollection AddKafkaOpenTelemetry(this IServiceCollection services)
+        public static OpenTelemetryBuilder AddKafkaOpenTelemetry(this OpenTelemetryBuilder builder)
         {
-            services.AddOpenTelemetry()
+            builder
                 .WithTracing(tracing =>
                 {
                     tracing.AddSource(KafkaActivityScope.ActivitySourceName);
                 });
 
-            return services;
+            return builder;
         }
     }
 }

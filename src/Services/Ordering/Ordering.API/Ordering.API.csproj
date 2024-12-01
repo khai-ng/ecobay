@@ -10,6 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.Kafka" Version="8.0.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.MySql" Version="8.0.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.2" />
     <PackageReference Include="FastEndpoints" Version="5.28.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="5.28.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />

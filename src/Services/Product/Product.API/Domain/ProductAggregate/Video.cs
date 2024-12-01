@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-
-namespace Product.API.Domain.ProductAggregate
+﻿namespace Product.API.Domain.ProductAggregate
 {
     public class Video
     {

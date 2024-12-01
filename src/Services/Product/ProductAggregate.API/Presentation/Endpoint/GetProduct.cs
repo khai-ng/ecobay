@@ -1,11 +1,4 @@
-﻿using Core.AspNet.Result;
-using Core.Pagination;
-using FastEndpoints;
-using MediatR;
-using ProductAggregate.API.Application.Product;
-using ProductAggregate.API.Application.Product.GetProduct;
-
-namespace ProductAggregate.API.Presentation.Endpoint
+﻿namespace ProductAggregate.API.Presentation.Endpoint
 {
     public class GetProductEndpoint : Endpoint<GetProductRequest, HttpResultTyped<PagingResponse<ProductItemDto>>>
     {

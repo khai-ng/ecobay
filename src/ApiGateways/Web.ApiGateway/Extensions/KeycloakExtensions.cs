@@ -1,7 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-
-namespace Web.ApiGateway.Extensions
+﻿namespace Web.ApiGateway.Extensions
 {
     public static class KeycloakExtensions
     {

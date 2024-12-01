@@ -78,7 +78,7 @@ services:
     ##########################################
     web-apigateway:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
             # - Logging__Loglevel__Default=Debug
             # - Logging__Loglevel__Microsoft=Debug
@@ -100,7 +100,7 @@ services:
     # Identity
     # identity-api:
     #     environment:
-    #         - ASPNETCORE_ENVIRONMENT=Production
+    #         - ASPNETCORE_ENVIRONMENT=Development
     #         - ASPNETCORE_HTTP_PORTS=8080
     #         - Logging__Loglevel__Default=Debug
     #         - Logging__Loglevel__Microsoft=Debug 
@@ -143,7 +143,7 @@ services:
     # Product
     productaggregate-api:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-1:27017
@@ -157,7 +157,7 @@ services:
 
     product-api-1:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
@@ -178,7 +178,7 @@ services:
 
     # product-api-2:
     #     environment:
-    #         - ASPNETCORE_ENVIRONMENT=Production
+    #         - ASPNETCORE_ENVIRONMENT=Development
     #         - ASPNETCORE_HTTP_PORTS=8080
     #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
     #         - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
@@ -204,7 +204,7 @@ services:
 
     # product-api-3:
     #     environment:
-    #         - ASPNETCORE_ENVIRONMENT=Production
+    #         - ASPNETCORE_ENVIRONMENT=Development
     #         - ASPNETCORE_HTTP_PORTS=8080
     #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
     #         - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
@@ -231,7 +231,7 @@ services:
     # Ordering
     ordering-api:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
             - Logging__Loglevel__Default=Information
             - Logging__Loglevel__Microsoft=Warning

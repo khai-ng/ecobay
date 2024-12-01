@@ -1,11 +1,4 @@
-﻿using Core.SharedKernel;
-using Grpc.Core;
-using GrpcProduct.Update;
-using MongoDB.Bson;
-using Product.API.Application.Common.Abstractions;
-using Product.API.Application.Product.Get;
-
-namespace Product.API.Application.Product.Update
+﻿namespace Product.API.Application.Product.Update
 {
     public class UpdateProduct: UpdateProductService.UpdateProductServiceBase
     {

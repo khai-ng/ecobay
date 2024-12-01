@@ -1,11 +1,4 @@
-﻿using Core.Autofac;
-using Core.AppResults;
-using Grpc.Net.Client;
-using ProductAggregate.API.Application.Common.Abstractions;
-using ProductAggregate.API.Application.ConsistentHashing;
-using ProductAggregate.API.Application.Product.Get;
-using ProductAggregate.API.Application.Product.Update;
-using ProductAggregate.API.Domain.ProductAggregate;
+﻿using ProductAggregate.API.Domain.ProductAggregate;
 
 namespace ProductAggregate.API.Infrastructure.Repositories
 {

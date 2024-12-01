@@ -1,15 +1,3 @@
-using Core.AspNet.Endpoints;
-using Core.AspNet.Extensions;
-using Core.Autofac;
-using FastEndpoints;
-using FastEndpoints.Swagger;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using OpenTelemetry.Resources;
-using Web.ApiGateway.Extensions;
-using Core.AspNet.Identity;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddAutofac()
@@ -19,28 +7,17 @@ builder.Services
     .AddSwaggerGen(opt => opt.AddKeyCloakSecurity(builder.Configuration["Keycloak:AuthorizationUrl"]!))
     .SwaggerDocument();
 
-builder.Services  
-    .AddOpenTelemetry()
-    .ConfigureResource(rb => rb.AddService("Web.ApiGateway"));
-
-builder.Services
-    .AddHealthChecks()
-    .AddCheck("self", () => HealthCheckResult.Healthy());
+builder.Services.AddHealthChecks()
+    .AddUrlGroup(new Uri("http://ordering-api/health"), name: "orderingapi-check")
+    .AddUrlGroup(new Uri("http://productaggregate-api/health"), name: "productapi-check");
 
 builder.Services
     .AddFastEndpoints()
-    .AddReverseProxy(builder.Configuration)
-    .AddAuthorization()
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(opt =>
-    {
-        opt.AddKeyCloakConfigs(builder.Configuration);
-    });
+    .AddReverseProxy(builder.Configuration);
 
 var app = builder.Build();
 
-app.UseServiceDefaults()
-    .UseHttpsRedirection()
+app.UseServiceDefaults()   
     .UseFastEndpoints(config => config.DefaultResponseConfigs());
 
 app.UseDefaultSwaggerRedirection()
@@ -54,19 +31,5 @@ app.UseDefaultSwaggerRedirection()
 app.MapGetSwaggerForYarp(app.Configuration);
 
 app.MapReverseProxy();
-
-//app.MapHealthChecks("/hc", new HealthCheckOptions()
-//{
-//    Predicate = _ => true,
-//    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-//});
-app.MapHealthChecks("/hc");
-app.MapHealthChecks("/liveness", new HealthCheckOptions
-{
-    Predicate = r => r.Name.Contains("self")
-});
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 await app.RunAsync();

@@ -1,7 +1,4 @@
 ﻿using Autofac;
-using Core.Autofac;
-using Core.EntityFramework.Context;
-using Core.SharedKernel;
 
 namespace Ordering.API
 {

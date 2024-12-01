@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace ProductAggregate.API.Application.ConsistentHashing
+﻿namespace ProductAggregate.API.Application.ConsistentHashing
 {
     public class StringConverter : JsonConverter<string>
     {

@@ -1,7 +1,4 @@
-﻿using Core.EntityFramework.ServiceDefault;
-using System.Text.Json.Serialization;
-
-namespace Ordering.API.Domain.OrderAggregate.Events
+﻿namespace Ordering.API.Domain.OrderAggregate.Events
 {
     public class OrderAwaitingChanged : DomainEvent
     {

@@ -1,9 +1,4 @@
-﻿using Core.MongoDB.ServiceDefault;
-using MongoDB.Bson.Serialization.Attributes;
-using System.IO.Hashing;
-using System.Text;
-
-namespace ProductAggregate.API.Domain.ServerAggregate
+﻿namespace ProductAggregate.API.Domain.ServerAggregate
 {
     [BsonIgnoreExtraElements]
     public class Server: AggregateRoot, IEquatable<Server>

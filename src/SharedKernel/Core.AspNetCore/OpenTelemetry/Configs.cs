@@ -8,11 +8,11 @@ namespace Core.AspNet.OpenTelemetry
 {
     public static class Configs
     {
-        public static WebApplicationBuilder AddDefaultOpenTelemetry(this WebApplicationBuilder builder, string? appName = null)
+        public static WebApplicationBuilder AddDefaultOpenTelemetry(this WebApplicationBuilder builder)
         {
             builder.Services.AddOpenTelemetry()
                 .ConfigureResource(resource
-                    => resource.AddService(appName ?? builder.Environment.ApplicationName))
+                    => resource.AddService(builder.Environment.ApplicationName))
                 .WithMetrics(metrics =>
                 {
                     metrics

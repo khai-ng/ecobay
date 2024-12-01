@@ -1,6 +1,4 @@
-﻿using Core.MongoDB.Context;
-
-namespace ProductAggregate.API.Infrastructure
+﻿namespace ProductAggregate.API.Infrastructure
 {
     public class AppDbContext : MongoContext
     {

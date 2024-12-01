@@ -1,7 +1,4 @@
-﻿using Core.AppResults;
-using Core.AspNet.Result;
-using FastEndpoints;
-
+﻿
 namespace Web.ApiGateway.Endpoint
 {
     public class Me: EndpointWithoutRequest<HttpResultTyped<Dictionary<string, string>>>

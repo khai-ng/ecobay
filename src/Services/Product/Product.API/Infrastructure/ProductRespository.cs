@@ -1,17 +1,5 @@
-﻿using Core.Autofac;
-using Core.MongoDB.Paginations;
-using Core.MongoDB.Repository;
-using Core.Pagination;
-using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
-using Product.API.Application.Common.Abstractions;
-using Product.API.Application.Product.Get;
-using Product.API.Application.Product.GetProducts;
-using Product.API.Domain.ProductAggregate;
-
-namespace Product.API.Infrastructure
+﻿namespace Product.API.Infrastructure
 {
-
     public class ProductRespository : Repository<ProductItem>, IProductRepository, ITransient
     {
         private readonly AppDbContext _context;

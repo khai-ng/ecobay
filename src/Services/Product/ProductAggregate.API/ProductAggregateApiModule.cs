@@ -1,10 +1,4 @@
-﻿using Autofac;
-using Core.Autofac;
-using Core.MongoDB.Context;
-using Core.SharedKernel;
-using ProductAggregate.API.Infrastructure;
-
-namespace ProductAggregate.API
+﻿namespace ProductAggregate.API
 {
     public class ProductAggregateApiModule : AppModule
     {

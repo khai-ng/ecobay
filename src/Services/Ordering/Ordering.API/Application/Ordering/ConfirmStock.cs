@@ -1,10 +1,4 @@
-﻿using Core.Autofac;
-using Core.Kafka.Producers;
-using Core.AppResults;
-using MediatR;
-using Ordering.API.Application.Common.Abstractions;
-using Ordering.API.Application.Dto.Order;
-using Ordering.API.Application.IntegrationEvents;
+﻿using Core.Events.EventStore;
 
 namespace Ordering.API.Application.Services
 {
@@ -12,13 +6,19 @@ namespace Ordering.API.Application.Services
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IKafkaProducer _kafkaProducer;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IEventStoreRepository<Order> _eventStoreRepository;
 
         public ConfirmStock(
             IOrderRepository orderRepository,
-            IKafkaProducer kafkaProducer)
+            IKafkaProducer kafkaProducer,
+            IUnitOfWork unitOfWork,
+            IEventStoreRepository<Order> eventStoreRepository)
         {
             _orderRepository = orderRepository;
             _kafkaProducer = kafkaProducer;
+            _unitOfWork = unitOfWork;
+            _eventStoreRepository = eventStoreRepository;
         }
 
         public async Task<AppResult<string>> Handle(ConfirmStockRequest request, CancellationToken ct)
@@ -27,6 +27,12 @@ namespace Ordering.API.Application.Services
 
             if (order == null)
                 return AppResult.Invalid(new ErrorDetail($"Can not find order {request.OrderId}"));
+
+            order.SetStockConfirmed();
+            _orderRepository.Update(order);
+
+            await _eventStoreRepository.Update(order.Id, order, order.Version, ct).ConfigureAwait(false);
+            await _unitOfWork.SaveChangesAsync(ct).ConfigureAwait(false);
 
             var orderConfirmStockEvent = 
                 new OrderConfirmStockIntegrationEvent(

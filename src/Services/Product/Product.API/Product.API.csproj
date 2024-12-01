@@ -10,10 +10,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Presentation\**" />
+    <Content Remove="Presentation\**" />
+    <EmbeddedResource Remove="Presentation\**" />
+    <None Remove="Presentation\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="8.1.0" />
     <PackageReference Include="FastEndpoints" Version="5.28.0" />
     <PackageReference Include="FastEndpoints.Security" Version="5.28.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="5.28.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.64.0" />
+    <PackageReference Include="Grpc.AspNetCore.HealthChecks" Version="2.64.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
@@ -29,14 +38,9 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\SharedKernel\Core.AspNetCore\Core.AspNet.csproj" />
-	  <ProjectReference Include="..\..\..\SharedKernel\Core.Kafka\Core.Kafka.csproj" />
 	  <ProjectReference Include="..\..\..\SharedKernel\Core.MediaR\Core.MediaR.csproj" />
 	  <ProjectReference Include="..\..\..\SharedKernel\Core.MongoDB\Core.MongoDB.csproj" />
 	  <ProjectReference Include="..\..\..\SharedKernel\Core\Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Presentation\" />
 	</ItemGroup>
 
 </Project>

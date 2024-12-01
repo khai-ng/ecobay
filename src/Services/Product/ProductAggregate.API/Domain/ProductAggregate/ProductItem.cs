@@ -1,8 +1,4 @@
-﻿using Core.MongoDB.ServiceDefault;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
-namespace ProductAggregate.API.Domain.ProductAggregate
+﻿namespace ProductAggregate.API.Domain.ProductAggregate
 {
     [BsonIgnoreExtraElements]
     public class ProductItem : AggregateRoot

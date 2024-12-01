@@ -1,7 +1,4 @@
-﻿using Core.IntegrationEvents.IntegrationEvents;
-using ProductAggregate.API.Application.Product;
-
-namespace ProductAggregate.API.Application.IntegrationEvents
+﻿namespace ProductAggregate.API.Application.IntegrationEvents
 {
     public class OrderConfirmStockIntegrationEvent(
         Guid orderId,

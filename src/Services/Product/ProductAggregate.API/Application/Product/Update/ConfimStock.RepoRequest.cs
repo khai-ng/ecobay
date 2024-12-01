@@ -1,6 +1,4 @@
-﻿using ProductAggregate.API.Application.ConsistentHashing;
-
-namespace ProductAggregate.API.Application.Product.Update
+﻿namespace ProductAggregate.API.Application.Product.Update
 {
 
     public class ConfimStockRepoRequest(string dbName, AppHost channel, IEnumerable<ProductUnitDto> productUnit)

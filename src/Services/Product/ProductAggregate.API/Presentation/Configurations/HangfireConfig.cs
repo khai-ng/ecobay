@@ -1,8 +1,4 @@
-﻿using Core.MongoDB.Context;
-using Hangfire;
-using MongoDB.Driver;
-
-namespace ProductAggregate.API.Presentation.Configurations
+﻿namespace ProductAggregate.API.Presentation.Configurations
 {
     public static class HangfireConfig
     {

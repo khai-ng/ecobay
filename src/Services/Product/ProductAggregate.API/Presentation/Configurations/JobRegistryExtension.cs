@@ -1,7 +1,4 @@
-﻿using Hangfire;
-using ProductAggregate.API.Application.ConsistentHashing;
-
-namespace ProductAggregate.API.Presentation.Configurations
+﻿namespace ProductAggregate.API.Presentation.Configurations
 {
     public static class JobRegistryExtension
     {

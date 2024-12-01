@@ -339,7 +339,7 @@ services:
     #         org.label-schema.group: "monitoring"
 
     jaeger:
-        profiles: [ tracing, minimal-workflow, all ]
+        profiles: [ tracing, all ]
         image: jaegertracing/all-in-one:latest
         container_name: jaeger
         networks:

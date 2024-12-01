@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-
-namespace ProductAggregate.API.Domain.ProductAggregate
+﻿namespace ProductAggregate.API.Domain.ProductAggregate
 {
     public class Image
     {

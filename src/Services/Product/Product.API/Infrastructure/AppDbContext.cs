@@ -1,8 +1,4 @@
-﻿using Core.MongoDB.Context;
-using MongoDB.Driver;
-using Product.API.Domain.ProductAggregate;
-
-namespace Product.API.Infrastructure
+﻿namespace Product.API.Infrastructure
 {
     public class AppDbContext: MongoContext
     {

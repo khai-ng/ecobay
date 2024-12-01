@@ -1,6 +1,4 @@
-﻿using Core.SharedKernel;
-
-namespace Ordering.API.Domain.OrderAggregate
+﻿namespace Ordering.API.Domain.OrderAggregate
 {
     public class OrderStatus(int id, string name) : Enumeration<OrderStatus>(id, name)
     {

@@ -1,12 +1,4 @@
-﻿using Core.EntityFramework.ServiceDefault;
-using Core.Events.DomainEvents;
-using Ordering.API.Domain.OrderAggregate;
-using Ordering.API.Domain.OrderAggregate.Events;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
-
-namespace Ordering.API.Domain.OrderAggregate
+﻿namespace Ordering.API.Domain.OrderAggregate
 {
     public class Order : AggregateRoot
     {

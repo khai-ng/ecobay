@@ -1,10 +1,4 @@
-﻿using Grpc.Core;
-using GrpcProduct.Get;
-using MongoDB.Bson;
-using Product.API.Application.Common.Abstractions;
-using Product.API.Application.Product.GetProducts;
-
-namespace Product.API.Application.Product.Get
+﻿namespace Product.API.Application.Product.Get
 {
     public class GetProduct : GetProductService.GetProductServiceBase
     {

@@ -1,15 +1,4 @@
-﻿using Core.Autofac;
-using Core.MongoDB.Context;
-using Hangfire;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Driver;
-using ProductAggregate.API.Application.Hashing;
-using ProductAggregate.API.Domain.ProductAggregate;
-using ProductAggregate.API.Domain.ServerAggregate;
-using ProductAggregate.API.Infrastructure;
-using System.Collections.Concurrent;
-using System.Text.Json;
+﻿using ProductAggregate.API.Domain.ProductAggregate;
 
 namespace ProductAggregate.API.Application.ConsistentHashing
 {

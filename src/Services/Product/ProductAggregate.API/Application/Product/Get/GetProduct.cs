@@ -1,12 +1,4 @@
-﻿using Core.Autofac;
-using Core.Pagination;
-using Core.AppResults;
-using MediatR;
-using ProductAggregate.API.Application.Common.Abstractions;
-using ProductAggregate.API.Application.Product.Get;
-using ProductAggregate.API.Infrastructure.Repositories;
-
-namespace ProductAggregate.API.Application.Product.GetProduct
+﻿namespace ProductAggregate.API.Application.Product.GetProduct
 {
     public class GetProductHandler : IRequestHandler<GetProductRequest, AppResult<PagingResponse<ProductItemDto>>>, ITransient
     {

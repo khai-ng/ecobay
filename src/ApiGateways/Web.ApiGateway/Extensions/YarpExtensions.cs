@@ -1,11 +1,4 @@
-﻿using Microsoft.OpenApi;
-using Microsoft.OpenApi.Extensions;
-using Microsoft.OpenApi.Models;
-using Microsoft.OpenApi.Readers;
-using Web.ApiGateway.Constants;
-using Yarp.ReverseProxy.Configuration;
-
-namespace Web.ApiGateway.Extensions
+﻿namespace Web.ApiGateway.Extensions
 {
     public static class YarpExtensions
     {

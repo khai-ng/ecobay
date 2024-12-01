@@ -1,7 +1,4 @@
-﻿using Core.EntityFramework.Repository;
-using Ordering.API.Domain.OrderAggregate;
-
-namespace Ordering.API.Application.Common.Abstractions
+﻿namespace Ordering.API.Application.Common.Abstractions
 {
     public interface IOrderRepository : IRepository<Order>
     {

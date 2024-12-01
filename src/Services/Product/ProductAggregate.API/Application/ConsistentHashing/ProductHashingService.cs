@@ -1,10 +1,4 @@
-﻿using Core.Autofac;
-using Core.ConsistentHashing;
-using ProductAggregate.API.Application.Common.Abstractions;
-using ProductAggregate.API.Application.ConsistentHashing;
-using ProductAggregate.API.Domain.ServerAggregate;
-
-namespace ProductAggregate.API.Application.Hashing
+﻿namespace ProductAggregate.API.Application.Hashing
 {
     public class ProductHashingService : IProductHashingService, ITransient
     {

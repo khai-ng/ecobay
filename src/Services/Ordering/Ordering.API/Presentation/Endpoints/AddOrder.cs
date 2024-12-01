@@ -1,10 +1,4 @@
-﻿using Core.AspNet.Result;
-using Core.AppResults;
-using FastEndpoints;
-using MediatR;
-using Ordering.API.Application.Services;
-
-namespace Ordering.API.Presentation.Endpoint
+﻿namespace Ordering.API.Presentation.Endpoint
 {
     public class AddOrder : Endpoint<CreateOrderRequest, HttpResultTyped<AppResult<Guid>>>
     {

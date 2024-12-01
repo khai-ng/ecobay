@@ -1,7 +1,4 @@
-﻿using Core.Autofac;
-using Core.MongoDB.Repository;
-using ProductAggregate.API.Application.Common.Abstractions;
-using ProductAggregate.API.Domain.ProductMigration;
+﻿using ProductAggregate.API.Domain.ProductMigration;
 
 namespace ProductAggregate.API.Infrastructure.Repositories
 {

@@ -1,12 +1,4 @@
-﻿using Core.AppResults;
-using Core.Autofac;
-using Core.Events.EventStore;
-using Core.SharedKernel;
-using MediatR;
-using Ordering.API.Application.Common.Abstractions;
-using Ordering.API.Domain.OrderAggregate;
-
-namespace Ordering.API.Application.Services
+﻿namespace Ordering.API.Application.Services
 {
     public class ConfirmPayment : IRequestHandler<ConfirmPaymentRequest, AppResult<string>>, ITransient
     {

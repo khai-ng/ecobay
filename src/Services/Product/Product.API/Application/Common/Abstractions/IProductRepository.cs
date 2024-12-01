@@ -1,7 +1,4 @@
-﻿using Core.Pagination;
-using Core.Repository;
-using MongoDB.Bson;
-using Product.API.Application.Product.Get;
+﻿using Core.Repository;
 using Product.API.Application.Product.GetProducts;
 using Product.API.Domain.ProductAggregate;
 

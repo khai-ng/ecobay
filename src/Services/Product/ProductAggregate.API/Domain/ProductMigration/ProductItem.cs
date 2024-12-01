@@ -1,9 +1,4 @@
-﻿using Core.MongoDB.ServiceDefault;
-using MongoDB.Bson.Serialization.Attributes;
-using ProductAggregate.API.Application.ConsistentHashing;
-using System.Text.Json.Serialization;
-
-namespace ProductAggregate.API.Domain.ProductMigration
+﻿namespace ProductAggregate.API.Domain.ProductMigration
 {
     [BsonIgnoreExtraElements]
     public class ProductItem : AggregateRoot

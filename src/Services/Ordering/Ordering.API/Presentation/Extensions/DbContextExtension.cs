@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Ordering.API.Application.Common.Constants;
-using Ordering.API.Infrastructure;
-
-namespace Ordering.API.Presentation.Extensions
+﻿namespace Ordering.API.Presentation.Extensions
 {
     public static class DbContextExtension
     {

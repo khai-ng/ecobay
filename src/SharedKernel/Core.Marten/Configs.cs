@@ -6,6 +6,7 @@ using Marten;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OpenTelemetry;
 using Weasel.Core;
 
 namespace Core.Marten
@@ -59,15 +60,15 @@ namespace Core.Marten
             return services;
         }
 
-        public static IServiceCollection AddMartenOpenTelemetry(this IServiceCollection services)
+        public static OpenTelemetryBuilder AddMartenOpenTelemetry(this OpenTelemetryBuilder builder)
         {
-            services.AddOpenTelemetry()
+            builder
                 .WithTracing(tracing =>
                 {
                     tracing.AddSource(MartenActivityScope.ActivitySourceName);
                 });
 
-            return services;
+            return builder;
         }
     }
 }

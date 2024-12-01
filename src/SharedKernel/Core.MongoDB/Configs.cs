@@ -3,6 +3,7 @@ using Core.MongoDB.OpenTelemetry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using OpenTelemetry;
 
 namespace Core.MongoDB
 {
@@ -30,15 +31,15 @@ namespace Core.MongoDB
             return services;
         }
 
-        public static IServiceCollection AddMongoTelemetry(this IServiceCollection services)
+        public static OpenTelemetryBuilder AddMongoTelemetry(this OpenTelemetryBuilder builder)
         {
-            services.AddOpenTelemetry()
+            builder
                 .WithTracing(tracing =>
                 {
                     tracing.AddSource(DiagnosticsActivityEventSubscriber.ActivitySourceName);
                 });
 
-            return services;
+            return builder;
         }
     }
 }

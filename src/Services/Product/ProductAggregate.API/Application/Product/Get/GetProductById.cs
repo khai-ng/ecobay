@@ -1,10 +1,4 @@
-﻿using Core.Autofac;
-using Core.AppResults;
-using MediatR;
-using ProductAggregate.API.Application.Common.Abstractions;
-using ProductAggregate.API.Application.Hashing;
-using ProductAggregate.API.Application.Product.Get;
-using ProductAggregate.API.Domain.ProductAggregate;
+﻿using ProductAggregate.API.Domain.ProductAggregate;
 
 namespace ProductAggregate.API.Application.Product.GetProduct
 {
