@@ -12,7 +12,7 @@
         }
 
         public override async Task<UpdateProductUnitResponse> ConfirmStock(
-            GrpcProduct.Update.ConfirmStockRequest request, 
+            ConfirmStockRequest request, 
             ServerCallContext context)
         {
             try

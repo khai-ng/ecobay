@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 var camelCaseConventionPack = new ConventionPack { new CamelCaseElementNameConvention() };
 ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
 
@@ -9,14 +11,15 @@ builder.AddServiceDefaults()
 builder.Services.AddOpenTelemetry()
     .AddMongoTelemetry();
 
+var mongoConfig = builder.Configuration.GetSection("Mongo:Connection").Get<MongoConnectionOptions>()!;
 builder.Services
     .AddHealthChecks()
-    .AddMongoDb(builder.Configuration.GetSection("Mongo:Connection:ConnectionString").ToString()!);
+    .AddMongoDb(mongoConfig.ConnectionString, name: mongoConfig.DatabaseName);
 
 builder.Services
     .AddMongoDbContext<AppDbContext>(options =>
     {
-        options.Connection = builder.Configuration.GetSection("Mongo:Connection").Get<MongoConnectionOptions>()!;
+        options.Connection = mongoConfig;
         options.Telemetry.Enable = true;
     })
     .AddMediatRDefaults()

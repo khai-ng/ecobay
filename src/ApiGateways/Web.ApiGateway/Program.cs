@@ -8,8 +8,8 @@ builder.Services
     .SwaggerDocument();
 
 builder.Services.AddHealthChecks()
-    .AddUrlGroup(new Uri("http://ordering-api/health"), name: "orderingapi-check")
-    .AddUrlGroup(new Uri("http://productaggregate-api/health"), name: "productapi-check");
+    .AddUrlGroup(new Uri("http://ordering-api/hc"), name: "orderingapi-check")
+    .AddUrlGroup(new Uri("http://productaggregate-api/hc"), name: "productapi-check");
 
 builder.Services
     .AddFastEndpoints()

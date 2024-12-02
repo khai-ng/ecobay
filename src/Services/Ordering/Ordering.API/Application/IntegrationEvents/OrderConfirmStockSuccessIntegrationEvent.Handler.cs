@@ -29,7 +29,7 @@ namespace Ordering.API.Application.IntegrationEvents
 
         public async Task HandleAsync(OrderConfirmStockSuccessIntegrationEvent @event, CancellationToken ct = default)
         {
-            var order = await _orderRepository.GetByIdAsync(@event.OrderId).ConfigureAwait(false);
+            var order = await _orderRepository.FindAsync(@event.OrderId).ConfigureAwait(false);
 
             if (order == null)
             {

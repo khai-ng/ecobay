@@ -28,11 +28,8 @@ namespace Ordering.API.Application.Services
             if (order == null)
                 return AppResult.Invalid(new ErrorDetail($"Can not find order {request.OrderId}"));
 
-            order.SetStockConfirmed();
-            _orderRepository.Update(order);
-
-            await _eventStoreRepository.Update(order.Id, order, order.Version, ct).ConfigureAwait(false);
-            await _unitOfWork.SaveChangesAsync(ct).ConfigureAwait(false);
+            if(order.OrderStatus != OrderStatus.Submitted)
+                return AppResult.Invalid(new ErrorDetail(nameof(order.OrderStatus), $"Order must be {OrderStatus.Submitted.Name}"));
 
             var orderConfirmStockEvent = 
                 new OrderConfirmStockIntegrationEvent(

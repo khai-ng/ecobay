@@ -22,6 +22,10 @@
             if (order == null)
                 return AppResult.Invalid(new ErrorDetail($"Can not find order {request.OrderId}"));
 
+            if (order.OrderStatus != OrderStatus.StockConfirmed)
+                return AppResult.Invalid(new ErrorDetail(nameof(order.OrderStatus), $"Order must be {OrderStatus.StockConfirmed.Name}"));
+
+            //TODO: publish confirm payment event
             order.SetPaid();
             _orderRepository.Update(order);
 
