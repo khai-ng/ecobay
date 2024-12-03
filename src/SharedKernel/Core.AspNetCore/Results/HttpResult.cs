@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Text.Json.Serialization;
 
-namespace Core.AspNet.Result
+namespace Core.AspNet.Results
 {
     public class HttpResult<T> : IResult
     {

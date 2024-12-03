@@ -1,7 +1,7 @@
 ﻿global using Core.AppResults;
 global using Core.AspNet.Endpoints;
-global using Core.AspNet.Extensions;
-global using Core.AspNet.Result;
+global using Core.AspNet.Common;
+global using Core.AspNet.Results;
 global using Core.Autofac;
 global using FastEndpoints;
 global using FastEndpoints.Swagger;

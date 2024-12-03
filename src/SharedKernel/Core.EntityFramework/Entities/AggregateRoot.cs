@@ -1,6 +1,6 @@
-﻿using Core.SharedKernel;
+﻿using Core.Entities;
 
-namespace Core.EntityFramework.ServiceDefault
+namespace Core.EntityFramework.Entities
 {
     /// <summary>
     /// Base aggreate root class with <see cref="Guid"/> type Id

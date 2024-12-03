@@ -1,5 +1,5 @@
-﻿using Core.EntityFramework.ServiceDefault;
-using Core.SharedKernel;
+﻿using Core.Entities;
+using Core.EntityFramework.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;

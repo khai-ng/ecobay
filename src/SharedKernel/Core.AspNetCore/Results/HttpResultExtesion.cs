@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
-namespace Core.AspNet.Result
+namespace Core.AspNet.Results
 {
 
     public static class HttpResultExtesion 

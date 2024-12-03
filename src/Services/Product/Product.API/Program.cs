@@ -1,5 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-
 var camelCaseConventionPack = new ConventionPack { new CamelCaseElementNameConvention() };
 ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
 

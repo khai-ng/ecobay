@@ -2,7 +2,7 @@
 using Serilog.Core;
 using Serilog.Events;
 
-namespace Core.AspNet.Extensions
+namespace Core.AspNet.Common
 {
     public class HttpContextEnricher : ILogEventEnricher
     {

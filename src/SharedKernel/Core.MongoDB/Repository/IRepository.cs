@@ -1,5 +1,5 @@
-﻿using Core.Repository;
-using Core.SharedKernel;
+﻿using Core.Entities;
+using Core.Repositories;
 using MongoDB.Bson;
 
 namespace Core.MongoDB.Repository

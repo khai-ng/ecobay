@@ -1,4 +1,4 @@
-﻿using Core.AspNet.Result;
+﻿using Core.AspNet.Results;
 using Core.AppResults;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;

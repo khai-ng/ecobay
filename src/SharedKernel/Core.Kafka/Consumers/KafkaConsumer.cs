@@ -1,5 +1,5 @@
 ﻿using Confluent.Kafka;
-using Core.AspNet.Extensions;
+using Core.AspNet.Common;
 using Core.IntegrationEvents.IntegrationEvents;
 using Core.Kafka.OpenTelemetry;
 using Core.Kafka.Producers;

@@ -1,6 +1,6 @@
-﻿using Core.SharedKernel;
+﻿using Core.Entities;
 
-namespace Core.Repository
+namespace Core.Repositories
 {
     public interface IQueryRepository<TModel, TKey>
         where TModel : AggregateRoot<TKey>

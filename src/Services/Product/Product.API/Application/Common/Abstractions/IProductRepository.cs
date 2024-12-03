@@ -1,6 +1,4 @@
-﻿using Core.Repository;
-using Product.API.Application.Product.GetProducts;
-using Product.API.Domain.ProductAggregate;
+﻿using Core.Repositories;
 
 namespace Product.API.Application.Common.Abstractions
 {
@@ -10,3 +8,4 @@ namespace Product.API.Application.Common.Abstractions
         Task<IEnumerable<ProductItem>> GetAsync(GetProductByIdRepoRequest request);
     }
 }
+    

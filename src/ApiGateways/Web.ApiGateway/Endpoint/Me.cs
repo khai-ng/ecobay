@@ -1,5 +1,4 @@
-﻿
-namespace Web.ApiGateway.Endpoint
+﻿namespace Web.ApiGateway.Endpoint
 {
     public class Me: EndpointWithoutRequest<HttpResultTyped<Dictionary<string, string>>>
 	{

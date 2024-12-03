@@ -1,4 +1,4 @@
-﻿namespace Core.SharedKernel
+﻿namespace Core.Entities
 {
     public interface IUnitOfWork : IDisposable
     {

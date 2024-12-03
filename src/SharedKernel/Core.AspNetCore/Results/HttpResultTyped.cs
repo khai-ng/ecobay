@@ -1,7 +1,7 @@
 ﻿using Core.AppResults;
 using System.Net;
 
-namespace Core.AspNet.Result
+namespace Core.AspNet.Results
 {
     /// <summary>
     /// User for display result format only. Don't create instant or inherit

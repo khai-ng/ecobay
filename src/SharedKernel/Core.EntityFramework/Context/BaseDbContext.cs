@@ -1,6 +1,5 @@
-﻿using Core.EntityFramework.Identity;
-using Core.EntityFramework.ServiceDefault;
-using Core.SharedKernel;
+﻿using Core.Entities;
+using Core.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.EntityFramework.Context

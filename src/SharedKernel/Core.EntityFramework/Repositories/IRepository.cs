@@ -1,7 +1,7 @@
-﻿using Core.Repository;
-using Core.SharedKernel;
+﻿using Core.Entities;
+using Core.Repositories;
 
-namespace Core.EntityFramework.Repository
+namespace Core.EntityFramework.Repositories
 {
     public interface IRepository<TModel> : IRepository<TModel, Guid>
         where TModel : AggregateRoot<Guid>

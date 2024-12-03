@@ -1,6 +1,4 @@
-﻿using Autofac;
-
-namespace Ordering.API
+﻿namespace Ordering.API
 {
     public class OrderingApiModule: AppModule
     {

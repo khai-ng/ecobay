@@ -1,4 +1,4 @@
-﻿using Core.SharedKernel;
+﻿using Core.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 

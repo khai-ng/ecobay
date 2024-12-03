@@ -1,4 +1,4 @@
-﻿namespace Core.SharedKernel
+﻿namespace Core.Entities
 {
     public abstract class ValueObject : IEquatable<ValueObject>
     {

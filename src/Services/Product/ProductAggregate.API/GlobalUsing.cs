@@ -1,8 +1,8 @@
 ﻿global using Autofac;
 global using Core.AppResults;
 global using Core.AspNet.Endpoints;
-global using Core.AspNet.Extensions;
-global using Core.AspNet.Result;
+global using Core.AspNet.Common;
+global using Core.AspNet.Results;
 global using Core.Autofac;
 global using Core.ConsistentHashing;
 global using Core.IntegrationEvents.IntegrationEvents;
@@ -32,7 +32,6 @@ global using ProductAggregate.API.Infrastructure;
 global using ProductAggregate.API.Infrastructure.Repositories;
 global using ProductAggregate.API.Presentation.Configurations;
 global using System.Collections.Concurrent;
-global using System.Reflection;
 global using System.Text.Json;
 global using System.Text.Json.Serialization;
 global using MongoDB.Bson.Serialization.Serializers;

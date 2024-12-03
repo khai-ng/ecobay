@@ -1,16 +1,16 @@
-﻿using Core.SharedKernel;
+﻿using Core.Entities;
 
-namespace Core.Events.EventStore
+namespace Core.Repositories
 {
     /// <summary>
     /// IEventStoreRepository with default <see cref="Guid"/> TKey
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public interface IEventStoreRepository<TEntity> : IEventStoreRepository<TEntity, Guid>
-        where TEntity : AggregateRoot<Guid> 
+        where TEntity : AggregateRoot<Guid>
     { }
 
-    public interface IEventStoreRepository<TEntity, TKey> 
+    public interface IEventStoreRepository<TEntity, TKey>
         where TEntity : AggregateRoot<TKey>
         where TKey : struct
     {

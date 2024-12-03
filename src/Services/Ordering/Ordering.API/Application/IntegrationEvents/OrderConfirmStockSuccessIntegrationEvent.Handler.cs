@@ -1,12 +1,4 @@
-﻿using Core.Autofac;
-using Core.Events.EventStore;
-using Core.IntegrationEvents.IntegrationEvents;
-using Core.SharedKernel;
-using Ordering.API.Application.Common.Abstractions;
-using Ordering.API.Domain.OrderAggregate;
-using Serilog;
-
-namespace Ordering.API.Application.IntegrationEvents
+﻿namespace Ordering.API.Application.IntegrationEvents
 {
     public class OrderConfirmStockSuccessIntegrationEventHandler : 
         IIntegrationEventHandler<OrderConfirmStockSuccessIntegrationEvent>, ITransient

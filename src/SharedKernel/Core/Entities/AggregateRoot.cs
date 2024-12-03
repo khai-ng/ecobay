@@ -2,9 +2,9 @@
 using System.Text.Json.Serialization;
 using Core.Events.DomainEvents;
 
-namespace Core.SharedKernel
+namespace Core.Entities
 {
-    public abstract class AggregateRoot<TKey>: Entity<TKey>
+    public abstract class AggregateRoot<TKey> : Entity<TKey>
     {
         [NonSerialized]
         private readonly Queue<IDomainEvent<TKey>> _events = new();

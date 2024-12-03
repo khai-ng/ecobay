@@ -1,10 +1,4 @@
-﻿using Core.Autofac;
-using Core.EntityFramework.Repository;
-using Microsoft.EntityFrameworkCore;
-using Ordering.API.Application.Common.Abstractions;
-using Ordering.API.Domain.OrderAggregate;
-
-namespace Ordering.API.Infrastructure.Repositories
+﻿namespace Ordering.API.Infrastructure.Repositories
 {
     public class OrderRepository : Repository<Order>, IOrderRepository, ITransient
     {

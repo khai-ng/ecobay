@@ -1,5 +1,3 @@
-using Marten.Events.Daemon;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddAutofac()

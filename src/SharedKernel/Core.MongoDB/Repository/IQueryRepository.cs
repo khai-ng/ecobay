@@ -1,6 +1,5 @@
-﻿using Core.SharedKernel;
+﻿using Core.Entities;
 using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace Core.MongoDB.Repository
 {
@@ -8,7 +7,7 @@ namespace Core.MongoDB.Repository
         where TModel : AggregateRoot<ObjectId>
     { }
 
-    public interface IQueryRepository<TModel, TKey> : Core.Repository.IQueryRepository<TModel, TKey>
+    public interface IQueryRepository<TModel, TKey> : Core.Repositories.IQueryRepository<TModel, TKey>
         where TModel : AggregateRoot<TKey>
     {
     }

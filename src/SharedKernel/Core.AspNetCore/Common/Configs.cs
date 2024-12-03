@@ -13,7 +13,7 @@ using Serilog;
 using Serilog.Core;
 using System.Reflection;
 
-namespace Core.AspNet.Extensions
+namespace Core.AspNet.Common
 {
     public static class Configs
     {
@@ -100,7 +100,7 @@ namespace Core.AspNet.Extensions
 
         public static WebApplication UseDefaultSwaggerRedirection(this WebApplication app)
         {
-            app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
+            app.MapGet("/", () => Microsoft.AspNetCore.Http.Results.Redirect("/swagger")).ExcludeFromDescription();
             return app;
         }
 
@@ -108,7 +108,7 @@ namespace Core.AspNet.Extensions
         {
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             return app;
         }
 

@@ -1,24 +1,16 @@
-﻿using Core.Events.EventStore;
-
-namespace Ordering.API.Application.Services
+﻿namespace Ordering.API.Application.Services
 {
     public class ConfirmStock : IRequestHandler<ConfirmStockRequest, AppResult<string>>, ITransient
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IKafkaProducer _kafkaProducer;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IEventStoreRepository<Order> _eventStoreRepository;
 
         public ConfirmStock(
             IOrderRepository orderRepository,
-            IKafkaProducer kafkaProducer,
-            IUnitOfWork unitOfWork,
-            IEventStoreRepository<Order> eventStoreRepository)
+            IKafkaProducer kafkaProducer)
         {
             _orderRepository = orderRepository;
             _kafkaProducer = kafkaProducer;
-            _unitOfWork = unitOfWork;
-            _eventStoreRepository = eventStoreRepository;
         }
 
         public async Task<AppResult<string>> Handle(ConfirmStockRequest request, CancellationToken ct)

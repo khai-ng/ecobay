@@ -1,8 +1,8 @@
-﻿using Core.SharedKernel;
+﻿using Core.Entities;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.EntityFramework.Repository
+namespace Core.EntityFramework.Repositories
 {
     public abstract class Repository<TModel> : Repository<TModel, Guid>
         where TModel : AggregateRoot<Guid>

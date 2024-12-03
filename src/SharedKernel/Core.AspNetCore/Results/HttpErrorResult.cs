@@ -1,7 +1,7 @@
 ﻿using Core.AppResults;
 using System.Net;
 
-namespace Core.AspNet.Result
+namespace Core.AspNet.Results
 {
     public class HttpErrorResult : HttpResult<HttpErrorResult>
     {

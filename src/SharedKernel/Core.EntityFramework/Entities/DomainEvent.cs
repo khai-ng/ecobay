@@ -1,6 +1,6 @@
 ﻿using Core.Events.DomainEvents;
 
-namespace Core.EntityFramework.ServiceDefault
+namespace Core.EntityFramework.Entities
 {
     /// <summary>
     /// Base domain event class with <see cref="Guid"/> type Id

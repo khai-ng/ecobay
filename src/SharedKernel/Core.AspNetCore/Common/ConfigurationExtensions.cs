@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Core.AspNet.Extensions
+namespace Core.AspNet.Common
 {
     public static class ConfigurationExtensions
     {

@@ -1,5 +1,5 @@
-﻿using Core.MongoDB.Context;
-using Core.SharedKernel;
+﻿using Core.Entities;
+using Core.MongoDB.Context;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

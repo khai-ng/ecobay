@@ -1,6 +1,6 @@
-﻿using Core.SharedKernel;
+﻿using Core.Entities;
 
-namespace Core.Repository
+namespace Core.Repositories
 {
     public interface IRepository<TModel, TKey> :
         IQueryRepository<TModel, TKey>,

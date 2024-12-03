@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using System.Text.Json;
 
 namespace Core.IntegrationEvents.IntegrationEvents
 {

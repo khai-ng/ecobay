@@ -1,7 +1,6 @@
-﻿using Core.Events.EventStore;
-using Core.SharedKernel;
+﻿using Core.Entities;
+using Core.Repositories;
 using Marten;
-using Serilog;
 
 namespace Core.Marten.OpenTelemetry
 {

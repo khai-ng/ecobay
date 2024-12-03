@@ -1,4 +1,4 @@
-using Core.AspNet.Extensions;
+using Core.AspNet.Common;
 using Core.Autofac;
 
 var builder = WebApplication.CreateBuilder(args);

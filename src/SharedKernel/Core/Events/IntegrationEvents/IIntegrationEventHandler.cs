@@ -1,6 +1,5 @@
 ﻿namespace Core.IntegrationEvents.IntegrationEvents
 {
-
     public interface IIntegrationEventHandler<in TIntegrationEvent>
         where TIntegrationEvent : IntegrationEvent
     {

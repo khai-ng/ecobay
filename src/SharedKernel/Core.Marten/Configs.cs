@@ -1,7 +1,7 @@
-﻿using Core.Events.EventStore;
+﻿using Core.Entities;
 using Core.Marten.OpenTelemetry;
 using Core.Marten.Repository;
-using Core.SharedKernel;
+using Core.Repositories;
 using Marten;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;

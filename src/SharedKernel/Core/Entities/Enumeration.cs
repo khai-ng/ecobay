@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace Core.SharedKernel
+namespace Core.Entities
 {
     public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>
         where TEnum : Enumeration<TEnum>

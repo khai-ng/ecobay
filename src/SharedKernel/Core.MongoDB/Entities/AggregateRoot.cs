@@ -1,4 +1,4 @@
-﻿using Core.SharedKernel;
+﻿using Core.Entities;
 using MongoDB.Bson;
 
 namespace Core.MongoDB.ServiceDefault

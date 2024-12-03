@@ -1,5 +1,5 @@
-﻿using Core.Events.EventStore;
-using Core.SharedKernel;
+﻿using Core.Entities;
+using Core.Repositories;
 using Marten;
 
 namespace Core.Marten.Repository
