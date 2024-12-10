@@ -1,0 +1,15 @@
+{
+  "name": "ordering",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ordering",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project ordering --web",
+  "targets": {
+    "dev":{
+      "options": {
+        "port": 3002
+      }
+    }
+  }
+}
