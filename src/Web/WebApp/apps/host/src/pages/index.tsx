@@ -1,6 +1,6 @@
 import React from 'react';
 import Banner from '../components/banner/banner';
-import ProductList from './product/components/product-list';
+import ProductList from './product/_components/product-list';
 
 export function Index() {
   /*
