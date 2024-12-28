@@ -90,6 +90,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dbs", "dbs", "{1A4B7B84-83E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{C7C06028-591B-4FFF-A5AB-3F0AB203D009}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "keycloak", "keycloak", "{1468FD43-E350-460E-B349-4195D60427BC}"
+	ProjectSection(SolutionItems) = preProject
+		configs\keycloak\realm-export.json = configs\keycloak\realm-export.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -184,6 +189,7 @@ Global
 		{2D563A2C-7CCD-463E-A4C5-EDE986013552} = {F05225D2-2AE2-44E0-B1C2-EAC88CE8DF6C}
 		{D8DB2185-A787-47AA-921C-8474CF233865} = {E96B9836-F3B8-4BEF-BFC4-D8C5E77C944F}
 		{1A4B7B84-83E9-42CF-8155-9CE2E6D42513} = {C7C06028-591B-4FFF-A5AB-3F0AB203D009}
+		{1468FD43-E350-460E-B349-4195D60427BC} = {C7C06028-591B-4FFF-A5AB-3F0AB203D009}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {99FAD885-0804-4859-94E6-346559EF4C54}
