@@ -35,12 +35,24 @@ namespace ProductAggregate.API.Infrastructure.Repositories
                     .ForContext("Request", grpcRequest, true)
                     .Information($"Grpc has sent {nameof(GrpcProduct.Get.GetProductRequest)}");
 
-                var products = grpcResponse.Data.Select(x => new ProductItem()
-                {
-                    MainCategory = x.MainCategory,
-                    Title = x.Title,
-                    Price = x.Price,
-                });
+                var products = grpcResponse.Data
+                    .Select(x => new ProductItem()
+                    {
+                        MainCategory = x.MainCategory,
+                        Title = x.Title,
+                        AverageRating = Convert.ToDecimal(x.AverageRating),
+                        RatingNumber = Convert.ToDecimal(x.RatingNumber),
+                        Price = x.Price,
+                        Images = x.Images.Select(i => new Image() 
+                        {
+                            Thumb = i.Thumb,
+                            Large = i.Large,
+                            Variant = i.Variant,
+                            Hires = i.Hires
+                        }),
+                        Store = x.Store,
+                        Categories = x.Categories
+                    });
 
                 var rs = new GetProductRepoResponse(products, grpcResponse.HasNext);
 
@@ -76,7 +88,18 @@ namespace ProductAggregate.API.Infrastructure.Repositories
                     {
                         MainCategory = x.MainCategory,
                         Title = x.Title,
+                        AverageRating = Convert.ToDecimal(x.AverageRating),
+                        RatingNumber = Convert.ToDecimal(x.RatingNumber),
                         Price = x.Price,
+                        Images = x.Images.Select(i => new Image()
+                        {
+                            Thumb = i.Thumb,
+                            Large = i.Large,
+                            Variant = i.Variant,
+                            Hires = i.Hires
+                        }),
+                        Store = x.Store,
+                        Categories = x.Categories
                     });
 
                 return AppResult.Success(products);

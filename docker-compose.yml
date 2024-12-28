@@ -67,7 +67,7 @@ services:
         image: ${DOCKER_REGISTRY-}webapigateway
         build:
             context: .
-            dockerfile: src/ApiGateways/Web.ApiGateway/Dockerfile
+            dockerfile: src/Services/ApiGateways/Web.ApiGateway/Dockerfile
         # depends_on:
         #     - identity-api
         networks:

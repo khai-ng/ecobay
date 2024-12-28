@@ -4,8 +4,6 @@ option csharp_namespace = "GrpcProduct.Get";
 
 package ProductApi;
 
-
-
 message PagingInfo {
 	int32 page_index = 1;
 	int32 page_size = 2;
@@ -17,10 +15,22 @@ message GetProductRequest {
 	PagingInfo page_info = 3;
 }
 
+message Image {
+	string thumb = 1;
+	string large = 2;
+	string variant = 3;
+	optional string hires = 4;
+}
+
 message ProductItemResponse {
 	optional string main_category = 1;
 	optional string title = 2;
-	optional string price = 3;
+	optional double average_rating = 3;
+	optional double rating_number = 4;
+	optional string price = 5;
+	repeated Image images = 6;
+	optional string store = 7;
+	repeated string categories = 8;
 }
 
 message GetProductResponse {

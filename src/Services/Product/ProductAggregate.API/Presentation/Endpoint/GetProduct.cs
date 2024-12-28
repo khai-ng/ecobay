@@ -10,7 +10,7 @@
         public override void Configure()
         {
             Get("product");
-            //AllowAnonymous();
+            AllowAnonymous();
         }
 
         public override async Task HandleAsync(GetProductRequest request, CancellationToken ct)

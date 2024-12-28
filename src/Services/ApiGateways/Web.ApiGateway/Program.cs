@@ -3,6 +3,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddAutofac()
     .AddServiceDefaults();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3001")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+        });
+});
+
 builder.Services
     .AddSwaggerGen(opt => opt.AddKeyCloakSecurity(builder.Configuration["Keycloak:AuthorizationUrl"]!))
     .SwaggerDocument();
@@ -16,6 +28,8 @@ builder.Services
     .AddReverseProxy(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseCors();
 
 app.UseServiceDefaults()   
     .UseFastEndpoints(config => config.DefaultResponseConfigs());
