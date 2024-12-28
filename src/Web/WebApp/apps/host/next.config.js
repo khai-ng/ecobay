@@ -31,6 +31,16 @@ const nextConfig = {
     );
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'm.media-amazon.com',
+        port: '',
+        search: '',
+      },
+    ],
+  },
 };
 
 const plugins = [
