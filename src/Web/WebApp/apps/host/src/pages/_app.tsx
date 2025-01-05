@@ -8,9 +8,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to web-app!</title>
+        <title>ecobay</title>
       </Head>
-      <main className="app">
+      <main className="app app_container">
         <Component {...pageProps} />
       </main>
     </>

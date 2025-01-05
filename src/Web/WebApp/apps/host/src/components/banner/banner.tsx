@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 const Banner = () => {
     return (
-      <div className={`${banner.banner__container} app_container text-sm md:text-base lg sm:h-[24rem]`}>
+      <div className={`${banner.banner__container} text-sm md:text-base lg sm:h-[24rem]`}>
         <ul className={`${banner.area_cate} overflow-auto px-2 my-3 border border-gray-300 rounded-lg`}>
           <li>Electronic</li>
           <li>Computer</li>

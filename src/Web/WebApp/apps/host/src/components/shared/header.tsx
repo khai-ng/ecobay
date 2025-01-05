@@ -15,7 +15,7 @@ const Header = () => {
           <input
             className="grow p-1 focus:outline-none rounded-[inherit]"
             type="text"
-            placeholder="Search on ecoobay..."
+            placeholder="Search on ecobay..."
           />
           <i className="fa-regular fa-magnifying-glass p-3"></i>
         </div>
