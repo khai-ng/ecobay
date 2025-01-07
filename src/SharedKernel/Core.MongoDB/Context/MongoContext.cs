@@ -40,19 +40,21 @@ namespace Core.MongoDB.Context
             return Task.WhenAll(commandTasks);
         }
 
-        public MongoContext SetConnection(string connectionString)
+        private MongoContext SetConnection(string connectionString)
         {
             var clientSettings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
-            var options = new InstrumentationOptions { CaptureCommandText = true };
-            if (_dbSetting.Telemetry.Enable)         
+            if (_dbSetting.Telemetry.Enable)
+            {
+                var options = new InstrumentationOptions { CaptureCommandText = true };
                 clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber(options));
+            }      
 
             _mongoClient = new MongoClient(clientSettings);
 
             return this;
         }
 
-        public MongoContext SetDatabase(string databaseName)
+        private MongoContext SetDatabase(string databaseName)
         {
             if (_mongoClient is null)
                 SetConnection(_dbSetting.Connection.ConnectionString);

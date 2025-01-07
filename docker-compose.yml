@@ -151,26 +151,6 @@ services:
             - local
 
     # Product
-    productaggregate-api:
-        profiles: [ services, minimal-workflow, all ]
-        container_name: productaggregate-api
-        image: ${DOCKER_REGISTRY-}productaggregateapi
-        build:
-            context: .
-            dockerfile: src/Services/Product/ProductAggregate.API/Dockerfile
-        healthcheck:
-            test: curl --fail https://productaggregate-api/hc || exit 1
-            interval: 30s
-            timeout: 5s
-            retries: 3
-        networks:
-            - local
-        logging:
-            driver: fluentd
-            options:
-                fluentd-async: "true"
-                tag: host.productaggregate
-
     product-api-1:
         profiles: [ services, minimal-workflow, all ]
         container_name: product-api-1
@@ -179,7 +159,7 @@ services:
             context: .
             dockerfile: src/Services/Product/Product.API/Dockerfile
         healthcheck:
-            test: curl --fail https://product-api-1/hc || exit 1
+            test: curl --fail https://product-api/hc || exit 1
             interval: 30s
             timeout: 5s
             retries: 3
@@ -191,65 +171,98 @@ services:
                 fluentd-async: "true"
                 tag: host.product-1
 
-    product-db-1:
-        profiles: [ services, minimal-workflow, all ]
-        container_name: product-db-1
+    router01:
+        profiles: [ mongo-shard ]
+        container_name: product-router01
         image: mongo:7.0.9
-        healthcheck:
-            test: echo 'db.runCommand("ping").ok' || mongosh product-db-1/test --quiet
-            interval: 10s
-            retries: 5
-            start_period: 20s
-        restart: on-failure
+        command: mongos --port 27017 --configdb config-server/configsvr01:27017,configsvr02:27017 --bind_ip_all
+        ports:
+            - 27117:27017
+        volumes:
+            - ./configs/mongodb:/scripts
         networks:
             - local
-    
-    # product-api-2:
-    #     profiles: [ services, all ]
-    #     container_name: product-api-2
-    #     image: ${DOCKER_REGISTRY-}productapi
-    #     build:
-    #         context: .
-    #         dockerfile: src/Services/Product/Product.API/Dockerfile
-    #     networks:
-    #         - local
-    #     logging:
-    #         driver: fluentd
-    #         options:
-    #             fluentd-async: "true"
-    #             tag: host.product-2
 
-    # product-db-2:
-    #     profiles: [ services, all ]
-    #     container_name: product-db-2
-    #     image: mongo:7.0.9
-    #     restart: on-failure
-    #     networks:
-    #         - local
-    
-    # product-api-3:
-    #     profiles: [ services, all ]
-    #     container_name: product-api-3
-    #     image: ${DOCKER_REGISTRY-}productapi
-    #     build:
-    #         context: .
-    #         dockerfile: src/Services/Product/Product.API/Dockerfile
-    #     networks:
-    #         - local
-    #     logging:
-    #         driver: fluentd
-    #         options:
-    #             fluentd-async: "true"
-    #             tag: host.product-3
+    configsvr01:
+        profiles: [ mongo-shard ]
+        container_name: product-config01
+        image: mongo:7.0.9
+        command: mongod --port 27017 --configsvr --replSet config-server
+        volumes:
+            - ./configs/mongodb:/scripts 
+        ports:
+            - 27119:27017
+        links:
+            - shard01-1
+            - shard02-1
+        networks:
+            - local
 
-    # product-db-3:
-    #     profiles: [ services, all ]
-    #     container_name: product-db-3
-    #     image: mongo:7.0.9
-    #     restart: on-failure
-    #     networks:
-    #         - local               
+    configsvr02:
+        profiles: [ mongo-shard ]
+        container_name: product-config02
+        image: mongo:7.0.9
+        command: mongod --port 27017 --configsvr --replSet config-server
+        volumes:
+            - ./configs/mongodb:/scripts 
+        ports:
+            - 27120:27017
+        links:
+            - configsvr01
+        networks:
+            - local
 
+    shard01-1:
+        profiles: [ mongo-shard ]
+        container_name: product-shard01
+        image: mongo:7.0.9
+        command: mongod --replSet shard-01 --shardsvr --port 27017
+        volumes:
+            - ./configs/mongodb:/scripts
+        ports:
+            - 27020:27017
+        links:
+            - shard01-2
+        networks:
+            - local
+
+    shard01-2:
+        profiles: [ mongo-shard ]
+        container_name: product-shard01-1
+        image: mongo:7.0.9
+        command: mongod --replSet shard-01 --shardsvr --port 27017
+        volumes:
+            - ./configs/mongodb:/scripts
+        ports:
+            - 27021:27017
+        networks:
+            - local
+
+    shard02-1:
+        profiles: [ mongo-shard ]
+        container_name: product-shard02
+        image: mongo:7.0.9
+        command: mongod --replSet shard-02 --shardsvr --port 27017
+        volumes:
+            - ./configs/mongodb:/scripts
+        ports:
+            - 27022:27017
+        links:
+            - shard02-2
+        networks:
+            - local
+
+    shard02-2:
+        profiles: [ mongo-shard ]
+        container_name: product-shard02-1
+        image: mongo:7.0.9
+        command: mongod --replSet shard-02 --shardsvr --port 27017
+        volumes:
+            - ./configs/mongodb:/scripts
+        ports:
+            - 27023:27017
+        networks:
+            - local
     ##########################################
     ## Monitoring
     ##########################################

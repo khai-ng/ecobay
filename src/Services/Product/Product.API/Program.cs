@@ -6,7 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults()
     .AddAutofac();
 
+builder.Services.AddSwaggerGen().SwaggerDocument();
+
 builder.Services.AddOpenTelemetry()
+    .AddKafkaOpenTelemetry()
     .AddMongoTelemetry();
 
 var mongoConfig = builder.Configuration.GetSection("Mongo:Connection").Get<MongoConnectionOptions>()!;
@@ -15,20 +18,33 @@ builder.Services
     .AddMongoDb(mongoConfig.ConnectionString, name: mongoConfig.DatabaseName);
 
 builder.Services
+    .AddFastEndpoints()
     .AddMongoDbContext<AppDbContext>(options =>
-    {
+    { 
         options.Connection = mongoConfig;
         options.Telemetry.Enable = true;
     })
-    .AddMediatRDefaults()
-    .AddGrpc();
+    .AddKafkaCompose()
+    .AddMediatRDefaults();
+
+
+if(builder.Environment.IsDevelopment())
+{
+    builder.Services.AddHangfireDefaults(builder.Configuration);
+}
 
 var app = builder.Build();
 
-app.UseServiceDefaults();
+app.UseServiceDefaults()
+    .UseFastEndpoints(config => config.DefaultResponseConfigs());
 
-app.MapGrpcService<GetProduct>();
-app.MapGrpcService<UpdateProduct>();
-//app.MapGrpcHealthChecksService();
+app.UseDefaultSwaggerRedirection()  
+    .UseSwaggerGen();
+
+if(app.Environment.IsDevelopment())
+{
+    app.UseHangfireDashboard();
+    app.AddHangFireJob();
+}
 
 await app.RunAsync();

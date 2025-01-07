@@ -24,6 +24,7 @@ services:
             # - KAFKA_OPTS=-Dzookeeper.4lw.commands.whitelist=ruok
         ports:
             - 2181:2181
+
     kafka:
         ports:
             - 9092:9092
@@ -84,7 +85,7 @@ services:
             # - Logging__Loglevel__Microsoft=Debug
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - Reverseproxy__Clusters__ordering__Destinations__default__Address=http://ordering-api
-            - Reverseproxy__Clusters__product__Destinations__default__Address=http://productaggregate-api
+            - Reverseproxy__Clusters__product__Destinations__default__Address=http://product-api-1
             - Authentication__MetadataAddress=http://keycloak:8080/realms/ecobay/.well-known/openid-configuration
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
@@ -139,95 +140,24 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: 1234
         volumes:
-            - ./configs/dbs/init-keycloak.sql:/docker-entrypoint-initdb.d/init-keycloak.sql
+            - ./configs/keycloak/init-keycloak.sql:/docker-entrypoint-initdb.d/init-keycloak.sql
         ports:
             - "5199:3306"
 
     # Product
-    productaggregate-api:
+    product-api-1:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-1:27017
-            - Mongo__Connection__DatabaseName=hangfire
+            - Mongo__Connection__ConnectionString=mongodb://router01:27017
+            - Mongo__Connection__DatabaseName=ecobay
             - Kafka__Producer__ProducerConfig__BootstrapServers=kafka:29092
             - Kafka__Consumer__ConsumerConfig__BootstrapServers=kafka:29092
             - Authentication__MetadataAddress=http://keycloak:8080/realms/ecobay/.well-known/openid-configuration
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
             - "5110:80"
-
-    product-api-1:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_HTTP_PORTS=8080
-            - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-            - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-1:27017
-            - Mongo__Connection__DatabaseName=product
-            - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
-        ports:
-            - "5103:80"
-
-    product-db-1:
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=admin
-            - MONGO_INITDB_ROOT_PASSWORD=1234
-        ports:
-            - 27017:27017
-
-    # product-api-2:
-    #     environment:
-    #         - ASPNETCORE_ENVIRONMENT=Development
-    #         - ASPNETCORE_HTTP_PORTS=8080
-    #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-    #         - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-    #         - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-2:27017
-    #         - Mongo__Connection__DatabaseName=product
-    #         - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
-    #     ports:
-    #         - "5104:80"
-
-    # product-db-2:
-    #     environment:
-    #         - MONGO_INITDB_ROOT_USERNAME=admin
-    #         - MONGO_INITDB_ROOT_PASSWORD=1234
-    #     healthcheck:
-    #         test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
-    #         interval: 10s
-    #         retries: 5
-    #         start_period: 20s
-    #     volumes:
-    #         - /d/Dataset/extract/json/:/data/json/
-    #     ports:
-    #         - 27018:27017
-
-    # product-api-3:
-    #     environment:
-    #         - ASPNETCORE_ENVIRONMENT=Development
-    #         - ASPNETCORE_HTTP_PORTS=8080
-    #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-    #         - Kestrel__Endpoints__gRPC__Url=http://0.0.0.0:81
-    #         - Mongo__Connection__ConnectionString=mongodb://admin:1234@product-db-3:27017
-    #         - Mongo__Connection__DatabaseName=product
-    #         - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
-    #     ports:
-    #         - "5105:80"
-
-    # product-db-3:
-    #     environment:
-    #         - MONGO_INITDB_ROOT_USERNAME=admin
-    #         - MONGO_INITDB_ROOT_PASSWORD=1234
-    #     healthcheck:
-    #         test: echo 'db.runCommand("ping").ok' || mongosh admin -u admin -p 1234 --quiet | grep 1
-    #         interval: 10s
-    #         retries: 5
-    #         start_period: 20s
-    #     volumes:
-    #         - /d/Dataset/extract/json/:/data/json/
-    #     ports:
-    #         - 27019:27017
     
     # Ordering
     ordering-api:

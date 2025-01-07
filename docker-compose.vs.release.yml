@@ -26,30 +26,6 @@ version: '3.4'
       #com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
       #com.microsoft.visual-studio.project-name: "Product.API"
 
-  #product-api-2:
-    #labels:
-      #com.microsoft.visualstudio.debuggee.program: "dotnet"
-      #com.microsoft.visualstudio.debuggee.arguments: "\"/app/Product.API.dll\""
-      #com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
-      #com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
-      #com.microsoft.visual-studio.project-name: "Product.API"
-
-  #product-api-3:
-    #labels:
-      #com.microsoft.visualstudio.debuggee.program: "dotnet"
-      #com.microsoft.visualstudio.debuggee.arguments: "\"/app/Product.API.dll\""
-      #com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
-      #com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
-      #com.microsoft.visual-studio.project-name: "Product.API"
-
-  #productaggregate-api:
-    #labels:
-      #com.microsoft.visualstudio.debuggee.program: "dotnet"
-      #com.microsoft.visualstudio.debuggee.arguments: "\"/app/ProductAggregate.API.dll\""
-      #com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
-      #com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
-      #com.microsoft.visual-studio.project-name: "ProductAggregate.API"
-
   #web-apigateway:
     #labels:
       #com.microsoft.visualstudio.debuggee.program: "dotnet"

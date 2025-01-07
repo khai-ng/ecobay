@@ -1,24 +1,19 @@
 ﻿namespace Product.API.Application.Product.Get
 {
-    public class GetProductHandler : IRequestHandler<GetProductQuery, AppResult<PagingResponse<ProductItemDto>>>, ITransient
+    public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, AppResult<IEnumerable<ProductItemDto>>>, ITransient
     {
         private readonly IProductRepository _productRepository;
 
-        public GetProductHandler(IProductRepository productRepository)
+        public GetProductByIdHandler(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public async Task<AppResult<PagingResponse<ProductItemDto>>> Handle(GetProductQuery query, CancellationToken cancellationToken)
+        public async Task<AppResult<IEnumerable<ProductItemDto>>> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
         {
-            var request = new GetProductRequest
-            {
-                Category = query.Category,
-                PageIndex = query.PageIndex,
-                PageSize = query.PageSize,
-            };
-            var products = await _productRepository.GetPagingAsync(request);
-            var convertedData = products.Data
+
+            var products = await _productRepository.GetByIdAsync(query.Ids.Select(x => ObjectId.Parse(x)));
+            var result = products
                 .Select(x => new ProductItemDto
                 {
                     MainCategory = x.MainCategory,
@@ -32,10 +27,6 @@
                     Categories = x.Categories,
                     Details = x.Details,
                 });
-
-            var paging = FluentPaging.From(query);
-            var result = paging.Result(convertedData);
-
             return AppResult.Success(result);
         }
     }
