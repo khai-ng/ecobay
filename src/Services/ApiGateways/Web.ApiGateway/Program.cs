@@ -21,7 +21,7 @@ builder.Services
 
 builder.Services.AddHealthChecks()
     .AddUrlGroup(new Uri("http://ordering-api/hc"), name: "orderingapi-check")
-    .AddUrlGroup(new Uri("http://product-api/hc"), name: "productapi-check");
+    .AddUrlGroup(new Uri("http://product-api-1/hc"), name: "productapi-1-check");
 
 builder.Services
     .AddFastEndpoints()

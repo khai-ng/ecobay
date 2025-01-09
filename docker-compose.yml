@@ -68,8 +68,11 @@ services:
         build:
             context: .
             dockerfile: src/Services/ApiGateways/Web.ApiGateway/Dockerfile
-        # depends_on:
-        #     - identity-api
+        healthcheck:
+            test: curl --fail https://web-apigateway/hc || exit 1
+            interval: 10s
+            timeout: 5s
+            retries: 3
         networks:
             - local
         logging:
@@ -100,7 +103,7 @@ services:
               dockerfile: src/Services/Ordering/Ordering.API/Dockerfile
         healthcheck:
             test: curl --fail https://ordering-api/hc || exit 1
-            interval: 30s
+            interval: 10s
             timeout: 5s
             retries: 3
         networks:
@@ -136,6 +139,9 @@ services:
         restart: on-failure
         networks:
             - local
+        depends_on:
+            mysql-db:
+                condition: service_healthy
 
     # mysql db. using service per schema
     mysql-db:
@@ -159,8 +165,8 @@ services:
             context: .
             dockerfile: src/Services/Product/Product.API/Dockerfile
         healthcheck:
-            test: curl --fail https://product-api/hc || exit 1
-            interval: 30s
+            test: curl --fail https://product-api-1/hc || exit 1
+            interval: 10s
             timeout: 5s
             retries: 3
         networks:

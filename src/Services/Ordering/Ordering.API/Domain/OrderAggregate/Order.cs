@@ -5,7 +5,7 @@
         public Guid BuyerId { get; private set; }
         public Guid PaymentId { get; private set; }
         [ForeignKey(nameof(OrderStatus))]
-        public int OrderStatusId { get; private set; }
+        public int OrderStatusId { get; private set; } = OrderStatus.Submitted.Id;
         [MaxLength(255)]
         public string? Description { get; private set; } = string.Empty;
         [Column(TypeName = "decimal(12,2)")]
@@ -17,9 +17,9 @@
 
         public List<OrderItem> OrderItems { get; private set; } = [];
 
-        public OrderStatus OrderStatus { get; private set; }
+        public OrderStatus OrderStatus => OrderStatus.FromValue(OrderStatusId) ?? throw new InvalidDataException("Order status is invalid");
 
-        [JsonConstructor]
+		[JsonConstructor]
         private Order() { }
         public Order(Guid buyerId, Guid paymentId, Address address, IEnumerable<OrderItem> orderItems)
         {
