@@ -17,8 +17,8 @@
         {
             var id = Route<string>("id");
             var request = new GetProductByIdQuery() { Ids = new[] { id } };
-            var result = await _mediator.Send(request, ct);
-            await SendResultAsync(result.ToHttpResult());
+            var result = await _mediator.Send(request, ct).ConfigureAwait(false);
+            await SendResultAsync(result.ToHttpResult()).ConfigureAwait(false);
         }
     }
 }

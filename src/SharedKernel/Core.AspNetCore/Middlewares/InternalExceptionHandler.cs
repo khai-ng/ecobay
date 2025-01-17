@@ -31,8 +31,8 @@ namespace Core.AspNet.Middlewares
                 .ForContext("response", appResult, true)
                 .Fatal("Internal server error");
 
-            var httpResult = await appResult.ToHttpResult().ToValueAsync<object>();
-            await httpContext.Response.WriteAsJsonAsync(httpResult, ct);
+            var httpResult = await appResult.ToHttpResult().ToValueAsync<object>().ConfigureAwait(false);
+            await httpContext.Response.WriteAsJsonAsync(httpResult, ct).ConfigureAwait(false);
             return true;
         }
     }

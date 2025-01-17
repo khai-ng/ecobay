@@ -12,7 +12,7 @@
         public async Task<AppResult<IEnumerable<ProductItemDto>>> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
         {
 
-            var products = await _productRepository.GetByIdAsync(query.Ids.Select(x => ObjectId.Parse(x)));
+            var products = await _productRepository.GetByIdAsync(query.Ids.Select(x => ObjectId.Parse(x))).ConfigureAwait(false);
             var result = products
                 .Select(x => new ProductItemDto
                 {

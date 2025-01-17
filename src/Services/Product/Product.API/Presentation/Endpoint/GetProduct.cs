@@ -15,8 +15,8 @@
 
         public override async Task HandleAsync(GetProductQuery request, CancellationToken ct)
         {
-            var result = await _mediator.Send(request, ct);
-            await SendResultAsync(result.ToHttpResult());
+            var result = await _mediator.Send(request, ct).ConfigureAwait(false);
+            await SendResultAsync(result.ToHttpResult()).ConfigureAwait(false);
         }
     }
 }

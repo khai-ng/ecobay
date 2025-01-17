@@ -17,6 +17,5 @@ namespace Core.Repositories
         Task<TEntity?> Find(TKey id, CancellationToken ct);
         Task<long> Add(TKey id, TEntity aggregate, CancellationToken ct = default);
         Task<long> Update(TKey id, TEntity aggregate, long? expectedVersion = null, CancellationToken ct = default);
-        //Task<long> Delete(TKey id, TEntity aggregate, long? expectedVersion = null, CancellationToken ct = default);
     }
 }

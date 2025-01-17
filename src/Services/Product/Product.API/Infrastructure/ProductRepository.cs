@@ -15,7 +15,10 @@
             var masterData = _context.Products
                 .Find(x => x.MainCategory.Equals(request.Category));
 
-            var filterdData = await fluentPaging.FilterApply(masterData).ToListAsync();
+            var filterdData = await fluentPaging
+                .FilterApply(masterData)
+                .ToListAsync()
+                .ConfigureAwait(false);
             return fluentPaging.Result(filterdData);
         }
 
@@ -23,7 +26,8 @@
         {
             return await _context.Products
                 .Find(x => ids.Contains(x.Id))
-                .ToListAsync();
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
     }
 }

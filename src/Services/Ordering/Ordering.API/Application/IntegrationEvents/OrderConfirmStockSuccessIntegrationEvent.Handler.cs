@@ -36,7 +36,6 @@
             await _unitOfWork.SaveChangesAsync(ct).ConfigureAwait(false);
 
             _ = NotifySuccessAsync();
-
         }
 
         private Task NotifyFailedAsync() 

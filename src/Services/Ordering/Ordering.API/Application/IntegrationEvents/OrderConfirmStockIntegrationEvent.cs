@@ -1,7 +1,4 @@
-﻿using Core.IntegrationEvents.IntegrationEvents;
-using Ordering.API.Application.Dto.Order;
-
-namespace Ordering.API.Application.IntegrationEvents
+﻿namespace Ordering.API.Application.IntegrationEvents
 {
     public class OrderConfirmStockIntegrationEvent(
         Guid orderId,

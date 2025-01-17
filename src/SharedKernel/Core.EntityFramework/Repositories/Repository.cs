@@ -1,11 +1,12 @@
 ﻿using Core.Entities;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Core.EntityFramework.Repositories
 {
-    public abstract class Repository<TModel> : Repository<TModel, Guid>
-        where TModel : AggregateRoot<Guid>
+    public abstract class Repository<TEntity> : Repository<TEntity, Guid>
+        where TEntity : AggregateRoot<Guid>
     {
         protected Repository(DbContext context) : base(context)
         {
@@ -24,10 +25,36 @@ namespace Core.EntityFramework.Repositories
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
-            => await _entity.ToListAsync();
+        {
+            return await _entity
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<TDestination>> GetAllAsync<TDestination>(Expression<Func<TEntity, TDestination>> selector)
+        {
+            return await _entity
+                .Select(selector)
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
 
         public async Task<TEntity?> FindAsync(TKey id)
-            => await _entity.SingleOrDefaultAsync(x => x.Id.Equals(id));
+        {
+            return await _entity
+                .Where(x => x.Id!.Equals(id))
+                .SingleOrDefaultAsync()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<TDestination?> FindAsync<TDestination>(TKey id, Expression<Func<TEntity, TDestination>> selector)
+        {
+            return await _entity
+                .Where(x => x.Id!.Equals(id))
+                .Select(selector)
+                .SingleOrDefaultAsync()
+                .ConfigureAwait(false);
+        }
 
         public void Add(TEntity entity)
             => _entity.Add(entity);
@@ -47,13 +74,13 @@ namespace Core.EntityFramework.Repositories
         public void RemoveRange(IEnumerable<TEntity> entities)
             => _entity.RemoveRange(entities);
 
-        public async Task BulkAddAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null)
-            => await _context.BulkInsertAsync(entities, bulkConfig);
+        public  Task BulkAddAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null)
+            => _context.BulkInsertAsync(entities, bulkConfig);
 
-        public async Task BulkUpdateAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null)
-            => await _context.BulkUpdateAsync(entities, bulkConfig);
+        public Task BulkUpdateAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null)
+            =>  _context.BulkUpdateAsync(entities, bulkConfig);
 
-        public async Task BulkDeleteAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null)
-            => await _context.BulkDeleteAsync(entities, bulkConfig);
+        public Task BulkDeleteAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null)
+            => _context.BulkDeleteAsync(entities, bulkConfig);
     }
 }

@@ -97,25 +97,6 @@ services:
             - POSTGRES_PASSWORD=1234
         ports:
             - "5432:5432"
-    
-    # Identity
-    # identity-api:
-    #     environment:
-    #         - ASPNETCORE_ENVIRONMENT=Development
-    #         - ASPNETCORE_HTTP_PORTS=8080
-    #         - Logging__Loglevel__Default=Debug
-    #         - Logging__Loglevel__Microsoft=Debug 
-    #         - Jwt__Issuer=http://identity-api
-    #         - Jwt__Audience=http://identity-api
-    #         - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-    #         - ConnectionStrings__Default=Server=mysql-db;Database=ecobay.identity;User Id=root;Password=1234;
-    #         - Kafka__ProducerConfig__BootstrapServers=kafka:29092 
-    #         - Kafka__ConsumerConfig__BootstrapServers=kafka:29092 
-    #         - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
-    #     volumes:
-    #         - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-    #     ports:
-    #         - "5101:80"
 
     keycloak:
         environment:
@@ -132,7 +113,7 @@ services:
             - ./configs/keycloak/:/opt/keycloak/data/import
         command:
             - start
-            - --import-realm
+            #- --import-realm
         ports:
             - "5101:8080"
 

@@ -14,7 +14,7 @@ namespace Core.EntityFramework.Pagination
             if (!request.GetAll)
                 data = data.Skip(response.Skip).Take(response.PageSize + 1);
 
-            var filterData = await data.ToListAsync();
+            var filterData = await data.ToListAsync().ConfigureAwait(false);
             response.SetData(filterData.Take(response.PageSize));
             response.HasNext = response.PageSize < filterData.Count;
 
@@ -42,7 +42,7 @@ namespace Core.EntityFramework.Pagination
             IQueryable<T> data)
             where T : class
         {
-            var rs = await PagingExtensions.PagingAsync(request, data);
+            var rs = await PagingExtensions.PagingAsync(request, data).ConfigureAwait(false);
             var response = new CountedPagingResponse<T>(rs);
             response.Total(data.LongCount());
 

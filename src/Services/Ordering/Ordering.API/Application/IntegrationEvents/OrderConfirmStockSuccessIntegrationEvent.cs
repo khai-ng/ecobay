@@ -1,6 +1,4 @@
-﻿using Core.IntegrationEvents.IntegrationEvents;
-
-namespace Ordering.API.Application.IntegrationEvents
+﻿namespace Ordering.API.Application.IntegrationEvents
 {
     public class OrderConfirmStockSuccessIntegrationEvent(Guid orderId) : IntegrationEvent
     {

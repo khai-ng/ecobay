@@ -2,9 +2,9 @@
 
 namespace Core.Repositories
 {
-    public interface IRepository<TModel, TKey> :
-        IQueryRepository<TModel, TKey>,
-        ICommandRepository<TModel, TKey>
-        where TModel : AggregateRoot<TKey>
+    public interface IRepository<TEntity, TKey> :
+        IQueryRepository<TEntity, TKey>,
+        ICommandRepository<TEntity, TKey>
+        where TEntity : AggregateRoot<TKey>
     { }
 }

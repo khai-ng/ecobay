@@ -67,7 +67,7 @@ namespace Core.AspNet.Results
         public async Task ExecuteAsync(HttpContext httpContext)
         {
             httpContext.Response.StatusCode = (int)StatusCode;
-            await httpContext.Response.WriteAsJsonAsync(this);
+            await httpContext.Response.WriteAsJsonAsync(this).ConfigureAwait(false);
         }
     }
 

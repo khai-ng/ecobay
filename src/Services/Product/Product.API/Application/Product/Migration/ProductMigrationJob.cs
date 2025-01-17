@@ -44,11 +44,11 @@ namespace Product.API.Application.Product.Migration
                         addList.Add(product);
                         if (count % 10_000 == 0)
                         {
-                            await AddServerProductAsync(addList);
+                            await AddServerProductAsync(addList).ConfigureAwait(false);
                             addList.Clear();
                         }
                     }
-                    await AddServerProductAsync(addList);
+                    await AddServerProductAsync(addList).ConfigureAwait(false);
 
                     result.Add($"File {filePath}, processed: {count}");
                 }
@@ -60,7 +60,7 @@ namespace Product.API.Application.Product.Migration
         private async Task AddServerProductAsync(IEnumerable<ProductItem> productItems)
         {
             var collection = _appDbContext.Collection<ProductItem>();
-            await collection.InsertManyAsync(productItems);
+            await collection.InsertManyAsync(productItems).ConfigureAwait(false);
         }
     }
 }

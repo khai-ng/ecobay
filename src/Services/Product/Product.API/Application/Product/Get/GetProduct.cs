@@ -17,7 +17,7 @@
                 PageIndex = query.PageIndex,
                 PageSize = query.PageSize,
             };
-            var products = await _productRepository.GetPagingAsync(request);
+            var products = await _productRepository.GetPagingAsync(request).ConfigureAwait(false);
             var convertedData = products.Data
                 .Select(x => new ProductItemDto
                 {

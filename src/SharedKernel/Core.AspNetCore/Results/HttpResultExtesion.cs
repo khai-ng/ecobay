@@ -33,7 +33,7 @@ namespace Core.AspNet.Results
             mockHttpContext.Response.Body.Position = 0;
 
             var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-            return await JsonSerializer.DeserializeAsync<T>(mockHttpContext.Response.Body, jsonOptions);
+            return await JsonSerializer.DeserializeAsync<T>(mockHttpContext.Response.Body, jsonOptions).ConfigureAwait(false);
         }
     }
 }

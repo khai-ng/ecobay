@@ -3,13 +3,13 @@ using Core.Repositories;
 
 namespace Core.EntityFramework.Repositories
 {
-    public interface IRepository<TModel> : IRepository<TModel, Guid>
-        where TModel : AggregateRoot<Guid>
+    public interface IRepository<TEntity> : IRepository<TEntity, Guid>
+        where TEntity : AggregateRoot<Guid>
     { }
 
-    public interface IRepository<TModel, TKey> :
-        IQueryRepository<TModel, TKey>,
-        ICommandRepository<TModel, TKey>
-        where TModel : AggregateRoot<TKey>
+    public interface IRepository<TEntity, TKey> :
+        IQueryRepository<TEntity, TKey>,
+        ICommandRepository<TEntity, TKey>
+        where TEntity : AggregateRoot<TKey>
     { }
 }

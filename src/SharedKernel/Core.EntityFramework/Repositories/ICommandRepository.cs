@@ -3,16 +3,16 @@ using EFCore.BulkExtensions;
 
 namespace Core.EntityFramework.Repositories
 {
-    public interface ICommandRepository<TModel> : ICommandRepository<TModel, Guid>
-        where TModel : AggregateRoot<Guid>
+    public interface ICommandRepository<TEntity> : ICommandRepository<TEntity, Guid>
+        where TEntity : AggregateRoot<Guid>
     { }
 
-    public interface ICommandRepository<TModel, TKey> : Core.Repositories.ICommandRepository<TModel, TKey>
-        where TModel : AggregateRoot<TKey>
+    public interface ICommandRepository<TEntity, TKey> : Core.Repositories.ICommandRepository<TEntity, TKey>
+        where TEntity : AggregateRoot<TKey>
     {
-        Task BulkAddAsync(IEnumerable<TModel> entities, BulkConfig? bulkConfig = null);
-        Task BulkUpdateAsync(IEnumerable<TModel> entities, BulkConfig? bulkConfig = null);
-        Task BulkDeleteAsync(IEnumerable<TModel> entities, BulkConfig? bulkConfig = null);
+        Task BulkAddAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null);
+        Task BulkUpdateAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null);
+        Task BulkDeleteAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null);
 
     }
 }

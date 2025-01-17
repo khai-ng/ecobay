@@ -17,7 +17,7 @@
         {
             var claim = _httpContext.HttpContext?.User.Claims.ToDictionary(x => x.Type, x => x.Value) ?? [];
             var appResult = AppResult.Success(claim);
-            await SendResultAsync(appResult.ToHttpResult());
+            await SendResultAsync(appResult.ToHttpResult()).ConfigureAwait(false);
         }
     }
 }

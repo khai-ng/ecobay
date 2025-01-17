@@ -113,24 +113,6 @@ services:
             options:
                 fluentd-async: "true"
                 tag: host.ordering
-
-    # Identity
-    # identity-api:
-    #     container_name: identity-api
-    #     image: ${DOCKER_REGISTRY-}identityapi
-    #     build:
-    #         context: .
-    #         dockerfile: src/Services/Identity/Identity.API/Dockerfile
-    #     # depends_on:
-    #     #     kafka:
-    #     #         condition: service_healthy
-    #     networks:
-    #         - local
-    #     logging:
-    #         driver: fluentd
-    #         options:
-    #             fluentd-async: "true"
-    #             tag: host.identity
     
     keycloak:
         profiles: [ services, minimal-workflow, all ]
@@ -178,7 +160,7 @@ services:
                 tag: host.product-1
 
     router01:
-        profiles: [ mongo-shard ]
+        profiles: [ mongo-shard, minimal-workflow, all ]
         container_name: product-router01
         image: mongo:7.0.9
         command: mongos --port 27017 --configdb config-server/configsvr01:27017,configsvr02:27017 --bind_ip_all
@@ -190,7 +172,7 @@ services:
             - local
 
     configsvr01:
-        profiles: [ mongo-shard ]
+        profiles: [ mongo-shard, minimal-workflow, all ]
         container_name: product-config01
         image: mongo:7.0.9
         command: mongod --port 27017 --configsvr --replSet config-server
@@ -205,7 +187,7 @@ services:
             - local
 
     configsvr02:
-        profiles: [ mongo-shard ]
+        profiles: [ mongo-shard, minimal-workflow, all ]
         container_name: product-config02
         image: mongo:7.0.9
         command: mongod --port 27017 --configsvr --replSet config-server
@@ -219,7 +201,7 @@ services:
             - local
 
     shard01-1:
-        profiles: [ mongo-shard ]
+        profiles: [ mongo-shard, minimal-workflow, all ]
         container_name: product-shard01
         image: mongo:7.0.9
         command: mongod --replSet shard-01 --shardsvr --port 27017
@@ -233,7 +215,7 @@ services:
             - local
 
     shard01-2:
-        profiles: [ mongo-shard ]
+        profiles: [ mongo-shard, minimal-workflow, all ]
         container_name: product-shard01-1
         image: mongo:7.0.9
         command: mongod --replSet shard-01 --shardsvr --port 27017
@@ -245,7 +227,7 @@ services:
             - local
 
     shard02-1:
-        profiles: [ mongo-shard ]
+        profiles: [ mongo-shard, minimal-workflow, all ]
         container_name: product-shard02
         image: mongo:7.0.9
         command: mongod --replSet shard-02 --shardsvr --port 27017
@@ -259,7 +241,7 @@ services:
             - local
 
     shard02-2:
-        profiles: [ mongo-shard ]
+        profiles: [ mongo-shard, minimal-workflow, all ]
         container_name: product-shard02-1
         image: mongo:7.0.9
         command: mongod --replSet shard-02 --shardsvr --port 27017

@@ -17,7 +17,7 @@ namespace Core.Marten.Repository
 
         public async Task<TEntity?> Find(Guid id, CancellationToken ct)
         {
-            return await _documentSession.Events.AggregateStreamAsync<TEntity>(id, token: ct);
+            return await _documentSession.Events.AggregateStreamAsync<TEntity>(id, token: ct).ConfigureAwait(false);
         }
 
         public async Task<long> Add(Guid id, TEntity aggregate, CancellationToken ct = default)

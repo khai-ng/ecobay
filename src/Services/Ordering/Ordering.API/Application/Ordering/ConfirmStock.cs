@@ -15,7 +15,14 @@
 
         public async Task<AppResult<string>> Handle(ConfirmStockRequest request, CancellationToken ct)
         {
-            var order = await _orderRepository.GetByIdAsync(request.OrderId).ConfigureAwait(false);
+            var order = await _orderRepository.FindAsync(request.OrderId, 
+                x => new
+                {
+                    x.Id,
+                    x.OrderStatus,
+                    ProductUnits = x.OrderItems.Select(x => new ProductUnit(x.ProductId, x.Unit))
+                })
+                .ConfigureAwait(false);
 
             if (order == null)
                 return AppResult.Invalid(new ErrorDetail($"Can not find order {request.OrderId}"));
@@ -26,10 +33,10 @@
             var orderConfirmStockEvent = 
                 new OrderConfirmStockIntegrationEvent(
                     order.Id,
-                    order.OrderItems.Select(x => new ProductUnit(x.ProductId, x.Unit))
+                    order.ProductUnits
                 );
 
-            _ = _kafkaProducer.PublishAsync(orderConfirmStockEvent, ct);
+            _ = _kafkaProducer.PublishAsync(orderConfirmStockEvent, ct).ConfigureAwait(false);
 
             return AppResult.Success("Successful");
         }

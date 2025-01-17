@@ -42,25 +42,25 @@ namespace Core.EntityFramework.Context
                     item.Entity.ClearEvents();
             }
 
-            await _dbContext.SaveChangesAsync(ct);
+            await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
         }
 
         protected async Task<IDbContextTransaction?> BeginTransactionAsync()
         {
             if (_currentTransaction != null) return null;
-            _currentTransaction = await _dbContext.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+            _currentTransaction = await _dbContext.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted).ConfigureAwait(false);
             return _currentTransaction;
         }
 
         protected async Task CommitTransactionAsync(IDbContextTransaction transaction)
         {
-            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            ArgumentNullException.ThrowIfNull(transaction);
             if (transaction != _currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
 
             try
             {
-                await SaveChangesAsync();
-                await transaction.CommitAsync();
+                await SaveChangesAsync().ConfigureAwait(false);
+                await transaction.CommitAsync().ConfigureAwait(false);
             }
             catch
             {

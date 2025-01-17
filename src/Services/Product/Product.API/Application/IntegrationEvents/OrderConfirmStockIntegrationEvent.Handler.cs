@@ -36,11 +36,11 @@ namespace Product.API.Application.IntegrationEvents
                         x.Units
                     });
 
-                var products = await _productRepository.GetByIdAsync(cvtProductUnits.Select(x => x.Id));
+                var products = await _productRepository.GetByIdAsync(cvtProductUnits.Select(x => x.Id)).ConfigureAwait(false);
                 if (cvtProductUnits.Count() != products.Count())
                 {
                     var publishEvent = new OrderConfirmStockFailedIntegrationEvent(@event.OrderId, "Order product not found");
-                    await _producer.PublishAsync(publishEvent, ct);
+                    await _producer.PublishAsync(publishEvent, ct).ConfigureAwait(false);
                     return;
                 }
 
@@ -50,16 +50,16 @@ namespace Product.API.Application.IntegrationEvents
                 }
 
                 _productRepository.UpdateRange(products);
-                await _unitOfWork.SaveChangesAsync(ct);
+                await _unitOfWork.SaveChangesAsync(ct).ConfigureAwait(false);
 
                 var successEvent = new OrderConfirmStockSuccessIntegrationEvent(@event.OrderId);
-                await _producer.PublishAsync(successEvent, ct);
+                await _producer.PublishAsync(successEvent, ct).ConfigureAwait(false);
                 return;
             }
             catch (Exception ex)
             {
                 var publishEvent = new OrderConfirmStockFailedIntegrationEvent(@event.OrderId, ex.Message);
-                await _producer.PublishAsync(publishEvent, ct);
+                await _producer.PublishAsync(publishEvent, ct).ConfigureAwait(false);
             }           
         }
     }

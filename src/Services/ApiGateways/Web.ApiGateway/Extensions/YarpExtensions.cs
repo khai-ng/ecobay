@@ -38,7 +38,7 @@
                 var client = new HttpClient();
                 var root = cluster.Destinations!.First().Value.Address;
 
-                var stream = await client.GetStreamAsync($"{root.TrimEnd('/')}/{swagger.Spec.TrimStart('/')}");
+                var stream = await client.GetStreamAsync($"{root.TrimEnd('/')}/{swagger.Spec.TrimStart('/')}").ConfigureAwait(false);
 
                 var document = new OpenApiStreamReader().Read(stream, out var diagnostic);
                 var rewrite = new OpenApiPaths();
@@ -99,7 +99,7 @@
                 document.Paths = rewrite;
 
                 var result = document.Serialize(OpenApiSpecVersion.OpenApi3_0, OpenApiFormat.Json);
-                await context.Response.WriteAsync(result);
+                await context.Response.WriteAsync(result).ConfigureAwait(false);
             });
         }
 

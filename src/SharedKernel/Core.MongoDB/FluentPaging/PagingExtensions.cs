@@ -1,6 +1,5 @@
 ﻿using Core.Pagination;
 using MongoDB.Driver;
-using System.Net.NetworkInformation;
 
 namespace Core.MongoDB.Paginations
 {
@@ -16,7 +15,7 @@ namespace Core.MongoDB.Paginations
             if (!request.GetAll)
                 data = data.Skip(response.Skip).Limit(response.PageSize + 1);
 
-            var filterData = await data.ToListAsync();
+            var filterData = await data.ToListAsync().ConfigureAwait(false);
             response.SetData(filterData.Take(response.PageSize));
             response.HasNext = response.PageSize < filterData.Count;
 
@@ -49,7 +48,7 @@ namespace Core.MongoDB.Paginations
             where TIn : class
             where TOut : class
         {
-            var rs = await PagingExtensions.PagingAsync(request, data);
+            var rs = await PagingExtensions.PagingAsync(request, data).ConfigureAwait(false);
             var response = new CountedPagingResponse<TOut>(rs);
             response.Total(data.CountDocuments());
 
