@@ -7,7 +7,7 @@
     <ProjectGuid>65adc889-da20-4aba-9c53-0070b2523b1c</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>hrm.api</DockerServiceName>
+    <DockerServiceName>ecobay.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
