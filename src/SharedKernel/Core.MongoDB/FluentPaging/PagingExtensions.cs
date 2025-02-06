@@ -17,7 +17,7 @@ namespace Core.MongoDB.Paginations
 
             var filterData = await data.ToListAsync().ConfigureAwait(false);
             response.SetData(filterData.Take(response.PageSize));
-            response.HasNext = response.PageSize < filterData.Count;
+            response.SetHasNext(response.PageSize < filterData.Count);
 
             return response;
         }
@@ -29,10 +29,13 @@ namespace Core.MongoDB.Paginations
             where TOut : class
             where TPage : class
         {
-            paging.HasNext = paging.GetAll
-                ? false
-                : data.Skip(paging.Skip + paging.PageSize)
-                .Limit(1).Any();
+            paging.SetHasNext(
+                !paging.GetAll
+                && data
+                    .Skip(paging.Skip + paging.PageSize)
+                    .Limit(1)
+                    .Any()
+            );
 
             return data
                 .Skip(paging.Skip)
@@ -50,7 +53,7 @@ namespace Core.MongoDB.Paginations
         {
             var rs = await PagingExtensions.PagingAsync(request, data).ConfigureAwait(false);
             var response = new CountedPagingResponse<TOut>(rs);
-            response.Total(data.CountDocuments());
+            response.SetTotal(data.CountDocuments());
 
             return response;
         }
@@ -62,7 +65,7 @@ namespace Core.MongoDB.Paginations
             where TOut : class
             where TPage : class
         {
-            paging.Total(data.CountDocuments());
+            paging.SetTotal(data.CountDocuments());
             return PagingExtensions.FilterApply(paging, data);
         }
     }

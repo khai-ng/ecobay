@@ -21,11 +21,7 @@
                     AverageRating = x.AverageRating,
                     RatingNumber = x.RatingNumber,
                     Price = x.Price,
-                    Images = x.Images,
-                    Videos = x.Videos,
                     Store = x.Store,
-                    Categories = x.Categories,
-                    Details = x.Details,
                 });
             return AppResult.Success(result);
         }

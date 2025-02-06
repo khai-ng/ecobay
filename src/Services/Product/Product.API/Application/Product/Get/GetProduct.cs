@@ -17,24 +17,20 @@
                 PageIndex = query.PageIndex,
                 PageSize = query.PageSize,
             };
-            var products = await _productRepository.GetPagingAsync(request).ConfigureAwait(false);
-            var convertedData = products.Data
-                .Select(x => new ProductItemDto
+            var result = await _productRepository.GetPagingAsync(
+                request,
+                x => new ProductItemDto
                 {
                     MainCategory = x.MainCategory,
                     Title = x.Title,
                     AverageRating = x.AverageRating,
                     RatingNumber = x.RatingNumber,
                     Price = x.Price,
-                    Images = x.Images,
-                    Videos = x.Videos,
-                    Store = x.Store,
-                    Categories = x.Categories,
-                    Details = x.Details,
-                });
-
-            var paging = FluentPaging.From(query);
-            var result = paging.Result(convertedData);
+                    Image = x.Images == null 
+                        ? null 
+                        : x.Images.Select(x => x.Large).FirstOrDefault(),
+                    Store = x.Store
+                }).ConfigureAwait(false);
 
             return AppResult.Success(result);
         }

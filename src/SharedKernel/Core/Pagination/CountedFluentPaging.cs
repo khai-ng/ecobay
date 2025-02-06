@@ -26,9 +26,9 @@
         /// <param name="fluentPaging"></param>
         /// <param name="total"></param>
         /// <returns></returns>
-        public static CountedFluentPaging Total(this CountedFluentPaging fluentPaging, long total)
+        public static CountedFluentPaging SetTotal(this CountedFluentPaging fluentPaging, long total)
         {
-            fluentPaging.Total(total);
+            fluentPaging.SetTotal(total);
             return fluentPaging;
         }
 

@@ -1,6 +1,6 @@
-﻿namespace Product.API.Application.Product
+﻿namespace Product.API.Application.Product.Get
 {
-    public class ProductItemDto
+    public class GetProductItem
     {
         public string Id { get; set; }
         public string MainCategory { get; set; }

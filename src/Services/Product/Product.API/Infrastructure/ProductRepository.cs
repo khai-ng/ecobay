@@ -1,4 +1,7 @@
-﻿namespace Product.API.Infrastructure
+﻿using System.Linq;
+using System.Linq.Expressions;
+
+namespace Product.API.Infrastructure
 {
     public class ProductRepository : Repository<ProductItem>, IProductRepository, ITransient
     {
@@ -8,7 +11,10 @@
             _context = context;
         }
 
-        public async Task<PagingResponse<ProductItem>> GetPagingAsync(GetProductRequest request)
+        public async Task<PagingResponse<TDestination>> GetPagingAsync<TDestination>(
+            GetProductRequest request, 
+            Func<ProductItem, TDestination> selector) 
+            where TDestination : class
         {
             var fluentPaging = FluentPaging.From(request);
 
@@ -19,7 +25,8 @@
                 .FilterApply(masterData)
                 .ToListAsync()
                 .ConfigureAwait(false);
-            return fluentPaging.Result(filterdData);
+
+            return fluentPaging.Result(filterdData.Select(selector));
         }
 
         public async Task<IEnumerable<ProductItem>> GetByIdAsync(IEnumerable<ObjectId> ids)

@@ -16,7 +16,7 @@ namespace Core.EntityFramework.Pagination
 
             var filterData = await data.ToListAsync().ConfigureAwait(false);
             response.SetData(filterData.Take(response.PageSize));
-            response.HasNext = response.PageSize < filterData.Count;
+            response.SetHasNext(response.PageSize < filterData.Count);
 
             return response;
         }
@@ -25,10 +25,13 @@ namespace Core.EntityFramework.Pagination
             where T : class
             where TPage : class
         {
-            paging.HasNext = paging.GetAll
-                ? false
-                : data.Skip(paging.Skip + paging.PageSize)
-                    .Take(1).Any();
+            paging.SetHasNext(
+                !paging.GetAll
+                && data
+                    .Skip(paging.Skip + paging.PageSize)
+                    .Take(1)
+                    .Any()
+            );
 
             return paging.GetAll
                 ? data
@@ -44,7 +47,7 @@ namespace Core.EntityFramework.Pagination
         {
             var rs = await PagingExtensions.PagingAsync(request, data).ConfigureAwait(false);
             var response = new CountedPagingResponse<T>(rs);
-            response.Total(data.LongCount());
+            response.SetTotal(data.LongCount());
 
             return response;
         }
@@ -55,7 +58,7 @@ namespace Core.EntityFramework.Pagination
             where T : class
             where TPage : class
         {
-            paging.Total(data.LongCount());
+            paging.SetTotal(data.LongCount());
             return PagingExtensions.FilterApply(paging, data);
         }
     }

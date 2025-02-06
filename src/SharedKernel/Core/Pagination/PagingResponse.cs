@@ -4,17 +4,17 @@ namespace Core.Pagination
 {
     public class PagingResponse<T> : IPagingRequest, IPagingResponse<T> where T : class
     {
-        public IEnumerable<T> Data { get; protected set; }
-        public bool HasNext { get; set; }
+        public IEnumerable<T> Data { get; private set; }
+        public bool HasNext { get; private set; }
 
-        public int PageIndex { get; protected set; }
+        public int PageIndex { get; private set; }
 
-        public int PageSize { get; protected set; }
+        public int PageSize { get; private set; }
 
         [JsonIgnore]
         public int Skip => PageIndex > 0 ? (PageIndex - 1) * PageSize : 0;
         [JsonIgnore]
-        public bool GetAll { get; protected set; }
+        public bool GetAll { get; }
 
         public PagingResponse(IPagingRequest request)
         {
@@ -35,6 +35,12 @@ namespace Core.Pagination
         public PagingResponse<T> SetData(IEnumerable<T> data)
         {
             Data = data;
+            return this;
+        }
+
+        public PagingResponse<T> SetHasNext(bool hasNext)
+        {
+            HasNext = hasNext;
             return this;
         }
 

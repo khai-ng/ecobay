@@ -37,11 +37,11 @@
       },
       {
         "Name": "ToMaximumStringLength",
-        "Args": { "maximumStringLength": 500 }
+        "Args": { "maximumStringLength": 1000 }
       },
       {
         "Name": "ToMaximumCollectionCount",
-        "Args": { "maximumCollectionCount": 5 }
+        "Args": { "maximumCollectionCount": 3 }
       }
     ]
   }
