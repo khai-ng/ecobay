@@ -99,8 +99,8 @@ services:
         container_name: ordering-api
         image: ${DOCKER_REGISTRY-}orderingapi
         build:
-              context: .
-              dockerfile: src/Services/Ordering/Ordering.API/Dockerfile
+            context: .
+            dockerfile: src/Services/Ordering/Ordering.API/Dockerfile
         healthcheck:
             test: curl --fail https://ordering-api/hc || exit 1
             interval: 10s
@@ -159,98 +159,64 @@ services:
                 fluentd-async: "true"
                 tag: host.product-1
 
-    router01:
+    configsvr1:
         profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-router01
+        container_name: product-configsvr1
         image: mongo:7.0.9
-        command: mongos --port 27017 --configdb config-server/configsvr01:27017,configsvr02:27017 --bind_ip_all
-        ports:
-            - 27117:27017
-        volumes:
-            - ./configs/mongodb:/scripts
-        networks:
-            - local
-
-    configsvr01:
-        profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-config01
-        image: mongo:7.0.9
-        command: mongod --port 27017 --configsvr --replSet config-server
-        volumes:
-            - ./configs/mongodb:/scripts 
-        ports:
-            - 27119:27017
         links:
-            - shard01-1
-            - shard02-1
+            - shard1-1
+            - shard2-1
         networks:
             - local
 
-    configsvr02:
+    configsvr2:
         profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-config02
+        container_name: product-configsvr2
         image: mongo:7.0.9
-        command: mongod --port 27017 --configsvr --replSet config-server
-        volumes:
-            - ./configs/mongodb:/scripts 
-        ports:
-            - 27120:27017
         links:
-            - configsvr01
+            - configsvr1
         networks:
             - local
 
-    shard01-1:
+    shard1-1:
         profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-shard01
+        container_name: product-shard1-1
         image: mongo:7.0.9
-        command: mongod --replSet shard-01 --shardsvr --port 27017
-        volumes:
-            - ./configs/mongodb:/scripts
-        ports:
-            - 27020:27017
         links:
-            - shard01-2
+            - shard1-2
         networks:
             - local
 
-    shard01-2:
+    shard1-2:
         profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-shard01-1
+        container_name: product-shard1-2
         image: mongo:7.0.9
-        command: mongod --replSet shard-01 --shardsvr --port 27017
-        volumes:
-            - ./configs/mongodb:/scripts
-        ports:
-            - 27021:27017
         networks:
             - local
 
-    shard02-1:
+    shard2-1:
         profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-shard02
+        container_name: product-shard2-1
         image: mongo:7.0.9
-        command: mongod --replSet shard-02 --shardsvr --port 27017
-        volumes:
-            - ./configs/mongodb:/scripts
-        ports:
-            - 27022:27017
         links:
-            - shard02-2
+            - shard2-2
         networks:
             - local
 
-    shard02-2:
+    shard2-2:
         profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-shard02-1
+        container_name: product-shard2-2
         image: mongo:7.0.9
-        command: mongod --replSet shard-02 --shardsvr --port 27017
-        volumes:
-            - ./configs/mongodb:/scripts
-        ports:
-            - 27023:27017
         networks:
             - local
+
+    router1:
+        profiles: [ mongo-shard, minimal-workflow, all ]
+        container_name: product-router1
+        image: mongo:7.0.9
+        networks:
+            - local
+
     ##########################################
     ## Monitoring
     ##########################################

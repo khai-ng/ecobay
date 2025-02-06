@@ -11,23 +11,6 @@ export interface ProductItem {
     averageRating: number;
     ratingNumber: number;
     price: string | null;
-    images: Image[] | null;
-    videos: Video[] | null;
+    image: string | null;
     store: string | null;
-    categories: string[] | null;
-    details: any | null;
-}
-
-export interface Image {
-    thumb: string;
-    large: string;
-    variant: string;
-    hires: string | null;
-}
-
-
-export interface Video {
-    title: string;
-    url: string;
-    userId: string;
 }

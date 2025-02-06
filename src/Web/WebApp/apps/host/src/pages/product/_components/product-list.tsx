@@ -27,7 +27,7 @@ const ProductListComponent = (props: GetProductRequest) => {
       {products.map((p, i) => (
         <ProductItemComponent
           key={i}
-          uri={p.images != null ? p.images[0].large : ""}
+          uri={p.image ?? ""}
           alt={""}
           name={p.title}
           price={p.price ?? ""}

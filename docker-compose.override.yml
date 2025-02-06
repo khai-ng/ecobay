@@ -112,7 +112,7 @@ services:
         volumes:
             - ./configs/keycloak/:/opt/keycloak/data/import
         command:
-            - start
+            - start-dev
             #- --import-realm
         ports:
             - "5101:8080"
@@ -131,7 +131,7 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Mongo__Connection__ConnectionString=mongodb://router01:27017
+            - Mongo__Connection__ConnectionString=mongodb://router1:27017
             - Mongo__Connection__DatabaseName=ecobay
             - Kafka__Producer__ProducerConfig__BootstrapServers=kafka:29092
             - Kafka__Consumer__ConsumerConfig__BootstrapServers=kafka:29092
@@ -159,6 +159,49 @@ services:
             - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
         ports:
             - "5010:80"
+
+    configsvr1:
+        command: mongod --port 27017 --configsvr --replSet config-server
+        volumes:
+            - ./configs/mongodb:/scripts 
+        ports:
+            - 27119:27017
+
+    configsvr2:
+        command: mongod --port 27017 --configsvr --replSet config-server
+        ports:
+            - 27120:27017
+
+    shard1-1:
+        command: mongod --replSet shard1rs --shardsvr --port 27017
+        volumes:
+            - ./configs/mongodb:/scripts
+        ports:
+            - 27020:27017
+
+    shard1-2:
+        command: mongod --replSet shard1rs --shardsvr --port 27017
+        ports:
+            - 27021:27017
+
+    shard2-1:
+        command: mongod --replSet shard2rs --shardsvr --port 27017
+        volumes:
+            - ./configs/mongodb:/scripts
+        ports:
+            - 27022:27017
+
+    shard2-2:
+        command: mongod --replSet shard2rs --shardsvr --port 27017
+        ports:
+            - 27023:27017
+
+    router1:
+        command: mongos --port 27017 --configdb config-server/configsvr1:27017,configsvr2:27017 --bind_ip_all
+        volumes:
+            - ./configs/mongodb:/scripts
+        ports:
+            - 27117:27017
 
     ##########################################
     ## Monitoring
