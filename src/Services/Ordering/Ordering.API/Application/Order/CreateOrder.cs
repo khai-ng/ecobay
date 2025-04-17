@@ -18,7 +18,7 @@
         public async Task<AppResult<Guid>> Handle(CreateOrderRequest request, CancellationToken ct)
         {
             var address = new Address(request.Country, request.City, request.District, request.Street);
-            var orderItems = request.OrderItems.Select(x => new OrderItem(x.ProductId, x.UnitPrice, x.Unit));
+            var orderItems = request.OrderItems.Select(x => new OrderItem(x.ProductId, x.Price, x.Qty));
             var order = new Order(request.BuyerId, request.PaymentId, address, orderItems);
             _orderRepository.Add(order);
 

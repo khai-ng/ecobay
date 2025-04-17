@@ -7,23 +7,23 @@
         [MaxLength(24)]
         public string ProductId { get; private set; }
         [Column(TypeName = "decimal(12, 2)")]
-        public decimal UnitPrice { get; private set; }
-        public int Unit { get; private set; }
+        public decimal Price { get; private set; }
+        public int Qty { get; private set; }
 
         private OrderItem() { }
         public OrderItem(
             string productId,
-            decimal unitPrice,
-            int unit)
+            decimal price,
+            int qty)
         {
             ProductId = productId;
-            UnitPrice = unitPrice;
-            Unit = unit;
+            Price = price;
+            Qty = qty;
         }
 
-        public void AddUnits(int units)
+        public void AddQty(int qty)
         {
-            Unit += units;
+            Qty += qty;
         }
 
     }

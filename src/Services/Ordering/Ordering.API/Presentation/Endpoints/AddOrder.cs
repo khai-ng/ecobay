@@ -11,7 +11,7 @@
       
         public override void Configure()
 		{
-			Post("ordering/add");
+			Post("order");
 			//AllowAnonymous();
         }
 

@@ -84,7 +84,7 @@ services:
             # - Logging__Loglevel__Default=Debug
             # - Logging__Loglevel__Microsoft=Debug
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Reverseproxy__Clusters__ordering__Destinations__default__Address=http://ordering-api
+            - Reverseproxy__Clusters__order__Destinations__default__Address=http://order-api
             - Reverseproxy__Clusters__product__Destinations__default__Address=http://product-api-1
             - Authentication__MetadataAddress=http://keycloak:8080/realms/ecobay/.well-known/openid-configuration
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
@@ -140,15 +140,15 @@ services:
         ports:
             - "5110:80"
     
-    # Ordering
-    ordering-api:
+    # Order
+    order-api:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
             - Logging__Loglevel__Default=Information
             - Logging__Loglevel__Microsoft=Warning
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - ConnectionStrings__Default=Server=mysql-db;Database=ecobay.ordering;User Id=root;Password=1234;
+            - ConnectionStrings__Default=Server=mysql-db;Database=ecobay.order;User Id=root;Password=1234;
             - EventStore__ConnectionString=PORT=5432;HOST=pg-eventstore-db;TIMEOUT=15;POOLING=True;MINPOOLSIZE=1;MAXPOOLSIZE=100;COMMANDTIMEOUT=20;DATABASE='postgres';PASSWORD='1234';USER ID='postgres';
             - EventStore__WriteSchema=orders_write
             - Kafka__Producer__ProducerConfig__BootstrapServers=kafka:29092

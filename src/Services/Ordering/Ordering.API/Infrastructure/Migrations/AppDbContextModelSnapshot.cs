@@ -23,6 +23,91 @@ namespace Ordering.API.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("Ordering.API.Domain.OrderAggregate.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("BuyerId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("OrderStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(12,2)");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Address", "Ordering.API.Domain.OrderAggregate.Order.Address#Address", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("varchar(255)");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("varchar(255)");
+
+                            b1.Property<string>("District")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("varchar(255)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("varchar(255)");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Order", (string)null);
+                });
+
+            modelBuilder.Entity("Ordering.API.Domain.OrderAggregate.OrderItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(12, 2)");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasMaxLength(24)
+                        .HasColumnType("varchar(24)");
+
+                    b.Property<int>("Qty")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItem", (string)null);
+                });
+
             modelBuilder.Entity("Ordering.API.Domain.OrderAggregate.OrderStatus", b =>
                 {
                     b.Property<int>("Id")
@@ -73,114 +158,16 @@ namespace Ordering.API.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Ordering.API.Domain.OrderAgrregate.Order", b =>
+            modelBuilder.Entity("Ordering.API.Domain.OrderAggregate.OrderItem", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("BuyerId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("OrderStatusId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("PaymentId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(12,2)");
-
-                    b.Property<long>("Version")
-                        .HasColumnType("bigint");
-
-                    b.ComplexProperty<Dictionary<string, object>>("Address", "Ordering.API.Domain.OrderAgrregate.Order.Address#Address", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("City")
-                                .IsRequired()
-                                .HasMaxLength(255)
-                                .HasColumnType("varchar(255)");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasMaxLength(255)
-                                .HasColumnType("varchar(255)");
-
-                            b1.Property<string>("District")
-                                .IsRequired()
-                                .HasMaxLength(255)
-                                .HasColumnType("varchar(255)");
-
-                            b1.Property<string>("Street")
-                                .IsRequired()
-                                .HasMaxLength(255)
-                                .HasColumnType("varchar(255)");
-                        });
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderStatusId");
-
-                    b.ToTable("Order", (string)null);
-                });
-
-            modelBuilder.Entity("Ordering.API.Domain.OrderAgrregate.OrderItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasMaxLength(24)
-                        .HasColumnType("varchar(24)");
-
-                    b.Property<int>("Unit")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(12, 2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderItem", (string)null);
-                });
-
-            modelBuilder.Entity("Ordering.API.Domain.OrderAgrregate.Order", b =>
-                {
-                    b.HasOne("Ordering.API.Domain.OrderAggregate.OrderStatus", "OrderStatus")
-                        .WithMany()
-                        .HasForeignKey("OrderStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OrderStatus");
-                });
-
-            modelBuilder.Entity("Ordering.API.Domain.OrderAgrregate.OrderItem", b =>
-                {
-                    b.HasOne("Ordering.API.Domain.OrderAgrregate.Order", null)
+                    b.HasOne("Ordering.API.Domain.OrderAggregate.Order", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Ordering.API.Domain.OrderAgrregate.Order", b =>
+            modelBuilder.Entity("Ordering.API.Domain.OrderAggregate.Order", b =>
                 {
                     b.Navigation("OrderItems");
                 });

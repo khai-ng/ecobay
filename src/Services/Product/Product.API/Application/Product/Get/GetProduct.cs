@@ -21,6 +21,7 @@
                 request,
                 x => new ProductItemDto
                 {
+                    Id = x.Id.ToString(),
                     MainCategory = x.MainCategory,
                     Title = x.Title,
                     AverageRating = x.AverageRating,

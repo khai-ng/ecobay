@@ -36,25 +36,25 @@ namespace Ordering.API.Application.Services
     public class OrderItemRequest
     {
         public string ProductId { get; set; }
-        public decimal UnitPrice { get; set; }
-        public int Unit { get; set; }
+        public decimal Price { get; set; }
+        public int Qty { get; set; }
 
         /// <summary>
         /// Exception:
         /// <see cref="ArgumentOutOfRangeException"/>
         /// </summary>
         /// <param name="productId"></param>
-        /// <param name="unitPrice"></param>
-        /// <param name="unit"></param>
+        /// <param name="price"></param>
+        /// <param name="qty"></param>
         public OrderItemRequest(string productId,
-            decimal unitPrice,
-            int unit)
+            decimal price,
+            int qty)
         {
-            ArgumentOutOfRangeException.ThrowIfLessThan(unit, 1);
+            ArgumentOutOfRangeException.ThrowIfLessThan(qty, 1);
 
             ProductId = productId;
-            UnitPrice = unitPrice;
-            Unit = unit;
+            Price = price;
+            Qty = qty;
         }
     }
 }

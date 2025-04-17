@@ -11,7 +11,7 @@
       
         public override void Configure()
 		{
-			Post("ordering/{id}/confirm-stock");
+			Post("order/{id}/confirm-stock");
 			//AllowAnonymous();
         }
 

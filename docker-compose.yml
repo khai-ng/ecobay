@@ -61,6 +61,17 @@ services:
     ##########################################
     ## Services
     ##########################################
+    web-client:
+        container_name: web-client
+        build:
+            context: ./src/Web/WebApp
+            dockerfile: Dockerfile
+        restart: on-failure
+        environment:
+            - NODE_ENV=production
+        ports:
+            - 3001:3000
+
     web-apigateway:
         profiles: [ services, minimal-workflow, all ]
         container_name: web-apigateway
@@ -93,16 +104,16 @@ services:
         networks:
             - local
     
-    # Ordering
-    ordering-api:
+    # Order
+    order-api:
         profiles: [ events-store, minimal-workflow, services, all ]
-        container_name: ordering-api
-        image: ${DOCKER_REGISTRY-}orderingapi
+        container_name: order-api
+        image: ${DOCKER_REGISTRY-}orderapi
         build:
             context: .
             dockerfile: src/Services/Ordering/Ordering.API/Dockerfile
         healthcheck:
-            test: curl --fail https://ordering-api/hc || exit 1
+            test: curl --fail https://order-api/hc || exit 1
             interval: 10s
             timeout: 5s
             retries: 3
@@ -112,7 +123,7 @@ services:
             driver: fluentd
             options:
                 fluentd-async: "true"
-                tag: host.ordering
+                tag: host.order
     
     keycloak:
         profiles: [ services, minimal-workflow, all ]

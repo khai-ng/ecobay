@@ -20,7 +20,7 @@
                 {
                     x.Id,
                     x.OrderStatus,
-                    ProductUnits = x.OrderItems.Select(x => new ProductUnit(x.ProductId, x.Unit))
+                    ProductUnits = x.OrderItems.Select(x => new ProductUnit(x.ProductId, x.Qty))
                 })
                 .ConfigureAwait(false);
 

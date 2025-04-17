@@ -20,7 +20,7 @@ builder.Services
     .SwaggerDocument();
 
 builder.Services.AddHealthChecks()
-    .AddUrlGroup(new Uri("http://ordering-api/hc"), name: "orderingapi-check")
+    .AddUrlGroup(new Uri("http://order-api/hc"), name: "orderingapi-check")
     .AddUrlGroup(new Uri("http://product-api-1/hc"), name: "productapi-1-check");
 
 builder.Services
@@ -39,7 +39,7 @@ app.UseDefaultSwaggerRedirection()
     .UseSwaggerUI(opt =>
     {
         opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Web ApiGateway");
-        opt.SwaggerEndpoint("/ordering/swagger/v1/swagger.json", "Ordering Api");
+        opt.SwaggerEndpoint("/order/swagger/v1/swagger.json", "Ordering Api");
         opt.SwaggerEndpoint("/product/swagger/v1/swagger.json", "Product Api");
     });
 app.MapGetSwaggerForYarp(app.Configuration);

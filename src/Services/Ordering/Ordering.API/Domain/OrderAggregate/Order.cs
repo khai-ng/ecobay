@@ -30,7 +30,7 @@
             Address = address;
             CreatedDate = DateTime.UtcNow;
             OrderItems = orderItems.ToList();
-            TotalPrice = OrderItems.Sum(x => x.UnitPrice * x.Unit);
+            TotalPrice = OrderItems.Sum(x => x.Price * x.Qty);
 
             Enqueue(new OrderInitiated(this));
         }
@@ -39,11 +39,11 @@
         {
             var exist = OrderItems.FirstOrDefault(x => x.ProductId == orderItem.ProductId);
             if (exist != null)
-                exist.AddUnits(orderItem.Unit);
+                exist.AddQty(orderItem.Qty);
             else
                 OrderItems.Add(orderItem);
 
-            TotalPrice += orderItem.UnitPrice * orderItem.Unit;
+            TotalPrice += orderItem.Price * orderItem.Qty;
         }
 
         public void SetStockConfirmed()
