@@ -4,13 +4,13 @@ export interface GetProductRequest extends PagingRequest {
     category: string;
 }
 
-export interface ProductItem {
+export interface ProductItemModel {
     id: string;
     mainCategory: string;
     title: string;
     averageRating: number;
     ratingNumber: number;
-    price: string | null;
+    price: number | null;
     image: string | null;
     store: string | null;
 }

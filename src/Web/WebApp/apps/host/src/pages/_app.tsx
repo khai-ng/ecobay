@@ -3,6 +3,8 @@ import Head from 'next/head';
 import './styles.css';
 import '@shared/fonts/fontawesome/css/all.css';
 import '@shared/fonts/garet/css/style.css';
+import { AuthProvider } from '@shared/components/auth-context';
+import Header from '../components/shared/header';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -10,9 +12,15 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>ecobay</title>
       </Head>
-      <main className="app app_container">
-        <Component {...pageProps} />
-      </main>
+      
+      <AuthProvider>
+        <main className="bg-gray-100">
+          <div className="app_container bg-white">
+            <Header />
+            <Component {...pageProps} />
+          </div>
+        </main>  
+      </AuthProvider>  
     </>
   );
 }

@@ -1,3 +1,4 @@
 export const endPoints = {
-    product: "product"
+    product: "product",
+    order: "order",
 }

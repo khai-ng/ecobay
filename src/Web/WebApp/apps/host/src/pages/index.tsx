@@ -1,7 +1,7 @@
 import React from 'react';
 import Banner from '../components/banner/banner';
-import ProductList from './product/_components/product-list';
-import { GetProductRequest } from './homepage.model';
+import ProductList from './product/components/product-list';
+import { GetProductRequest } from '../lib/product/product.model';
 
 export function Index() {
   /*

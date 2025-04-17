@@ -7,8 +7,6 @@ import Document, {
     DocumentInitialProps,
   } from "next/document";
   import { revalidate } from "@module-federation/nextjs-mf/utils";
-import Header from "../components/shared/header";
-// import Header from "./header"
 
   class MyDocument extends Document<DocumentInitialProps> {
     static async getInitialProps(ctx: DocumentContext) {
@@ -29,7 +27,6 @@ import Header from "../components/shared/header";
         <Html lang="en">
           <Head />
           <body>
-            <Header />
             <Main />
             <NextScript />
           </body>

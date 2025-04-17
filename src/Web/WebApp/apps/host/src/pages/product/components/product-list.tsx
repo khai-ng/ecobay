@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import ProductItemComponent from "./product-item";
-import {homepageService, } from "../../homepage.service";
-import { GetProductRequest, ProductItem } from "../../homepage.model";
+import ProductItem from "./product-item";
+import { productService } from "../../../lib/product/product.service";
+import { GetProductRequest, ProductItemModel } from "../../../lib/product/product.model";
 // import product from './product.module.css';
 
-const ProductListComponent = (props: GetProductRequest) => {
+const ProductList = (props: GetProductRequest) => {
 
-  const [products, setProducts] = useState<ProductItem[] | null>(null);
+  const [products, setProducts] = useState<ProductItemModel[] | null>(null);
 
   useEffect(() => {
     const fetchProductData = async () => {
-      const response = await homepageService.getProductListAsync(props);
+      const response = await productService.getProductListAsync(props);
       setProducts(response?.data ?? []);
     }
 
@@ -25,16 +25,17 @@ const ProductListComponent = (props: GetProductRequest) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
       {products.map((p, i) => (
-        <ProductItemComponent
+        <ProductItem
           key={i}
-          uri={p.image ?? ""}
+          id={p.id}
+          image={p.image ?? ""}
           alt={""}
           name={p.title}
-          price={p.price ?? ""}
+          price={p.price ?? 0}
         />
       ))}
     </div>
   );
 }
 
-export default ProductListComponent;
+export default ProductList;
