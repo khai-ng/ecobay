@@ -1,0 +1,48 @@
+.banner__container {
+    display: grid;
+    grid-template-areas: 
+        'cate slide';
+    grid-template-columns: minmax(230px, 20%) 1fr;
+    gap: 0.5rem;
+}
+
+.area_cate {
+    grid-area: cate;
+}
+
+.area_slide {
+    grid-area: slide;
+}
+
+.area_right {
+    grid-area: right;
+}
+
+.area_bottom {
+    grid-area: bottom;
+}
+
+.banner__container ul li {
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.banner__container ul + ul {
+    border-top: 1px solid theme('colors.gray.300');
+}
+
+@media not all and (min-width: 640px) {
+    .banner__container {
+        grid-template-areas: 
+        'slide';
+        grid-template-columns: 1fr;
+    }
+
+    .area_cate {
+        display: none;
+    }
+}
+
+

@@ -27,9 +27,7 @@
                     AverageRating = x.AverageRating,
                     RatingNumber = x.RatingNumber,
                     Price = x.Price,
-                    Image = x.Images == null 
-                        ? null 
-                        : x.Images.Select(x => x.Large).FirstOrDefault(),
+                    Image = x.Images?.Select(x => x.Large).FirstOrDefault(),
                     Store = x.Store
                 }).ConfigureAwait(false);
 

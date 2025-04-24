@@ -19,6 +19,6 @@
         public string? Store { get; set; }
         public IEnumerable<string>? Categories { get; set; }
         public object? Details { get; set; }
-        public int Unit { get; set; }
+        public int Qty { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 {
     public class OrderConfirmStockIntegrationEvent(
         Guid orderId,
-        IEnumerable<ProductUnit> productUnits) : IntegrationEvent
+        IEnumerable<ProductQty> productQty) : IntegrationEvent
     {
         public Guid OrderId { get; } = orderId;
-        public IEnumerable<ProductUnit> ProductUnits { get; } = productUnits;
+        public IEnumerable<ProductQty> ProductQty { get; } = productQty;
     }
 }

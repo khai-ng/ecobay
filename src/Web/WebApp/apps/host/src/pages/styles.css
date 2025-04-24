@@ -69,3 +69,7 @@ pre {
   width: 100%;
   margin: auto;
 }
+
+.arrival_product + .arrival_product {
+  border-left: 1px solid theme('colors.gray.300');
+}

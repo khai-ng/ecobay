@@ -1,3 +1,5 @@
+using Core.EntityFramework.OpenTelemetry;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddAutofac()

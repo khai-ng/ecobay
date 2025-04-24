@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { ProtectedRoute } from '@shared/components/protected-route';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { CartProductItemProps } from '../cart/_components/cart-product-item';
+import { CartProductItemProps } from '../cart/components/cart-item';
 import Image from 'next/image';
-import { OrderRequest } from '../../lib/ordering/order.model';
-import { orderService } from '../../lib/ordering/order.service';
+import { OrderRequest } from './lib/order.model';
+import { addOrder } from './lib/order.api';
 
 export function Checkout() {
-  const [checkoutItems, setCheckoutItems] = useState<CartProductItemProps[]>(
-    []
-  );
+  const [checkoutItems, setCheckoutItems] = useState<CartProductItemProps[]>([]);
+  
   const [formData, setFormData] = useState({
     country: '',
     city: '',
@@ -18,13 +17,12 @@ export function Checkout() {
     street: '',
   });
 
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     // Get cart data from localStorage
     const items = JSON.parse(
-      localStorage.getItem('checkoutItems') || '[]'
+      localStorage.getItem('checkoutItems') || '[]',
     ) as CartProductItemProps[];
 
     if (items.length === 0) {
@@ -33,7 +31,7 @@ export function Checkout() {
     } else {
       setCheckoutItems(items);
     }
-  }, []);
+  }, [router]);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -58,17 +56,11 @@ export function Checkout() {
         price: item.price,
         qty: item.qty,
       })),
-    }
-    console.log('Order request:', orderRequest);
+    };
 
-    const response = await orderService.addOrder(orderRequest);
-    
+    const response = await addOrder(orderRequest);
     console.log('Order response:', response);
-
     localStorage.removeItem('checkoutItems');
-
-    // Redirect to order confirmation
-    //router.push('/order-confirmation');
   };
 
   return (
@@ -79,15 +71,13 @@ export function Checkout() {
         <div className="flex flex-col gap-8">
           <form
             onSubmit={handleSubmit}
-            className="bg-white rounded-lg shadow p-6"
-          >
+            className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4">Shipping Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <label
                   className="block text-sm font-medium mb-1"
-                  htmlFor="country"
-                >
+                  htmlFor="country">
                   Country
                 </label>
                 <select
@@ -96,8 +86,7 @@ export function Checkout() {
                   value={formData.country}
                   onChange={handleInputChange}
                   required
-                  className="w-full p-2 border rounded"
-                >
+                  className="w-full p-2 border rounded">
                   <option value="">Select Country</option>
                   <option value="VN">Viet Nam</option>
                   <option value="US">United States</option>
@@ -109,8 +98,7 @@ export function Checkout() {
               <div>
                 <label
                   className="block text-sm font-medium mb-1"
-                  htmlFor="city"
-                >
+                  htmlFor="city">
                   City
                 </label>
                 <input
@@ -126,8 +114,7 @@ export function Checkout() {
               <div>
                 <label
                   className="block text-sm font-medium mb-1"
-                  htmlFor="district"
-                >
+                  htmlFor="district">
                   District
                 </label>
                 <input
@@ -143,8 +130,7 @@ export function Checkout() {
               <div>
                 <label
                   className="block text-sm font-medium mb-1"
-                  htmlFor="street"
-                >
+                  htmlFor="street">
                   Street
                 </label>
                 <input
@@ -162,8 +148,7 @@ export function Checkout() {
             <div className="mt-6">
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-medium"
-              >
+                className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-medium">
                 Complete Order
               </button>
             </div>
@@ -177,18 +162,17 @@ export function Checkout() {
                 {checkoutItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex justify-between items-center py-3 border-b"
-                  >
+                    className="flex justify-between items-center py-3 border-b">
                     <div className="flex items-center">
                       <Image
-                        src={item.image}
-                        alt={item.name}
+                        src={item.image ?? ''}
+                        alt={item.title ?? ''}
                         width={160}
                         height={160}
                         className="w-12 h-12 object-cover rounded mr-3"
                       />
                       <div>
-                        <div className="font-medium">{item.name}</div>
+                        <div className="font-medium">{item.title}</div>
                         <div className="text-sm text-gray-600">
                           Qty: {item.qty}
                         </div>
@@ -203,8 +187,7 @@ export function Checkout() {
 
               <Link
                 href="/cart"
-                className="block text-center text-blue-600 hover:underline"
-              >
+                className="block text-center text-blue-600 hover:underline">
                 Return to Cart
               </Link>
             </div>

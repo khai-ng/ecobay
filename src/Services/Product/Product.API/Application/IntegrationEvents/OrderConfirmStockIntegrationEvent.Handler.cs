@@ -29,15 +29,15 @@ namespace Product.API.Application.IntegrationEvents
             {
                 List<Task<AppResult>> confirmStockTasks = [];
 
-                var cvtProductUnits = @event.ProductUnits
+                var convertProductQty = @event.ProductQty
                     .Select(x => new
                     {
                         Id = ObjectId.Parse(x.Id),
-                        x.Units
+                        x.Qty
                     });
 
-                var products = await _productRepository.GetByIdAsync(cvtProductUnits.Select(x => x.Id)).ConfigureAwait(false);
-                if (cvtProductUnits.Count() != products.Count())
+                var products = await _productRepository.GetByIdAsync(convertProductQty.Select(x => x.Id)).ConfigureAwait(false);
+                if (convertProductQty.Count() != products.Count())
                 {
                     var publishEvent = new OrderConfirmStockFailedIntegrationEvent(@event.OrderId, "Order product not found");
                     await _producer.PublishAsync(publishEvent, ct).ConfigureAwait(false);
@@ -46,7 +46,7 @@ namespace Product.API.Application.IntegrationEvents
 
                 foreach (var item in products)
                 {
-                    item.Unit -= cvtProductUnits.Single(x => x.Id == item.Id).Units;
+                    item.Qty -= convertProductQty.Single(x => x.Id == item.Id).Qty;
                 }
 
                 _productRepository.UpdateRange(products);

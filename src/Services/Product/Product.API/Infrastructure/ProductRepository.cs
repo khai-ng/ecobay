@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Linq.Expressions;
-
-namespace Product.API.Infrastructure
+﻿namespace Product.API.Infrastructure
 {
     public class ProductRepository : Repository<ProductItem>, IProductRepository, ITransient
     {
@@ -19,7 +16,7 @@ namespace Product.API.Infrastructure
             var fluentPaging = FluentPaging.From(request);
 
             var masterData = _context.Products
-                .Find(x => x.MainCategory.Equals(request.Category));
+                .Find(x => string.IsNullOrEmpty(request.Category) || x.MainCategory.Equals(request.Category));
 
             var filterdData = await fluentPaging
                 .FilterApply(masterData)
