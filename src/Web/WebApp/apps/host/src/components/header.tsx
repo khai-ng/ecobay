@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { useAuth } from '@shared/components/auth-context';
+import { useAuth } from '@base/components/auth-context';
 import Link from 'next/link';
 
 const Header = () => {

@@ -1,9 +1,9 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
-import '@shared/fonts/fontawesome/css/all.css';
-import '@shared/fonts/garet/css/style.css';
-import { AuthProvider } from '@shared/components/auth-context';
+import '@base/fonts/fontawesome/css/all.css';
+import '@base/fonts/garet/css/style.css';
+import { AuthProvider } from '@base/components/auth-context';
 import Header from '../components/header';
 import { Inter } from 'next/font/google';
 

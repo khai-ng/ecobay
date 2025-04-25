@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { ProductItemProps } from '../../../components/product-item';
+import { ProductItemProps } from '@app/components/product-item';
 
 export interface CartProductItemProps extends ProductItemProps {
   check: boolean;

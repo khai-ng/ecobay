@@ -1,4 +1,4 @@
-import {PagingRequest} from '@shared/utils/api.model';
+import {PagingRequest} from '@base/utils/api.model';
 
 export interface GetProductRequest extends PagingRequest {
     category?: string;

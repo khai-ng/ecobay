@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ProtectedRoute } from '@shared/components/protected-route';
+import { ProtectedRoute } from '@base/components/protected-route';
 import CartProductItem, { CartProductItemProps } from './components/cart-item';
 import { useRouter } from 'next/router';
-import { ProductItemProps } from '../../components/product-item';
+import { ProductItemProps } from '@app/components/product-item';
 
 export function Cart() {
   const [cartProducts, setCartProducts] = useState<CartProductItemProps[]>([]);

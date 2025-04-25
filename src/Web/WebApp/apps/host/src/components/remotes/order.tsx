@@ -1,8 +1,8 @@
 import React from "react";
 import { loadRemote } from '@module-federation/runtime';
 import dynamic from "next/dynamic";
-import PageLoader from "@shared/components/page-loader";
-import { ErrorBoundary } from "@shared/components/error-boundary";
+import PageLoader from "@base/components/page-loader";
+import { ErrorBoundary } from "@base/components/error-boundary";
 
 const Order = () => {
     const ProfileRemote = dynamic(

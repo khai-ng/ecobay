@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { composePlugins, withNx } = require('@nx/next');
 const NextFederationPlugin = require("@module-federation/nextjs-mf");
+const path = require('path');
 
 const remotes = (isServer) => {
   const location = isServer ? "ssr" : "chunks";
@@ -19,6 +20,11 @@ const nextConfig = {
     svgr: false,
   },
   webpack(config, option) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@app': path.join(__dirname, 'src'),
+      '@base': path.join(__dirname, '../../shared'),
+    };
 
     config.plugins.push(
       new NextFederationPlugin({

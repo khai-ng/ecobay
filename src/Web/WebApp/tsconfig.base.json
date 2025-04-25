@@ -14,9 +14,6 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {
-      "@shared/*": ["./shared/*"]
-    }
   },
   "exclude": ["node_modules", "tmp"]
 }

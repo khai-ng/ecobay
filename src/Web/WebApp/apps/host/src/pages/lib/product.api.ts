@@ -1,6 +1,6 @@
-import { PagingResponse } from '@shared/utils/api.model';
-import httpClient from '@shared/utils/axios-client';
-import { endPoints } from '../../utils/endpoints';
+import { PagingResponse } from '@base/utils/api.model';
+import httpClient from '@base/utils/axios-client';
+import { endPoints } from '@app/utils/endpoints';
 import { GetProductRequest, ProductItemDto } from './product.model';
 
 export async function getProductsAsync(request: GetProductRequest): Promise<PagingResponse<ProductItemDto>> {

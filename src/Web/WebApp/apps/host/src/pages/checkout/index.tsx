@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ProtectedRoute } from '@shared/components/protected-route';
+import { ProtectedRoute } from '@base/components/protected-route';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { CartProductItemProps } from '../cart/components/cart-item';

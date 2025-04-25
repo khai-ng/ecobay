@@ -16,7 +16,11 @@
     "incremental": true,
     "plugins": [{"name": "next"}],
     "types": ["jest", "node"],
-    // "baseUrl": "/"
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["src/*"],
+      "@base/*": ["../../shared/*"]
+    }
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "next-env.d.ts", "../../shared/utils/keycloak.ts"],
   "exclude": ["node_modules", "jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
