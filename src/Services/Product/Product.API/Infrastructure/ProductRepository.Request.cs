@@ -1,7 +1,9 @@
 ﻿namespace Product.API.Infrastructure
 {
-    public class GetProductRequest : PagingRequest
-    {
-        public string Category { get; set; }
-    }
+    public record GetProductRequest(
+        string? Category, 
+        int PageIndex, 
+        int PageSize, 
+        bool GetAll = false) : PagingRequest(PageIndex, PageSize, GetAll)
+    { }
 }

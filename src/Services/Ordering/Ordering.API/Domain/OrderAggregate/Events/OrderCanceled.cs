@@ -1,6 +1,6 @@
 ﻿namespace Ordering.API.Domain.OrderAggregate.Events
 {
-    public class OrderCanceled : DomainEvent
+    public record OrderCanceled : DomainEvent
     {
         [JsonConstructor]
         private OrderCanceled() { }

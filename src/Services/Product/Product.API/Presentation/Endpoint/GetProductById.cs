@@ -15,8 +15,8 @@
 
         public override async Task HandleAsync(CancellationToken ct)
         {
-            var id = Route<string>("id");
-            var request = new GetProductByIdQuery() { Ids = new[] { id } };
+            string?[] ids = [Route<string>("id")];
+            var request = new GetProductByIdCommand(ids);
             var result = await _mediator.Send(request, ct).ConfigureAwait(false);
             await SendResultAsync(result.ToHttpResult()).ConfigureAwait(false);
         }

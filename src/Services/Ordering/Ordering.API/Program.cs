@@ -18,7 +18,6 @@ builder.Services.AddOpenTelemetry()
 
 builder.Services
     .AddFastEndpoints()
-    .AddDbContext(builder.Configuration)
     .AddMediatRDefaults()
     .AddKafkaCompose()
     .AddMarten(builder.Configuration);
@@ -26,13 +25,6 @@ builder.Services
 builder.Services.AddMartenRepository<Order>();
 
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-	var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    if (context.Database.GetPendingMigrations().Any())
-        await context.Database.MigrateAsync();
-}
 
 app.UseServiceDefaults()
     .UseFastEndpoints(config => config.DefaultResponseConfigs());

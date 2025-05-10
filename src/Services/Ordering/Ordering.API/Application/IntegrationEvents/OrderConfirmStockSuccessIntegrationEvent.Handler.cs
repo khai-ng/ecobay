@@ -3,19 +3,13 @@
     public class OrderConfirmStockSuccessIntegrationEventHandler : 
         IIntegrationEventHandler<OrderConfirmStockSuccessIntegrationEvent>, ITransient
     {
-        private readonly IOrderRepository _orderRepository;
-        private readonly IEventStoreRepository<Order> _eventStoreRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IEventStoreRepository<Order> _orderRepository;
         private readonly Serilog.ILogger _logger;
         public OrderConfirmStockSuccessIntegrationEventHandler(
-            IOrderRepository orderRepository,
-            IEventStoreRepository<Order> eventStoreRepository,
-            IUnitOfWork unitOfWork,
+            IEventStoreRepository<Order> orderRepository,
             Serilog.ILogger logger)
         {
             _orderRepository = orderRepository;
-            _eventStoreRepository = eventStoreRepository;
-            _unitOfWork = unitOfWork;
             _logger = logger;
         }
 
@@ -30,10 +24,7 @@
             }
 
             order.SetStockConfirmed();
-            _orderRepository.Update(order);
-
-            await _eventStoreRepository.Update(order.Id, order, order.Version, ct: ct).ConfigureAwait(false);
-            await _unitOfWork.SaveChangesAsync(ct).ConfigureAwait(false);
+            await _orderRepository.UpdateAsync(order.Id, order, order.Version, ct).ConfigureAwait(false);
 
             _ = NotifySuccessAsync();
         }

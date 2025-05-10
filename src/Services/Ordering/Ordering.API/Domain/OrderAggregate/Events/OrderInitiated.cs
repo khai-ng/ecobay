@@ -1,6 +1,6 @@
 ﻿namespace Ordering.API.Domain.OrderAggregate.Events
 {
-    public class OrderInitiated : DomainEvent
+    public record OrderInitiated : DomainEvent
     {
         public Order Order { get; set; }
         public DateTime TimeoutAt { get; private set; } = DateTime.UtcNow.AddDays(3);

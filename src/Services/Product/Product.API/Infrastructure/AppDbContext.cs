@@ -6,9 +6,5 @@
 
         public IMongoCollection<ProductItem> Products => Collection<ProductItem>();
 
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
     }
 }

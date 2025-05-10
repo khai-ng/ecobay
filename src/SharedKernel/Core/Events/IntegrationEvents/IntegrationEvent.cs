@@ -5,12 +5,12 @@ namespace Core.IntegrationEvents.IntegrationEvents
     /// <summary>
     /// IntegrationEvent with default <see cref="Guid"/> Identity
     /// </summary>
-    public abstract class IntegrationEvent : IntegrationEvent<Guid> 
+    public abstract record IntegrationEvent : IntegrationEvent<Guid> 
     {
         public IntegrationEvent() : base(Guid.NewGuid()) { }
     }
 
-    public abstract class IntegrationEvent<TKey>
+    public abstract record IntegrationEvent<TKey>
     {
         protected IntegrationEvent(TKey id)
         {

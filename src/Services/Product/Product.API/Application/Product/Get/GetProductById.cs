@@ -1,6 +1,8 @@
-﻿namespace Product.API.Application.Product.Get
+﻿using Product.API.Application.Abstractions;
+
+namespace Product.API.Application.Product.Get
 {
-    public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, AppResult<IEnumerable<ProductItemDto>>>, ITransient
+    public class GetProductByIdHandler : IRequestHandler<GetProductByIdCommand, AppResult<IEnumerable<ProductItemDto>>>, ITransient
     {
         private readonly IProductRepository _productRepository;
 
@@ -9,7 +11,7 @@
             _productRepository = productRepository;
         }
 
-        public async Task<AppResult<IEnumerable<ProductItemDto>>> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
+        public async Task<AppResult<IEnumerable<ProductItemDto>>> Handle(GetProductByIdCommand query, CancellationToken cancellationToken)
         {
 
             var products = await _productRepository.GetByIdAsync(query.Ids.Select(x => ObjectId.Parse(x))).ConfigureAwait(false);

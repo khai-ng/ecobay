@@ -1,6 +1,6 @@
 ﻿namespace Ordering.API.Domain.OrderAggregate.Events
 {
-    public class OrderAwaitingChanged : DomainEvent
+    public record OrderAwaitingChanged : DomainEvent
     {
         [JsonConstructor]
         private OrderAwaitingChanged() { }

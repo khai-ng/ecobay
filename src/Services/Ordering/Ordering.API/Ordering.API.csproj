@@ -25,15 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\SharedKernel\Core.AspNetCore\Core.AspNet.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core.EntityFramework\Core.EntityFramework.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core.Kafka\Core.Kafka.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core.Marten\Core.Marten.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core.MediaR\Core.MediaR.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\Core.MongoDB\Core.MongoDB.csproj" />
   </ItemGroup>
 
 </Project>

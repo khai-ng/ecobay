@@ -1,6 +1,6 @@
 ﻿namespace Ordering.API.Presentation.Endpoint
 {
-    public class AddOrder : Endpoint<CreateOrderRequest, HttpResultTyped<AppResult<Guid>>>
+    public class AddOrder : Endpoint<CreateOrderCommand, HttpResultTyped<AppResult<Guid>>>
     {
 		private readonly IMediator _mediator;
 
@@ -15,7 +15,7 @@
 			//AllowAnonymous();
         }
 
-        public override async Task HandleAsync(CreateOrderRequest req,  CancellationToken ct)
+        public override async Task HandleAsync(CreateOrderCommand req,  CancellationToken ct)
         {
             var result = await _mediator.Send(req, ct).ConfigureAwait(false);
             await SendResultAsync(result.ToHttpResult()).ConfigureAwait(false);

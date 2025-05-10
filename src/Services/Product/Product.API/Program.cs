@@ -27,11 +27,10 @@ builder.Services
     .AddKafkaCompose()
     .AddMediatRDefaults();
 
-
-if(builder.Environment.IsDevelopment())
-{
-    builder.Services.AddHangfireDefaults(builder.Configuration);
-}
+//if(builder.Environment.IsDevelopment())
+//{
+//    builder.Services.AddHangfireDefaults(builder.Configuration);
+//}
 
 var app = builder.Build();
 
@@ -41,10 +40,10 @@ app.UseServiceDefaults()
 app.UseDefaultSwaggerRedirection()  
     .UseSwaggerGen();
 
-if(app.Environment.IsDevelopment())
-{
-    app.UseHangfireDashboard();
-    app.AddHangFireJob();
-}
+//if(app.Environment.IsDevelopment())
+//{
+//    app.UseHangfireDashboard();
+//    app.AddHangFireJob();
+//}
 
 await app.RunAsync();

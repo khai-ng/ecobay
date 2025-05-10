@@ -1,4 +1,6 @@
-﻿namespace Product.API.Infrastructure
+﻿using Product.API.Application.Abstractions;
+
+namespace Product.API.Infrastructure
 {
     public class ProductRepository : Repository<ProductItem>, IProductRepository, ITransient
     {
@@ -10,7 +12,7 @@
 
         public async Task<PagingResponse<TDestination>> GetPagingAsync<TDestination>(
             GetProductRequest request, 
-            Func<ProductItem, TDestination> selector) 
+            Func<ProductItem, TDestination> selector)
             where TDestination : class
         {
             var fluentPaging = FluentPaging.From(request);

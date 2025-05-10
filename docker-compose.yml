@@ -170,60 +170,9 @@ services:
                 fluentd-async: "true"
                 tag: host.product-1
 
-    configsvr1:
-        profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-configsvr1
-        image: mongo:7.0.9
-        links:
-            - shard1-1
-            - shard2-1
-        networks:
-            - local
-
-    configsvr2:
-        profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-configsvr2
-        image: mongo:7.0.9
-        links:
-            - configsvr1
-        networks:
-            - local
-
-    shard1-1:
-        profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-shard1-1
-        image: mongo:7.0.9
-        links:
-            - shard1-2
-        networks:
-            - local
-
-    shard1-2:
-        profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-shard1-2
-        image: mongo:7.0.9
-        networks:
-            - local
-
-    shard2-1:
-        profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-shard2-1
-        image: mongo:7.0.9
-        links:
-            - shard2-2
-        networks:
-            - local
-
-    shard2-2:
-        profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-shard2-2
-        image: mongo:7.0.9
-        networks:
-            - local
-
-    router1:
-        profiles: [ mongo-shard, minimal-workflow, all ]
-        container_name: product-router1
+    mongo-db:
+        profiles: [ minimal-workflow, all ]
+        container_name: mongo-db
         image: mongo:7.0.9
         networks:
             - local

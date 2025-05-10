@@ -16,7 +16,7 @@
             SetData(request.Data);
         }
 
-        public CountedPagingResponse<T> SetTotal(long total)
+        internal CountedPagingResponse<T> SetTotal(long total)
         {
             TotalCount = total;
             PageCount = this.GetAll ? 1 : (long)Math.Ceiling((decimal)TotalCount / PageSize);

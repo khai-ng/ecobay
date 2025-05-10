@@ -10,32 +10,32 @@ namespace Core.Marten.OpenTelemetry
             where TEntity : AggregateRoot<Guid>
 
     {
-        public Task<TEntity?> Find(Guid id, CancellationToken ct)
-            => martenRepository.Find(id, ct);
+        public Task<TEntity?> FindAsync(Guid id, CancellationToken ct)
+            => martenRepository.FindAsync(id, ct);
 
-        public Task<long> Add(Guid id, TEntity aggregate, CancellationToken ct = default)
+        public Task<long> AddAsync(Guid id, TEntity aggregate, CancellationToken ct = default)
         {
-            using (var activity = MartenActivityScope.StartActivity(nameof(Add)))
+            using (var activity = MartenActivityScope.StartActivity(nameof(AddAsync)))
             {
                 activity?.SetTag("eventsourcing.entity", nameof(TEntity));
                 activity?.SetTag("eventsourcing.entity_id", id);
                 activity?.SetTag("eventsourcing.entity_version", aggregate.Version);
 
                 documentSession.PropagateTelemetry(activity);
-                return martenRepository.Add(id, aggregate, ct);
+                return martenRepository.AddAsync(id, aggregate, ct);
             }
         }
 
-        public Task<long> Update(Guid id, TEntity aggregate, long? expectedVersion = null, CancellationToken ct = default)
+        public Task<long> UpdateAsync(Guid id, TEntity aggregate, long? expectedVersion = null, CancellationToken ct = default)
         {
-            using (var activity = MartenActivityScope.StartActivity(nameof(Update)))
+            using (var activity = MartenActivityScope.StartActivity(nameof(UpdateAsync)))
             {
                 activity?.SetTag("eventsourcing.entity", nameof(TEntity));
                 activity?.SetTag("eventsourcing.entity_id", id);
                 activity?.SetTag("eventsourcing.entity_version", aggregate.Version);
 
                 documentSession.PropagateTelemetry(activity);
-                return martenRepository.Update(id, aggregate, expectedVersion, ct);
+                return martenRepository.UpdateAsync(id, aggregate, expectedVersion, ct);
             }
         }
     }

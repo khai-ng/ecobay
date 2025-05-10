@@ -1,10 +1,8 @@
-﻿using FastEndpoints;
-using FluentValidation;
-using Ordering.API.Application.Services;
+﻿using FluentValidation;
 
 namespace Ordering.API.Presentation.Endpoint
 {
-    public class AddOrderValidator : Validator<CreateOrderRequest>
+    public class AddOrderValidator : Validator<CreateOrderCommand>
     {
         public AddOrderValidator() 
         {

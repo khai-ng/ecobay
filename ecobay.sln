@@ -90,10 +90,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "keycloak", "keycloak", "{14
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mongodb", "mongodb", "{550D6141-15B9-4D05-921E-BA6A2A1A6450}"
 	ProjectSection(SolutionItems) = preProject
-		configs\mongodb\init-configserver.js = configs\mongodb\init-configserver.js
-		configs\mongodb\init-router.js = configs\mongodb\init-router.js
-		configs\mongodb\init-shard-1.js = configs\mongodb\init-shard-1.js
-		configs\mongodb\init-shard-2.js = configs\mongodb\init-shard-2.js
+		configs\mongodb\init.js = configs\mongodb\init.js
+		configs\mongodb\init.sh = configs\mongodb\init.sh
+		configs\mongodb\product.json = configs\mongodb\product.json
 	EndProjectSection
 EndProject
 Global

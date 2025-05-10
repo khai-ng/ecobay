@@ -1,6 +1,6 @@
 ﻿namespace Ordering.API.Domain.OrderAggregate.Events
 {
-    public class OrderStockConfirmed : DomainEvent
+    public record OrderStockConfirmed : DomainEvent
     {
         [JsonConstructor]
         private OrderStockConfirmed() { }

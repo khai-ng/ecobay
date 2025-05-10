@@ -1,39 +1,29 @@
 ﻿namespace Ordering.API.Application.Services
 {
-    public class ConfirmStock : IRequestHandler<ConfirmStockRequest, AppResult<string>>, ITransient
+    public class ConfirmStock : IRequestHandler<ConfirmStockCommand, AppResult<string>>, ITransient
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly IEventStoreRepository<Order> _orderRepository;
         private readonly IKafkaProducer _kafkaProducer;
 
         public ConfirmStock(
-            IOrderRepository orderRepository,
+            IEventStoreRepository<Order> orderRepository,
             IKafkaProducer kafkaProducer)
         {
             _orderRepository = orderRepository;
             _kafkaProducer = kafkaProducer;
         }
 
-        public async Task<AppResult<string>> Handle(ConfirmStockRequest request, CancellationToken ct)
+        public async Task<AppResult<string>> Handle(ConfirmStockCommand request, CancellationToken ct)
         {
-            var order = await _orderRepository.FindAsync(request.OrderId, 
-                x => new
-                {
-                    x.Id,
-                    x.OrderStatus,
-                    ProductUnits = x.OrderItems.Select(x => new ProductQty(x.ProductId, x.Qty))
-                })
-                .ConfigureAwait(false);
+            var order = await _orderRepository.FindAsync(request.OrderId).ConfigureAwait(false);
 
             if (order == null)
                 return AppResult.Invalid(new ErrorDetail($"Can not find order {request.OrderId}"));
 
-            if(order.OrderStatus != OrderStatus.Submitted)
-                return AppResult.Invalid(new ErrorDetail(nameof(order.OrderStatus), $"Order must be {OrderStatus.Submitted.Name}"));
-
             var orderConfirmStockEvent = 
                 new OrderConfirmStockIntegrationEvent(
                     order.Id,
-                    order.ProductUnits
+                    order.OrderItems.Select(x => new ProductQty(x.ProductId, x.Qty))
                 );
 
             _ = _kafkaProducer.PublishAsync(orderConfirmStockEvent, ct).ConfigureAwait(false);

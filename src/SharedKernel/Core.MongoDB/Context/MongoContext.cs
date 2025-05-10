@@ -1,10 +1,12 @@
 ﻿using Core.MongoDB.OpenTelemetry;
 using MongoDB.Driver;
-using Serilog;
 using System.Reflection;
 
 namespace Core.MongoDB.Context
 {
+    /// <summary>
+    ///  need no implement <see cref="IDisposable"/>, MongoClient handled it automaticly
+    /// </summary>
     public class MongoContext
     {
         private MongoClient _mongoClient;
@@ -12,13 +14,6 @@ namespace Core.MongoDB.Context
 
         private readonly List<Func<Task>> _commands = [];
         private readonly MongoContextOptions _dbSetting;
-
-        private readonly ILogger _logger;
-
-        public MongoContext(ILogger logger) 
-        {
-            _logger = logger;
-        }
 
         public MongoContext(MongoContextOptions dbSettings) 
         {

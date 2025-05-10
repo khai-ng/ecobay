@@ -17,8 +17,7 @@
 
         public override async Task HandleAsync(CancellationToken ct)
         {
-            var id = Route<Guid>("id");
-            var request = new ConfirmStockRequest() { OrderId = id };
+            var request = new ConfirmStockCommand(Route<Guid>("id"));
             var result = await _mediator.Send(request, ct).ConfigureAwait(false);
             await SendResultAsync(result.ToHttpResult()).ConfigureAwait(false);
         }

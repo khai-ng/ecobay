@@ -1,4 +1,6 @@
-﻿namespace Ordering.API.Domain.OrderAggregate
+﻿using FastEndpoints;
+
+namespace Ordering.API.Domain.OrderAggregate
 {
     public class Order : AggregateRoot
     {
@@ -48,12 +50,18 @@
 
         public void SetStockConfirmed()
         {
+            if (OrderStatusId >= OrderStatus.StockConfirmed.Id)
+                throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Paid.Name}");
+
             OrderStatusId = OrderStatus.StockConfirmed.Id;
             Enqueue(new OrderStockConfirmed(Id));
         }
 
         public void SetPaid()
         {
+            if (OrderStatusId != OrderStatus.StockConfirmed.Id)
+                throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Paid.Name}");
+
             OrderStatusId = OrderStatus.Paid.Id;
             Enqueue(new OrderPaid(Id));
         }
@@ -69,7 +77,7 @@
 
         public void SetCanceled()
         {
-            if (OrderStatusId == OrderStatus.Paid.Id || OrderStatusId == OrderStatus.Shipped.Id)
+            if (OrderStatusId == OrderStatus.Shipped.Id)
                 throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Shipped.Name}");
 
             OrderStatusId = OrderStatus.Cancelled.Id;

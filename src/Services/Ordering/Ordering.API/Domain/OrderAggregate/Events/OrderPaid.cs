@@ -1,6 +1,6 @@
 ﻿namespace Ordering.API.Domain.OrderAggregate.Events
 {
-    public class OrderPaid : DomainEvent
+    public record OrderPaid : DomainEvent
     {
         [JsonConstructor]
         private OrderPaid() { }

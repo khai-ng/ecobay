@@ -25,7 +25,7 @@ global using MongoDB.Bson.Serialization.Attributes;
 global using MongoDB.Bson.Serialization.Conventions;
 global using MongoDB.Bson.Serialization.Serializers;
 global using MongoDB.Driver;
-global using Product.API.Application.Common.Abstractions;
+global using Product.API.Application.Abstractions;
 global using Product.API.Application.Product;
 global using Product.API.Application.Product.Get;
 global using Product.API.Application.Product.Migration;

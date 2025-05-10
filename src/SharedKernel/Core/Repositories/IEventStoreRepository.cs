@@ -14,8 +14,8 @@ namespace Core.Repositories
         where TEntity : AggregateRoot<TKey>
         where TKey : struct
     {
-        Task<TEntity?> Find(TKey id, CancellationToken ct);
-        Task<long> Add(TKey id, TEntity aggregate, CancellationToken ct = default);
-        Task<long> Update(TKey id, TEntity aggregate, long? expectedVersion = null, CancellationToken ct = default);
+        Task<TEntity?> FindAsync(TKey id, CancellationToken ct = default);
+        Task<long> AddAsync(TKey id, TEntity aggregate, CancellationToken ct = default);
+        Task<long> UpdateAsync(TKey id, TEntity aggregate, long? expectedVersion = null, CancellationToken ct = default);
     }
 }
