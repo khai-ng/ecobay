@@ -7,8 +7,8 @@
 
         public long TotalCount { get; private set; }
 
-        public CountedPagingResponse(IPagingRequest request) : base(request)
-        { }
+        public CountedPagingResponse(IPagingRequest request) : base(request) { }
+        public CountedPagingResponse(IAllablePagingRequest request) : base(request) { }
 
         public CountedPagingResponse(IPagingResponse<T> request) : base(request)
         {
@@ -16,10 +16,10 @@
             SetData(request.Data);
         }
 
-        internal CountedPagingResponse<T> SetTotal(long total)
+        public CountedPagingResponse<T> SetTotal(long total)
         {
             TotalCount = total;
-            PageCount = this.GetAll ? 1 : (long)Math.Ceiling((decimal)TotalCount / PageSize);
+            PageCount = this.GetAll ?? false ? 1 : (long)Math.Ceiling((decimal)TotalCount / PageSize);
             return this;
         }
 
@@ -37,7 +37,7 @@
             return response;
         }
 
-        internal static new CountedPagingResponse<T> Paging(IPagingRequest request,
+        internal static new CountedPagingResponse<T> Paging(IAllablePagingRequest request,
             IEnumerable<T> data)
         {
             var rs = PagingResponse<T>.Paging(request, data);

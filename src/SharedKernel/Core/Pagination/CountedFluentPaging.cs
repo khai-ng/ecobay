@@ -3,11 +3,11 @@
     public class CountedFluentPaging : CountedPagingResponse<CountedFluentPaging>
     {
 
-        internal CountedFluentPaging(IPagingRequest request) : base(request)
-        { }
+        internal CountedFluentPaging(IPagingRequest request) : base(request) { }
+        internal CountedFluentPaging(IAllablePagingRequest request) : base(request) { }
 
-        public static CountedFluentPaging From(IPagingRequest request)
-            => new(request);
+        public static CountedFluentPaging From(IPagingRequest request) => new(request);
+        public static CountedFluentPaging From(IAllablePagingRequest request) => new(request);
     }
 
     public static class CountedFluentPagingExtension

@@ -6,13 +6,13 @@ namespace Core.MongoDB.Paginations
     internal static class PagingExtensions
     {
         internal static async Task<PagingResponse<TOut>> PagingAsync<TIn, TOut>(
-            IPagingRequest request,
+            IAllablePagingRequest request,
             IFindFluent<TIn, TOut> data)
             where TIn : class
             where TOut : class
         {
             var response = new PagingResponse<TOut>(request);
-            if (!request.GetAll)
+            if (!request.GetAll ?? false)
                 data = data.Skip(response.Skip).Limit(response.PageSize + 1);
 
             var filterData = await data.ToListAsync().ConfigureAwait(false);
@@ -30,10 +30,9 @@ namespace Core.MongoDB.Paginations
             where TPage : class
         {
             paging.SetHasNext(
-                !paging.GetAll
+                !paging.GetAll ?? false
                 && data
                     .Skip(paging.Skip + paging.PageSize)
-                    .Limit(1)
                     .Any()
             );
 
@@ -46,7 +45,7 @@ namespace Core.MongoDB.Paginations
     internal static class CountedPagingExtensions
     {
         internal static async Task<CountedPagingResponse<TOut>> PagingAsync<TIn, TOut>(
-            IPagingRequest request,
+            IAllablePagingRequest request,
             IFindFluent<TIn, TOut> data)
             where TIn : class
             where TOut : class

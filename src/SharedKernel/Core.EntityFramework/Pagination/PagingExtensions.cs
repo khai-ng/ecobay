@@ -6,12 +6,12 @@ namespace Core.EntityFramework.Pagination
     internal static class PagingExtensions
     {
         internal static async Task<PagingResponse<T>> PagingAsync<T>(
-            IPagingRequest request,
+            IAllablePagingRequest request,
             IQueryable<T> data)
             where T : class
         {
             var response = new PagingResponse<T>(request);
-            if (!request.GetAll)
+            if (!request.GetAll ?? false)
                 data = data.Skip(response.Skip).Take(response.PageSize + 1);
 
             var filterData = await data.ToListAsync().ConfigureAwait(false);
@@ -26,14 +26,13 @@ namespace Core.EntityFramework.Pagination
             where TPage : class
         {
             paging.SetHasNext(
-                !paging.GetAll
+                !paging.GetAll ?? false
                 && data
-                    .Skip(paging.Skip + paging.PageSize)
-                    .Take(1)
-                    .Any()
+                .Skip(paging.Skip + paging.PageSize)
+                .Any()
             );
 
-            return paging.GetAll
+            return paging.GetAll ?? false
                 ? data
                 : data.Skip(paging.Skip).Take(paging.PageSize);
         }
@@ -41,7 +40,7 @@ namespace Core.EntityFramework.Pagination
 
     internal static class CountedPagingExtensions
     {
-        internal static async Task<CountedPagingResponse<T>> PagingAsync<T>(IPagingRequest request,
+        internal static async Task<CountedPagingResponse<T>> PagingAsync<T>(IAllablePagingRequest request,
             IQueryable<T> data)
             where T : class
         {

@@ -1,6 +1,6 @@
 ﻿namespace Core.Pagination
 {
-    public interface IPagingResponse : IPagingRequest
+    public interface IPagingResponse : IAllablePagingRequest
     {
         public bool HasNext { get; }
     }
