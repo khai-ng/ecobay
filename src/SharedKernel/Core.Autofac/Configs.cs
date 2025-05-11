@@ -58,7 +58,7 @@ namespace Core.Autofac
                         .Where(p => typeof(IModule).IsAssignableFrom(p) && !p.IsAbstract)
                         .ToList();
 
-                    if (moduleType is null)
+                    if (moduleType is null || moduleType.Count == 0)
                         continue;
 
                     moduleTypes.AddRange(moduleType);

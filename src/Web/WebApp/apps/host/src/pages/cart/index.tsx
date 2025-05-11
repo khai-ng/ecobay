@@ -91,17 +91,17 @@ export function Cart() {
         ))}
 
         <div className="flex items-center gap-4">
-          <div className="max-w-6">
+          {/* <div className="max-w-6">
             <input type="checkbox" className="w-full"></input>
           </div>
-          <span>Select All</span>
+          <span>Select All</span> */}
           <div className="flex-1"></div>
           <div className="flex gap-4">
             <span>Total:</span>
-            <span>₫{totalPrice}</span>
+            <span>${totalPrice}</span>
           </div>
           <button
-            className="bg-blue-500 text-white px-16 py-2"
+            className="bg-violet-800 text-white px-16 py-2 rounded-md"
             onClick={handleCheckout}>
             Checkout
           </button>

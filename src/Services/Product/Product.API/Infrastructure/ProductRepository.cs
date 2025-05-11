@@ -1,6 +1,4 @@
-﻿using Product.API.Application.Abstractions;
-
-namespace Product.API.Infrastructure
+﻿namespace Product.API.Infrastructure
 {
     public class ProductRepository : Repository<ProductItem>, IProductRepository, ITransient
     {

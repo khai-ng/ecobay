@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Ordering.API.Presentation.Endpoint
+﻿namespace Ordering.API.Presentation.Endpoint
 {
     public class AddOrderValidator : Validator<CreateOrderCommand>
     {

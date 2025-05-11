@@ -3,7 +3,6 @@
     public record GetProductRequest(
         string? Category, 
         int PageIndex, 
-        int PageSize, 
-        bool GetAll = false) : PagingRequest(PageIndex, PageSize, GetAll)
+        int PageSize) : PagingRequest(PageIndex, PageSize)
     { }
 }

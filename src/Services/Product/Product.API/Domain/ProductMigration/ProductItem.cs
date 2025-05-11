@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace Product.API.Domain.ProductMigration
+﻿namespace Product.API.Domain.ProductMigration
 {
     [BsonIgnoreExtraElements]
     public class ProductItem : AggregateRoot

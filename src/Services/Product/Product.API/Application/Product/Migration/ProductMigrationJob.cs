@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace Product.API.Application.Product.Migration
+﻿namespace Product.API.Application.Product.Migration
 {
     public interface IProductMigrationJob
     {

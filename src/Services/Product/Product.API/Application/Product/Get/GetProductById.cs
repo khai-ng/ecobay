@@ -1,6 +1,4 @@
-﻿using Product.API.Application.Abstractions;
-
-namespace Product.API.Application.Product.Get
+﻿namespace Product.API.Application.Product.Get
 {
     public class GetProductByIdHandler : IRequestHandler<GetProductByIdCommand, AppResult<IEnumerable<ProductItemDto>>>, ITransient
     {

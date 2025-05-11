@@ -1,12 +1,9 @@
-﻿using FastEndpoints;
-
-namespace Ordering.API.Domain.OrderAggregate
+﻿namespace Ordering.API.Domain.OrderAggregate
 {
     public class Order : AggregateRoot
     {
         public Guid BuyerId { get; private set; }
         public Guid PaymentId { get; private set; }
-        [ForeignKey(nameof(OrderStatus))]
         public int OrderStatusId { get; private set; } = OrderStatus.Submitted.Id;
         [MaxLength(255)]
         public string? Description { get; private set; } = string.Empty;

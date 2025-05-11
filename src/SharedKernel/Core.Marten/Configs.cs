@@ -28,7 +28,7 @@ namespace Core.Marten
                 options.Events.DatabaseSchemaName = martenOptions.WriteSchema;
                 //options.DatabaseSchemaName = martenOptions.ReadSchema;
 
-                options.UseSystemTextJsonForSerialization();
+                //options.UseSystemTextJsonForSerialization();
 
                 options.Events.MetadataConfig.CausationIdEnabled = true;
                 options.Events.MetadataConfig.CorrelationIdEnabled = true;

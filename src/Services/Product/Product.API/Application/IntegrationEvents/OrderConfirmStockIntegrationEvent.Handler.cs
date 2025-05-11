@@ -1,7 +1,4 @@
-﻿using Core.Entities;
-using Product.API.Application.Abstractions;
-
-namespace Product.API.Application.IntegrationEvents
+﻿namespace Product.API.Application.IntegrationEvents
 {
 
     public class OrderConfirmStockIntegrationEventHandler :

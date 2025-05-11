@@ -1,15 +1,14 @@
 ﻿namespace Ordering.API.Domain.OrderAggregate
 {
-    public class OrderItem: Entity
+    public class OrderItem
     {
-        [ForeignKey(nameof(Order))]
-        public Guid OrderId { get; private set; }
         [MaxLength(24)]
         public string ProductId { get; private set; }
         [Column(TypeName = "decimal(12, 2)")]
         public decimal Price { get; private set; }
         public int Qty { get; private set; }
 
+        [JsonConstructor]
         private OrderItem() { }
         public OrderItem(
             string productId,

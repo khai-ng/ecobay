@@ -15,14 +15,20 @@ const CartItem = (props: CartProductItemProps) => {
     setProduct({ ...props, check: props.check, qty: props.qty });
   }, [props, props.check, props.qty]);
 
+  const handleQuantityChange = (qty: number) => {
+    if (qty < 1) return;
+
+    setProduct({ ...product, qty: qty });
+    if (props.onChange) {
+      props.onChange(product.check, qty);
+    }
+  };
+
   const quantityChangeEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedQty = parseInt(e.target.value);
     if (isNaN(parseInt(e.target.value))) return;
 
-    setProduct({ ...product, qty: updatedQty });
-    if (props.onChange) {
-      props.onChange(product.check, updatedQty);
-    }
+    handleQuantityChange(updatedQty);
   };
 
   const checkChangeEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,26 +58,32 @@ const CartItem = (props: CartProductItemProps) => {
             className="w-full h-full object-contain"
           />
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 flex-1">
           <span className="line-clamp-2 text-ellipsis">{product.title}</span>
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col justify-center text-gray-500">
           <span>Variations</span>
           <span>Default</span>
         </div>
       </div>
-      <div className="flex-1 text-center">₫{product.price}</div>
-      <div className="flex-1 text-center">
+      <div className="flex-1 text-center">${product.price}</div>
+      <div className="flex-1 text-center flex justify-center">
+        <button className="px-2 border border-gray-300" onClick={() => handleQuantityChange(product.qty - 1)}>
+          <i className="fa-regular fa-minus"></i>
+        </button>
         <input
           type="text"
           inputMode="numeric"
           pattern="[0-9]*"
-          className="w-10"
+          className="border border-gray-300 px-2 py-1 w-14 text-center"
           onChange={quantityChangeEvent}
           value={product.qty}
         />
+        <button className="px-2 border border-gray-300" onClick={() => handleQuantityChange(product.qty + 1)}>
+          <i className="fa-regular fa-plus"></i>
+        </button>
       </div>
-      <div className="flex-1 text-center">₫{product.qty * product.price}</div>
+      <div className="flex-1 text-center">${product.qty * product.price}</div>
       <div className="flex-1 text-center">Delete</div>
     </div>
   );

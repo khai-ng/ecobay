@@ -1,5 +1,3 @@
-using Core.EntityFramework.OpenTelemetry;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddAutofac()
@@ -8,7 +6,6 @@ builder.AddAutofac()
 builder.Services.AddSwaggerGen().SwaggerDocument();
 
 builder.Services.AddHealthChecks()
-    .AddMySql(builder.Configuration.GetConnectionString("Default")!)
     .AddMartenAsyncDaemonHealthCheck();
 
 builder.Services.AddOpenTelemetry()

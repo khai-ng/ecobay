@@ -1,6 +1,4 @@
-﻿using Core.Entities;
-
-namespace Product.API
+﻿namespace Product.API
 {
     public class ProductApiModule : AppModule
     {

@@ -31,5 +31,6 @@ global using Product.API.Application.Product.Get;
 global using Product.API.Application.Product.Migration;
 global using Product.API.Domain.ProductAggregate;
 global using Product.API.Infrastructure;
-global using Product.API.Presentation.Configurations;
 global using System.Text.Json.Serialization;
+global using System.Text.Json;
+global using Core.Entities;
