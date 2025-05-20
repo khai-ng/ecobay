@@ -11,8 +11,7 @@ namespace Core.MongoDB.Repository
         where TEntity : AggregateRoot<ObjectId>
     {
         protected Repository(MongoContext context) : base(context)
-        {
-        }
+        { }
     }
 
     public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
@@ -104,7 +103,6 @@ namespace Core.MongoDB.Repository
             => _mongoContext.AddCommand(() =>
                 _collection.DeleteManyAsync(
                     Builders<TEntity>.Filter.In("_id", entities.Select(x => x.Id))
-                )
-            );
+                ));
     }
 }

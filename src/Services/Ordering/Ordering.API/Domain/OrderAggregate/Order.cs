@@ -12,7 +12,7 @@
         
         public Address Address { get; private set; }
         
-        public DateTime? CreatedDate { get; private set; }
+        public DateTimeOffset CreatedAt { get; private set; }
 
         public List<OrderItem> OrderItems { get; private set; } = [];
 
@@ -27,11 +27,11 @@
             PaymentId = paymentId;
             OrderStatusId = OrderStatus.Submitted.Id;
             Address = address;
-            CreatedDate = DateTime.UtcNow;
+            CreatedAt = DateTime.UtcNow;
             OrderItems = orderItems.ToList();
             TotalPrice = OrderItems.Sum(x => x.Price * x.Qty);
 
-            Enqueue(new OrderInitiated(this));
+            Enqueue(new OrderInitiated(Id, BuyerId, PaymentId, address, OrderItems, TotalPrice));
         }
 
         public void AddOrderItem(OrderItem orderItem)
@@ -85,15 +85,14 @@
             switch (@event)
             {
                 case OrderInitiated orderInitiated:
-                    Id = orderInitiated.Order.Id;
-                    BuyerId = orderInitiated.Order.BuyerId;
-                    PaymentId = orderInitiated.Order.PaymentId;
+                    Id = orderInitiated.Id;
+                    BuyerId = orderInitiated.BuyerId;
+                    PaymentId = orderInitiated.PaymentId;
                     OrderStatusId = OrderStatus.Submitted.Id;
-                    Description = orderInitiated.Order.Description;
-                    TotalPrice = orderInitiated.Order.TotalPrice;
-                    Address = orderInitiated.Order.Address;
-                    CreatedDate = orderInitiated.Order.CreatedDate;
-                    OrderItems = orderInitiated.Order.OrderItems;
+                    TotalPrice = orderInitiated.TotalPrice;
+                    Address = orderInitiated.Address;
+                    CreatedAt = orderInitiated.CreatedAt;
+                    OrderItems = orderInitiated.OrderItems;
                     break;
                 case OrderStockConfirmed _:
                     OrderStatusId = OrderStatus.StockConfirmed.Id;

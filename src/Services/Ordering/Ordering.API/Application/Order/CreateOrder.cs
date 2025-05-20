@@ -17,7 +17,7 @@
 
             await _orderRepository.AddAsync(order.Id, order, ct).ConfigureAwait(false);
 
-            return AppResult.Success(order.Id); 
+            return AppResult.Success(order.Id);
         }
     }
 }

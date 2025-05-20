@@ -83,7 +83,7 @@ const CartItem = (props: CartProductItemProps) => {
           <i className="fa-regular fa-plus"></i>
         </button>
       </div>
-      <div className="flex-1 text-center">${product.qty * product.price}</div>
+      <div className="flex-1 text-center">${(product.price * product.qty).toFixed(2)}</div>
       <div className="flex-1 text-center">Delete</div>
     </div>
   );

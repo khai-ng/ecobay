@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { ProtectedRoute } from '@base/components/protected-route';
 import CartProductItem, { CartProductItemProps } from './components/cart-item';
 import { useRouter } from 'next/router';
-import { ProductItemProps } from '@app/components/product-item';
 
 export function Cart() {
   const [cartProducts, setCartProducts] = useState<CartProductItemProps[]>([]);
@@ -12,13 +11,12 @@ export function Cart() {
   useEffect(() => {
     const cartData = localStorage.getItem('cart');
     const productData = cartData
-      ? (JSON.parse(cartData) as ProductItemProps[])
+      ? (JSON.parse(cartData) as CartProductItemProps[])
       : [];
 
     const cartProductMapping = productData.map((x) => ({
       ...x,
       check: false,
-      qty: 1,
     }));
     setCartProducts(cartProductMapping);
     setTotalPrice(calculateTotalPrice(cartProductMapping));
@@ -54,7 +52,7 @@ export function Cart() {
 
   const handleCheckout = () => {
     localStorage.setItem(
-      'checkoutItems',
+      'checkout',
       JSON.stringify(cartProducts.filter((x) => x.check)),
     );
 
@@ -63,7 +61,7 @@ export function Cart() {
 
   return (
     <ProtectedRoute>
-      <div>
+      <div className='py-5'>
         <div className="flex items-center gap-4">
           <div className="max-w-6">
             <input
@@ -91,14 +89,10 @@ export function Cart() {
         ))}
 
         <div className="flex items-center gap-4">
-          {/* <div className="max-w-6">
-            <input type="checkbox" className="w-full"></input>
-          </div>
-          <span>Select All</span> */}
           <div className="flex-1"></div>
           <div className="flex gap-4">
             <span>Total:</span>
-            <span>${totalPrice}</span>
+            <span>${totalPrice.toFixed(2)}</span>
           </div>
           <button
             className="bg-violet-800 text-white px-16 py-2 rounded-md"

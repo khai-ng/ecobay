@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ProductItemDto } from '../pages/lib/product.model';
+import { ProductItemDto } from '../lib/product/product.model';
 
 export interface ProductItemProps extends ProductItemDto {
   discountRate?: number;
@@ -14,7 +14,7 @@ const ProductItem = (props: ProductItemProps) => {
       'cart',
       JSON.stringify([
         ...JSON.parse(localStorage.getItem('cart') || '[]'),
-        props,
+        { ...props, qty: 1 }
       ]),
     );
   };

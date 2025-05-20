@@ -1,13 +1,12 @@
 ﻿using Core.MongoDB.Context;
 using Core.MongoDB.OpenTelemetry;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenTelemetry;
 
 namespace Core.MongoDB
 {
-    public static class Configs
+	public static class Configs
     {
         public static IServiceCollection AddMongoDbContext<TContext>(
             this IServiceCollection services, 

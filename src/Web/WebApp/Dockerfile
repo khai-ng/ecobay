@@ -1,4 +1,4 @@
-FROM node:slim AS base
+FROM node:24-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -52,6 +52,9 @@ COPY --from=builder /app/apps/${APP_NAME}/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/apps/${APP_NAME}/next.config.js ./
+
+# Copy the docker environment file
+COPY --from=builder /app/apps/${APP_NAME}/.env.docker ./.env
 
 ENV NODE_ENV=production
 ENV PORT=3000

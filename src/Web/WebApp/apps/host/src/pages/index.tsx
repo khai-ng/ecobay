@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Banner from '../components/banner';
 import ProductListLoader from '../components/product-list.loader';
 import DiscoverItem, { DiscoverItemProps } from './components/discover-item';
-import { GetProductRequest } from './lib/product.model';
+import { GetProductRequest } from '../lib/product/product.model';
 
 export function Index() {
   const getArrivalRequest: GetProductRequest = {

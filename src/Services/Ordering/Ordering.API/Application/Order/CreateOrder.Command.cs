@@ -8,8 +8,7 @@
         string District,
         string Street,
         List<OrderItemCommand> OrderItems) : IRequest<AppResult<Guid>>
-    {
-    }
+    { }
 
     public record OrderItemCommand(
         string ProductId,

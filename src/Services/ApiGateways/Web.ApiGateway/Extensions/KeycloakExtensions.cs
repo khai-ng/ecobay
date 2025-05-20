@@ -19,25 +19,25 @@
                                 }
                     }
                 }
-            });;
+            });
 
             var secRequirement = new OpenApiSecurityRequirement()
+            {
+                {
+                    new()
                     {
+                        Reference = new()
                         {
-                            new()
-                            {
-                                Reference = new()
-                                {
-                                    Id = "Keycloak",
-                                    Type = ReferenceType.SecurityScheme
-                                },
-                                In = ParameterLocation.Header,
-                                Name = "Bearer",
-                                Scheme = "Bearer"
-                            },
-                            []
-                        }
-                    };
+                            Id = "Keycloak",
+                            Type = ReferenceType.SecurityScheme
+                        },
+                        In = ParameterLocation.Header,
+                        Name = "Bearer",
+                        Scheme = "Bearer"
+                    },
+                    []
+                }
+            };
             opt.AddSecurityRequirement(secRequirement);
         }
     }

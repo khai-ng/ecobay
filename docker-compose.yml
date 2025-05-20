@@ -69,6 +69,10 @@ services:
         restart: on-failure
         environment:
             - NODE_ENV=production
+            - KEYCLOAK_URL=http://keycloak:5101
+            - KEYCLOAK_REALM=ecobay
+            - KEYCLOAK_CLIENT_ID=web-client
+            - API_URL=http://web-apigateway:5100
         ports:
             - 3001:3000
 

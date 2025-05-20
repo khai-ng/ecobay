@@ -7,9 +7,7 @@ namespace Core.EntityFramework.Entities
     /// </summary>
     public abstract record DomainEvent : DomainEvent<Guid>
     {
-        protected DomainEvent() : base(Guid.NewGuid()) { }
         protected DomainEvent(Guid aggregate) : base(aggregate)
-        {
-        }
+        { }
     }
 }

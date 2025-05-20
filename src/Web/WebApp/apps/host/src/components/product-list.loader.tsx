@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getProductsAsync } from "../pages/lib/product.api";
-import { GetProductRequest } from "../pages/lib/product.model";
+import { getProductsAsync } from "../lib/product/product.api";
+import { GetProductRequest } from "../lib/product/product.model";
 import ProductItem, { ProductItemProps } from "./product-item";
 import ProductItemLoading from "./product-item.loading";
 
@@ -16,7 +16,7 @@ const ProductListLoader = (props: ProductListProps) => {
   useEffect(() => {
       const fetchProductData = async () => {
         const response = await getProductsAsync(props.request);
-        setProducts(response?.data || []);
+        setProducts(response.data?.data || []);
       };
   
       fetchProductData();

@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { useAuth } from '@base/components/auth-context';
 import Link from 'next/link';
+import router from 'next/router';
 
 const Header = () => {
   const { keycloak, isAuthenticated } = useAuth();
@@ -15,6 +16,10 @@ const Header = () => {
     localStorage.removeItem('refreshToken');
     keycloak?.logout();
   };
+
+  const handleHomePageRedirect = () => {
+    router.push('/');
+  }
 
   return (
     <header className="text-sm md:text-base flex flex-col justify-center items-center gap-3 mb-3">
@@ -32,7 +37,7 @@ const Header = () => {
       </div>
 
       <div className="flex gap-6 w-full justify-between">
-        <div className="relative flex justify-center items-center gap-1">
+        <div className="relative flex justify-center items-center gap-1 hover:cursor-pointer" onClick={handleHomePageRedirect}>
           <Image src={'/images/logo.svg'} alt="ecobay" width={45} height={45} />
           <span className="text-2xl font-bold">ecobay</span>
           <span className="absolute top-0 right-0 text-[8px] text-primary font-bold leading-4">
@@ -63,9 +68,9 @@ const Header = () => {
             <i className="fa-regular fa-heart"></i>
           </div>
           <div
-            className="flex gap-1 items-center p-2"
+            className="flex gap-1 items-center"
             onClick={isAuthenticated ? handleSignOut : handleSignIn}>
-            <i className="fa-regular fa-user"></i>
+            <i className="fa-regular fa-user p-2"></i>
             <span className="hidden sm:block">
               {isAuthenticated ? keycloak?.tokenParsed?.name : 'Sign In'}
             </span>
