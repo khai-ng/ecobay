@@ -1,4 +1,4 @@
-﻿namespace Ordering.API.Application.Services
+﻿namespace Ordering.API.Application.Ordering
 {
     public class CreateOrder : IRequestHandler<CreateOrderCommand, AppResult<Guid>>, ITransient
     {

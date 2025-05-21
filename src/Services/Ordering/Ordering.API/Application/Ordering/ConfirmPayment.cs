@@ -1,4 +1,4 @@
-﻿namespace Ordering.API.Application.Services
+﻿namespace Ordering.API.Application.Ordering
 {
     public class ConfirmPayment : IRequestHandler<ConfirmPaymentCommand, AppResult<string>>, ITransient
     {

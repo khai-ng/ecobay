@@ -20,7 +20,7 @@ global using Marten.Events.Daemon;
 global using MediatR;
 global using Microsoft.EntityFrameworkCore;
 global using Ordering.API.Application.IntegrationEvents;
-global using Ordering.API.Application.Services;
+global using Ordering.API.Application.Ordering;
 global using Ordering.API.Domain.OrderAggregate;
 global using Ordering.API.Domain.OrderAggregate.Events;
 global using System.ComponentModel.DataAnnotations;
