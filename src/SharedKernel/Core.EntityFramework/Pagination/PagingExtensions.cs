@@ -8,7 +8,6 @@ namespace Core.EntityFramework.Pagination
         internal static async Task<PagingResponse<T>> PagingAsync<T>(
             IAllablePagingRequest request,
             IQueryable<T> data)
-            where T : class
         {
             var response = new PagingResponse<T>(request);
             if (!request.GetAll ?? false)
@@ -22,8 +21,6 @@ namespace Core.EntityFramework.Pagination
         }
 
         internal static IQueryable<T> FilterApply<T, TPage>(PagingResponse<TPage> paging, IQueryable<T> data)
-            where T : class
-            where TPage : class
         {
             paging.SetHasNext(
                 !paging.GetAll ?? false
@@ -42,7 +39,6 @@ namespace Core.EntityFramework.Pagination
     {
         internal static async Task<CountedPagingResponse<T>> PagingAsync<T>(IAllablePagingRequest request,
             IQueryable<T> data)
-            where T : class
         {
             var rs = await PagingExtensions.PagingAsync(request, data).ConfigureAwait(false);
             var response = new CountedPagingResponse<T>(rs);
@@ -54,8 +50,6 @@ namespace Core.EntityFramework.Pagination
         internal static IQueryable<T> FilterApply<T, TPage>(
             this CountedPagingResponse<TPage> paging,
             IQueryable<T> data)
-            where T : class
-            where TPage : class
         {
             paging.SetTotal(data.LongCount());
             return PagingExtensions.FilterApply(paging, data);

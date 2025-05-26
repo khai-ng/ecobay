@@ -20,7 +20,6 @@
         /// <returns></returns>
         public static PagingResponse<T> Result<T>(this FluentPaging fluentPaging,
             IEnumerable<T> data)
-            where T : class
             => PagingResponse<T>.Result(fluentPaging, data);
 
 
@@ -32,7 +31,6 @@
         /// <returns></returns>
         public static PagingResponse<T> Paging<T>(this FluentPaging fluentPaging,
             IEnumerable<T> data)
-            where T : class
             => PagingResponse<T>.Paging(fluentPaging, data);
 
     }

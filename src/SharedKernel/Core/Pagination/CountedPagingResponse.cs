@@ -1,7 +1,6 @@
 ﻿namespace Core.Pagination
 {
     public class CountedPagingResponse<T> : PagingResponse<T>, ICountedPagingResponse<T>
-        where T : class
     {
         public long PageCount { get; private set; }
 
@@ -25,7 +24,6 @@
 
         internal static CountedPagingResponse<T> Result<TModel>(ICountedPagingResponse<TModel> request,
             IEnumerable<T> data)
-            where TModel : class
         {
             var rs = PagingResponse<T>.Result(request, data);
             var response = new CountedPagingResponse<T>(rs)

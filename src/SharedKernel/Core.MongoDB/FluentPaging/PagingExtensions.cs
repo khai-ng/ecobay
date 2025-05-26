@@ -8,8 +8,6 @@ namespace Core.MongoDB.Paginations
         internal static async Task<PagingResponse<TOut>> PagingAsync<TIn, TOut>(
             IAllablePagingRequest request,
             IFindFluent<TIn, TOut> data)
-            where TIn : class
-            where TOut : class
         {
             var response = new PagingResponse<TOut>(request);
             if (!request.GetAll ?? false)
@@ -25,9 +23,6 @@ namespace Core.MongoDB.Paginations
         internal static IFindFluent<TIn, TOut> FilterApply<TIn, TOut, TPage>(
             this PagingResponse<TPage> paging, 
             IFindFluent<TIn, TOut> data)
-            where TIn : class
-            where TOut : class
-            where TPage : class
         {
             paging.SetHasNext(
                 !paging.GetAll ?? false
@@ -47,8 +42,6 @@ namespace Core.MongoDB.Paginations
         internal static async Task<CountedPagingResponse<TOut>> PagingAsync<TIn, TOut>(
             IAllablePagingRequest request,
             IFindFluent<TIn, TOut> data)
-            where TIn : class
-            where TOut : class
         {
             var rs = await PagingExtensions.PagingAsync(request, data).ConfigureAwait(false);
             var response = new CountedPagingResponse<TOut>(rs);
@@ -60,9 +53,6 @@ namespace Core.MongoDB.Paginations
         internal static IFindFluent<TIn, TOut> FilterApply<TIn, TOut, TPage>(
             this CountedPagingResponse<TPage> paging,
             IFindFluent<TIn, TOut> data)
-            where TIn : class
-            where TOut : class
-            where TPage : class
         {
             paging.SetTotal(data.CountDocuments());
             return PagingExtensions.FilterApply(paging, data);

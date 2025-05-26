@@ -2,7 +2,7 @@
 
 namespace Core.Pagination
 {
-    public class PagingResponse<T> : IPagingRequest, IPagingResponse<T> where T : class
+    public class PagingResponse<T> : IPagingRequest, IPagingResponse<T>
     {
         public IEnumerable<T> Data { get; private set; }
         public bool HasNext { get; private set; }
@@ -54,7 +54,6 @@ namespace Core.Pagination
         internal static PagingResponse<T> Result<TModel>(
             IPagingResponse<TModel> request,
             IEnumerable<T> data)
-            where TModel : class
         {
             var response = new PagingResponse<T>(request)
             {

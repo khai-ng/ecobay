@@ -40,7 +40,6 @@
         /// <returns></returns>
         public static CountedPagingResponse<T> Result<T>(this CountedFluentPaging extendFluentPaging,
             IEnumerable<T> data)
-            where T : class
             => CountedPagingResponse<T>.Result(extendFluentPaging, data);
 
 
@@ -52,7 +51,6 @@
         /// <returns></returns>
         public static CountedPagingResponse<T> Paging<T>(this CountedFluentPaging extendFluentPaging,
             IEnumerable<T> data)
-            where T : class
             => CountedPagingResponse<T>.Paging(extendFluentPaging, data);
 
     }

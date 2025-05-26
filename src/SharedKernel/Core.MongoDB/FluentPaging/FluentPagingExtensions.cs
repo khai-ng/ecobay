@@ -14,8 +14,6 @@ namespace Core.MongoDB.Paginations
         /// <returns></returns>
             
         public static Task<PagingResponse<TOut>> PagingAsync<TIn, TOut>(this FluentPaging request, IFindFluent<TIn, TOut> data)
-            where TIn : class
-            where TOut : class
             => PagingExtensions.PagingAsync(request, data);
 
         /// <summary>
@@ -26,8 +24,6 @@ namespace Core.MongoDB.Paginations
         /// <param name="data"></param>
         /// <returns></returns>
         public static IFindFluent<TIn, TOut> FilterApply<TIn, TOut>(this FluentPaging paging, IFindFluent<TIn, TOut> data)
-            where TIn : class
-            where TOut : class
             => PagingExtensions.FilterApply(paging, data);
     }
 
@@ -41,8 +37,6 @@ namespace Core.MongoDB.Paginations
         /// <param name="data"></param>
         /// <returns></returns>
         public static Task<CountedPagingResponse<TOut>> PagingAsync<TIn, TOut>(this CountedFluentPaging request, IFindFluent<TIn, TOut> data)
-            where TIn : class
-            where TOut : class
             => CountedPagingExtensions.PagingAsync(request, data);
 
         /// <summary>
@@ -53,8 +47,6 @@ namespace Core.MongoDB.Paginations
         /// <param name="data"></param>
         /// <returns></returns>
         public static IFindFluent<TIn, TOut> FilterApply<TIn, TOut>(this CountedFluentPaging paging, IFindFluent<TIn, TOut> data)
-            where TIn : class
-            where TOut : class
             => CountedPagingExtensions.FilterApply(paging, data);
     }
 }
