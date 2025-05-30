@@ -2,14 +2,13 @@
 using Core.Repositories;
 using Marten;
 using MediatR;
-using System.Linq;
 
 namespace Core.Marten.Repository
 {
     public class MartenRepository<TEntity> : IEventStoreRepository<TEntity>
         where TEntity : AggregateRoot<Guid>
     {
-        private readonly IDocumentSession _documentSession;
+        protected readonly IDocumentSession _documentSession;
         private readonly IMediator _mediator;
 
         public MartenRepository(IDocumentSession documentSession, IMediator mediator)
@@ -17,6 +16,14 @@ namespace Core.Marten.Repository
             _documentSession = documentSession;
             _mediator = mediator;
         }
+
+        private async Task PublishEvent(TEntity aggregate, CancellationToken ct = default)
+        {
+            foreach (var domainEvent in aggregate.Events)
+                await _mediator.Publish(domainEvent, ct);
+            aggregate.ClearEvents();
+        }
+
 
         public async Task<TEntity?> FindAsync(Guid id, CancellationToken ct = default)
         {
@@ -32,28 +39,22 @@ namespace Core.Marten.Repository
         public async Task<long> AddAsync(Guid id, TEntity aggregate, CancellationToken ct = default)
         {
             _documentSession.Events.StartStream<TEntity>(id, aggregate.Events);
-
-			foreach (var domainEvent in aggregate.Events)
-				await _mediator.Publish(domainEvent, ct);
-			
-            aggregate.ClearEvents();
-
             await _documentSession.SaveChangesAsync(ct).ConfigureAwait(false);
-            return aggregate.Events.Count;
+
+            var count = aggregate.Events.Count;
+            await PublishEvent(aggregate, ct);
+            return count;
         }
 
         public async Task<long> UpdateAsync(Guid id, TEntity aggregate, long? expectedVersion = null, CancellationToken ct = default)
         {
             var nextVersion = expectedVersion ?? aggregate.Version;
             _documentSession.Events.Append(id, nextVersion, aggregate.Events);
-
-			foreach (var domainEvent in aggregate.Events)
-				await _mediator.Publish(domainEvent, ct);
-
-            aggregate.ClearEvents();
-			
             await _documentSession.SaveChangesAsync(ct).ConfigureAwait(false);
-            return aggregate.Events.Count;
+
+            var count = aggregate.Events.Count;
+            await PublishEvent(aggregate, ct);
+            return count;
         }
     }
 }

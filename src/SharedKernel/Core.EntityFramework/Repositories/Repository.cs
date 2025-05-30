@@ -24,28 +24,7 @@ namespace Core.EntityFramework.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            return await _entity
-                .ToListAsync()
-                .ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<TDestination>> GetAllAsync<TDestination>(Expression<Func<TEntity, TDestination>> selector)
-        {
-            return await _entity
-                .Select(selector)
-                .ToListAsync()
-                .ConfigureAwait(false);
-        }
-
-        public async Task<TEntity?> FindAsync(TKey id)
-        {
-            return await _entity
-                .Where(x => x.Id!.Equals(id))
-                .SingleOrDefaultAsync()
-                .ConfigureAwait(false);
-        }
+        public Task<TEntity?> FindAsync(TKey id) => FindAsync(id, x => x);
 
         public async Task<TDestination?> FindAsync<TDestination>(TKey id, Expression<Func<TEntity, TDestination>> selector)
         {
@@ -56,31 +35,32 @@ namespace Core.EntityFramework.Repositories
                 .ConfigureAwait(false);
         }
 
-        public void Add(TEntity entity)
-            => _entity.Add(entity);
+        public Task<IEnumerable<TEntity>> GetAllAsync() => GetAllAsync(x => x);
 
-        public void Update(TEntity entity)
-            => _entity.Update(entity);
+        public async Task<IEnumerable<TDestination>> GetAllAsync<TDestination>(Expression<Func<TEntity, TDestination>> selector)
+        {
+            return await _entity
+                .Select(selector)
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
 
-        public void Remove(TEntity entity)
-            => _entity.Remove(entity);
+        public void Add(TEntity entity) => _entity.Add(entity);
 
-        public void AddRange(IEnumerable<TEntity> entities)
-            => _entity.AddRange(entities);
+        public void Update(TEntity entity) => _entity.Update(entity);
 
-        public void UpdateRange(IEnumerable<TEntity> entities)
-            => _entity.UpdateRange(entities);
+        public void Remove(TEntity entity) => _entity.Remove(entity);
 
-        public void RemoveRange(IEnumerable<TEntity> entities)
-            => _entity.RemoveRange(entities);
+        public void AddRange(IEnumerable<TEntity> entities) => _entity.AddRange(entities);
 
-        public  Task BulkAddAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null)
-            => _context.BulkInsertAsync(entities, bulkConfig);
+        public void UpdateRange(IEnumerable<TEntity> entities) => _entity.UpdateRange(entities);
 
-        public Task BulkUpdateAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null)
-            =>  _context.BulkUpdateAsync(entities, bulkConfig);
+        public void RemoveRange(IEnumerable<TEntity> entities) => _entity.RemoveRange(entities);
 
-        public Task BulkDeleteAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null)
-            => _context.BulkDeleteAsync(entities, bulkConfig);
+        public  Task BulkAddAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null) => _context.BulkInsertAsync(entities, bulkConfig);
+
+        public Task BulkUpdateAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null) => _context.BulkUpdateAsync(entities, bulkConfig);
+
+        public Task BulkDeleteAsync(IEnumerable<TEntity> entities, BulkConfig? bulkConfig = null) => _context.BulkDeleteAsync(entities, bulkConfig);
     }
 }

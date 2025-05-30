@@ -3,6 +3,8 @@ using Core.Marten.OpenTelemetry;
 using Core.Marten.Repository;
 using Core.Repositories;
 using Marten;
+using Marten.Events;
+using Marten.Events.Daemon.Resiliency;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,29 +17,33 @@ namespace Core.Marten
     {
         private const string DefaultConfigKey = "EventStore";
 
-        public static IServiceCollection AddMarten(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddMarten(
+            this IServiceCollection services, 
+            IConfiguration configuration,
+            Action<StoreOptions>? configure = null)
         {
-            var martenOptions = configuration.GetRequiredSection(DefaultConfigKey).Get<MartenConnection>();
-            if (martenOptions == null) throw new ArgumentNullException(nameof(martenOptions));
+            var martenConfigs = configuration.GetRequiredSection(DefaultConfigKey).Get<MartenConfigs>();
+            if (martenConfigs == null) throw new ArgumentNullException(nameof(martenConfigs));
 
-            services.AddMarten(options =>
+            var config = services.AddMarten(options =>
             {
-                options.Connection(martenOptions.ConnectionString);
+                options.Connection(martenConfigs.ConnectionString);
                 options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
-
-                options.Events.DatabaseSchemaName = martenOptions.WriteSchema;
-                //options.DatabaseSchemaName = martenOptions.ReadSchema;
-
-                //options.UseSystemTextJsonForSerialization();
-
+                options.Events.DatabaseSchemaName = martenConfigs.WriteSchema;
+                options.DatabaseSchemaName = martenConfigs.ReadSchema;
                 options.Events.MetadataConfig.CausationIdEnabled = true;
                 options.Events.MetadataConfig.CorrelationIdEnabled = true;
                 options.Events.MetadataConfig.HeadersEnabled = true;
 
                 options.OpenTelemetry.TrackConnections = TrackLevel.Normal;
                 options.OpenTelemetry.TrackEventCounters();
+
+                configure?.Invoke(options);
             })
             .UseLightweightSessions();
+            
+            if(martenConfigs.EnableDaemon)
+                config.AddAsyncDaemon(DaemonMode.Solo);
 
             return services;
         }
@@ -65,7 +71,12 @@ namespace Core.Marten
             builder
                 .WithTracing(tracing =>
                 {
+                    tracing.AddSource("Marten");
                     tracing.AddSource(MartenActivityScope.ActivitySourceName);
+                })
+                .WithMetrics(metrics =>
+                {
+                    metrics.AddMeter("Marten");
                 });
 
             return builder;
