@@ -9,11 +9,7 @@
             _mediator = mediator;
         }
       
-        public override void Configure()
-		{
-			Post("order/{id}/confirm-stock");
-			//AllowAnonymous();
-        }
+        public override void Configure() => Post("order/{id}/confirm-stock");
 
         public override async Task HandleAsync(CancellationToken ct)
         {

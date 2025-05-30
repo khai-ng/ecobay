@@ -1,9 +1,9 @@
 ﻿namespace Product.API.Presentation.Endpoint
 {
-    public class GetProductEndpoint : Endpoint<GetProductCommand, HttpResultTyped<PagingResponse<ProductItemDto>>>
+    public class Get : Endpoint<GetProductCommand, HttpResultTyped<PagingResponse<ProductItemDto>>>
     {
         private readonly IMediator _mediator;
-        public GetProductEndpoint(IMediator mediator)
+        public Get(IMediator mediator)
         {
             _mediator = mediator;
         }

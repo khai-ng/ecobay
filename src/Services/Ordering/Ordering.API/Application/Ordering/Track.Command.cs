@@ -1,6 +1,6 @@
 ﻿namespace Ordering.API.Application.Ordering
 {
-	public record Track: IRequest<AppResult<Guid>>
+	public record TrackCommand : IRequest<AppResult<Guid>>
 	{
 	}
 
