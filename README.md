@@ -4,11 +4,11 @@
 
 ## 🚀 Features
 
-- **Product Catalog Management**: Search and filter products efficiently.
-- **Shopping Cart & Checkout**: Seamless cart operations and checkout workflows.
-- **Order Processing**: Robust order handling with event sourcing.
-- **User Authentication**: Secure user management using Keycloak.
-- **Real-time Monitoring**: Comprehensive observability across services.
+- **Product Catalog Management**: Search and filter products efficiently using MongoDB
+- **Shopping Cart & Checkout**: Seamless cart operations and checkout workflows
+- **Order Processing**: Robust order handling with event sourcing using Marten
+- **User Authentication**: Secure user management using Keycloak
+- **Real-time Monitoring**: Comprehensive observability across services
 
 ## 🧱 System Architecture
 
@@ -28,10 +28,21 @@ Ecobay follows a microservices architecture with clear separation of concerns an
 | Data           | `mongo-db`       | MongoDB 7.0.9                | 27017 | Product document storage            |
 | Data           | `mysql-db`       | MySQL 8.0.34                 | 3306  | Relational data and identity        |
 | Data           | `pg-eventstore-db` | PostgreSQL 15              | 5432  | Event sourcing storage              |
+| Monitoring    | `prometheus`    | Prometheus             | 9090  | Metrics collection                   |
+| Monitoring    | `grafana`       | Grafana               | 3100  | Metrics visualization                |
+| Tracing       | `jaeger`        | Jaeger                | 16686 | Distributed tracing                  |
+| Logging       | `loki`          | Loki                  | 3101  | Log aggregation                     |
 
 ### Shared Kernel Architecture
 
-The platform implements a shared kernel pattern to provide consistent infrastructure across all services, facilitating code reuse and standardized practices.
+The platform implements a shared kernel pattern to provide consistent infrastructure across all services:
+
+- **Core**: Base abstractions and utilities
+- **Core.AspNetCore**: Web API and middleware components
+- **Core.MongoDB**: MongoDB repositories and configurations
+- **Core.Marten**: Event sourcing infrastructure
+- **Core.Kafka**: Message bus implementations
+- **Core.EntityFramework**: Data access patterns
 
 ## 🛠️ Technology Stack
 
@@ -50,7 +61,7 @@ The platform implements a shared kernel pattern to provide consistent infrastruc
 - **Language**: TypeScript
 - **Authentication**: NextAuth.js with Keycloak provider
 - **Deployment**: Docker containerization
-  
+
 ### Infrastructure Technologies
 - **Containerization**: Docker with Docker Compose orchestration
 - **Service Discovery**: Container networking with health checks
@@ -71,4 +82,6 @@ docker-compose up --build
 
 ## 📚 Documentation
 
-For a comprehensive understanding of the system, refer to the [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/khai-ng/ecobay)
+- [Usage Examples](./UsageExamples.md) - Detailed examples of API usage, authentication flows, and monitoring
+- [Changelog](./ChangeLog.md) - Version history and feature updates
+- [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/khai-ng/ecobay)
