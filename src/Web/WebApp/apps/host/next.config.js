@@ -6,7 +6,8 @@ const path = require('path');
 const remotes = (isServer) => {
   const location = isServer ? "ssr" : "chunks";
   return {
-    ordering: `ordering@http://localhost:3002/_next/static/${location}/remoteEntry.js`,
+    'order/cart': `order@http://localhost:3002/_next/static/${location}/remoteEntry.js`,
+    'order/checkout': `order@http://localhost:3002/_next/static/${location}/remoteEntry.js`,
   };
 };
 

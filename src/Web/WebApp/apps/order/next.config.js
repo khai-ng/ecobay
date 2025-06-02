@@ -11,13 +11,20 @@ const nextConfig = {
     svgr: false,
   },
   webpack(config, option) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      // '@app': path.join(__dirname, 'src'),
+      // '@base': path.join(__dirname, '../../shared'),
+    };
+
     config.plugins.push(
       new NextFederationPlugin({
-        name: "ordering",
+        name: "order",
         remotes: {},
         filename: "static/chunks/remoteEntry.js",
         exposes: {
-          "./ordering": "./src/pages",
+          "./cart": "./src/pages/cart",
+          "./checkout": "./src/pages/checkout"
         },
         extraOptions: {
           exposePages: true,

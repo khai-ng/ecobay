@@ -6,7 +6,7 @@ export function Index() {
    */
   return (
     <div>
-      Hello i am ordering
+      Hello i am order
     </div>
   );
 }

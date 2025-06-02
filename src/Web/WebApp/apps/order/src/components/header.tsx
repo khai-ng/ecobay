@@ -8,7 +8,6 @@ const Header = () => {
   const { keycloak, isAuthenticated } = useAuth();
 
   const handleSignIn = () => {
-    console.log('Signing in...', keycloak);
     keycloak?.login();
   };
 
