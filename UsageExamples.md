@@ -1,6 +1,6 @@
 # Ecobay Usage Examples
 
-This document provides practical examples of using the Ecobay platform's various features and APIs. For system architecture and setup, see [README.md](./README.md). For version history, see [ChangeLog.md](./ChangeLog.md).
+This document provides practical examples of using the Ecobay platform's various features and APIs.
 
 ## 🔑 Authentication
 
@@ -13,8 +13,6 @@ curl -X POST http://localhost:5101/realms/ecobay/protocol/openid-connect/token \
   -d "username=demo@ecobay.com" \
   -d "password=demo123"
 ```
-
-The authentication system uses Keycloak (see `Identity.API` in [Core Components](./README.md#core-components)).
 
 ## 📦 Product Management
 
@@ -72,22 +70,17 @@ Content-Type: application/json
 }
 ```
 
-Cart operations are handled by the `Ordering.API` service using event sourcing (see [Backend Technologies](./README.md#backend-technologies)).
-
 ## 📊 Monitoring and Metrics
 
 ### Access Monitoring Dashboards
 - Grafana: http://localhost:3000 (metrics visualization)
 - Prometheus: http://localhost:9090 (metrics collection)
 - Jaeger UI: http://localhost:16686 (distributed tracing)
-- Loki: http://localhost:3101 (log aggregation)
 
 ### Example Prometheus Query for API Latency
 ```promql
 histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le, service))
 ```
-
-For more details on monitoring tools, see [Infrastructure Technologies](./README.md#infrastructure-technologies).
 
 ## 🔄 Event Sourcing Examples
 
@@ -97,26 +90,21 @@ GET http://localhost:5010/api/v1/orders/{orderId}/events
 Authorization: Bearer {your-token}
 ```
 
-Event sourcing is implemented using Marten (see [Backend Technologies](./README.md#backend-technologies)).
-
 ## 🐳 Docker Commands
 
 ### Start Specific Services
 ```bash
 # Start only the product service and its dependencies
-docker-compose up -d product-api mongo-db
+docker-compose up -d product-api-1 mongo-db
 
 # Start monitoring stack
 docker-compose up -d grafana prometheus loki jaeger
 ```
 
-For complete deployment instructions, see [Deployment](./README.md#-deployment).
-
 ## 💡 Advanced Usage
 
 ### Implementing Custom Event Handlers
 ```csharp
-// Example using the Core.MediaR package from Shared Kernel
 public class OrderCreatedHandler : INotificationHandler<OrderCreatedEvent>
 {
     public async Task Handle(OrderCreatedEvent notification, CancellationToken cancellationToken)
@@ -127,11 +115,5 @@ public class OrderCreatedHandler : INotificationHandler<OrderCreatedEvent>
 }
 ```
 
-For more information about the shared kernel components, see [Shared Kernel Architecture](./README.md#shared-kernel-architecture).
-
-## 🔗 API Documentation
-
-For detailed OpenAPI/Swagger documentation of all services, visit:
-- Product API: http://localhost:5110/swagger
-- Order API: http://localhost:5120/swagger
-- Payment API: http://localhost:5130/swagger
+For more detailed API documentation, refer to [README.md](./README.md).
+For version history and updates, see [ChangeLog.md](./ChangeLog.md).
