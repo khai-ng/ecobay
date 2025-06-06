@@ -9,7 +9,7 @@
             _mediator = mediator;
         }
       
-        public override void Configure() => Post("order/{id}/confirm-stock");
+        public override void Configure() => Post("orders/{id}/confirm-stock");
 
         public override async Task HandleAsync(CancellationToken ct)
         {

@@ -1,7 +1,7 @@
 ﻿namespace Ordering.API.Application.Ordering
 {
     public record CreateOrderCommand(
-        Guid BuyerId,
+        Guid? BuyerId,
         Guid PaymentId,
         string Country,
         string City,

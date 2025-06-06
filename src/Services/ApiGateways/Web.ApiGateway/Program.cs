@@ -39,8 +39,8 @@ app.UseDefaultSwaggerRedirection()
     .UseSwaggerUI(opt =>
     {
         opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Web ApiGateway");
-        opt.SwaggerEndpoint("/order/swagger/v1/swagger.json", "Ordering Api");
-        opt.SwaggerEndpoint("/product/swagger/v1/swagger.json", "Product Api");
+        opt.SwaggerEndpoint("/orders/swagger/v1/swagger.json", "Order Api");
+        opt.SwaggerEndpoint("/products/swagger/v1/swagger.json", "Product Api");
     });
 app.MapGetSwaggerForYarp(app.Configuration);
 

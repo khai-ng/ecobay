@@ -9,7 +9,7 @@
         }
         public override void Configure()
         {
-            Get("product/{id}");
+            Get("products/{id}");
             AllowAnonymous();
         }
 

@@ -8,7 +8,7 @@
 			_mediator = mediator;
 		}
 
-		public override void Configure() => Get("order");
+		public override void Configure() => Get("orders");
 
 		public override async Task HandleAsync(GetOrderCommand req, CancellationToken ct)
 		{
