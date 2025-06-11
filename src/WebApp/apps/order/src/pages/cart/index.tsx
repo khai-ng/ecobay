@@ -60,46 +60,46 @@ export function Cart() {
 
   return (
     <ProtectedRoute>
-    <div className='py-5'>
-      <div className="flex items-center gap-4">
-        <div className="max-w-6">
-          <input
-            type="checkbox"
-            className="w-full"
-            onChange={(event) =>
-              handleSelectAll(event.target.checked)
-            }></input>
+      <div className='py-5'>
+        <div className="flex items-center gap-4">
+          <div className="max-w-6">
+            <input
+              type="checkbox"
+              className="w-full"
+              onChange={(event) =>
+                handleSelectAll(event.target.checked)
+              }></input>
+          </div>
+          <div className="basis-[50%]">Product</div>
+          <div className="flex-1 text-center">Price</div>
+          <div className="flex-1 text-center">Qty</div>
+          <div className="flex-1 text-center">Total</div>
+          <div className="flex-1 text-center">Actions</div>
         </div>
-        <div className="basis-[50%]">Product</div>
-        <div className="flex-1 text-center">Price</div>
-        <div className="flex-1 text-center">Qty</div>
-        <div className="flex-1 text-center">Total</div>
-        <div className="flex-1 text-center">Actions</div>
-      </div>
 
-      {cartProducts.map((product, index) => (
-        <CartItem
-          key={index}
-          {...product}
-          onChange={(check: boolean, quantity: number) =>
-            handleProductChange(check, index, quantity)
-          }
-        />
-      ))}
+        {cartProducts.map((product, index) => (
+          <CartItem
+            key={index}
+            {...product}
+            onChange={(check: boolean, quantity: number) =>
+              handleProductChange(check, index, quantity)
+            }
+          />
+        ))}
 
-      <div className="flex items-center gap-4">
-        <div className="flex-1"></div>
-        <div className="flex gap-4">
-          <span>Total:</span>
-          <span>${totalPrice.toFixed(2)}</span>
+        <div className="flex items-center gap-4">
+          <div className="flex-1"></div>
+          <div className="flex gap-4">
+            <span>Total:</span>
+            <span>${totalPrice.toFixed(2)}</span>
+          </div>
+          <button
+            className="bg-violet-800 text-white px-16 py-2 rounded-md"
+            onClick={handleCheckout}>
+            Checkout
+          </button>
         </div>
-        <button
-          className="bg-violet-800 text-white px-16 py-2 rounded-md"
-          onClick={handleCheckout}>
-          Checkout
-        </button>
       </div>
-    </div>
     </ProtectedRoute>
   );
 }
