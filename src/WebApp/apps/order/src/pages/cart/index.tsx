@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { ProtectedRoute } from '@base/components/protected-route';
-import CartProductItem, { CartProductItemProps } from './components/cart-item';
-import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import CartItem, { CartProductItemProps } from './cart-item';
+import { ProtectedRoute } from '@base/components';
 
-export function CartComponent() {
+export function Cart() {
   const [cartProducts, setCartProducts] = useState<CartProductItemProps[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
-  const router = useRouter();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cartData = localStorage.getItem('cart');
@@ -55,11 +55,11 @@ export function CartComponent() {
       'checkout',
       JSON.stringify(cartProducts.filter((x) => x.check)),
     );
-
-    router.push('/checkout');
+    navigate('/checkout');
   };
 
   return (
+    <ProtectedRoute>
     <div className='py-5'>
       <div className="flex items-center gap-4">
         <div className="max-w-6">
@@ -78,7 +78,7 @@ export function CartComponent() {
       </div>
 
       {cartProducts.map((product, index) => (
-        <CartProductItem
+        <CartItem
           key={index}
           {...product}
           onChange={(check: boolean, quantity: number) =>
@@ -100,13 +100,6 @@ export function CartComponent() {
         </button>
       </div>
     </div>
-  );
-}
-
-export function Cart() {
-  return (
-    <ProtectedRoute>
-      <CartComponent />
     </ProtectedRoute>
   );
 }

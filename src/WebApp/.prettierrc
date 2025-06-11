@@ -1,8 +1,3 @@
 {
-  "bracketSameLine": true,
-  "trailingComma": "all",
-  "tabWidth": 2,
-  "semi": true,
-  "singleQuote": true,
-  "htmlWhitespaceSensitivity": "ignore"
+  "singleQuote": true
 }

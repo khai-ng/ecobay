@@ -1,4 +1,4 @@
-export const endPoints = {
-    product: "product",
-    order: "order",
+export const EndPoints = {
+    product: "products",
+    order: "orders",
 }

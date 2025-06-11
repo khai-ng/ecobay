@@ -1,0 +1,31 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/host-e2e"
+    },
+    {
+      "path": "./apps/host"
+    },
+    {
+      "path": "./apps/order-e2e"
+    },
+    {
+      "path": "./apps/order"
+    },
+    {
+      "path": "./libs/components"
+    },
+    {
+      "path": "./libs/utils"
+    },
+    {
+      "path": "./libs/fonts"
+    },
+    {
+      "path": "./libs/context"
+    }
+  ]
+}

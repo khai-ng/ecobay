@@ -1,0 +1,8 @@
+{
+  "name": "@web-app/host",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "host"
+  }
+}

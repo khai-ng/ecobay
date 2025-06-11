@@ -1,7 +1,7 @@
 {
     "cSpell.words": [
-        "ecobay",
-        "garet"
+        "ecobay"
     ],
-    "bitoAI.codeCompletion.enableAutoCompletion": false
+    "nxConsole.nxWorkspacePath": "",
+    "nxConsole.generateAiAgentRules": true
 }
