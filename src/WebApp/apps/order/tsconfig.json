@@ -3,13 +3,13 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/context"
+    },
+    {
       "path": "../../libs/utils"
     },
     {
       "path": "../../libs/components"
-    },
-    {
-      "path": "../../libs/context"
     },
     {
       "path": "./tsconfig.app.json"

@@ -5,11 +5,13 @@ export interface OrderRequest {
     city: string;
     district: string;
     street: string;
-    orderItems: OrderItemRequest[];
+    orderItems: OrderItem[];
 }
 
-export interface OrderItemRequest {
+export interface OrderItem {
     productId: string;
+    productName: string;
+    imageUrl: string;
     price: number;
     qty: number;
 }

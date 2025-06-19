@@ -32,13 +32,13 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
+      "path": "../../libs/context/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/utils/tsconfig.lib.json"
     },
     {
       "path": "../../libs/components/tsconfig.lib.json"
-    },
-    {
-      "path": "../../libs/context/tsconfig.lib.json"
     }
   ]
 }

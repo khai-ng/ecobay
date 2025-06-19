@@ -1,12 +1,13 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CartProductItemProps } from '../cart/cart-item';
-import { OrderRequest } from './order.model';
+import { OrderRequest } from './checkout.model';
 import { ProductItemProps, ProtectedRoute } from '@base/components';
-import { OrderService } from './order.service';
-
+import { CheckoutService } from './checkout.service';
+import { useAuth } from '@base/context';
 
 export function Checkout() {
+  const { keycloak } = useAuth();
   const [checkoutItems, setCheckoutItems] = useState<CartProductItemProps[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [formData, setFormData] = useState({
@@ -43,8 +44,10 @@ export function Checkout() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    if(!keycloak?.profile?.id) return;
+
     const orderRequest: OrderRequest = {
-      buyerId: '0fc353cb-c8aa-48c0-a8e6-45abbfab7f1f',
+      buyerId: keycloak.profile.id,
       paymentId: 'cabbdc63-4021-4953-be3f-99b8f0590d5f',
       country: formData.country,
       city: formData.city,
@@ -52,12 +55,14 @@ export function Checkout() {
       street: formData.street,
       orderItems: checkoutItems.map((item) => ({
         productId: item.id,
+        productName: item.title,
+        imageUrl: item.image ?? '',
         price: item.price,
         qty: item.qty,
       })),
     };
 
-    const result = await OrderService.addOrder(orderRequest);
+    const result = await CheckoutService.addOrderAsync(orderRequest);
     if (!result.isSuccess) {
       alert(`Checkout failed: ${result.message}`);
       return;
@@ -87,13 +92,10 @@ export function Checkout() {
   };
 
   const calculateTotalPrice = (products: CartProductItemProps[]) => {
-    if (!products) {
-      return 0;
-    }
+    if (!products) return 0;
+    
     return products.reduce(
-      (acc, product) => acc + product.price * product.qty,
-      0,
-    );
+      (acc, product) => acc + product.price * product.qty, 0);
   };
 
   return (

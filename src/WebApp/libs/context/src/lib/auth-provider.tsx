@@ -1,101 +1,6 @@
-// import { useEffect, useState } from "react";
-// import type Keycloak from 'keycloak-js';
-// import { initKeycloak } from "@base/utils";
-// import { AuthContext } from "./auth-context";
-
-// export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-//   const [keycloak, setKeycloak] = useState<Keycloak | null>(null);
-//   const [initialized, setInitialized] = useState(false);
-
-//   useEffect(() => {
-//     const kc = initKeycloak();
-//     let intervalId: NodeJS.Timeout;
-
-//     if(kc.didInitialize) {
-//       console.log('Keycloak already initialized');
-//       setKeycloak(kc);
-//       setInitialized(true);
-//       return;
-//     }
-    
-//     const initKeycloakContext = async () => {
-//       const authenticated = await kc.init({
-//         // flow: 'implicit',
-
-//         onLoad: 'check-sso',
-//         silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
-//         checkLoginIframe: false, // Disable iframe checking
-//         pkceMethod: 'S256', // Enable PKCE
-//         token: localStorage.getItem('token') || undefined,
-//         refreshToken: localStorage.getItem('refreshToken') || undefined,
-//       });
-
-//       setKeycloak(kc);
-//       setInitialized(true);
-
-//       if(!authenticated) return;
-
-//       intervalId = setInterval(() => {
-//         kc.updateToken(70)
-//           .then((refreshed) => {
-//             if (refreshed) {
-//               localStorage.setItem('token', kc.token as string);
-//               localStorage.setItem('refreshToken', kc.refreshToken as string);
-//             }
-//           })
-//           .catch(() => {
-//             console.error('Failed to refresh token');
-//             localStorage.removeItem('token');
-//             localStorage.removeItem('refreshToken');
-            
-//             kc.logout();
-//           });
-//       }, 60000); // Check token every minute
-
-//       kc.onTokenExpired = () => {
-//         kc.updateToken(70)
-//           .then((refreshed) => {
-//             if (refreshed) {
-//               console.log('Expiration token refreshed');
-//               localStorage.setItem('token', kc.token as string);
-//               localStorage.setItem('refreshToken', kc.refreshToken as string);
-//             }
-//           })
-//           .catch(() => {
-//             console.error('Failed to refresh token on expiration');
-//             localStorage.removeItem('token');
-//             localStorage.removeItem('refreshToken');
-            
-//             kc.logout();
-//           });
-//       };
-
-//       return () => {
-//         clearInterval(intervalId);
-//       };
-//     }
-
-//     initKeycloakContext();
-    
-//   }, [initialized]);
-
-//   return (
-//     <AuthContext.Provider
-//       value={{
-//         keycloak,
-//         initialized,
-//         isAuthenticated: !!keycloak?.authenticated,// && !isLocallyLoggedOut,
-//       }}
-//     >
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-
 import { useEffect, useState } from "react";
 import type Keycloak from 'keycloak-js';
-import { initKeycloak } from "@base/utils";
+import { initClient } from "@base/utils";
 import { AuthContext } from "./auth-context";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -103,77 +8,69 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    const kc = initKeycloak();
-    let intervalId: NodeJS.Timeout;
+    const kc = initClient();
 
-    // if(kc.didInitialize) {
-    //   setKeycloak(kc);
-    //   setInitialized(true);
-    //   return;
-    // }
+    const channel = new BroadcastChannel('auth');
 
-    kc.init({
-      // flow: 'implicit',
+    function updateTokens(token?: string, refreshToken?: string) {
+      localStorage.setItem('token', token ?? '');
+      localStorage.setItem('refreshToken', refreshToken ?? '');
+      channel.postMessage({
+        type: 'TOKEN_REFRESHED',
+        token: token,
+        refreshToken: refreshToken,
+      });
+    }
+    channel.onmessage = (event) => {
+      if (event.data.type === 'TOKEN_REFRESHED') {
+        kc.token = event.data.token;
+        kc.refreshToken = event.data.refreshToken;
+      }
+    };
 
-      onLoad: 'check-sso',
-      silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
-      checkLoginIframe: false, // Disable iframe checking
-      pkceMethod: 'S256', // Enable PKCE
-      token: localStorage.getItem('token') || undefined,
-      refreshToken: localStorage.getItem('refreshToken') || undefined,
-    })
-    .then((authenticated) => {
+    if (kc.didInitialize) {
       setKeycloak(kc);
       setInitialized(true);
+      return;
+    }
 
-      if(!authenticated) return;
+    kc.onTokenExpired = async () => {
+      try {
+        const refreshed = await kc.updateToken(70);
+        if (refreshed) {
+          updateTokens(kc.token, kc.refreshToken);
+        }
+      } catch (error) {
+        console.error('Failed to refresh token on expiration:', error);
+        kc.logout();
+      }
+    };
 
-      localStorage.setItem('token', kc.token ?? '');
-      localStorage.setItem('refreshToken', kc.refreshToken ?? '');
-
-      intervalId = setInterval(() => {
-        kc.updateToken(70)
-          .then((refreshed) => {
-            if (refreshed) {
-              localStorage.setItem('token', kc.token as string);
-              localStorage.setItem('refreshToken', kc.refreshToken as string);
-            }
-          })
-          .catch(() => {
-            console.error('Failed to refresh token');
-            localStorage.removeItem('token');
-            localStorage.removeItem('refreshToken');
-            
-            kc.logout();
-          });
-      }, 60000); // Check token every minute
-    })
-    .catch((error) => {
-      console.error('Keycloak init error:', error);
-    });
-
-    kc.onTokenExpired = () => {
-      kc.updateToken(70)
-        .then((refreshed) => {
-          if (refreshed) {
-            console.log('Expiration token refreshed');
-            localStorage.setItem('token', kc.token as string);
-            localStorage.setItem('refreshToken', kc.refreshToken as string);
-          }
+    const init = async () => {
+      try {
+        await kc.init({
+          // flow: 'implicit',
+          onLoad: 'check-sso',
+          silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
+          checkLoginIframe: false, // Disable iframe checking
+          pkceMethod: 'S256', // Enable PKCE
+          token: localStorage.getItem('token') || undefined,
+          refreshToken: localStorage.getItem('refreshToken') || undefined,
         })
-        .catch(() => {
-          console.error('Failed to refresh token on expiration');
-          localStorage.removeItem('token');
-          localStorage.removeItem('refreshToken');
-          
-          kc.logout();
-        });
-    };
 
-    return () => {
-      clearInterval(intervalId);
-    };
-    
+        setKeycloak(kc);
+        setInitialized(true);
+        updateTokens(kc.token, kc.refreshToken);
+
+      } catch (error) {
+        console.error('Keycloak init error:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+      }
+    }
+
+    init();
+
   }, []);
 
   return (

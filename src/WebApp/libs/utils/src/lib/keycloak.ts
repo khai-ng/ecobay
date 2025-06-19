@@ -2,7 +2,7 @@ import Keycloak from 'keycloak-js';
 
 let keycloak: Keycloak | null = null;
 
-export const initKeycloak = (): Keycloak => {
+export const initClient = (): Keycloak => {
   if (keycloak) return keycloak;
   
   if (!import.meta.env.VITE_PUBLIC_KEYCLOAK_URL 
