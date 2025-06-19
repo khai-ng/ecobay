@@ -4,13 +4,13 @@
     public class OrderConfirmStockIntegrationEventHandler :
         IIntegrationEventHandler<OrderConfirmStockIntegrationEvent>, ITransient
     {
-        private readonly IKafkaProducer _producer;
+        private readonly IIntegrationProducer _producer;
         private readonly Serilog.ILogger _logger;
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public OrderConfirmStockIntegrationEventHandler(
-            IKafkaProducer producer,
+            IIntegrationProducer producer,
             Serilog.ILogger logger,
             IProductRepository productRepository,
             IUnitOfWork unitOfWork)
@@ -35,16 +35,16 @@
                     });
 
                 var products = await _productRepository.GetByIdAsync(convertProductQty.Select(x => x.Id)).ConfigureAwait(false);
-                if (convertProductQty.Count() != products.Count())
-                {
-                    var publishEvent = new OrderConfirmStockFailedIntegrationEvent(@event.OrderId, "Order product not found");
-                    await _producer.PublishAsync(publishEvent, ct).ConfigureAwait(false);
-                    return;
-                }
-
+                if (convertProductQty.Count() != products.Count())               
+                    throw new Exception("Order product not found");
+                
                 foreach (var item in products)
                 {
-                    item.Qty -= convertProductQty.Single(x => x.Id == item.Id).Qty;
+                    var eventProductQty = convertProductQty.Single(x => x.Id == item.Id).Qty;
+                    if (item.Qty < eventProductQty)
+                        throw new Exception($"Product out of stock");
+
+                    item.Qty -= eventProductQty;
                 }
 
                 _productRepository.UpdateRange(products);

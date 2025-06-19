@@ -13,6 +13,9 @@ namespace Core.Marten.OpenTelemetry
         public Task<TEntity?> FindAsync(Guid id, CancellationToken ct)
             => martenRepository.FindAsync(id, ct);
 
+        public Task<IEnumerable<EventEntity>> GetStreamAsync(Guid id, CancellationToken ct = default)
+            => martenRepository.GetStreamAsync(id, ct);
+
         public Task<long> AddAsync(Guid id, TEntity aggregate, CancellationToken ct = default)
         {
             using (var activity = MartenActivityScope.StartActivity(nameof(AddAsync)))
@@ -38,5 +41,7 @@ namespace Core.Marten.OpenTelemetry
                 return martenRepository.UpdateAsync(id, aggregate, expectedVersion, ct);
             }
         }
+
+        
     }
 }

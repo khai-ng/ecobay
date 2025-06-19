@@ -2,7 +2,6 @@
 using Core.Kafka.Consumers;
 using Core.Kafka.OpenTelemetry;
 using Core.Kafka.Producers;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenTelemetry;
@@ -14,6 +13,7 @@ namespace Core.Kafka
         public static IServiceCollection AddKafkaProducer(this IServiceCollection services)
         {
             services.TryAddScoped<IKafkaProducer, KafkaProducer>();
+            services.TryAddScoped<IIntegrationProducer>(sp => sp.GetRequiredService<IKafkaProducer>());
             return services;
         }
 

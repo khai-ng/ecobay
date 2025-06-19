@@ -4,7 +4,8 @@
     {
         [MaxLength(24)]
         public string ProductId { get; private set; }
-        [Column(TypeName = "decimal(12, 2)")]
+        public string ProductName { get; private set; }
+        public string ImageUrl { get; private set; }
         public decimal Price { get; private set; }
         public int Qty { get; private set; }
 
@@ -12,10 +13,14 @@
         private OrderItem() { }
         public OrderItem(
             string productId,
+            string productName,
+            string imageUrl,
             decimal price,
             int qty)
         {
             ProductId = productId;
+            ProductName = productName;
+            ImageUrl = imageUrl;
             Price = price;
             Qty = qty;
         }

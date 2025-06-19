@@ -11,13 +11,13 @@
 
 		public override void Configure()
 		{
-			Post("orders/{id}/tracking");
+			Get("orders/{id}/tracking");
 			//AllowAnonymous();
 		}
 
 		public override async Task HandleAsync(CancellationToken ct)
 		{
-			var request = new ConfirmStockCommand(Route<Guid>("id"));
+			var request = new TrackingCommand(Route<Guid>("id"));
 			var result = await _mediator.Send(request, ct).ConfigureAwait(false);
 			await SendResultAsync(result.ToHttpResult()).ConfigureAwait(false);
 		}

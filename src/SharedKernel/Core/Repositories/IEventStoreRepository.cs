@@ -15,6 +15,7 @@ namespace Core.Repositories
         where TKey : struct
     {
         Task<TEntity?> FindAsync(TKey id, CancellationToken ct = default);
+        Task<IEnumerable<EventEntity>> GetStreamAsync(Guid id, CancellationToken ct = default);
         Task<long> AddAsync(TKey id, TEntity aggregate, CancellationToken ct = default);
         Task<long> UpdateAsync(TKey id, TEntity aggregate, long? expectedVersion = null, CancellationToken ct = default);
     }

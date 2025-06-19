@@ -15,14 +15,12 @@
         {
             Guid buyerId;
             if(request.BuyerId != null)
-            {
-                var user = _user.Info();
-                buyerId = user.Id;
-            } else
+                buyerId = _user.Info().Id;
+            else
                 buyerId = (Guid)request.BuyerId!;
 
             var address = new Address(request.Country, request.City, request.District, request.Street);
-            var orderItems = request.OrderItems.Select(x => new OrderItem(x.ProductId, x.Price, x.Qty));
+            var orderItems = request.OrderItems.Select(x => new OrderItem(x.ProductId, x.ProductName, x.ImageUrl, x.Price, x.Qty));
             var order = new Order(buyerId, request.PaymentId, address, orderItems);
 
             await _orderRepository.AddAsync(order.Id, order, ct).ConfigureAwait(false);

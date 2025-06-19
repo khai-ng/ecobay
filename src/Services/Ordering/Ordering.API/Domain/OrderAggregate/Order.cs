@@ -48,7 +48,7 @@
         public void SetStockConfirmed()
         {
             if (OrderStatusId >= OrderStatus.StockConfirmed.Id)
-                throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Paid.Name}");
+                throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.StockConfirmed.Name}");
 
             OrderStatusId = OrderStatus.StockConfirmed.Id;
             Enqueue(new OrderStockConfirmed(Id));

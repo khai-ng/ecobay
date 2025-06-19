@@ -30,7 +30,7 @@ namespace Core.Marten.Repository
             return await _documentSession.Events.AggregateStreamAsync<TEntity>(id, token: ct).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<EventEntity>> GetEventsAsync(Guid id, CancellationToken ct = default)
+        public async Task<IEnumerable<EventEntity>> GetStreamAsync(Guid id, CancellationToken ct = default)
         {
             var events = await _documentSession.Events.FetchStreamAsync(id, token: ct).ConfigureAwait(false);
             return events.Select(x => new EventEntity(x.Id, x.Data, x.EventType, x.EventTypeName, x.Sequence, x.Version, x.Timestamp));

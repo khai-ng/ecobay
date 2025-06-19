@@ -12,6 +12,8 @@
 
     public record OrderItemCommand(
         string ProductId,
+        string ProductName,
+        string ImageUrl,
         decimal Price,
         int Qty)
     {

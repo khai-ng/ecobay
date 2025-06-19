@@ -11,7 +11,7 @@
 
         public async Task<AppResult<string>> Handle(ConfirmPaymentCommand request, CancellationToken ct)
         {
-            var order = await _orderRepository.FindAsync(request.OrderId).ConfigureAwait(false);
+            var order = await _orderRepository.FindAsync(request.OrderId, ct).ConfigureAwait(false);
 
             if (order == null)
                 return AppResult.Invalid(new ErrorDetail($"Can not find order {request.OrderId}"));
