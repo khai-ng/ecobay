@@ -1,4 +1,4 @@
-﻿namespace Core.AppResults
+﻿ namespace Core.AppResults
 {
     public class AppResult<T> : IAppResult<T>
     {

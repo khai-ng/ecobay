@@ -6,6 +6,6 @@ namespace Core.Kafka.Producers
     {
         public ProducerConfig ProducerConfig { get; set; } = default!;
         public string? Topic { get; set; } = default;
-        public TopicPartitionDto? TopicPartition { get; set; }
+        public AppTopicPartition? TopicPartition { get; set; }
     }
 }

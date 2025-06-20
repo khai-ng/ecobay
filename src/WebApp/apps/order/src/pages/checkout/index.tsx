@@ -44,10 +44,10 @@ export function Checkout() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if(!keycloak?.profile?.id) return;
+    if(!keycloak?.tokenParsed?.sub) return;
 
     const orderRequest: OrderRequest = {
-      buyerId: keycloak.profile.id,
+      buyerId: keycloak?.tokenParsed?.sub,
       paymentId: 'cabbdc63-4021-4953-be3f-99b8f0590d5f',
       country: formData.country,
       city: formData.city,

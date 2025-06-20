@@ -3,22 +3,21 @@ using Core.AspNet.Common;
 using Core.IntegrationEvents.IntegrationEvents;
 using Core.Kafka.OpenTelemetry;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Serilog;
-
 namespace Core.Kafka.Producers
 {
     public interface IKafkaProducer : IIntegrationProducer
     {
         Task PublishAsync(string topic, IntegrationEvent @event, CancellationToken ct = default);
-        Task PublishAsync(TopicPartitionDto tp, IntegrationEvent @event, CancellationToken ct = default);
+        Task PublishAsync(AppTopicPartition tp, IntegrationEvent @event, CancellationToken ct = default);
     }
 
     internal class KafkaProducer: IKafkaProducer
     {
         private readonly KafkaProducerConfig _kafkaConfig;
-        private readonly ILogger _logger;
-        public KafkaProducer(IConfiguration configuration, ILogger logger)
+        private readonly ILogger<KafkaProducer> _logger;
+        public KafkaProducer(IConfiguration configuration, ILogger<KafkaProducer> logger)
         {
             _kafkaConfig = configuration.GetRequiredConfig<KafkaProducerConfig>("Kafka:Producer")
                 ?? throw new ArgumentNullException(nameof(KafkaProducerConfig));
@@ -57,15 +56,12 @@ namespace Core.Kafka.Producers
 
                 if (result.Status == PersistenceStatus.Persisted
                     || result.Status == PersistenceStatus.PossiblyPersisted)
-                    _logger.ForContext(typeof(KafkaProducer))
-                        .ForContext("Host", _kafkaConfig.ProducerConfig.BootstrapServers)
-                        .ForContext("Topic", topic)
-                        .ForContext("Message", message, true)
-                        .Information("Kafka produce message");
+                    _logger.LogInformation("Kafka Host:{Host} Topic:{Topic} - Produce message: {Message}",
+                        _kafkaConfig.ProducerConfig.BootstrapServers, topic, JsonConvert.SerializeObject(message));
             }  
         }
 
-        public async Task PublishAsync(TopicPartitionDto tp, IntegrationEvent @event, CancellationToken ct = default)
+        public async Task PublishAsync(AppTopicPartition tp, IntegrationEvent @event, CancellationToken ct = default)
         {
             
             using var producer = new ProducerBuilder<string, string>(_kafkaConfig.ProducerConfig).Build();
@@ -86,12 +82,8 @@ namespace Core.Kafka.Producers
 
             if (result.Status == PersistenceStatus.Persisted
                 || result.Status == PersistenceStatus.PossiblyPersisted)
-                _logger.ForContext(typeof(KafkaProducer))
-                    .ForContext("Host", _kafkaConfig.ProducerConfig.BootstrapServers)
-                    .ForContext("Topic", tp.Topic)
-                    .ForContext("Partition", tp.Partition)
-                    .ForContext("Message", message, true)
-                    .Information("Kafka produce message");
+                _logger.LogInformation("Kafka Host:{Host} TopicPartition:{TopicPartition} - Produce message: {Message}",
+                    _kafkaConfig.ProducerConfig.BootstrapServers, tp, JsonConvert.SerializeObject(message));
         }
     }
 }

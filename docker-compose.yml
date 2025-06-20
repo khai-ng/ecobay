@@ -154,15 +154,15 @@ services:
             - local
 
     # Product
-    product-api-1:
+    product-api:
         profiles: [ services, minimal-workflow, all ]
-        container_name: product-api-1
+        container_name: product-api
         image: ${DOCKER_REGISTRY-}productapi
         build:
             context: .
             dockerfile: src/Services/Product/Product.API/Dockerfile
         healthcheck:
-            test: curl --fail https://product-api-1/hc || exit 1
+            test: curl --fail https://product-api/hc || exit 1
             interval: 10s
             timeout: 5s
             retries: 3

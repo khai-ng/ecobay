@@ -4,10 +4,10 @@
         IIntegrationEventHandler<OrderConfirmStockSuccessIntegrationEvent>, ITransient
     {
         private readonly IEventStoreRepository<Order> _orderRepository;
-        private readonly Serilog.ILogger _logger;
+        private readonly ILogger<OrderConfirmStockSuccessIntegrationEventHandler> _logger;
         public OrderConfirmStockSuccessIntegrationEventHandler(
             IEventStoreRepository<Order> orderRepository,
-            Serilog.ILogger logger)
+            ILogger<OrderConfirmStockSuccessIntegrationEventHandler> logger)
         {
             _orderRepository = orderRepository;
             _logger = logger;
@@ -31,13 +31,13 @@
 
         private Task NotifyFailedAsync() 
         {
-            _logger.Information("Notify order failed");
+            _logger.LogInformation("Notify order failed");
             return Task.CompletedTask;
         }
 
         private Task NotifySuccessAsync()
         {
-            _logger.Information("Notify order success");
+            _logger.LogInformation("Notify order success");
             return Task.CompletedTask;
         }
     }

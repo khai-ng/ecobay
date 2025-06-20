@@ -32,7 +32,7 @@ builder.Services
             .Index(x => x.CreatedAtTicks);
 
             options.Projections.Add<OrderProjection>(ProjectionLifecycle.Async);
-            options.Projections.SlowPollingTime = 1.Minutes();
+            options.Projections.SlowPollingTime = 5.Seconds();
         });
 
 builder.Services.AddMartenRepository<Order>();

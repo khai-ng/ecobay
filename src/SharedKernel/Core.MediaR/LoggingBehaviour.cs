@@ -1,6 +1,6 @@
 ﻿using Core.AppResults;
 using MediatR;
-using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace Core.MediaR
 {
@@ -8,9 +8,9 @@ namespace Core.MediaR
         where TRequest : class
         where TResponse : IAppResult
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<LoggingBehaviour<TRequest, TResponse>> _logger;
 
-        public LoggingBehaviour(ILogger logger)
+        public LoggingBehaviour(ILogger<LoggingBehaviour<TRequest, TResponse>> logger)
         {
             _logger = logger;
         }
@@ -19,22 +19,16 @@ namespace Core.MediaR
             RequestHandlerDelegate<TResponse> next,
             CancellationToken ct)
         {
-            _logger
-                .ForContext("reqData", request, true)
-                .Information("Handling request {reqName}", typeof(TRequest).Name);
+            _logger.LogInformation("Handling request {ReqData}", request);
 
             var response = await next();
             if (!(response as IAppResult).IsSuccess)
             {
-                _logger
-                    .ForContext("reqData", response, true)
-                    .Warning("Error handling request {reqName}", typeof(TRequest).Name);
+                _logger.LogWarning("Error request {ReqName}", typeof(TRequest).Name);
                 return response;
             }
 
-            _logger
-                .ForContext("reqData", response, true)
-                .Information("Handled request {reqName}", typeof(TRequest).Name);
+            _logger.LogInformation("Handled request {ReqName}", typeof(TRequest).Name);
             return response;
         }
     }

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using MongoDB.Driver.Core.Events;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Net;
 using System.Reflection;
-using MongoDB.Driver.Core.Events;
 
 namespace Core.MongoDB.OpenTelemetry
 {

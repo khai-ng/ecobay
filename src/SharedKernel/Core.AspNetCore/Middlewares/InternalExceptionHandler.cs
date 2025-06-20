@@ -2,14 +2,15 @@
 using Core.AppResults;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Core.AspNet.Middlewares
 {
     public class InternalExceptionHandler : IExceptionHandler
     {
-        Serilog.ILogger _logger;
+        private readonly ILogger<InternalExceptionHandler> _logger;
 
-        public InternalExceptionHandler(Serilog.ILogger logger)
+        public InternalExceptionHandler(ILogger<InternalExceptionHandler> logger)
         {
             _logger = logger;
         }
@@ -27,9 +28,7 @@ namespace Core.AspNet.Middlewares
 
             var appResult = AppResult.Error(errors.ToArray());
 
-            _logger
-                .ForContext("response", appResult, true)
-                .Fatal("Internal server error");
+            _logger.LogCritical(exception, "Internal server error");
 
             var httpResult = await appResult.ToHttpResult().ToValueAsync<object>().ConfigureAwait(false);
             await httpContext.Response.WriteAsJsonAsync(httpResult, ct).ConfigureAwait(false);

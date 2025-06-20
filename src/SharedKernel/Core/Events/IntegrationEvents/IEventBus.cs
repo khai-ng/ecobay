@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Serilog;
+using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
+using System.Reflection;
 
 namespace Core.IntegrationEvents.IntegrationEvents
 {
@@ -10,10 +12,12 @@ namespace Core.IntegrationEvents.IntegrationEvents
 
     public class EventBus : IEventBus
     {
+        private static readonly ConcurrentDictionary<Type, (Type HandlerType, MethodInfo Method)> _handlers = new();
+        
         private readonly IServiceProvider _serviceProvider;
-        private readonly ILogger _logger;
+        private readonly ILogger<EventBus> _logger;
 
-		public EventBus(IServiceProvider serviceProvider, ILogger logger)
+        public EventBus(IServiceProvider serviceProvider, ILogger<EventBus> logger)
 		{
 			_serviceProvider = serviceProvider;
 			_logger = logger;
@@ -21,27 +25,29 @@ namespace Core.IntegrationEvents.IntegrationEvents
 
 		public async Task<bool> PublishAsync(IntegrationEvent @event, CancellationToken ct = default)
         {
-            using var scope = _serviceProvider.CreateScope();
-            var eventHandleType = typeof(IIntegrationEventHandler<>).MakeGenericType(@event.GetType());
-            if (eventHandleType is null) return false;
+            var eventType = @event.GetType();
 
-			var handler = scope.ServiceProvider.GetService(eventHandleType);
+            var (handlerType, methodInfo) = _handlers.GetOrAdd(@event.GetType(), type =>
+            {
+                var constructedHandlerType = typeof(IIntegrationEventHandler<>).MakeGenericType(type);
+                var method = constructedHandlerType.GetMethod(nameof(IIntegrationEventHandler<IntegrationEvent>.HandleAsync));
+                return (constructedHandlerType, method!);
+            });
+
+            using var scope = _serviceProvider.CreateScope();
+
+			var handler = scope.ServiceProvider.GetService(handlerType);
             
             if (handler == null)
             {
-                _logger
-                    .ForContext(typeof(EventBus))
-                    .Warning("Event bus not found {Event} handler", @event.GetType().Name);
+                _logger.LogWarning("Event bus not found {Event} handler", eventType.Name);
                 return false;
             }
 
-            var methodInfo = eventHandleType.GetMethod(nameof(IIntegrationEventHandler<IntegrationEvent>.HandleAsync));
-            var task = methodInfo?.Invoke(handler, new object[] { @event, ct }) as Task;
-
+            var task = methodInfo.Invoke(handler, new object[] { @event, ct }) as Task;
             if (task is null) return false;
 
             await task.ConfigureAwait(false);
-
             return true;
         }
     }

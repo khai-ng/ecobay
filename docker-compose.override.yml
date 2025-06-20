@@ -85,7 +85,7 @@ services:
             # - Logging__Loglevel__Microsoft=Debug
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
             - Reverseproxy__Clusters__orders__Destinations__default__Address=http://order-api
-            - Reverseproxy__Clusters__products__Destinations__default__Address=http://product-api-1
+            - Reverseproxy__Clusters__products__Destinations__default__Address=http://product-api
             - Authentication__MetadataAddress=http://keycloak:8080/realms/ecobay/.well-known/openid-configuration
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
         ports:
@@ -126,7 +126,7 @@ services:
             - "5199:3306"
 
     # Product
-    product-api-1:
+    product-api:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
