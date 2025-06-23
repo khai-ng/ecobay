@@ -61,20 +61,45 @@ services:
     ##########################################
     ## Services
     ##########################################
-    web-client:
-        container_name: web-client
+    host-client:
+        container_name: host-client
         build:
-            context: ./src/Web/WebApp
-            dockerfile: Dockerfile
+            context: ./src/WebApp
+            dockerfile: apps/host/Dockerfile
         restart: on-failure
         environment:
             - NODE_ENV=production
-            - KEYCLOAK_URL=http://keycloak:5101
-            - KEYCLOAK_REALM=ecobay
-            - KEYCLOAK_CLIENT_ID=web-client
-            - API_URL=http://web-apigateway:5100
+            - ASSET_DIR=/usr/share/nginx/html
+            - APP_PREFIX=APP_
+            - APP_KEYCLOAK_URL=http://localhost:5101
+            - APP_KEYCLOAK_REALM=ecobay
+            - APP_KEYCLOAK_CLIENT_ID=web-client
+            - APP_API_URL=http://localhost:5100
+            - APP_ORDER_URL=http://localhost:4401
         ports:
-            - 3001:3000
+            - 4400:80
+        networks:
+            - local
+    
+    order-client:
+        container_name: order-client
+        build:
+            context: ./src/WebApp
+            dockerfile: apps/order/Dockerfile
+        restart: on-failure
+        environment:
+            - NODE_ENV=production
+            - ASSET_DIR=/usr/share/nginx/html
+            - APP_PREFIX=APP_
+            - APP_KEYCLOAK_URL=http://localhost:5101
+            - APP_KEYCLOAK_REALM=ecobay
+            - APP_KEYCLOAK_CLIENT_ID=web-client
+            - APP_API_URL=http://localhost:5100
+            - APP_HOST_URL=http://localhost:4400
+        ports:
+            - 4401:80
+        networks:
+            - local
 
     web-apigateway:
         profiles: [ services, minimal-workflow, all ]

@@ -1,12 +1,12 @@
 import axios, { AxiosResponse } from "axios";
 import { AppResult } from "./api.model.js";
 
-if (!import.meta.env.VITE_PUBLIC_API_URL) {
+if (!process.env.VITE_PUBLIC_API_URL) {
     throw new Error("API URL is not defined");
 }
 
 export const httpClient = axios.create({
-    baseURL: import.meta.env.VITE_PUBLIC_API_URL,
+    baseURL: process.env.VITE_PUBLIC_API_URL,
     withCredentials : false,
     timeout: 10_000
 })

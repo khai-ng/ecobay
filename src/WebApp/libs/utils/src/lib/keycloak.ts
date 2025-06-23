@@ -5,16 +5,16 @@ let keycloak: Keycloak | null = null;
 export const initClient = (): Keycloak => {
   if (keycloak) return keycloak;
   
-  if (!import.meta.env.VITE_PUBLIC_KEYCLOAK_URL 
-    || !import.meta.env.VITE_PUBLIC_KEYCLOAK_REALM 
-    || !import.meta.env.VITE_PUBLIC_KEYCLOAK_CLIENT_ID) {
+  if (!process.env.VITE_PUBLIC_KEYCLOAK_URL 
+    || !process.env.VITE_PUBLIC_KEYCLOAK_REALM 
+    || !process.env.VITE_PUBLIC_KEYCLOAK_CLIENT_ID) {
     throw new Error('Keycloak configuration is missing');
   }
 
   const keycloakConfig = {
-    url: import.meta.env.VITE_PUBLIC_KEYCLOAK_URL,
-    realm: import.meta.env.VITE_PUBLIC_KEYCLOAK_REALM,
-    clientId: import.meta.env.VITE_PUBLIC_KEYCLOAK_CLIENT_ID
+    url: process.env.VITE_PUBLIC_KEYCLOAK_URL,
+    realm: process.env.VITE_PUBLIC_KEYCLOAK_REALM,
+    clientId: process.env.VITE_PUBLIC_KEYCLOAK_CLIENT_ID
   };
 
   if (typeof window !== 'undefined') {
