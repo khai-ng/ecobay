@@ -32,8 +32,6 @@ namespace Core.EntityFramework.Context
                     entityType.AddIgnored(nameof(AggregateRoot.Events));
                 }
             }
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

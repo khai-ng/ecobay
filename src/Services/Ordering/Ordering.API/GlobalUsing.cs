@@ -1,4 +1,5 @@
-﻿global using Core.AppResults;
+﻿global using Autofac;
+global using Core.AppResults;
 global using Core.AspNet.Common;
 global using Core.AspNet.Endpoints;
 global using Core.AspNet.Results;
@@ -9,7 +10,6 @@ global using Core.EntityFramework.OpenTelemetry;
 global using Core.Events.DomainEvents;
 global using Core.IntegrationEvents.IntegrationEvents;
 global using Core.Kafka;
-global using Core.Kafka.Producers;
 global using Core.Marten;
 global using Core.MediaR;
 global using Core.Repositories;

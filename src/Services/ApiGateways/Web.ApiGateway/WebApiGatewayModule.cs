@@ -1,5 +1,5 @@
 ﻿namespace Web.ApiGateway
 {
-    public sealed class WebApiGatewayModule: AppModule
+    public sealed class WebApiGatewayModule: Module
     { }
 }

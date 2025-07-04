@@ -33,7 +33,10 @@ export const Header = () => {
         <div className="flex gap-3">
           <span className="text-gray-500 text-sm">English</span>
           <span className="text-gray-500 text-sm">USD</span>
-          <span className="text-gray-500 text-sm">Order tracking</span>
+          {/* <span className="text-gray-500 text-sm">Order tracking</span> */}
+          <a href="/orders" className="text-gray-500 text-sm">
+            Order tracking
+          </a>
         </div>
       </div>
 

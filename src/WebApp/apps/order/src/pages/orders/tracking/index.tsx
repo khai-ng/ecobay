@@ -25,7 +25,9 @@ const Tracking = () => {
             {
                 data.map((o, idx) => (
                     <div key={idx} className="flex flex-col items-center gap-2">
-                        <span>{idx + 1}</span>
+                        <div>
+                            <span>{idx + 1}</span>
+                        </div>
                         <span>{o.typeName}</span>
                         <span className="text-gray-500">{ format(new Date(o.createdAt), 'dd-MM-yyyy HH:mm') }</span>
                     </div>

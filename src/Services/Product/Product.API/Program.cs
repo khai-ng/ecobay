@@ -12,17 +12,17 @@ builder.Services.AddOpenTelemetry()
     .AddKafkaOpenTelemetry()
     .AddMongoTelemetry();
 
-var mongoConfig = builder.Configuration.GetSection("Mongo:Connection").Get<MongoConnectionOptions>()!;
+var mongoConfig = builder.Configuration.GetSection("Mongo").Get<MongoContextOptions>()!;
 builder.Services
     .AddHealthChecks()
-    .AddMongoDb(mongoConfig.ConnectionString, name: mongoConfig.DatabaseName);
+    .AddMongoDb(s => new MongoClient(mongoConfig.ConnectionString));
 
 builder.Services
     .AddFastEndpoints()
     .AddMongoDbContext<AppDbContext>(options =>
     { 
-        options.Connection = mongoConfig;
-        options.Telemetry.Enable = true;
+        options.ConnectionString = mongoConfig.ConnectionString;
+        options.Telemetry.Enable = mongoConfig.Telemetry.Enable;
     })
     .AddKafkaCompose()
     .AddMediatRDefaults();

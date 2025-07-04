@@ -5,20 +5,24 @@ using System.Reflection;
 namespace Core.MongoDB.Context
 {
     /// <summary>
-    ///  need no implement <see cref="IDisposable"/>, MongoClient handled it automaticly
+    ///  Need no implement <see cref="IDisposable"/>, MongoClient handled it automaticly
     /// </summary>
     public class MongoContext
     {
-        private MongoClient _mongoClient;
-        private IMongoDatabase _database;
-
+        private readonly IMongoDatabase _database;
         private readonly List<Func<Task>> _commands = [];
-        private readonly MongoContextOptions _dbSetting;
 
         public MongoContext(MongoContextOptions dbSettings) 
         {
-            _dbSetting = dbSettings;
-            SetDatabase(_dbSetting.Connection.DatabaseName);
+            var mongoUrl = new MongoUrl(dbSettings.ConnectionString);
+            var clientSettings = MongoClientSettings.FromUrl(mongoUrl);
+            if (dbSettings.Telemetry.Enable)
+            {
+                var options = new InstrumentationOptions { CaptureCommandText = true };
+                clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber(options));
+            }
+
+            _database = new MongoClient(clientSettings).GetDatabase(mongoUrl.DatabaseName);
         }
 
         public void AddCommand(Func<Task> func)
@@ -26,44 +30,17 @@ namespace Core.MongoDB.Context
             _commands.Add(func);
         }
 
-        public Task SaveChangesAsync(CancellationToken ct = default)
+        public async Task SaveChangesAsync(CancellationToken ct = default)
         {
-            if (_database is null)
-                SetDatabase(_dbSetting.Connection.DatabaseName);           
-
-            var commandTasks = _commands.Select(c => c.Invoke());
-            return Task.WhenAll(commandTasks);
-        }
-
-        private MongoContext SetConnection(string connectionString)
-        {
-            var clientSettings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
-            if (_dbSetting.Telemetry.Enable)
+            foreach (var command in _commands)
             {
-                var options = new InstrumentationOptions { CaptureCommandText = true };
-                clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber(options));
-            }      
-
-            _mongoClient = new MongoClient(clientSettings);
-
-            return this;
-        }
-
-        private MongoContext SetDatabase(string databaseName)
-        {
-            if (_mongoClient is null)
-                SetConnection(_dbSetting.Connection.ConnectionString);
-
-            _database = _mongoClient!.GetDatabase(databaseName);
-
-            return this;
+                await command.Invoke();
+            }
+            _commands.Clear();
         }
 
         public IMongoCollection<T> Collection<T>()
         {
-            if(_database is null)
-                SetDatabase(_dbSetting.Connection.DatabaseName);
-
             var collectionAttribute = typeof(T).GetCustomAttribute<MongoCollectionAttribute>();
             var collection = collectionAttribute != null ? collectionAttribute.CollectionName : typeof(T).Name;
             return _database!.GetCollection<T>(collection);

@@ -12,7 +12,7 @@ namespace Core.Pagination
         public int PageSize { get; private set; }
 
         [JsonIgnore]
-        public int Skip => PageIndex > 0 ? (PageIndex - 1) * PageSize : 0;
+        public int Skip => (PageIndex - 1) * PageSize;
         [JsonIgnore]
         public bool? GetAll { get; } = false;
 
@@ -32,6 +32,7 @@ namespace Core.Pagination
                 PageSize = int.MaxValue;
                 return;
             }
+            
             if (request.PageSize < 1 || request.PageIndex < 1)
                 throw new ArgumentOutOfRangeException();
 

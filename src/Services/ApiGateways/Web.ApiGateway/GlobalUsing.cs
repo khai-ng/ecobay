@@ -1,6 +1,7 @@
-﻿global using Core.AppResults;
-global using Core.AspNet.Endpoints;
+﻿global using Autofac;
+global using Core.AppResults;
 global using Core.AspNet.Common;
+global using Core.AspNet.Endpoints;
 global using Core.AspNet.Results;
 global using Core.Autofac;
 global using FastEndpoints;

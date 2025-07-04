@@ -1,26 +1,23 @@
 ﻿using Core.Entities;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Core.MongoDB.Context
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly MongoContext _context;
-        public UnitOfWork(IServiceProvider serviceProvider)
+        public UnitOfWork(MongoContext context)
         {
-            var baseDbContextTypes = Assembly.GetEntryAssembly()?
-                .GetTypes()
-                .Where(x => x.IsSubclassOf(typeof(MongoContext)))
-                .First();
-            _context = (MongoContext)serviceProvider.GetRequiredService(baseDbContextTypes!);
+            _context = context;
         }
         public void Dispose()
         {
             GC.SuppressFinalize(this);
         }
 
-        public Task SaveChangesAsync(CancellationToken ct = default)
-            => _context.SaveChangesAsync(ct);
+        public async Task<bool> SaveChangesAsync(CancellationToken ct = default)
+        {
+            await _context.SaveChangesAsync(ct).ConfigureAwait(false);
+            return true;
+        }
     }
 }

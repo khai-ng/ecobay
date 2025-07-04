@@ -14,7 +14,7 @@ namespace Core.Kafka.Consumers
         private readonly KafkaConsumerConfig _kafkaConfig;
         private readonly IEventBus _eventBus;
         private readonly ILogger<KafkaConsumer> _logger;
-        private readonly Dictionary<string, Type> eventMap;
+        private readonly Dictionary<string, Type> _eventMap;
 
         public KafkaConsumer(IConfiguration configuration, IEventBus eventBus, ILogger<KafkaConsumer> logger)
         {
@@ -23,7 +23,7 @@ namespace Core.Kafka.Consumers
             _eventBus = eventBus;
             _logger = logger;
 
-            eventMap = GetIntegrationEventTypeDictionary() ?? [];
+            _eventMap = GetIntegrationEventTypeDictionary() ?? [];
         }
 
         protected override async Task ExecuteAsync(CancellationToken ct)
@@ -46,7 +46,7 @@ namespace Core.Kafka.Consumers
 
                     var consumerResult = consumer.Consume(cancelToken.Token);
 
-                    if (!eventMap.TryGetValue(consumerResult.Message.Key, out var eventType))
+                    if (!_eventMap.TryGetValue(consumerResult.Message.Key, out var eventType))
                     {
                         _logger.LogWarning("Couldn't deserialize message type {EventType}", consumerResult.Message.Key);
                         return;

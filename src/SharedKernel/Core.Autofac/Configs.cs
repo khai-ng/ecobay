@@ -131,8 +131,8 @@ namespace Core.Autofac
 
 			var implement = builder.RegisterAssemblyTypes(assembly)
                 .Where(t => t.GetInterfaces().Any(i => i.IsAssignableFrom(typeof(TLifeTime))))
-                .PropertiesAutowired((propertyInfo, instance)
-                    => propertyInfo.GetCustomAttribute<PropertyDependency>() != null)
+                //.PropertiesAutowired((propertyInfo, instance)
+                //    => propertyInfo.GetCustomAttribute<PropertyDependency>() != null)
                 .AsImplementedInterfaces();
 
             if (typeof(TLifeTime).Equals(typeof(ITransient)))

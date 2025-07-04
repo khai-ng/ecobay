@@ -1,6 +1,6 @@
 ﻿namespace Product.API
 {
-    public class ProductApiModule : AppModule
+    public class ProductApiModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

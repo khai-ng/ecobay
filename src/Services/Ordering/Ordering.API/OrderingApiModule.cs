@@ -1,6 +1,6 @@
 ﻿namespace Ordering.API
 {
-    public class OrderingApiModule: AppModule
+    public class OrderingApiModule: Module
     {
 		//protected override void Load(ContainerBuilder builder)
 		//{
