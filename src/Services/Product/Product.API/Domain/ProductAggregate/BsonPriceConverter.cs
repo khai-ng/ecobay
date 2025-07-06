@@ -5,22 +5,17 @@
         public override string Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
             var bsonType = context.Reader.GetCurrentBsonType();
-            if(bsonType == MongoDB.Bson.BsonType.Null)
+            switch (bsonType)
             {
-                return "";
-            }
-            if (bsonType == MongoDB.Bson.BsonType.Double)
-            {
-                var doubleValue = context.Reader.ReadDouble();
-                return doubleValue.ToString();
-            }
-            else if (bsonType == MongoDB.Bson.BsonType.String)
-            {
-                return context.Reader.ReadString();
-            }
-            else
-            {
-                return "";
+                case BsonType.Null:
+                    return "";
+                case BsonType.Double:
+                    var doubleValue = context.Reader.ReadDouble();
+                    return doubleValue.ToString();
+                case BsonType.String:
+                    return context.Reader.ReadString();
+                default:
+                    return "";
             }
         }
 

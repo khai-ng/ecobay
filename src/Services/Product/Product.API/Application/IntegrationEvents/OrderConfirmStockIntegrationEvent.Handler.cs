@@ -5,18 +5,15 @@
         IIntegrationEventHandler<OrderConfirmStockIntegrationEvent>, ITransient
     {
         private readonly IIntegrationProducer _producer;
-        private readonly Serilog.ILogger _logger;
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public OrderConfirmStockIntegrationEventHandler(
             IIntegrationProducer producer,
-            Serilog.ILogger logger,
             IProductRepository productRepository,
             IUnitOfWork unitOfWork)
         {
             _producer = producer;
-            _logger = logger;
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
         }
@@ -27,20 +24,20 @@
             {
                 List<Task<AppResult>> confirmStockTasks = [];
 
-                var convertProductQty = @event.ProductQty
+                var cvtProductQty = @event.ProductQty
                     .Select(x => new
                     {
                         Id = ObjectId.Parse(x.Id),
                         x.Qty
                     });
 
-                var products = await _productRepository.GetByIdAsync(convertProductQty.Select(x => x.Id)).ConfigureAwait(false);
-                if (convertProductQty.Count() != products.Count())               
+                var products = await _productRepository.GetByIdAsync(cvtProductQty.Select(x => x.Id)).ConfigureAwait(false);
+                if (cvtProductQty.Count() != products.Count())               
                     throw new Exception("Order product not found");
                 
                 foreach (var item in products)
                 {
-                    var eventProductQty = convertProductQty.Single(x => x.Id == item.Id).Qty;
+                    var eventProductQty = cvtProductQty.Single(x => x.Id == item.Id).Qty;
                     if (item.Qty < eventProductQty)
                         throw new Exception($"Product out of stock");
 

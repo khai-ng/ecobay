@@ -5,13 +5,10 @@ namespace Ordering.API.Application.IntegrationEvents
         IIntegrationEventHandler<OrderConfirmStockFailedIntegrationEvent>, ITransient
     {
         private readonly IEventStoreRepository<Order> _orderRepository;
-        private readonly Serilog.ILogger _logger;
 
         public OrderConfirmStockFailedIntegrationEventHandler(
-            IEventStoreRepository<Order> orderRepository,
-            Serilog.ILogger logger) {
+            IEventStoreRepository<Order> orderRepository) {
             _orderRepository = orderRepository;
-            _logger = logger;
         }
         public Task HandleAsync(OrderConfirmStockFailedIntegrationEvent @event, CancellationToken ct = default)
         {

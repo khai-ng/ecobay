@@ -34,4 +34,10 @@
                 .ConfigureAwait(false);
         }
     }
+
+    public record GetProductRequest(
+        string? Category,
+        int PageIndex,
+        int PageSize) : PagingRequest(PageIndex, PageSize)
+    { }
 }
