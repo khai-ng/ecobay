@@ -17,8 +17,8 @@ namespace Product.Tests
         {
             _producerMock.Setup(x => x.PublishAsync(
                 It.IsAny<IntegrationEvent>(),
-                It.IsAny<CancellationToken>()))
-                .Returns(Task.CompletedTask);
+                It.IsAny<CancellationToken>())
+            ).Returns(Task.CompletedTask);
 
             _uowMock.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);

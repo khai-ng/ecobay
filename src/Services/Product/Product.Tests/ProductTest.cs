@@ -9,7 +9,7 @@ using Product.API.Infrastructure;
 
 namespace Product.Tests
 {
-    public class QueryTest
+    public class ProductTest
     {
 
         [Fact]
@@ -30,8 +30,8 @@ namespace Product.Tests
             var repositoryMock = new Mock<IProductRepository>();
             repositoryMock.Setup(r => r.GetPagingAsync(
                 It.IsAny<GetProductRequest>(),
-                It.IsAny<Func<ProductItem, ProductItemDto>>()))
-                .ReturnsAsync(response);
+                It.IsAny<Func<ProductItem, ProductItemDto>>())
+            ).ReturnsAsync(response);
 
             var handler = new GetProductHandler(repositoryMock.Object);
             var result = await handler.Handle(request, CancellationToken.None);
