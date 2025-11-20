@@ -11,7 +11,7 @@
             _user = user;
         }
 
-        public async Task<AppResult<Guid>> Handle(CreateOrderCommand request, CancellationToken ct)
+        public async Task<AppResult<Guid>> Handle(CreateOrderCommand request, CancellationToken ct = default)
         {
             Guid buyerId;
             if(request.BuyerId != null)

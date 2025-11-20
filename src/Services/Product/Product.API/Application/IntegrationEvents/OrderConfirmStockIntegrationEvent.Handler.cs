@@ -32,7 +32,7 @@
                     });
 
                 var products = await _productRepository.GetByIdAsync(cvtProductQty.Select(x => x.Id)).ConfigureAwait(false);
-                if (cvtProductQty.Count() != products.Count())               
+                if (cvtProductQty.Count() != products.Count())
                     throw new Exception("Order product not found");
                 
                 foreach (var item in products)

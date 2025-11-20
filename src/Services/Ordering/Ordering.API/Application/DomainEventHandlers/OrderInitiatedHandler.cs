@@ -11,7 +11,7 @@
             _orderRepository = orderRepository;
         }
 
-        public async Task Handle(OrderInitiated notification, CancellationToken cancellationToken)
+        public async Task Handle(OrderInitiated notification, CancellationToken cancellationToken = default)
         {
             var order = await _orderRepository.FindAsync(notification.Id).ConfigureAwait(false);
 
