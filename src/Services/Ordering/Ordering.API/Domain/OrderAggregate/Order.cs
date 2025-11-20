@@ -66,7 +66,7 @@
         public void SetShipped()
         {
             if (OrderStatusId != OrderStatus.Paid.Id)
-                throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Paid.Name}");
+                throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Shipped.Name}");
 
             OrderStatusId = OrderStatus.Shipped.Id;
             Enqueue(new OrderShipped(Id));
@@ -75,7 +75,7 @@
         public void SetCanceled()
         {
             if (OrderStatusId == OrderStatus.Shipped.Id)
-                throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Shipped.Name}");
+                throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Cancelled.Name}");
 
             OrderStatusId = OrderStatus.Cancelled.Id;
             Enqueue(new OrderCanceled(Id));

@@ -18,6 +18,9 @@
             decimal price,
             int qty)
         {
+            ArgumentOutOfRangeException.ThrowIfNegative(price);
+            ArgumentOutOfRangeException.ThrowIfNegative(qty);
+
             ProductId = productId;
             ProductName = productName;
             ImageUrl = imageUrl;

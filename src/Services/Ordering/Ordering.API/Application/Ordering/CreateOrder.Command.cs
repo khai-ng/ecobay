@@ -17,6 +17,9 @@
         decimal Price,
         int Qty)
     {
+        public decimal Price { get; } = Price > 0
+            ? Price
+            : throw new ArgumentOutOfRangeException("Argument can not nigative", nameof(Price));
         public int Qty { get; } = Qty > 0 
             ? Qty 
             : throw new ArgumentOutOfRangeException("Argument can not nigative", nameof(Qty));
