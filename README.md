@@ -18,7 +18,7 @@ Ecobay follows a microservices architecture with clear separation of concerns an
 
 | Component Type | Service Name     | Technology Stack             | Port  | Purpose                             |
 |----------------|------------------|------------------------------|-------|-------------------------------------|
-| Frontend       | `web-client`     | Next.js 14, React            | 3001  | User interface and experience       |
+| Frontend       | `web-client`     | React            | 3001  | User interface and experience       |
 | Gateway        | `web-apigateway` | YARP, ASP.NET Core 8         | 5100  | API routing and cross-cutting concerns |
 | Business Logic | `product-api-1`  | .NET 8, MongoDB              | 5110  | Product catalog management          |
 | Business Logic | `order-api`      | .NET 8, Entity Framework     | 5010  | Order processing and fulfillment    |
@@ -57,7 +57,7 @@ The platform implements a shared kernel pattern to provide consistent infrastruc
 - **Observability**: OpenTelemetry, Serilog structured logging
   
 ### Frontend Technologies
-- **Framework**: Next.js 14 with React 18
+- **Framework**: React 18
 - **Language**: TypeScript
 - **Authentication**: NextAuth.js with Keycloak provider
 - **Deployment**: Docker containerization
