@@ -146,6 +146,8 @@ services:
             interval: 10s
             timeout: 5s
             retries: 3
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
         networks:
             - local
         logging:
@@ -159,6 +161,11 @@ services:
         container_name: keycloak
         image: quay.io/keycloak/keycloak:latest
         restart: on-failure
+        volumes:
+            - ./configs/keycloak/:/opt/keycloak/data/import
+        command:
+            - start-dev
+            #- --import-realm
         networks:
             - local
         depends_on:
@@ -175,6 +182,8 @@ services:
             timeout: 20s
             retries: 5
         restart: on-failure
+        volumes:
+            - ./configs/keycloak/init-keycloak.sql:/docker-entrypoint-initdb.d/init-keycloak.sql
         networks:
             - local
 
@@ -203,6 +212,10 @@ services:
         profiles: [ minimal-workflow, all ]
         container_name: mongo-db
         image: mongo:7.0.9
+        volumes:
+            - ./configs/mongodb/product.json:/seed/product.json
+            - ./configs/mongodb/init.js:/docker-entrypoint-initdb.d/init.js
+            - ./configs/mongodb/init.sh:/docker-entrypoint-initdb.d/init.sh
         networks:
             - local
 
@@ -213,6 +226,8 @@ services:
         profiles: [ logging, all ]
         container_name: fluent-bit
         image: fluent/fluent-bit:2.2.2
+        volumes:
+            - ./configs/fluent-bit:/fluent-bit/etc
         networks:
             - local
 
@@ -241,13 +256,18 @@ services:
         profiles: [ logging, all ]
         container_name: loki
         image: grafana/loki:2.9.4
+        volumes:
+            - ./configs/loki:/etc/loki
+        command: "-config.file=/etc/loki/local-config.yaml"
         networks:
             - local
     
     grafana:
-        profiles: [ logging, obverser, all ]
+        profiles: [ logging, observer, all ]
         container_name: grafana
         image: grafana/grafana:10.2.4
+        volumes:
+            - ./configs/grafana/provisioning/:/etc/grafana/provisioning/
         networks:
             - local
         depends_on:
@@ -256,30 +276,55 @@ services:
 
     # Observer
     prometheus:
-        profiles: [ obverser, all ]
+        profiles: [ observer, all ]
         container_name: prometheus
         image: prom/prometheus:v2.49.1
         restart: unless-stopped
+        volumes:
+            - ./configs/prometheus:/etc/prometheus
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/prometheus'
+            - '--web.console.libraries=/etc/prometheus/console_libraries'
+            - '--web.console.templates=/etc/prometheus/consoles'
+            - '--storage.tsdb.retention.time=200h'
+            - '--web.enable-lifecycle'
         networks:
             - local
         labels:
             org.label-schema.group: "monitoring"
 
     nodeexporter:
-        profiles: [ obverser, all ]
+        profiles: [ observer, all ]
         container_name: nodeexporter
         image: prom/node-exporter:v1.7.0
         restart: unless-stopped
+        volumes:
+            - /proc:/host/proc:ro
+            - /sys:/host/sys:ro
+            - /:/rootfs:ro
+        command:
+            - '--path.procfs=/host/proc'
+            - '--path.rootfs=/rootfs'
+            - '--path.sysfs=/host/sys'
+            - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
         networks:
             - local
         labels:
             org.label-schema.group: "monitoring"
 
     cadvisor:
-        profiles: [ obverser, all ]
+        profiles: [ observer, all ]
         container_name: cadvisor
         image: gcr.io/google-containers/cadvisor:v0.36.0
         restart: unless-stopped
+        volumes:
+            - /:/rootfs:ro
+            - /var/run:/var/run:rw
+            - /sys:/sys:ro
+            - /var/lib/docker:/var/lib/docker:ro
+            - /dev/disk/:/dev/disk:ro
+            #- /cgroup:/cgroup:ro #doesn't work on MacOS only for Linux
         networks:
             - local
         labels:
@@ -289,6 +334,11 @@ services:
     #     container_name: alertmanager
     #     image: prom/alertmanager:v0.26.0
     #     restart: unless-stopped
+    #     volumes:
+    #         - .configs/alertmanager:/etc/alertmanager
+    #     command:
+    #         - '--config.file=/etc/alertmanager/config.yml'
+    #         - '--storage.path=/alertmanager'
     #     networks:
     #         - local
     #     labels:

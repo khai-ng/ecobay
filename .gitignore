@@ -397,3 +397,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 *.original
+
+#Custom
+/src/WebApp/.__mf__temp/
