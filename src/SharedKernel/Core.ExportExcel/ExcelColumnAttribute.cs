@@ -1,5 +1,5 @@
 ﻿
-namespace SV.Utility.ExportExcel
+namespace Core.ExportExcel
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class ExcelColumnAttribute : Attribute
