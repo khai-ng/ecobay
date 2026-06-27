@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 echo "Running Mongo import script..."
 
 until mongosh --eval "db.runCommand({ ping: 1 })"
