@@ -4,7 +4,7 @@
     public interface IProductRepository : IRepository<ProductItem, ObjectId>
     {
         Task<PagingResponse<TDestination>> GetPagingAsync<TDestination>(
-            GetProductRequest request,
+            GetProductQuery request,
             Func<ProductItem, TDestination> selector)
             where TDestination : class;
 

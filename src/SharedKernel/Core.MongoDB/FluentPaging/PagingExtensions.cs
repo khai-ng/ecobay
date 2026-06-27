@@ -6,7 +6,7 @@ namespace Core.MongoDB.Paginations
     internal static class PagingExtensions
     {
         internal static async Task<PagingResponse<TOut>> PagingAsync<TIn, TOut>(
-            IAllablePagingRequest request,
+            IPagingRequest request,
             IFindFluent<TIn, TOut> data)
         {
             var response = new PagingResponse<TOut>(request);
@@ -40,7 +40,7 @@ namespace Core.MongoDB.Paginations
     internal static class CountedPagingExtensions
     {
         internal static async Task<CountedPagingResponse<TOut>> PagingAsync<TIn, TOut>(
-            IAllablePagingRequest request,
+            IPagingRequest request,
             IFindFluent<TIn, TOut> data)
         {
             var rs = await PagingExtensions.PagingAsync(request, data).ConfigureAwait(false);

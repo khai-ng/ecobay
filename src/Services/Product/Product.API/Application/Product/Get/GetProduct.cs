@@ -11,7 +11,7 @@
 
         public async Task<AppResult<PagingResponse<ProductItemDto>>> Handle(GetProductCommand query, CancellationToken cancellationToken)
         {
-            var request = new GetProductRequest(query.Category, query.PageIndex, query.PageSize);
+            var request = new GetProductQuery(query.Category, query.PageIndex, query.PageSize);
             var result = await _productRepository.GetPagingAsync(
                 request,
                 x => new ProductItemDto

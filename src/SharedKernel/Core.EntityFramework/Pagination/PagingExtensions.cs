@@ -6,7 +6,7 @@ namespace Core.EntityFramework.Pagination
     internal static class PagingExtensions
     {
         internal static async Task<PagingResponse<T>> PagingAsync<T>(
-            IAllablePagingRequest request,
+            IPagingRequest request,
             IQueryable<T> data)
         {
             var response = new PagingResponse<T>(request);
@@ -37,7 +37,7 @@ namespace Core.EntityFramework.Pagination
 
     internal static class CountedPagingExtensions
     {
-        internal static async Task<CountedPagingResponse<T>> PagingAsync<T>(IAllablePagingRequest request,
+        internal static async Task<CountedPagingResponse<T>> PagingAsync<T>(IPagingRequest request,
             IQueryable<T> data)
         {
             var rs = await PagingExtensions.PagingAsync(request, data).ConfigureAwait(false);

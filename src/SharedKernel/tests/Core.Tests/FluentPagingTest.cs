@@ -23,7 +23,7 @@ namespace Core.Tests
         [Fact]
         public void paging_getall_success()
         {
-            var request = new AllablePagingRequest(2, 2, true);
+            var request = PagingRequest.All();
             var data = DummyData();
             var response = FluentPaging.From(request).Paging(data);
 

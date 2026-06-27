@@ -14,22 +14,17 @@ namespace Core.Pagination
         [JsonIgnore]
         public int Skip => (PageIndex - 1) * PageSize;
         [JsonIgnore]
-        public bool? GetAll { get; } = false;
+        public bool? GetAll { get; private set; } = false;
 
         public PagingResponse(IPagingRequest request) => Initialized(request);
 
-        public PagingResponse(IAllablePagingRequest request) 
-        {
-            GetAll = request.GetAll ?? false;
-            Initialized(request);
-        }
-
         private void Initialized(IPagingRequest request)
         {
-            if (GetAll ?? false)
+            if (request.GetAll ?? false)
             {
                 PageIndex = 1;
                 PageSize = int.MaxValue;
+                GetAll = true;
                 return;
             }
             
@@ -70,7 +65,7 @@ namespace Core.Pagination
         /// <param name="data"></param>
         /// <returns></returns>
         internal static PagingResponse<T> Paging(
-            IAllablePagingRequest request,
+            IPagingRequest request,
             IEnumerable<T> data)
         {
             var response = new PagingResponse<T>(request);

@@ -9,7 +9,7 @@
         }
 
         public async Task<PagingResponse<TDestination>> GetPagingAsync<TDestination>(
-            GetProductRequest request, 
+            GetProductQuery request, 
             Func<ProductItem, TDestination> selector)
             where TDestination : class
         {
@@ -35,7 +35,7 @@
         }
     }
 
-    public record GetProductRequest(
+    public record GetProductQuery(
         string? Category,
         int PageIndex,
         int PageSize) : PagingRequest(PageIndex, PageSize)

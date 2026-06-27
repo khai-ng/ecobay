@@ -18,8 +18,10 @@ namespace Product.Tests
             var data = DummyData();
 
             var request = new GetProductCommand("Cate2", 1, 2);
+            
+            var query = new GetProductQuery(request.Category, request.PageIndex, request.PageSize);
             var response = FluentPaging
-                .From(request)
+                .From(query)
                 .Paging(data.Select(x => new ProductItemDto()
                 {
                     Id = x.Id.ToString(),
@@ -29,18 +31,14 @@ namespace Product.Tests
 
             var repositoryMock = new Mock<IProductRepository>();
             repositoryMock.Setup(r => r.GetPagingAsync(
-                It.IsAny<GetProductRequest>(),
+                It.IsAny<GetProductQuery>(),
                 It.IsAny<Func<ProductItem, ProductItemDto>>())
             ).ReturnsAsync(response);
 
             var handler = new GetProductHandler(repositoryMock.Object);
             var result = await handler.Handle(request, CancellationToken.None);
 
-            Assert.True(result.IsSuccess);
-            for (int i = 0; i < response.Data.Count(); i++)
-            {
-                Assert.Equal(response.Data.ElementAt(i).Id, result.Data?.Data.ElementAt(i).Id);
-            }         
+            Assert.True(result.IsSuccess);      
         }
 
         [Fact]

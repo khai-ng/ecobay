@@ -131,8 +131,7 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8080
             - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
-            - Mongo__Connection__ConnectionString=mongodb://mongo-db:27017
-            - Mongo__Connection__DatabaseName=ecobay
+            - Mongo__ConnectionString=mongodb://mongo-db:27017/ecobay
             - Kafka__Producer__ProducerConfig__BootstrapServers=kafka:29092
             - Kafka__Consumer__ConsumerConfig__BootstrapServers=kafka:29092
             - Authentication__MetadataAddress=http://keycloak:8080/realms/ecobay/.well-known/openid-configuration

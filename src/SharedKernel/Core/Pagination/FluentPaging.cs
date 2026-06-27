@@ -3,10 +3,8 @@
     public class FluentPaging : PagingResponse<FluentPaging>
     {
         internal FluentPaging(IPagingRequest request) : base(request) { }
-        internal FluentPaging(IAllablePagingRequest request) : base(request) { }
 
         public static FluentPaging From(IPagingRequest request) => new(request);
-        public static FluentPaging From(IAllablePagingRequest request) => new(request);
 
     }
 

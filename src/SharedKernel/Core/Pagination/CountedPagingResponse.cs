@@ -7,7 +7,6 @@
         public long TotalCount { get; private set; }
 
         public CountedPagingResponse(IPagingRequest request) : base(request) { }
-        public CountedPagingResponse(IAllablePagingRequest request) : base(request) { }
 
         public CountedPagingResponse(IPagingResponse<T> request) : base(request)
         {
@@ -35,7 +34,7 @@
             return response;
         }
 
-        internal static new CountedPagingResponse<T> Paging(IAllablePagingRequest request,
+        internal static new CountedPagingResponse<T> Paging(IPagingRequest request,
             IEnumerable<T> data)
         {
             var rs = PagingResponse<T>.Paging(request, data);

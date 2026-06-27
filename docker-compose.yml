@@ -193,6 +193,13 @@ services:
             retries: 3
         networks:
             - local
+        depends_on:
+            mongo-db:
+                condition: service_started
+            kafka:
+                condition: service_started
+            keycloak:
+                condition: service_started
         logging:
             driver: fluentd
             options:
