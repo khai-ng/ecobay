@@ -12,7 +12,7 @@ namespace Core.Testing.Fixtures
             .Build();
 
         public MongoContextOptions MongoConfig { get; set; } = default!;
-        public async Task InitializeAsync()
+        public async ValueTask InitializeAsync()
         {
             await container.StartAsync().ConfigureAwait(false);
 
@@ -29,7 +29,7 @@ namespace Core.Testing.Fixtures
             };
         }
 
-        public async Task DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
             await container.DisposeAsync().ConfigureAwait(false);
         }

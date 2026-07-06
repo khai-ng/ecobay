@@ -9,13 +9,13 @@ namespace Core.MongoDB.Tests.Fixtures
         private readonly MongoDbFixture mongoDbFixture = new();
 
         public TContext DbContext { get; private set; }
-        public async Task InitializeAsync()
+        public async ValueTask InitializeAsync()
         {
             await mongoDbFixture.InitializeAsync().ConfigureAwait(false);
             DbContext = (TContext)Activator.CreateInstance(typeof(TContext), mongoDbFixture.MongoConfig)!;
         }
 
-        public async Task DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
             await mongoDbFixture.DisposeAsync().ConfigureAwait(false);
         }

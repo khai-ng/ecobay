@@ -1,7 +1,7 @@
-﻿using Core.MongoDB.Context;
+﻿using Core.Entities;
+using Core.MongoDB.Context;
 using Core.MongoDB.OpenTelemetry;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenTelemetry;
 
 namespace Core.MongoDB
@@ -18,14 +18,16 @@ namespace Core.MongoDB
             optionsAction?.Invoke(mongoDbOptions);
 
             services.Add(
-                new ServiceDescriptor(typeof(MongoContextOptions), 
-                sp => mongoDbOptions, 
+                new ServiceDescriptor(typeof(TContext), 
+                sp => ActivatorUtilities.CreateInstance(sp, typeof(TContext), mongoDbOptions),
                 serviceLifetime));
 
-            services.TryAdd(
-                new ServiceDescriptor(typeof(TContext), 
-                typeof(TContext), 
+            // Register UnitOfWork and its interface so consumers can depend on IUnitOfWork
+            services.Add(
+                new ServiceDescriptor(typeof(IUnitOfWork),
+                sp => ActivatorUtilities.CreateInstance(sp, typeof(UnitOfWork), sp.GetRequiredService<TContext>()),
                 serviceLifetime));
+
 
             return services;
         }

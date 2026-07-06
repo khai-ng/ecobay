@@ -22,26 +22,26 @@ namespace Core.MongoDB.Tests
         }
 
         [Fact]
-        public async Task add_entity_success()
+        public async ValueTask add_entity_success()
         {
             var products = DummyData();
             _productRepository.Add(products.ElementAt(0));
 
-            var rsAdd = await _unitOfWork.SaveChangesAsync().ConfigureAwait(false);
+            var rsAdd = await _unitOfWork.SaveChangesAsync(TestContext.Current.CancellationToken);
             Assert.True(rsAdd);
         }
 
         [Fact]
-        public async Task save_entity_success()
+        public async ValueTask save_entity_success()
         {
             var products = DummyData();
             _productRepository.AddRange(products);
-            await _unitOfWork.SaveChangesAsync().ConfigureAwait(false);
+            await _unitOfWork.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var product = products.ElementAt(0);
             product.Qty = 2;
             _productRepository.Update(product);
-            await _unitOfWork.SaveChangesAsync().ConfigureAwait(false);
+            await _unitOfWork.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var updatedProduct = await _productRepository.FindAsync(product.Id);
             Assert.Equal(product.Qty, updatedProduct?.Qty);

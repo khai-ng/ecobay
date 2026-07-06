@@ -9,7 +9,7 @@ namespace Ordering.Test.Application
     public class IntegrationEventTest
     {
         [Fact]
-        public async void order_confirm_stock_success_should_update_entity()
+        public async ValueTask order_confirm_stock_success_should_update_entity()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var items = new List<OrderItem>()
@@ -47,7 +47,7 @@ namespace Ordering.Test.Application
 
             var evt = new OrderConfirmStockSuccessIntegrationEvent(order.Id);
             var handler = new OrderConfirmStockSuccessIntegrationEventHandler(repositoryMock.Object, loggerMock.Object);
-            await handler.HandleAsync(evt);
+            await handler.HandleAsync(evt, TestContext.Current.CancellationToken);
 
             Assert.Equal(order.OrderStatus, OrderStatus.StockConfirmed);
         }

@@ -12,13 +12,13 @@ namespace Core.FunctionalTests.Fixtures
 
         public NpgsqlDataSource DataSource { get; private set; } = default!;
 
-        public async Task InitializeAsync()
+        public async ValueTask InitializeAsync()
         {
             await container.StartAsync().ConfigureAwait(false);
             DataSource = new NpgsqlDataSourceBuilder(container.GetConnectionString()).Build();
         }
 
-        public async Task DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
             await DataSource.DisposeAsync().ConfigureAwait(false);
             await container.StopAsync().ConfigureAwait(false);

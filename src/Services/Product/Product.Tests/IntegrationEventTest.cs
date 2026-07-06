@@ -25,7 +25,7 @@ namespace Product.Tests
         }
 
         [Fact]
-        public async void valid_request_should_publish_success_event()
+        public async ValueTask valid_request_should_publish_success_event()
         {
             var data = DummyData().Where(x => x.MainCategory == "Cate1").ToList();
 
@@ -50,7 +50,7 @@ namespace Product.Tests
         }
 
         [Fact]
-        public async void out_of_stock_should_publish_failed_event()
+        public async ValueTask out_of_stock_should_publish_failed_event()
         {
             var data = DummyData().Where(x => x.MainCategory == "Cate1").ToList();
 
@@ -65,7 +65,7 @@ namespace Product.Tests
             });
             var handler = new OrderConfirmStockIntegrationEventHandler(_producerMock.Object, repositoryMock.Object, _uowMock.Object);
 
-            await handler.HandleAsync(evt);
+            await handler.HandleAsync(evt, TestContext.Current.CancellationToken);
 
             _producerMock.Verify(
                 p => p.PublishAsync(
@@ -75,7 +75,7 @@ namespace Product.Tests
         }
 
         [Fact]
-        public async void not_found_should_publish_failed_event()
+        public async ValueTask not_found_should_publish_failed_event()
         {
             var data = DummyData().Where(x => x.MainCategory == "Cate1").ToList();
 
@@ -89,7 +89,7 @@ namespace Product.Tests
             });
             var handler = new OrderConfirmStockIntegrationEventHandler(_producerMock.Object, repositoryMock.Object, _uowMock.Object);
 
-            await handler.HandleAsync(evt);
+            await handler.HandleAsync(evt, TestContext.Current.CancellationToken);
 
             _producerMock.Verify(
                 p => p.PublishAsync(

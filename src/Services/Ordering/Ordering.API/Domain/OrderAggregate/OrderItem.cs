@@ -9,8 +9,6 @@
         public decimal Price { get; private set; }
         public int Qty { get; private set; }
 
-        [JsonConstructor]
-        private OrderItem() { }
         public OrderItem(
             string productId,
             string productName,

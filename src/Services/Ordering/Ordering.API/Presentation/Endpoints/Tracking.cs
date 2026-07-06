@@ -19,7 +19,7 @@
 		{
 			var request = new TrackingCommand(Route<Guid>("id"));
 			var result = await _mediator.Send(request, ct).ConfigureAwait(false);
-			await SendResultAsync(result.ToHttpResult()).ConfigureAwait(false);
+			await Send.ResultAsync(result.ToHttpResult()).ConfigureAwait(false);
 		}
 
 	}

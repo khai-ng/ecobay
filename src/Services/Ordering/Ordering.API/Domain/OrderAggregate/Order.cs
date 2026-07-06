@@ -18,20 +18,14 @@
 
         public OrderStatus OrderStatus => OrderStatus.FromValue(OrderStatusId) ?? throw new InvalidDataException("Order status is invalid");
 
-		[JsonConstructor]
-        private Order() { }
         public Order(Guid buyerId, Guid paymentId, Address address, IEnumerable<OrderItem> orderItems)
         {
-            Id = Guid.NewGuid();
-            BuyerId = buyerId;
-            PaymentId = paymentId;
-            OrderStatusId = OrderStatus.Submitted.Id;
-            Address = address;
-            CreatedAt = DateTime.UtcNow;
-            OrderItems = orderItems.ToList();
-            TotalPrice = OrderItems.Sum(x => x.Price * x.Qty);
-
-            Enqueue(new OrderInitiated(Id, BuyerId, PaymentId, address, OrderItems, TotalPrice));
+            Enqueue(new OrderInitiated(Guid.NewGuid(), 
+                buyerId, 
+                paymentId, 
+                address, 
+                orderItems.ToList(), 
+                orderItems.Sum(x => x.Price * x.Qty)));
         }
 
         public void AddOrderItem(OrderItem orderItem)
@@ -68,7 +62,6 @@
             if (OrderStatusId != OrderStatus.Paid.Id)
                 throw new Exception($"Can not change status from {OrderStatus.Name} to {OrderStatus.Shipped.Name}");
 
-            OrderStatusId = OrderStatus.Shipped.Id;
             Enqueue(new OrderShipped(Id));
         }
 

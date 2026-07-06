@@ -2,7 +2,7 @@
 
 namespace Ordering.API.Infrastruture.Projections
 {
-    public class OrderProjection : SingleStreamProjection<OrderView>
+    public class OrderProjection : SingleStreamProjection<OrderView, Guid>
     {
         public OrderProjection() { }
         public void Apply(OrderInitiated @event, OrderView view)

@@ -13,7 +13,7 @@ namespace Product.Tests
     {
 
         [Fact]
-        public async Task get_success()
+        public async ValueTask get_success()
         {
             var data = DummyData();
 
@@ -42,7 +42,7 @@ namespace Product.Tests
         }
 
         [Fact]
-        public async void get_by_id_success()
+        public async ValueTask get_by_id_success()
         {
             var data = DummyData().Where(x => x.MainCategory == "Cate2");
 

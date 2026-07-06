@@ -9,7 +9,7 @@ namespace Core.EntityFramework.Tests.Fixtures
         private readonly PostgreFixture postgresFixture = new();
         public TContext DbContext { get; private set; } = default!;
 
-        public async Task InitializeAsync()
+        public async ValueTask InitializeAsync()
         {
             await postgresFixture.InitializeAsync().ConfigureAwait(false);
             var optionsBuilder = new DbContextOptionsBuilder<TContext>()
@@ -19,7 +19,7 @@ namespace Core.EntityFramework.Tests.Fixtures
             await DbContext.Database.MigrateAsync().ConfigureAwait(false);
         }
 
-        public async Task DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
             await DbContext.DisposeAsync().ConfigureAwait(false);
             await postgresFixture.DisposeAsync().ConfigureAwait(false);

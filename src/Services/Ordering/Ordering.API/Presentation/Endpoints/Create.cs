@@ -14,7 +14,7 @@
         public override async Task HandleAsync(CreateOrderCommand req,  CancellationToken ct)
         {
             var result = await _mediator.Send(req, ct).ConfigureAwait(false);
-            await SendResultAsync(result.ToHttpResult()).ConfigureAwait(false);
+            await Send.ResultAsync(result.ToHttpResult()).ConfigureAwait(false);
         }
     }
 }

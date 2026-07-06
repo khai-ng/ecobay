@@ -24,13 +24,13 @@ namespace Core.EntityFramework.Tests
         }
 
         [Fact]
-        public async void paging_async_success()
+        public async ValueTask paging_async_success()
         {
             _mediatorMock.Setup(x => x.Publish(It.IsAny<INotification>(), default))
                 .Returns(Task.FromResult(true));
             var products = DummyData();
             _productRepository.AddRange(products);
-            _ = await _unitOfWork.SaveChangesAsync().ConfigureAwait(false);
+            _ = await _unitOfWork.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var request = new PagingRequest(1, 2);
             var rs = await CountedFluentPaging.From(request).PagingAsync(_context.Set<Product>());
@@ -40,13 +40,13 @@ namespace Core.EntityFramework.Tests
         }
 
         [Fact]
-        public async void filter_apply_success()
+        public async ValueTask filter_apply_success()
         {
             _mediatorMock.Setup(x => x.Publish(It.IsAny<INotification>(), default))
                 .Returns(Task.FromResult(true));
             var products = DummyData();
             _productRepository.AddRange(products);
-            _ = await _unitOfWork.SaveChangesAsync().ConfigureAwait(false);
+            _ = await _unitOfWork.SaveChangesAsync(TestContext.Current.CancellationToken);
 
 
             var request = new PagingRequest(1, 2);

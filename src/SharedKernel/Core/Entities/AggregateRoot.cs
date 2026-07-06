@@ -19,15 +19,13 @@ namespace Core.Entities
 
         public virtual void Apply(IDomainEvent<TKey> @event) { }
 
-        public void Apply(object @event)
-        {
-            if (@event is IDomainEvent<TKey> typedEvent)
-                Apply(typedEvent);
-        }
+        //public void Apply(object @event)
+        //{
+        //    if (@event is IDomainEvent<TKey> typedEvent)
+        //        Apply(typedEvent);
+        //}
         public void Enqueue(IDomainEvent<TKey> @event)
         {
-            ArgumentNullException.ThrowIfNull(nameof(@event));
-
             _events.Enqueue(@event);
             Apply(@event);
             Version++;

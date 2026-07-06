@@ -1,4 +1,5 @@
 using JasperFx.Core;
+using JasperFx.Events.Projections;
 using Marten;
 using Ordering.API.Infrastruture.Projections;
 

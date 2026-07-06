@@ -113,7 +113,7 @@ services:
             - ./configs/keycloak/:/opt/keycloak/data/import
         command:
             - start-dev
-            #- --import-realm
+            - --import-realm
         ports:
             - "5101:8080"
 

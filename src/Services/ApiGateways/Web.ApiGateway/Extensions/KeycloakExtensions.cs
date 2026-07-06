@@ -2,43 +2,33 @@
 {
     public static class KeycloakExtensions
     {
-        public static void AddKeyCloakSecurity(this SwaggerGenOptions opt, string authorizationUrl)
+        public static void AddKeyCloakSecurity(this SwaggerGenOptions opt, IConfiguration configuration)
         {
-            opt.AddSecurityDefinition("Keycloak", new OpenApiSecurityScheme()
+            opt.AddSecurityDefinition(nameof(SecuritySchemeType.OAuth2), new OpenApiSecurityScheme()
             {
                 Type = SecuritySchemeType.OAuth2,
-                Flows = new()
+                Flows = new OpenApiOAuthFlows
                 {
-                    Implicit = new()
+                    AuthorizationCode = new OpenApiOAuthFlow
                     {
-                        AuthorizationUrl = new Uri(authorizationUrl),
+                        AuthorizationUrl = new Uri(configuration["Keycloak:AuthorizationUrl"]!),
+                        TokenUrl = new Uri(configuration["Keycloak:TokenUrl"]!),
                         Scopes = new Dictionary<string, string>
-                                {
-                                    { "openid", "openid" },
-                                    { "profile", "profile" }
-                                }
+                        {
+                            { "openid", "OpenID Connect scope" },
+                            { "profile", "User profile" }
+                        }
                     }
                 }
             });
 
-            var secRequirement = new OpenApiSecurityRequirement()
+            opt.AddSecurityRequirement(doc => new OpenApiSecurityRequirement
             {
                 {
-                    new()
-                    {
-                        Reference = new()
-                        {
-                            Id = "Keycloak",
-                            Type = ReferenceType.SecurityScheme
-                        },
-                        In = ParameterLocation.Header,
-                        Name = "Bearer",
-                        Scheme = "Bearer"
-                    },
+                    new OpenApiSecuritySchemeReference(nameof(SecuritySchemeType.OAuth2), doc),
                     []
                 }
-            };
-            opt.AddSecurityRequirement(secRequirement);
+            });
         }
     }
 }

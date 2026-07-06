@@ -2,14 +2,13 @@
 using Core.Marten.OpenTelemetry;
 using Core.Marten.Repository;
 using Core.Repositories;
+using JasperFx;
+using JasperFx.Events.Daemon;
+using JasperFx.OpenTelemetry;
 using Marten;
-using Marten.Events;
-using Marten.Events.Daemon.Resiliency;
-using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry;
-using Weasel.Core;
 
 namespace Core.Marten
 {

@@ -10,7 +10,7 @@ namespace Ordering.Test.Application
     public class OrderingTest
     {
         [Fact]
-        public async void get_success()
+        public async ValueTask get_success()
         {
             var data = new List<OrderView>()
             {
@@ -37,7 +37,7 @@ namespace Ordering.Test.Application
         }
 
         [Fact]
-        public async void create_order_success()
+        public async ValueTask create_order_success()
         {
             var orderItems = new List<OrderItemCommand>{
                 new("1", "test1", "iamge1.png", 1, 1),
@@ -62,7 +62,7 @@ namespace Ordering.Test.Application
                 });
 
             var handler = new CreateOrder(repositoryMock.Object, userMock.Object);
-            var result = await handler.Handle(request);
+            var result = await handler.Handle(request, TestContext.Current.CancellationToken);
             Assert.True(result.IsSuccess);
         }
 
