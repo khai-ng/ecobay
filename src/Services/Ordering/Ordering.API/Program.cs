@@ -32,7 +32,7 @@ builder.Services
             .Index(x => x.Status.Id)
             .Index(x => x.CreatedAtTicks);
 
-            options.Projections.Add<OrderProjection>(ProjectionLifecycle.Async);
+            options.Projections.Add<OrderViewProjection>(ProjectionLifecycle.Async);
             options.Projections.SlowPollingTime = 5.Seconds();
         });
 

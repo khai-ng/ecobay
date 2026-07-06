@@ -1,6 +1,7 @@
 #!/bin/bash
 echo "Running Mongo import script..."
 
+# Wait until MongoDB accepts connections
 until mongosh --eval "db.runCommand({ ping: 1 })"
 do
     echo "Waiting for MongoDB to start..."

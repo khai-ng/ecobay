@@ -3,6 +3,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddAutofac()
     .AddServiceDefaults();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+        });
+});
+
 builder.Services
     .AddSwaggerGen(opt => opt.AddKeyCloakSecurity(builder.Configuration))
     .SwaggerDocument();

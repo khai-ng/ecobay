@@ -19,13 +19,13 @@ namespace Core.MongoDB
 
             services.Add(
                 new ServiceDescriptor(typeof(TContext), 
-                sp => ActivatorUtilities.CreateInstance(sp, typeof(TContext), mongoDbOptions),
+                sp => ActivatorUtilities.CreateInstance<TContext>(sp, mongoDbOptions),
                 serviceLifetime));
 
             // Register UnitOfWork and its interface so consumers can depend on IUnitOfWork
             services.Add(
                 new ServiceDescriptor(typeof(IUnitOfWork),
-                sp => ActivatorUtilities.CreateInstance(sp, typeof(UnitOfWork), sp.GetRequiredService<TContext>()),
+                sp => new UnitOfWork(sp.GetRequiredService<TContext>()),
                 serviceLifetime));
 
 

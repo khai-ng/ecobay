@@ -1,10 +1,11 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Security.Claims;
 
 namespace Ordering.API.Infrastruture.Services
 {
     public class User(IHttpContextAccessor httpContext) : IUser, IScoped
     {
-        private readonly Dictionary<string, string>? _claims = httpContext.HttpContext?.User.Claims.ToDictionary(x => x.Type, x => x.Value);
+        private readonly IEnumerable<Claim>? _claims = httpContext.HttpContext?.User.Claims;
 
         public UserInfo Info()
         {
@@ -17,15 +18,18 @@ namespace Ordering.API.Infrastruture.Services
 
         public UserInfo? TryGetInfo()
         {
-            if(_claims == null) return null;
+            if (_claims == null) return null;
+
+            static string? GetClaimValue(IEnumerable<Claim> claims, string type)
+                => claims.FirstOrDefault(c => c.Type == type)?.Value;
 
             return new UserInfo()
             {
-                Id = _claims.TryGetValue(ClaimTypes.NameIdentifier, out string? id) ? Guid.Parse(id) : Guid.Empty,
-                Name = _claims.TryGetValue(ClaimTypes.Name, out string? name) ? name : null,
-                Email = _claims.TryGetValue(ClaimTypes.Email, out string? email) ? email : "",
-                GivenName = _claims.TryGetValue(ClaimTypes.GivenName, out string? givenName) ? givenName : null,
-                SurName = _claims.TryGetValue(ClaimTypes.Surname, out string? surname) ? surname : null,
+                Id = Guid.TryParse(GetClaimValue(_claims, ClaimTypes.NameIdentifier), out Guid parsedId) ? parsedId : Guid.Empty,
+                Name = GetClaimValue(_claims, ClaimTypes.Name),
+                Email = GetClaimValue(_claims, ClaimTypes.Email) ?? string.Empty,
+                GivenName = GetClaimValue(_claims, ClaimTypes.GivenName),
+                SurName = GetClaimValue(_claims, ClaimTypes.Surname),
             };
         }
     }

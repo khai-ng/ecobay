@@ -7,7 +7,7 @@ namespace Core.Entities
     public abstract class AggregateRoot<TKey> : Entity<TKey>
     {
         [NonSerialized]
-        private readonly Queue<IDomainEvent<TKey>> _events = new();
+        private Queue<IDomainEvent<TKey>> _events = new();
 
         public long Version { get; protected set; }
         [JsonIgnore]
@@ -26,6 +26,8 @@ namespace Core.Entities
         //}
         public void Enqueue(IDomainEvent<TKey> @event)
         {
+            if (_events == null) _events = new();
+
             _events.Enqueue(@event);
             Apply(@event);
             Version++;

@@ -13,15 +13,9 @@
 
         public async Task<AppResult<Guid>> Handle(CreateOrderCommand request, CancellationToken ct = default)
         {
-            Guid buyerId;
-            if(request.BuyerId != null)
-                buyerId = _user.Info().Id;
-            else
-                buyerId = (Guid)request.BuyerId!;
-
             var address = new Address(request.Country, request.City, request.District, request.Street);
             var orderItems = request.OrderItems.Select(x => new OrderItem(x.ProductId, x.ProductName, x.ImageUrl, x.Price, x.Qty));
-            var order = new Order(buyerId, request.PaymentId, address, orderItems);
+            var order = new Order(request.BuyerId ?? _user.Info().Id, request.PaymentId, address, orderItems);
 
             await _orderRepository.AddAsync(order.Id, order, ct).ConfigureAwait(false);
 

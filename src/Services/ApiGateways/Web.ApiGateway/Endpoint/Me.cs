@@ -15,7 +15,7 @@
 
         public override async Task HandleAsync(CancellationToken ct)
         {
-            var claim = _httpContext.HttpContext?.User.Claims.ToDictionary(x => x.Type, x => x.Value) ?? [];
+            var claim = _httpContext.HttpContext?.User.Claims.Select(x => new { x.Type, x.Value }) ?? [];
             var appResult = AppResult.Success(claim);
             await Send.ResultAsync(appResult.ToHttpResult()).ConfigureAwait(false);
         }
