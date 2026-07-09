@@ -33,14 +33,14 @@ namespace Product.Tests
             repositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<IEnumerable<ObjectId>>()))
                 .ReturnsAsync(data);
 
-            var evt = new OrderConfirmStockIntegrationEvent(Guid.NewGuid(), new List<ProductQtyDto>()
+            var evt = new OrderConfirmStockIntegrationEvent(Guid.CreateVersion7(), new List<ProductQtyDto>()
             {
                 new(data[0].Id.ToString(), 2),
                 new(data[1].Id.ToString(), 3),
             });
             var handler = new OrderConfirmStockIntegrationEventHandler(_producerMock.Object, repositoryMock.Object, _uowMock.Object);
 
-            await handler.HandleAsync(evt);
+            await handler.HandleAsync(evt, TestContext.Current.CancellationToken);
 
             _producerMock.Verify(
                 p => p.PublishAsync(

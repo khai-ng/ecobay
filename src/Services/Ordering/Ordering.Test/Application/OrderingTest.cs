@@ -14,8 +14,8 @@ namespace Ordering.Test.Application
         {
             var data = new List<OrderView>()
             {
-                new() { Id = Guid.NewGuid(), BuyerId = Guid.NewGuid(), Status = OrderStatus.StockConfirmed },
-                new() { Id = Guid.NewGuid(), BuyerId = Guid.NewGuid(), Status = OrderStatus.StockConfirmed },
+                new() { Id = Guid.CreateVersion7(), BuyerId = Guid.CreateVersion7(), Status = OrderStatus.StockConfirmed },
+                new() { Id = Guid.CreateVersion7(), BuyerId = Guid.CreateVersion7(), Status = OrderStatus.StockConfirmed },
             };
 
             var repositoryMock = new Mock<IOrderRepository>();
@@ -28,7 +28,7 @@ namespace Ordering.Test.Application
             var request = new GetOrderCommand();
             var handler = new GetOrder(repositoryMock.Object);
 
-            var result = await handler.Handle(request);
+            var result = await handler.Handle(request, TestContext.Current.CancellationToken);
             Assert.True(result.IsSuccess);
             for (var i = 0; i < data.Count; i++)
             {
@@ -43,7 +43,7 @@ namespace Ordering.Test.Application
                 new("1", "test1", "iamge1.png", 1, 1),
                 new("2", "test2", "iamge2.png", 2, 2),
             };
-            var request = new CreateOrderCommand(Guid.NewGuid(), Guid.NewGuid(), "country", "city", "district", "street", orderItems);
+            var request = new CreateOrderCommand(Guid.CreateVersion7(), Guid.CreateVersion7(), "country", "city", "district", "street", orderItems);
 
             var repositoryMock = new Mock<IEventStoreRepository<Order>>();
             repositoryMock.Setup(x => x.AddAsync(
@@ -56,7 +56,7 @@ namespace Ordering.Test.Application
             userMock.Setup(x => x.Info())
                 .Returns(new API.Infrastruture.Services.UserInfo()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.CreateVersion7(),
                     Name = "test",
                     Email = "test@gmail.com",
                 });

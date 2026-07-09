@@ -34,9 +34,7 @@ namespace Core.IntegrationEvents.IntegrationEvents
                 return (constructedHandlerType, method!);
             });
 
-            using var scope = _serviceProvider.CreateScope();
-
-			var handler = scope.ServiceProvider.GetService(handlerType);
+			var handler = (IIntegrationEventHandler<IntegrationEvent>)_serviceProvider.GetService(handlerType);
             
             if (handler == null)
             {
@@ -44,10 +42,11 @@ namespace Core.IntegrationEvents.IntegrationEvents
                 return false;
             }
 
-            var task = methodInfo.Invoke(handler, new object[] { @event, ct }) as Task;
-            if (task is null) return false;
+            await handler.HandleAsync(@event, ct).ConfigureAwait(false);
+            //var task = methodInfo.Invoke(handler, new object[] { @event, ct }) as Task;
+            //if (task is null) return false;
 
-            await task.ConfigureAwait(false);
+            //await task.ConfigureAwait(false);
             return true;
         }
     }

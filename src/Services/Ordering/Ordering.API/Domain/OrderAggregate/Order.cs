@@ -20,7 +20,7 @@
 
         public Order(Guid buyerId, Guid paymentId, Address address, IEnumerable<OrderItem> orderItems)
         {
-            Enqueue(new OrderInitiated(Guid.NewGuid(), 
+            Enqueue(new OrderInitiated(Guid.CreateVersion7(), 
                 buyerId, 
                 paymentId, 
                 address, 

@@ -1,4 +1,5 @@
 ﻿using Core.Marten.Repository;
+using Core.Mediator;
 using Marten;
 
 namespace Ordering.API.Infrastruture.Repositories

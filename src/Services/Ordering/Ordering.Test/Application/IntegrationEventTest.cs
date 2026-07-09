@@ -17,8 +17,8 @@ namespace Ordering.Test.Application
                     new("123", "123", "image1.png", 10, 2),
                 };
             var order = new Order(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
+                Guid.CreateVersion7(),
+                Guid.CreateVersion7(),
                 address,
                 items);
 

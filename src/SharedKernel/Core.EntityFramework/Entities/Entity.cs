@@ -7,7 +7,7 @@ namespace Core.EntityFramework.Entities
     /// </summary>
     public abstract class Entity : Entity<Guid>
     {
-        protected Entity() : base(Guid.NewGuid())
+        protected Entity() : base(Guid.CreateVersion7())
         { }
 
         protected Entity(Guid id) : base(id)

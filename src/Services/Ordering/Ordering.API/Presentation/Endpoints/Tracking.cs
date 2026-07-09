@@ -18,7 +18,7 @@
 		public override async Task HandleAsync(CancellationToken ct)
 		{
 			var request = new TrackingCommand(Route<Guid>("id"));
-			var result = await _mediator.Send(request, ct).ConfigureAwait(false);
+			var result = await _mediator.Publish(request, ct).ConfigureAwait(false);
 			await Send.ResultAsync(result.ToHttpResult()).ConfigureAwait(false);
 		}
 

@@ -25,7 +25,7 @@ builder.Services
         options.Telemetry.Enable = mongoConfig.Telemetry.Enable;
     })
     .AddKafkaCompose()
-    .AddMediatRDefaults();
+    .AddDefaultMediator();
 
 //if(builder.Environment.IsDevelopment())
 //{

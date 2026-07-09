@@ -1,11 +1,9 @@
 ﻿using Core.Entities;
 using Core.EntityFramework.Entities;
-using MediatR;
+using Core.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.DependencyInjection;
 using System.Data;
-using System.Reflection;
 
 namespace Core.EntityFramework.Context
 {

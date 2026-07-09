@@ -56,7 +56,7 @@ namespace Core.Kafka.Producers
 
                 if (result.Status == PersistenceStatus.Persisted
                     || result.Status == PersistenceStatus.PossiblyPersisted)
-                    _logger.LogInformation("Kafka Host:{Host} Topic:{Topic} - Produce message: {Message}",
+                    _logger.LogInformation("Kafka Host:{Host} Topic:{Topic} - Produced message: {Message}",
                         _kafkaConfig.ProducerConfig.BootstrapServers, topic, JsonConvert.SerializeObject(message));
             }  
         }
@@ -82,7 +82,7 @@ namespace Core.Kafka.Producers
 
             if (result.Status == PersistenceStatus.Persisted
                 || result.Status == PersistenceStatus.PossiblyPersisted)
-                _logger.LogInformation("Kafka Host:{Host} TopicPartition:{TopicPartition} - Produce message: {Message}",
+                _logger.LogInformation("Kafka Host:{Host} TopicPartition:{TopicPartition} - Produced message: {Message}",
                     _kafkaConfig.ProducerConfig.BootstrapServers, tp, JsonConvert.SerializeObject(message));
         }
     }

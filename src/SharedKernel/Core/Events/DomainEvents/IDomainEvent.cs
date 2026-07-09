@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using Core.Mediator;
 
 namespace Core.Events.DomainEvents
 {
-    public interface IDomainEvent<TKey> : INotification
+    public interface IDomainEvent<TKey> : IRequest
     {
         TKey AggregateId { get; }
 		//long AggregateVersion { get; }

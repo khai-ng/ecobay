@@ -61,7 +61,7 @@ namespace Core.Kafka.Consumers
                     {
                         var isSuccess = await _eventBus.PublishAsync(eventMsg, ct).ConfigureAwait(false);
                         if (isSuccess)
-                            _logger.LogInformation("Kafka Topic:{Topic} Partition:{Partition} - Handling mesage {EventType}", 
+                            _logger.LogInformation("Kafka Topic:{Topic} Partition:{Partition} - Consumed mesage {EventType}", 
                                 consumerResult.Topic, consumerResult.Partition, consumerResult.Message.Key);
                     }
                 }

@@ -1,6 +1,8 @@
 ﻿using Core.AspNet.Identity;
 using Core.AspNet.Middlewares;
 using Core.AspNet.OpenTelemetry;
+using Core.Behaviors;
+using Core.Mediator;
 using Destructurama;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -61,6 +63,14 @@ namespace Core.AspNet.Common
             return services;
         }
 
+        public static IServiceCollection AddDefaultMediator(this IServiceCollection services)
+        {
+            services.AddMediator();
+            services.AddTransient(typeof(IPipeline<,>), typeof(LoggingBehaviour<,>));
+
+            return services;
+        }
+
         public static WebApplicationBuilder AddDefaultLogging(this WebApplicationBuilder builder)
         {
             Log.Logger = new LoggerConfiguration()
@@ -87,6 +97,7 @@ namespace Core.AspNet.Common
 
             return builder;
         }
+
 
         #region UseService
         public static WebApplication UseServiceDefaults(this WebApplication app)

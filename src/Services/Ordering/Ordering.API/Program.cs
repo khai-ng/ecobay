@@ -20,7 +20,7 @@ builder.Services.AddOpenTelemetry()
 
 builder.Services
     .AddFastEndpoints()
-    .AddMediatRDefaults()
+    .AddDefaultMediator()
     .AddKafkaCompose()
     //read: https://martendb.io/events/projections/async-daemon.html
     .AddMarten(builder.Configuration,

@@ -1,8 +1,8 @@
 ﻿using Core.EntityFramework.Context;
 using Core.EntityFramework.Pagination;
 using Core.EntityFramework.Tests.Fixtures;
+using Core.Mediator;
 using Core.Pagination;
-using MediatR;
 using Moq;
 
 namespace Core.EntityFramework.Tests
@@ -26,7 +26,7 @@ namespace Core.EntityFramework.Tests
         [Fact]
         public async ValueTask paging_async_success()
         {
-            _mediatorMock.Setup(x => x.Publish(It.IsAny<INotification>(), default))
+            _mediatorMock.Setup(x => x.Publish(It.IsAny<IRequest>(), default))
                 .Returns(Task.FromResult(true));
             var products = DummyData();
             _productRepository.AddRange(products);
@@ -42,7 +42,7 @@ namespace Core.EntityFramework.Tests
         [Fact]
         public async ValueTask filter_apply_success()
         {
-            _mediatorMock.Setup(x => x.Publish(It.IsAny<INotification>(), default))
+            _mediatorMock.Setup(x => x.Publish(It.IsAny<IRequest>(), default))
                 .Returns(Task.FromResult(true));
             var products = DummyData();
             _productRepository.AddRange(products);
@@ -61,11 +61,11 @@ namespace Core.EntityFramework.Tests
 
         private static IEnumerable<Product> DummyData() => new List<Product>()
         {
-            new() { Id = Guid.NewGuid(), Name = "Test 1", Qty = 1 },
-            new() { Id = Guid.NewGuid(), Name = "Test 2", Qty = 2 },
-            new() { Id = Guid.NewGuid(), Name = "Test 3", Qty = 3 },
-            new() { Id = Guid.NewGuid(), Name = "Test 4", Qty = 4 },
-            new() { Id = Guid.NewGuid(), Name = "Test 5", Qty = 5 },
+            new() { Id = Guid.CreateVersion7(), Name = "Test 1", Qty = 1 },
+            new() { Id = Guid.CreateVersion7(), Name = "Test 2", Qty = 2 },
+            new() { Id = Guid.CreateVersion7(), Name = "Test 3", Qty = 3 },
+            new() { Id = Guid.CreateVersion7(), Name = "Test 4", Qty = 4 },
+            new() { Id = Guid.CreateVersion7(), Name = "Test 5", Qty = 5 },
         };
     }
 }

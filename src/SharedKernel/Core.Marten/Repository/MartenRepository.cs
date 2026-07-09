@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
+using Core.Mediator;
 using Core.Repositories;
 using Marten;
-using MediatR;
 
 namespace Core.Marten.Repository
 {

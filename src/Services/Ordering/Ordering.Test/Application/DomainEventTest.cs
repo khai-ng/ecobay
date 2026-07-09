@@ -19,8 +19,8 @@ namespace Ordering.Test.Application
                     new("123", "123", "image1.png", 10, 2),
                 };
             var order = new Order(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
+                Guid.CreateVersion7(),
+                Guid.CreateVersion7(),
                 address,
                 items);
 
@@ -39,7 +39,7 @@ namespace Ordering.Test.Application
             var handler = new OrderInitiatedHandler(producerMock.Object, repositoryMock.Object);
 
             var evt = order.Events.First() as OrderInitiated;
-            _ = handler.Handle(evt);
+            _ = handler.Handle(evt, TestContext.Current.CancellationToken);
 
             producerMock.Verify(
                 p => p.PublishAsync(

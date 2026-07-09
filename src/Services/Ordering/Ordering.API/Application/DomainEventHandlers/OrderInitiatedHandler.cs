@@ -1,6 +1,6 @@
 ﻿namespace Ordering.API.Application.DomainEventHandlers
 {
-    public class OrderInitiatedHandler : INotificationHandler<OrderInitiated>, ITransient
+    public class OrderInitiatedHandler : IRequestHandler<OrderInitiated>, ITransient
     {
         public readonly IIntegrationProducer _integrationProducer;
         private readonly IOrderRepository _orderRepository;

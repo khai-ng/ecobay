@@ -1,9 +1,7 @@
 using Core.MongoDB.Context;
 using Core.MongoDB.Repository;
 using Core.MongoDB.Tests.Fixtures;
-using MediatR;
 using MongoDB.Bson;
-using Moq;
 
 namespace Core.MongoDB.Tests
 {

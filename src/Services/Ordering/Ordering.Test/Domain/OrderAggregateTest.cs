@@ -9,8 +9,8 @@ namespace Ordering.Test.Domain
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var order = new Order(
-                Guid.NewGuid(), 
-                Guid.NewGuid(), 
+                Guid.CreateVersion7(), 
+                Guid.CreateVersion7(), 
                 address, 
                 new List<OrderItem>());
 
@@ -27,8 +27,8 @@ namespace Ordering.Test.Domain
                     new("124", "124", "image2.png", 15, 4),
                 };
             var order = new Order(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
+                Guid.CreateVersion7(),
+                Guid.CreateVersion7(),
                 address,
                 items);
 
@@ -42,8 +42,8 @@ namespace Ordering.Test.Domain
 
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => new Order(
-                    Guid.NewGuid(), 
-                    Guid.NewGuid(), 
+                    Guid.CreateVersion7(), 
+                    Guid.CreateVersion7(), 
                     address,
                     new List<OrderItem>() { new("123", "123", "image.png", -1, 1) })
             );
@@ -56,8 +56,8 @@ namespace Ordering.Test.Domain
 
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => new Order(
-                    Guid.NewGuid(),
-                    Guid.NewGuid(),
+                    Guid.CreateVersion7(),
+                    Guid.CreateVersion7(),
                     address,
                     new List<OrderItem>() { new("123", "123", "image.png", 1, -1) })
             );
@@ -67,7 +67,7 @@ namespace Ordering.Test.Domain
         public void validate_initial()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
-            var order = new Order(Guid.NewGuid(), Guid.NewGuid(), address, new List<OrderItem>());
+            var order = new Order(Guid.CreateVersion7(), Guid.CreateVersion7(), address, new List<OrderItem>());
 
             Assert.Equal(1, order.Events.Count);
 
@@ -81,8 +81,8 @@ namespace Ordering.Test.Domain
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var order = new Order(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
+                Guid.CreateVersion7(),
+                Guid.CreateVersion7(),
                 address,
                 new List<OrderItem>());
 
@@ -101,8 +101,8 @@ namespace Ordering.Test.Domain
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var order = new Order(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
+                Guid.CreateVersion7(),
+                Guid.CreateVersion7(),
                 address,
                 new List<OrderItem>());
 
@@ -124,8 +124,8 @@ namespace Ordering.Test.Domain
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var order = new Order(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
+                Guid.CreateVersion7(),
+                Guid.CreateVersion7(),
                 address,
                 new List<OrderItem>());
 

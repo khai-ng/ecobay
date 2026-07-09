@@ -11,7 +11,7 @@ namespace Core.Tests
         Completed,
     }
 
-    public record OrderInitiated(string Description) : DomainEvent<Guid>(Guid.NewGuid());
+    public record OrderInitiated(string Description) : DomainEvent<Guid>(Guid.CreateVersion7());
 
     public record OrderPaid(Guid Id): DomainEvent<Guid>(Id);
 
@@ -52,7 +52,7 @@ namespace Core.Tests
         public void event_enqueue_success()
         {
             var fakeOrder = new Order("test");
-            Assert.Equal(1, fakeOrder.Events.Count);
+            Assert.Single(fakeOrder.Events);
             Assert.Equal(1, fakeOrder.Version);
         }
 

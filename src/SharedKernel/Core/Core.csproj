@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="14.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.9" />
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.16.0" />
     <PackageReference Include="Serilog" Version="4.3.1" />
@@ -17,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Autofac\Core.Autofac.csproj" />
+    <ProjectReference Include="..\Core.Mediator\Core.Mediator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

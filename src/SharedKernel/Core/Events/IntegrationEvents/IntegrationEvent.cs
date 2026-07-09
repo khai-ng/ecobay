@@ -7,7 +7,7 @@ namespace Core.IntegrationEvents.IntegrationEvents
     /// </summary>
     public abstract record IntegrationEvent : IntegrationEvent<Guid> 
     {
-        public IntegrationEvent() : base(Guid.NewGuid()) { }
+        public IntegrationEvent() : base(Guid.CreateVersion7()) { }
     }
 
     public abstract record IntegrationEvent<TKey>
