@@ -49,7 +49,7 @@ namespace Core.Tests
     public class EntityTest
     {
         [Fact]
-        public void event_enqueue_success()
+        public void Order_WhenCreated_ShouldEnqueuesOrderInitiatedEventAndIncrementsVersion()
         {
             var fakeOrder = new Order("test");
             Assert.Single(fakeOrder.Events);
@@ -57,7 +57,7 @@ namespace Core.Tests
         }
 
         [Fact]
-        public void apply_event_should_set_current_state()
+        public void Order_WhenSetPaid_ShouldSetsStatusToPaid()
         {
             var fakeDesc = "test";
             var fakeOrder = new Order(fakeDesc);        

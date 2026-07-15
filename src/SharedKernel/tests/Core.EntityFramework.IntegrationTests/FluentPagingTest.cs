@@ -24,7 +24,7 @@ namespace Core.EntityFramework.Tests
         }
 
         [Fact]
-        public async ValueTask paging_async_success()
+        public async ValueTask Paging_FromRequest_ShouldReturnPageOfProductsAsync()
         {
             _mediatorMock.Setup(x => x.PublishAsync(It.IsAny<IRequest>(), default))
                 .Returns(Task.FromResult(true));
@@ -40,7 +40,7 @@ namespace Core.EntityFramework.Tests
         }
 
         [Fact]
-        public async ValueTask filter_apply_success()
+        public async ValueTask Paging_FilterApply_ShouldReturnProjectedPageAsync()
         {
             _mediatorMock.Setup(x => x.PublishAsync(It.IsAny<IRequest>(), default))
                 .Returns(Task.FromResult(true));

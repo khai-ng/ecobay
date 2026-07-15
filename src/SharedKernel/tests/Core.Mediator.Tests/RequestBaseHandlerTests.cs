@@ -6,7 +6,7 @@ namespace Core.Mediator.Tests
     public class RequestBaseHandlerTests
     {
         [Fact]
-        public async Task Handle_ReturnsHandlerResult_WhenNoPipelines()
+        public async Task Handle_WhenNoPipelines_ShouldReturnsHandledResult()
         {
             var services = new ServiceCollection();
             services.AddTransient<IRequestHandler<TestRequest, string>, TestHandler>();
@@ -21,7 +21,7 @@ namespace Core.Mediator.Tests
         }
 
         [Fact]
-        public async Task Handle_ExecutesPipelinesInReverseOrder()
+        public async Task Handle_WithMultiplePipelines_ShouldExecutesPipelinesInOrder()
         {
             var services = new ServiceCollection();
             var calls = new List<string>();

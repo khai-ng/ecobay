@@ -13,7 +13,7 @@ namespace Product.Tests
     {
 
         [Fact]
-        public async ValueTask get_success()
+        public async ValueTask GetProductHandler_ShouldReturnsPagedProductsAsync()
         {
             var data = DummyData();
 
@@ -42,7 +42,7 @@ namespace Product.Tests
         }
 
         [Fact]
-        public async ValueTask get_by_id_success()
+        public async ValueTask GetProductByIdHandler_ReturnsProductsAsync()
         {
             var data = DummyData().Where(x => x.MainCategory == "Cate2");
 

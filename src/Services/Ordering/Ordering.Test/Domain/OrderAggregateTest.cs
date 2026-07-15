@@ -5,7 +5,7 @@ namespace Ordering.Test.Domain
     public class OrderAggregateTest
     {
         [Fact]
-        public void create_order_success()
+        public void CreateOrder_ShouldCreatesInstance()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var order = new Order(
@@ -18,7 +18,7 @@ namespace Ordering.Test.Domain
         }
 
         [Fact]
-        public void valid_sum_total_price()
+        public void TotalPrice_ShouldEqualsSumOfOrderItemPrices()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var items = new List<OrderItem>()
@@ -36,7 +36,7 @@ namespace Ordering.Test.Domain
         }
 
         [Fact]
-        public void invalid_order_price_should_throw_exception()
+        public void OrderInitiated_WithNegativePrice_ShouldThrowsArgumentOutOfRangeException()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
 
@@ -50,7 +50,7 @@ namespace Ordering.Test.Domain
         }
 
         [Fact]
-        public void invalid_order_qty_should_throw_exception()
+        public void Order_WhenInitiated_WithNegativeQuantity_ShouldThrowsArgumentOutOfRangeException()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
 
@@ -64,12 +64,12 @@ namespace Ordering.Test.Domain
         }
 
         [Fact]
-        public void validate_initial()
+        public void Order_WhenSetCanceled_ShouldUpdatesStatusToCancelledAndEnqueuesEvent()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var order = new Order(Guid.CreateVersion7(), Guid.CreateVersion7(), address, new List<OrderItem>());
 
-            Assert.Equal(1, order.Events.Count);
+            Assert.Single(order.Events);
 
             order.SetCanceled();
             Assert.Equal(order.OrderStatus, OrderStatus.Cancelled);
@@ -77,7 +77,7 @@ namespace Ordering.Test.Domain
         }
 
         [Fact]
-        public void validate_stock_confirmed()
+        public void Order_WhenSetStockConfirmed_UpdatesStatusToStockConfirmedAndEnqueuesEvent()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var order = new Order(
@@ -97,7 +97,7 @@ namespace Ordering.Test.Domain
         }
 
         [Fact]
-        public void validate_paid()
+        public void Order_WhenInitiated_ThenSetsStatusToPaid_ShouldThrowsException()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var order = new Order(
@@ -107,6 +107,17 @@ namespace Ordering.Test.Domain
                 new List<OrderItem>());
 
             Assert.Throws<Exception>(() => order.SetPaid());
+        }
+
+        [Fact]
+        public void SetPaid_RequiresStockConfirmed_ThenSetsStatusToPaidAndEnqueuesEvent()
+        {
+            var address = new Address("vn", "hcm", "d1", "2/1");
+            var order = new Order(
+                Guid.CreateVersion7(),
+                Guid.CreateVersion7(),
+                address,
+                new List<OrderItem>());
 
             order.SetStockConfirmed();
             order.SetPaid();
@@ -120,7 +131,7 @@ namespace Ordering.Test.Domain
         }
 
         [Fact]
-        public void validate_shipped()
+        public void SetShipped_RequiresPaid_ThenSetsStatusToShippedAndEnqueuesEvent()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var order = new Order(

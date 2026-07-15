@@ -48,13 +48,13 @@
                 await _unitOfWork.SaveChangesAsync(ct).ConfigureAwait(false);
 
                 var successEvent = new OrderConfirmStockSuccessIntegrationEvent(@event.OrderId);
-                await _producer.PublishAsync(successEvent, ct).ConfigureAwait(false);
+                await _externalEventProducer.PublishAsync(successEvent, ct).ConfigureAwait(false);
                 return;
             }
             catch (Exception ex)
             {
                 var publishEvent = new OrderConfirmStockFailedIntegrationEvent(@event.OrderId, ex.Message);
-                await _producer.PublishAsync(publishEvent, ct).ConfigureAwait(false);
+                await _externalEventProducer.PublishAsync(publishEvent, ct).ConfigureAwait(false);
             }           
         }
     }

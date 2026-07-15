@@ -11,7 +11,7 @@ namespace Ordering.Test.Application
     public class DomainEventTest
     {
         [Fact]
-        public void order_inital_should_raise_confirm_stock()
+        public void OrderInitiated_ShouldPublishOrderConfirmStockAsync()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var items = new List<OrderItem>()

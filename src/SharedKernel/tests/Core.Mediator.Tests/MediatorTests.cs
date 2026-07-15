@@ -6,7 +6,7 @@ namespace Core.Mediator.Tests
     public class MediatorTests
     {
         [Fact]
-        public async Task Publish_CallsHandler()
+        public async Task Publish_ShouldCallsHandlerAsync()
         {
             var services = new ServiceCollection();
             services.AddTransient<IRequestHandler<TestRequest, string>, TestHandler>();

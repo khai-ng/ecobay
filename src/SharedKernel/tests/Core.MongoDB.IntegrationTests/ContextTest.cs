@@ -20,7 +20,7 @@ namespace Core.MongoDB.Tests
         }
 
         [Fact]
-        public async ValueTask add_entity_success()
+        public async ValueTask AddProduct_ShouldReturnTrueAsync()
         {
             var products = DummyData();
             _productRepository.Add(products.ElementAt(0));
@@ -30,7 +30,7 @@ namespace Core.MongoDB.Tests
         }
 
         [Fact]
-        public async ValueTask save_entity_success()
+        public async ValueTask UpdateProduct_ShouldPersistQuantityAsync()
         {
             var products = DummyData();
             _productRepository.AddRange(products);

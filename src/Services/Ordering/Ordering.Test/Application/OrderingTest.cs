@@ -10,7 +10,7 @@ namespace Ordering.Test.Application
     public class OrderingTest
     {
         [Fact]
-        public async ValueTask get_success()
+        public async ValueTask Get_ReturnsOrdersSuccessfullyAsync()
         {
             var data = new List<OrderView>()
             {
@@ -37,7 +37,7 @@ namespace Ordering.Test.Application
         }
 
         [Fact]
-        public async ValueTask create_order_success()
+        public async ValueTask CreateOrder_WithValidRequest_ReturnsSuccessAsync()
         {
             var orderItems = new List<OrderItemCommand>{
                 new("1", "test1", "iamge1.png", 1, 1),
@@ -67,7 +67,7 @@ namespace Ordering.Test.Application
         }
 
         [Fact]
-        public void invalid_qty_should_throw_exception()
+        public void OrderItemCommand_InvalidQty_ThrowsArgumentOutOfRangeException()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new List<OrderItemCommand>{
                 new("1", "test1", "iamge1.png", 1, 1),
@@ -76,7 +76,7 @@ namespace Ordering.Test.Application
         }
 
         [Fact]
-        public void invalid_price_should_throw_exception()
+        public void OrderItemCommand_InvalidPrice_ThrowsArgumentOutOfRangeException()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new List<OrderItemCommand>{
                 new("1", "test1", "iamge1.png", 1, 1),

@@ -24,7 +24,7 @@ namespace Core.EntityFramework.Tests
         }
 
         [Fact]
-        public async ValueTask add_entity_success()
+        public async ValueTask AddProduct_ShouldReturnTrueAsync()
         {
             _mediatorMock.Setup(x => x.PublishAsync(It.IsAny<IRequest>(), default))
                 .Returns(Task.FromResult(true));
@@ -37,7 +37,7 @@ namespace Core.EntityFramework.Tests
         }
 
         [Fact]
-        public async ValueTask save_entity_success()
+        public async ValueTask UpdateProduct_ShouldPersistQuantityAsync()
         {
             _mediatorMock.Setup(x => x.PublishAsync(It.IsAny<IRequest>(), default))
                 .Returns(Task.FromResult(true));

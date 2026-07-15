@@ -5,7 +5,7 @@ namespace Core.Tests
     public class FluentPagingTest
     {
         [Fact]
-        public void paging_success()
+        public void Paging_FromRequest_ShouldReturnsExpectedPageAndHasNext()
         {
             var index = 2;
             var size = 2;
@@ -21,7 +21,7 @@ namespace Core.Tests
         }
 
         [Fact]
-        public void paging_getall_success()
+        public void Paging_AllRequest_ShouldReturnsAllItems()
         {
             var request = PagingRequest.All();
             var data = DummyData();
@@ -31,7 +31,7 @@ namespace Core.Tests
         }
 
         [Fact]
-        public void invalid_paging_request()
+        public void PagingRequest_WithInvalidParameters_ShouldThrowsArgumentOutOfRangeException()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new PagingRequest(0, 1));
             Assert.Throws<ArgumentOutOfRangeException>(() => new PagingRequest(1, 0));

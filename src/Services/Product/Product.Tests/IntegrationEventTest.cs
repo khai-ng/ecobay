@@ -25,7 +25,7 @@ namespace Product.Tests
         }
 
         [Fact]
-        public async ValueTask valid_request_should_publish_success_event()
+        public async ValueTask OrderConfirmStock_WhenInventorySufficient_ShouldPublishSuccessIntegrationEventAsync()
         {
             var data = DummyData().Where(x => x.MainCategory == "Cate1").ToList();
 
@@ -50,7 +50,7 @@ namespace Product.Tests
         }
 
         [Fact]
-        public async ValueTask out_of_stock_should_publish_failed_event()
+        public async ValueTask OrderConfirmStock_WhenInventoryInsufficient_ShouldPublishFailedIntegrationEventAsync()
         {
             var data = DummyData().Where(x => x.MainCategory == "Cate1").ToList();
 
@@ -75,7 +75,7 @@ namespace Product.Tests
         }
 
         [Fact]
-        public async ValueTask not_found_should_publish_failed_event()
+        public async ValueTask OrderConfirmStock_WhenProductNotFound_ShouldPublishFailedIntegrationEventAsync()
         {
             var data = DummyData().Where(x => x.MainCategory == "Cate1").ToList();
 

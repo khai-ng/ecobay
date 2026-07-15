@@ -9,7 +9,7 @@ namespace Ordering.Test.Application
     public class IntegrationEventTest
     {
         [Fact]
-        public async ValueTask order_confirm_stock_success_should_update_entity()
+        public async ValueTask OrderConfirmStockSuccess_ShouldUpdateOrderStatusToStockConfirmedAsync()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var items = new List<OrderItem>()
