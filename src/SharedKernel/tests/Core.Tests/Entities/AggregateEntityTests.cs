@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using Core.Events.DomainEvents;
 
-namespace Core.Tests
+namespace Core.Tests.Entities
 {
     public enum OrderStatus
     {
@@ -46,7 +46,7 @@ namespace Core.Tests
         }
     }
 
-    public class EntityTest
+    public class AggregateEntityTests
     {
         [Fact]
         public void Order_WhenCreated_ShouldEnqueuesOrderInitiatedEventAndIncrementsVersion()
@@ -66,6 +66,38 @@ namespace Core.Tests
             fakeOrder.SetPaid();
             Assert.Equal(fakeDesc, fakeOrder.Description);
             Assert.Equal(OrderStatus.Paid, fakeOrder.Status);
+        }
+
+        [Fact]
+        public void Order_MultipleEvents_ShouldIncrementVersionForEachEvent()
+        {
+            var fakeOrder = new Order("test");
+            fakeOrder.SetPaid();
+
+            Assert.Equal(2, fakeOrder.Events.Count);
+            Assert.Equal(2, fakeOrder.Version);
+        }
+
+        [Fact]
+        public void ClearEvents_ShouldEmptyEventsCollection()
+        {
+            var fakeOrder = new Order("test");
+            fakeOrder.SetPaid();
+            Assert.Equal(2, fakeOrder.Events.Count);
+
+            fakeOrder.ClearEvents();
+
+            Assert.Empty(fakeOrder.Events);
+        }
+
+        [Fact]
+        public void ClearEvents_ShouldNotResetVersion()
+        {
+            var fakeOrder = new Order("test");
+            fakeOrder.SetPaid();
+            fakeOrder.ClearEvents();
+
+            Assert.Equal(2, fakeOrder.Version);
         }
     }
 }

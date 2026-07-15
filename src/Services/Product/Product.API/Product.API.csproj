@@ -10,25 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Application\Product\UpdateProductUnit\**" />
-    <Content Remove="Application\Product\UpdateProductUnit\**" />
-    <EmbeddedResource Remove="Application\Product\UpdateProductUnit\**" />
-    <None Remove="Application\Product\UpdateProductUnit\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="9.0.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="8.2.0" />
-    <PackageReference Include="Google.Protobuf" Version="3.35.1" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.80.0" />
-    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.80.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.82.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.23" />
-    <PackageReference Include="Hangfire.Core" Version="1.8.23" />
-    <PackageReference Include="Hangfire.InMemory" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
   </ItemGroup>
@@ -37,6 +19,5 @@
     <ProjectReference Include="..\..\..\SharedKernel\Core.AspNetCore\Core.AspNet.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core.Kafka\Core.Kafka.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\Core.MongoDB\Core.MongoDB.csproj" />
-    <ProjectReference Include="..\..\..\SharedKernel\Core\Core.csproj" />
   </ItemGroup>
 </Project>

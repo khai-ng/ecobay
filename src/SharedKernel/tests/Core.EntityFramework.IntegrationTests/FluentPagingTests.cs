@@ -1,13 +1,13 @@
-using Core.EntityFramework.Context;
-using Core.EntityFramework.Repositories;
+﻿using Core.EntityFramework.Context;
+using Core.EntityFramework.Pagination;
 using Core.EntityFramework.Tests.Fixtures;
 using Core.Mediator;
-using Microsoft.EntityFrameworkCore;
+using Core.Pagination;
 using Moq;
 
 namespace Core.EntityFramework.Tests
 {
-    public class ContextTest : IClassFixture<EfCorePostgreFixture<TestDbContext>>
+    public class FluentPagingTests: IClassFixture<EfCorePostgreFixture<TestDbContext>>
     {
         private readonly TestDbContext _context;
 
@@ -15,7 +15,7 @@ namespace Core.EntityFramework.Tests
         private readonly ProductRepository _productRepository;
         private readonly UnitOfWork _unitOfWork;
 
-        public ContextTest(EfCorePostgreFixture<TestDbContext> fixture)
+        public FluentPagingTests(EfCorePostgreFixture<TestDbContext> fixture)
         {
             _context = fixture.DbContext;
             _mediatorMock = new Mock<IMediator>();
@@ -24,34 +24,39 @@ namespace Core.EntityFramework.Tests
         }
 
         [Fact]
-        public async ValueTask AddProduct_ShouldReturnTrueAsync()
+        public async ValueTask Paging_FromRequest_ShouldReturnPageOfProductsAsync()
         {
             _mediatorMock.Setup(x => x.PublishAsync(It.IsAny<IRequest>(), default))
                 .Returns(Task.FromResult(true));
-
             var products = DummyData();
-            _productRepository.Add(products.ElementAt(0));
+            _productRepository.AddRange(products);
+            _ = await _unitOfWork.SaveChangesAsync(TestContext.Current.CancellationToken);
 
-            var rsAdd = await _unitOfWork.SaveChangesAsync(TestContext.Current.CancellationToken);
-            Assert.True(rsAdd);
+            var request = new PagingRequest(1, 2);
+            var rs = await CountedFluentPaging.From(request).PagingAsync(_context.Set<Product>());
+            
+            Assert.NotNull(rs.Data);
+            Assert.Equal(2, rs.Data.Count());   
         }
 
         [Fact]
-        public async ValueTask UpdateProduct_ShouldPersistQuantityAsync()
+        public async ValueTask Paging_FilterApply_ShouldReturnProjectedPageAsync()
         {
             _mediatorMock.Setup(x => x.PublishAsync(It.IsAny<IRequest>(), default))
                 .Returns(Task.FromResult(true));
-
             var products = DummyData();
-            await _productRepository.BulkAddAsync(products);
+            _productRepository.AddRange(products);
+            _ = await _unitOfWork.SaveChangesAsync(TestContext.Current.CancellationToken);
 
-            var product = products.ElementAt(0);
-            product.Qty = 2;
-            _productRepository.Update(product);
-            await _unitOfWork.SaveChangesAsync(TestContext.Current.CancellationToken);
 
-            var updatedProduct = await _productRepository.FindAsync(product.Id);
-            Assert.Equal(product.Qty, updatedProduct?.Qty);
+            var request = new PagingRequest(1, 2);
+            var fluentPaging = CountedFluentPaging.From(request);
+            var filter = fluentPaging.FilterApply(_context.Set<Product>());
+
+            var rs = fluentPaging.Result(filter.Select(x => x.Name));
+
+            Assert.NotNull(rs.Data);
+            Assert.Equal(2, rs.Data.Count());
         }
 
         private static IEnumerable<Product> DummyData() => new List<Product>()
@@ -62,12 +67,5 @@ namespace Core.EntityFramework.Tests
             new() { Id = Guid.CreateVersion7(), Name = "Test 4", Qty = 4 },
             new() { Id = Guid.CreateVersion7(), Name = "Test 5", Qty = 5 },
         };
-    }
-
-    public class ProductRepository : Repository<Product>
-    {
-        public ProductRepository(DbContext context) : base(context)
-        {
-        }
     }
 }

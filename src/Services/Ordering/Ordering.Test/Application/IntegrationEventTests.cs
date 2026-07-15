@@ -6,7 +6,7 @@ using Ordering.API.Domain.OrderAggregate;
 
 namespace Ordering.Test.Application
 {
-    public class IntegrationEventTest
+    public class IntegrationEventTests
     {
         [Fact]
         public async ValueTask OrderConfirmStockSuccess_ShouldUpdateOrderStatusToStockConfirmedAsync()

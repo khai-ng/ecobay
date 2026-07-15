@@ -17,7 +17,7 @@
             int qty)
         {
             ArgumentOutOfRangeException.ThrowIfNegative(price);
-            ArgumentOutOfRangeException.ThrowIfNegative(qty);
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(qty);
 
             ProductId = productId;
             ProductName = productName;

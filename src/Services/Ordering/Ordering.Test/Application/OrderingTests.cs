@@ -7,7 +7,7 @@ using Ordering.API.Domain.OrderAggregate;
 
 namespace Ordering.Test.Application
 {
-    public class OrderingTest
+    public class OrderingTests
     {
         [Fact]
         public async ValueTask Get_ReturnsOrdersSuccessfullyAsync()

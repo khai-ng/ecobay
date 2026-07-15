@@ -9,7 +9,7 @@ using Product.API.Infrastructure;
 
 namespace Product.Tests
 {
-    public class ProductTest
+    public class ProductTests
     {
 
         [Fact]

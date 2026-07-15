@@ -1,8 +1,8 @@
 using Core.Pagination;
 
-namespace Core.Tests
+namespace Core.Tests.Pagination
 {
-    public class FluentPagingTest
+    public class FluentPagingTests
     {
         [Fact]
         public void Paging_FromRequest_ShouldReturnsExpectedPageAndHasNext()
@@ -35,6 +35,27 @@ namespace Core.Tests
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new PagingRequest(0, 1));
             Assert.Throws<ArgumentOutOfRangeException>(() => new PagingRequest(1, 0));
+        }
+
+        [Fact]
+        public void Paging_LastPage_ShouldHaveNoNext()
+        {
+            var data = DummyData();
+            var request = new PagingRequest(4, 2); // page 4 of 4 with size 2, 8 items
+            var response = FluentPaging.From(request).Paging(data);
+
+            Assert.False(response.HasNext);
+            Assert.Equal(2, response.Data.Count());
+        }
+
+        [Fact]
+        public void Result_ShouldReturnAllDataWithoutPaging()
+        {
+            var request = new PagingRequest(1, 3);
+            var data = DummyData();
+            var response = FluentPaging.From(request).Result(data);
+
+            Assert.Equal(data.Count, response.Data.Count());
         }
 
         private static List<PagingDummyModel> DummyData() => new()

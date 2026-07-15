@@ -8,10 +8,10 @@ using Ordering.API.Domain.OrderAggregate.Events;
 
 namespace Ordering.Test.Application
 {
-    public class DomainEventTest
+    public class DomainEventTests
     {
         [Fact]
-        public void OrderInitiated_ShouldPublishOrderConfirmStockAsync()
+        public async Task OrderInitiated_ShouldPublishOrderConfirmStockAsync()
         {
             var address = new Address("vn", "hcm", "d1", "2/1");
             var items = new List<OrderItem>()
@@ -39,13 +39,47 @@ namespace Ordering.Test.Application
             var handler = new OrderInitiatedHandler(producerMock.Object, repositoryMock.Object);
 
             var evt = order.Events.First() as OrderInitiated;
-            _ = handler.HandleAsync(evt, TestContext.Current.CancellationToken);
+            await handler.HandleAsync(evt, TestContext.Current.CancellationToken);
 
             producerMock.Verify(
                 p => p.PublishAsync(
                 It.Is<OrderConfirmStockIntegrationEvent>(e => e.OrderId == evt.Id),
                 It.IsAny<CancellationToken>()),
             Times.Once);
+        }
+
+        [Fact]
+        public async Task OrderInitiated_WhenOrderNotFound_ShouldNotPublish()
+        {
+            var address = new Address("vn", "hcm", "d1", "2/1");
+            var items = new List<OrderItem>()
+                {
+                    new("123", "123", "image1.png", 10, 2),
+                };
+            var order = new Order(
+                Guid.CreateVersion7(),
+                Guid.CreateVersion7(),
+                address,
+                items);
+
+            var producerMock = new Mock<IExternalEventProducer>();
+
+            var repositoryMock = new Mock<IOrderRepository>();
+            repositoryMock.Setup(x => x.FindAsync(
+                It.IsAny<Guid>(),
+                It.IsAny<CancellationToken>())
+            ).ReturnsAsync((Order?)null);
+
+            var handler = new OrderInitiatedHandler(producerMock.Object, repositoryMock.Object);
+
+            var evt = order.Events.First() as OrderInitiated;
+            await handler.HandleAsync(evt, TestContext.Current.CancellationToken);
+
+            producerMock.Verify(
+                p => p.PublishAsync(
+                It.IsAny<IntegrationEvent>(),
+                It.IsAny<CancellationToken>()),
+            Times.Never);
         }
     }
 }

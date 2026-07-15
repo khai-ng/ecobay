@@ -9,11 +9,11 @@ using Product.API.Domain.ProductAggregate;
 
 namespace Product.Tests
 {
-    public class IntegrationEventTest
+    public class IntegrationEventTests
     {
         private readonly Mock<IExternalEventProducer> _producerMock = new();
         private readonly Mock<IUnitOfWork> _uowMock = new();
-        public IntegrationEventTest() 
+        public IntegrationEventTests() 
         {
             _producerMock.Setup(x => x.PublishAsync(
                 It.IsAny<IntegrationEvent>(),
