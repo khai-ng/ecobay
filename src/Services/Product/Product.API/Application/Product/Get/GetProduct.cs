@@ -9,7 +9,7 @@
             _productRepository = productRepository;
         }
 
-        public async Task<AppResult<PagingResponse<ProductItemDto>>> Handle(GetProductCommand query, CancellationToken cancellationToken)
+        public async Task<AppResult<PagingResponse<ProductItemDto>>> HandleAsync(GetProductCommand query, CancellationToken cancellationToken)
         {
             var request = new GetProductQuery(query.Category, query.PageIndex, query.PageSize);
             var result = await _productRepository.GetPagingAsync(

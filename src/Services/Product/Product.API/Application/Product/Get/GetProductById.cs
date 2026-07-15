@@ -9,7 +9,7 @@
             _productRepository = productRepository;
         }
 
-        public async Task<AppResult<IEnumerable<ProductItemDto>>> Handle(GetProductByIdCommand query, CancellationToken cancellationToken)
+        public async Task<AppResult<IEnumerable<ProductItemDto>>> HandleAsync(GetProductByIdCommand query, CancellationToken cancellationToken)
         {
 
             var products = await _productRepository.GetByIdAsync(query.Ids.Select(x => ObjectId.Parse(x))).ConfigureAwait(false);

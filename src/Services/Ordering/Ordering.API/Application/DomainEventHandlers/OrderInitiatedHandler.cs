@@ -2,16 +2,16 @@
 {
     public class OrderInitiatedHandler : IRequestHandler<OrderInitiated>, ITransient
     {
-        public readonly IIntegrationProducer _integrationProducer;
+        public readonly IExternalEventProducer _externalEventProducer;
         private readonly IOrderRepository _orderRepository;
 
-        public OrderInitiatedHandler(IIntegrationProducer integrationProducer, IOrderRepository orderRepository)
+        public OrderInitiatedHandler(IExternalEventProducer externalEventProducer, IOrderRepository orderRepository)
         {
-            _integrationProducer = integrationProducer;
+            _externalEventProducer = externalEventProducer;
             _orderRepository = orderRepository;
         }
 
-        public async Task Handle(OrderInitiated notification, CancellationToken cancellationToken = default)
+        public async Task HandleAsync(OrderInitiated notification, CancellationToken cancellationToken = default)
         {
             var order = await _orderRepository.FindAsync(notification.Id).ConfigureAwait(false);
 
@@ -23,7 +23,7 @@
                     order.OrderItems.Select(x => new ProductQty(x.ProductId, x.Qty))
             );
 
-            _ = _integrationProducer.PublishAsync(orderConfirmStockEvent, cancellationToken).ConfigureAwait(false);
+            _ = _externalEventProducer.PublishAsync(orderConfirmStockEvent, cancellationToken).ConfigureAwait(false);
 
         }
     }

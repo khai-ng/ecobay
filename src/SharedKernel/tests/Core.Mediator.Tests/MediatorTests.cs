@@ -13,7 +13,7 @@ namespace Core.Mediator.Tests
             var provider = services.BuildServiceProvider();
 
             var mediator = new Mediator(provider);
-            var result = await mediator.Publish(new TestRequest(), CancellationToken.None);
+            var result = await mediator.PublishAsync(new TestRequest(), CancellationToken.None);
             Assert.Equal("handled", result);
         }
     }
@@ -25,7 +25,7 @@ namespace Core.Mediator.Tests
     internal class TestHandler : IRequestHandler<TestRequest, string>
     {
 
-        Task<string> IRequestHandler<TestRequest, string>.Handle(TestRequest request, CancellationToken cancellationToken)
+        Task<string> IRequestHandler<TestRequest, string>.HandleAsync(TestRequest request, CancellationToken cancellationToken)
         {
             return Task.FromResult("handled");
         }

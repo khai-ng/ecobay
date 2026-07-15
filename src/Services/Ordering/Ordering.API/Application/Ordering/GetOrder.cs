@@ -9,7 +9,7 @@
             _orderRepository = orderRepository;
         }
 
-        public async Task<AppResult<IEnumerable<OrderView>>> Handle(GetOrderCommand request, CancellationToken cancellationToken = default)
+        public async Task<AppResult<IEnumerable<OrderView>>> HandleAsync(GetOrderCommand request, CancellationToken cancellationToken = default)
 		{
             var res = await _orderRepository.GetAsync(request.Id, request.BuyerId, request.OrderStatusId);
             return AppResult.Success(res);

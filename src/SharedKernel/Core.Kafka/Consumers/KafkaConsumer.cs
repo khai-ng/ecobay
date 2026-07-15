@@ -2,6 +2,7 @@
 using Core.AspNet.Common;
 using Core.IntegrationEvents.IntegrationEvents;
 using Core.Kafka.OpenTelemetry;
+using Core.Mediator;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -9,18 +10,18 @@ using System.Reflection;
 
 namespace Core.Kafka.Consumers
 {
-    internal class KafkaConsumer : IntegrationConsumer
+    internal class KafkaConsumer : ExternalEventConsumer
     {
         private readonly KafkaConsumerConfig _kafkaConfig;
-        private readonly IEventBus _eventBus;
+        private readonly IMediator _mediator;
         private readonly ILogger<KafkaConsumer> _logger;
         private readonly Dictionary<string, Type> _eventMap;
 
-        public KafkaConsumer(IConfiguration configuration, IEventBus eventBus, ILogger<KafkaConsumer> logger)
+        public KafkaConsumer(IConfiguration configuration, IMediator mediator, ILogger<KafkaConsumer> logger)
         {
             _kafkaConfig = configuration.GetRequiredConfig<KafkaConsumerConfig>("Kafka:Consumer")
                 ?? throw new ArgumentNullException(nameof(KafkaConsumerConfig));
-            _eventBus = eventBus;
+            _mediator = mediator;
             _logger = logger;
 
             _eventMap = GetIntegrationEventTypeDictionary() ?? [];
@@ -52,18 +53,20 @@ namespace Core.Kafka.Consumers
                         return;
                     }
 
-                    var eventMsg = JsonConvert.DeserializeObject(consumerResult.Message.Value, eventType) as IntegrationEvent;
-                    if (eventMsg == null) {
-                        _logger.LogWarning("Couldn't deserialize message type {EventType}", consumerResult.Message.Key);
+                    if (JsonConvert.DeserializeObject(consumerResult.Message.Value, eventType) is IntegrationEvent eventMsg)
+                    {
+                        using (var activity = KafkaActivityScope.StartConsumeActivity(consumerResult, consumer.MemberId))
+                        {
+                            await _mediator.PublishAsync(eventMsg, ct).ConfigureAwait(false);
+
+                            _logger.LogInformation("Kafka Topic:{Topic} Partition:{Partition} - Consumed mesage {EventType}",
+                                consumerResult.Topic, consumerResult.Partition, consumerResult.Message.Key);
+                        }
+
                         return;
                     }
-                    using (var activity = KafkaActivityScope.StartConsumeActivity(consumerResult, consumer.MemberId))
-                    {
-                        var isSuccess = await _eventBus.PublishAsync(eventMsg, ct).ConfigureAwait(false);
-                        if (isSuccess)
-                            _logger.LogInformation("Kafka Topic:{Topic} Partition:{Partition} - Consumed mesage {EventType}", 
-                                consumerResult.Topic, consumerResult.Partition, consumerResult.Message.Key);
-                    }
+                    _logger.LogWarning("Couldn't deserialize message type {EventType}", consumerResult.Message.Key);
+                    return;
                 }
                 catch (OperationCanceledException ex)
                 {
@@ -100,7 +103,7 @@ namespace Core.Kafka.Consumers
                 .ToDictionary(t => t.Name, t => t);
         }
 
-        private static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
+        private static bool IsSubclassOfRawGeneric(Type generic, Type? toCheck)
         {
             while (toCheck != null && toCheck != typeof(object))
             {

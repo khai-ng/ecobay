@@ -11,7 +11,7 @@
             _user = user;
         }
 
-        public async Task<AppResult<Guid>> Handle(CreateOrderCommand request, CancellationToken ct = default)
+        public async Task<AppResult<Guid>> HandleAsync(CreateOrderCommand request, CancellationToken ct = default)
         {
             var address = new Address(request.Country, request.City, request.District, request.Street);
             var orderItems = request.OrderItems.Select(x => new OrderItem(x.ProductId, x.ProductName, x.ImageUrl, x.Price, x.Qty));

@@ -1,6 +1,6 @@
 ﻿namespace Core.IntegrationEvents.IntegrationEvents
 {
-    public interface IIntegrationProducer
+    public interface IExternalEventProducer
     {
         Task PublishAsync(IntegrationEvent @event, CancellationToken ct = default);
     }

@@ -9,7 +9,7 @@
             _orderRepository = orderRepository;
         }
 
-        public async Task<AppResult<IEnumerable<TrackingResponse>>> Handle(TrackingCommand request, CancellationToken cancellationToken)
+        public async Task<AppResult<IEnumerable<TrackingResponse>>> HandleAsync(TrackingCommand request, CancellationToken cancellationToken)
         {
             var stream = await _orderRepository.GetStreamAsync(request.Id);
             return AppResult.Success(stream.Select(x => new TrackingResponse(x.Id, x.TypeName, x.Sequence, x.Version, x.CreatedAt)));

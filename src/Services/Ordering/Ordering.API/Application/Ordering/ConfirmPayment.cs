@@ -9,7 +9,7 @@
             _orderRepository = eventStoreRepository;
         }
 
-        public async Task<AppResult<string>> Handle(ConfirmPaymentCommand request, CancellationToken ct)
+        public async Task<AppResult<string>> HandleAsync(ConfirmPaymentCommand request, CancellationToken ct)
         {
             var order = await _orderRepository.FindAsync(request.OrderId, ct).ConfigureAwait(false);
 

@@ -20,7 +20,6 @@
             if (order == null)
             {
                 _ = NotifyFailedAsync();
-                return;
             }
 
             order.SetStockConfirmed();

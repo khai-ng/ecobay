@@ -2,7 +2,7 @@
 
 namespace Core.IntegrationEvents.IntegrationEvents
 {
-    public abstract class IntegrationConsumer : BackgroundService
+    public abstract class ExternalEventConsumer : BackgroundService
     {
     }
 }

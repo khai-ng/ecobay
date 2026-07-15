@@ -13,13 +13,12 @@ namespace Core.Kafka
         public static IServiceCollection AddKafkaProducer(this IServiceCollection services)
         {
             services.TryAddScoped<IKafkaProducer, KafkaProducer>();
-            services.TryAddScoped<IIntegrationProducer>(sp => sp.GetRequiredService<IKafkaProducer>());
+            services.TryAddScoped<IExternalEventProducer>(sp => sp.GetRequiredService<IKafkaProducer>());
             return services;
         }
 
         public static IServiceCollection AddKafkaConsumer(this IServiceCollection services) 
         {
-            services.AddSingleton<IEventBus, EventBus>();
             services.AddHostedService<KafkaConsumer>();
             return services;
         }

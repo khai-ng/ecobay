@@ -12,7 +12,7 @@
 
 		public override async Task HandleAsync(GetOrderCommand req, CancellationToken ct)
 		{
-			var result = await _mediator.Publish(req, ct).ConfigureAwait(false);
+			var result = await _mediator.PublishAsync(req, ct).ConfigureAwait(false);
 			await Send.ResultAsync(result.ToHttpResult()).ConfigureAwait(false);
 		}
 	}

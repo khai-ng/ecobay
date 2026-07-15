@@ -1,5 +1,4 @@
 ﻿using Core.MongoDB.Context;
-using Core.Testing.Fixtures;
 
 namespace Core.MongoDB.Tests.Fixtures
 {

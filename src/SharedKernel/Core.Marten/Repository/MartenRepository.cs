@@ -20,7 +20,7 @@ namespace Core.Marten.Repository
         private async Task PublishEvent(TEntity aggregate, CancellationToken ct = default)
         {
             foreach (var domainEvent in aggregate.Events)
-                await _mediator.Publish(domainEvent, ct);
+                await _mediator.PublishAsync(domainEvent, ct);
             aggregate.ClearEvents();
         }
 

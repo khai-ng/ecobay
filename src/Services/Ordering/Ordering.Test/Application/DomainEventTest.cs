@@ -24,7 +24,7 @@ namespace Ordering.Test.Application
                 address,
                 items);
 
-            var producerMock = new Mock<IIntegrationProducer>();
+            var producerMock = new Mock<IExternalEventProducer>();
             producerMock.Setup(x => x.PublishAsync(
                 It.IsAny<IntegrationEvent>(), 
                 It.IsAny<CancellationToken>())
@@ -39,7 +39,7 @@ namespace Ordering.Test.Application
             var handler = new OrderInitiatedHandler(producerMock.Object, repositoryMock.Object);
 
             var evt = order.Events.First() as OrderInitiated;
-            _ = handler.Handle(evt, TestContext.Current.CancellationToken);
+            _ = handler.HandleAsync(evt, TestContext.Current.CancellationToken);
 
             producerMock.Verify(
                 p => p.PublishAsync(

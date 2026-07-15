@@ -36,7 +36,7 @@ namespace Product.Tests
             ).ReturnsAsync(response);
 
             var handler = new GetProductHandler(repositoryMock.Object);
-            var result = await handler.Handle(request, CancellationToken.None);
+            var result = await handler.HandleAsync(request, CancellationToken.None);
 
             Assert.True(result.IsSuccess);      
         }
@@ -52,7 +52,7 @@ namespace Product.Tests
 
             var request = new GetProductByIdCommand(data.Select(x => x.Id.ToString()));
             var handler = new GetProductByIdHandler(repositoryMock.Object);
-            var result = await handler.Handle(request, CancellationToken.None);
+            var result = await handler.HandleAsync(request, CancellationToken.None);
 
             Assert.True(result.IsSuccess);
             for (int i = 0; i < result.Data?.Count(); i++)

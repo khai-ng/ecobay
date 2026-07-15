@@ -28,7 +28,7 @@ namespace Ordering.Test.Application
             var request = new GetOrderCommand();
             var handler = new GetOrder(repositoryMock.Object);
 
-            var result = await handler.Handle(request, TestContext.Current.CancellationToken);
+            var result = await handler.HandleAsync(request, TestContext.Current.CancellationToken);
             Assert.True(result.IsSuccess);
             for (var i = 0; i < data.Count; i++)
             {
@@ -62,7 +62,7 @@ namespace Ordering.Test.Application
                 });
 
             var handler = new CreateOrder(repositoryMock.Object, userMock.Object);
-            var result = await handler.Handle(request, TestContext.Current.CancellationToken);
+            var result = await handler.HandleAsync(request, TestContext.Current.CancellationToken);
             Assert.True(result.IsSuccess);
         }
 

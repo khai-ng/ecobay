@@ -9,7 +9,7 @@ namespace Core.Behaviors
         where TRequest : IRequest<TResponse>
         where TResponse : IAppResult
     {
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async Task<TResponse> HandleAsync(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             logger.LogInformation("Handling request {ReqData}", request);
 

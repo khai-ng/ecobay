@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 namespace Core.Kafka.Producers
 {
-    public interface IKafkaProducer : IIntegrationProducer
+    public interface IKafkaProducer : IExternalEventProducer
     {
         Task PublishAsync(string topic, IntegrationEvent @event, CancellationToken ct = default);
         Task PublishAsync(AppTopicPartition tp, IntegrationEvent @event, CancellationToken ct = default);

@@ -1,5 +1,4 @@
-﻿using Core.FunctionalTests.Fixtures;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Core.EntityFramework.Tests.Fixtures
 {

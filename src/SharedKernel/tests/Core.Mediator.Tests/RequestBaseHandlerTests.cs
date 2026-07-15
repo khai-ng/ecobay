@@ -59,7 +59,7 @@ namespace Core.Mediator.Tests
                 _calls = calls;
             }
 
-            public Task<string> Handle(TestRequest request, CancellationToken cancellationToken)
+            public Task<string> HandleAsync(TestRequest request, CancellationToken cancellationToken)
             {
                 _calls?.Add("handler");
                 return Task.FromResult("handled");
@@ -77,7 +77,7 @@ namespace Core.Mediator.Tests
                 _name = name;
             }
 
-            public async Task<string> Handle(TestRequest request, RequestHandlerDelegate<string> next, CancellationToken cancellationToken)
+            public async Task<string> HandleAsync(TestRequest request, RequestHandlerDelegate<string> next, CancellationToken cancellationToken)
             {
                 _calls.Add($"{_name}-before");
                 var result = await next(cancellationToken);

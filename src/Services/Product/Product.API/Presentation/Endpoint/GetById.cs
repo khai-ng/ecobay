@@ -17,7 +17,7 @@
         {
             string[] ids = [Route<string>("id")!];
             var request = new GetProductByIdCommand(ids);
-            var result = await _mediator.Publish(request, ct).ConfigureAwait(false);
+            var result = await _mediator.PublishAsync(request, ct).ConfigureAwait(false);
             await Send.ResultAsync(result.ToHttpResult()).ConfigureAwait(false);
         }
     }

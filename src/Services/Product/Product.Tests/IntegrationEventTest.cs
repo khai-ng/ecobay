@@ -11,7 +11,7 @@ namespace Product.Tests
 {
     public class IntegrationEventTest
     {
-        private readonly Mock<IIntegrationProducer> _producerMock = new();
+        private readonly Mock<IExternalEventProducer> _producerMock = new();
         private readonly Mock<IUnitOfWork> _uowMock = new();
         public IntegrationEventTest() 
         {

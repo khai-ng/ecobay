@@ -37,7 +37,7 @@ namespace Core.EntityFramework.Context
                 {
                     var domainEvents = domainEntities.SelectMany(x => x.Entity.Events);
                     foreach (var domainEvent in domainEvents)
-                        await _mediator.Publish(domainEvent, ct);
+                        await _mediator.PublishAsync(domainEvent, ct);
 
                     foreach (var item in domainEntities)
                         item.Entity.ClearEvents();

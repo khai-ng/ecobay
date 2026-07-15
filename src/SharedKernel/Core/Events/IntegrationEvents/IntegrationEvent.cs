@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Core.Mediator;
+using System.Text.Json.Serialization;
 
 namespace Core.IntegrationEvents.IntegrationEvents
 {
@@ -10,7 +11,7 @@ namespace Core.IntegrationEvents.IntegrationEvents
         public IntegrationEvent() : base(Guid.CreateVersion7()) { }
     }
 
-    public abstract record IntegrationEvent<TKey>
+    public abstract record IntegrationEvent<TKey> : IRequest
     {
         protected IntegrationEvent(TKey id)
         {

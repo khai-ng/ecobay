@@ -1,8 +1,8 @@
-﻿namespace Core.IntegrationEvents.IntegrationEvents
+﻿using Core.Mediator;
+
+namespace Core.IntegrationEvents.IntegrationEvents
 {
-    public interface IIntegrationEventHandler<in TIntegrationEvent>
+    public interface IIntegrationEventHandler<TIntegrationEvent> : IRequestHandler<TIntegrationEvent>    
         where TIntegrationEvent : IntegrationEvent
-    {
-        Task HandleAsync(TIntegrationEvent @event, CancellationToken ct = default);
-    }
+    { }
 }

@@ -4,16 +4,16 @@
     public class OrderConfirmStockIntegrationEventHandler :
         IIntegrationEventHandler<OrderConfirmStockIntegrationEvent>, ITransient
     {
-        private readonly IIntegrationProducer _producer;
+        private readonly IExternalEventProducer _externalEventProducer;
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public OrderConfirmStockIntegrationEventHandler(
-            IIntegrationProducer producer,
+            IExternalEventProducer externalEventProducer,
             IProductRepository productRepository,
             IUnitOfWork unitOfWork)
         {
-            _producer = producer;
+            _externalEventProducer = externalEventProducer;
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
         }

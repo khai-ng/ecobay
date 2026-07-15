@@ -26,7 +26,7 @@ namespace Core.EntityFramework.Tests
         [Fact]
         public async ValueTask paging_async_success()
         {
-            _mediatorMock.Setup(x => x.Publish(It.IsAny<IRequest>(), default))
+            _mediatorMock.Setup(x => x.PublishAsync(It.IsAny<IRequest>(), default))
                 .Returns(Task.FromResult(true));
             var products = DummyData();
             _productRepository.AddRange(products);
@@ -42,7 +42,7 @@ namespace Core.EntityFramework.Tests
         [Fact]
         public async ValueTask filter_apply_success()
         {
-            _mediatorMock.Setup(x => x.Publish(It.IsAny<IRequest>(), default))
+            _mediatorMock.Setup(x => x.PublishAsync(It.IsAny<IRequest>(), default))
                 .Returns(Task.FromResult(true));
             var products = DummyData();
             _productRepository.AddRange(products);
