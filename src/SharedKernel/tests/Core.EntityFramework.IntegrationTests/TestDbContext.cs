@@ -2,7 +2,7 @@
 using Core.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.EntityFramework.Tests
+namespace Core.EntityFramework.IntegrationTests
 {
     public class Product: AggregateRoot
     {

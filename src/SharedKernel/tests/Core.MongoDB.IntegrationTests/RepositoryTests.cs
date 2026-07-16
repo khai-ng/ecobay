@@ -1,9 +1,9 @@
 using Core.MongoDB.Context;
 using Core.MongoDB.Repository;
-using Core.MongoDB.Tests.Fixtures;
+using Core.MongoDB.IntegrationTests.Fixtures;
 using MongoDB.Bson;
 
-namespace Core.MongoDB.Tests
+namespace Core.MongoDB.IntegrationTests
 {
     public class RepositoryTests: IClassFixture<MongoContextFixture<TestDbContext>>
     {

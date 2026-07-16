@@ -2,7 +2,7 @@
 {
     public interface IProductMigrationJob
     {
-        [AutomaticRetry(Attempts = 0)]
+        //[AutomaticRetry(Attempts = 0)]
         Task<string> ProcessFileMigrationAsync();
     }
 

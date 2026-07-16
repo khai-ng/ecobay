@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Core.EntityFramework.Tests.Fixtures
+namespace Core.EntityFramework.IntegrationTests.Fixtures
 {
     public class EfCorePostgreFixture<TContext> : IAsyncLifetime
         where TContext : DbContext

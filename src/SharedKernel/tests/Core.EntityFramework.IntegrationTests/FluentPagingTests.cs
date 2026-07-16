@@ -1,11 +1,11 @@
 ﻿using Core.EntityFramework.Context;
 using Core.EntityFramework.Pagination;
-using Core.EntityFramework.Tests.Fixtures;
+using Core.EntityFramework.IntegrationTests.Fixtures;
 using Core.Mediator;
 using Core.Pagination;
 using Moq;
 
-namespace Core.EntityFramework.Tests
+namespace Core.EntityFramework.IntegrationTests
 {
     public class FluentPagingTests: IClassFixture<EfCorePostgreFixture<TestDbContext>>
     {

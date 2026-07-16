@@ -2,7 +2,7 @@
 using Core.MongoDB.ServiceDefault;
 using MongoDB.Driver;
 
-namespace Core.MongoDB.Tests
+namespace Core.MongoDB.IntegrationTests
 {
     public class Product : AggregateRoot
     {

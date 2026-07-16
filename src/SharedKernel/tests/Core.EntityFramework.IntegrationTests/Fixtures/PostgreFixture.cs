@@ -1,7 +1,7 @@
 ﻿using Npgsql;
 using Testcontainers.PostgreSql;
 
-namespace Core.EntityFramework.Tests.Fixtures
+namespace Core.EntityFramework.IntegrationTests.Fixtures
 {
     public class PostgreFixture : IAsyncLifetime
     {
