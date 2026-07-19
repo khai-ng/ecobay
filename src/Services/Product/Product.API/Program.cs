@@ -1,3 +1,6 @@
+using Core.Kafka.Consumers;
+using Core.Kafka.Producers;
+
 var camelCaseConventionPack = new ConventionPack { new CamelCaseElementNameConvention() };
 ConventionRegistry.Register("CamelCase", camelCaseConventionPack, type => true);
 
@@ -14,8 +17,8 @@ builder.Services.AddOpenTelemetry()
 
 var mongoConfig = builder.Configuration.GetSection("Mongo").Get<MongoContextOptions>()!;
 builder.Services
-    .AddHealthChecks()
-    .AddMongoDb(s => new MongoClient(mongoConfig.ConnectionString));
+    .AddHealthChecks();
+    //.AddMongoDb(s => new MongoClient(mongoConfig.ConnectionString));
 
 builder.Services
     .AddFastEndpoints()
@@ -24,7 +27,10 @@ builder.Services
         options.ConnectionString = mongoConfig.ConnectionString;
         options.Telemetry.Enable = mongoConfig.Telemetry.Enable;
     })
-    .AddKafkaCompose()
+    .AddKafkaCompose(
+        p => p = builder.Configuration.GetRequiredSection("Kafka:Producer").Get<KafkaProducerConfigs>()!,
+        c => c = builder.Configuration.GetRequiredSection("Kafka:Consumer").Get<KafkaConsumerConfigs>()!
+    )
     .AddDefaultMediator();
 
 //if(builder.Environment.IsDevelopment())

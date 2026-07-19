@@ -1,10 +1,9 @@
 ﻿using Confluent.Kafka;
-using Core.AspNet.Common;
 using Core.IntegrationEvents.IntegrationEvents;
 using Core.Kafka.OpenTelemetry;
 using Core.Mediator;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Reflection;
 
@@ -12,15 +11,14 @@ namespace Core.Kafka.Consumers
 {
     internal class KafkaConsumer : ExternalEventConsumer
     {
-        private readonly KafkaConsumerConfig _kafkaConfig;
+        private readonly KafkaConsumerConfigs _kafkaConfig;
         private readonly IMediator _mediator;
         private readonly ILogger<KafkaConsumer> _logger;
         private readonly Dictionary<string, Type> _eventMap;
 
-        public KafkaConsumer(IConfiguration configuration, IMediator mediator, ILogger<KafkaConsumer> logger)
+        public KafkaConsumer(IOptions<KafkaConsumerConfigs> options, IMediator mediator, ILogger<KafkaConsumer> logger)
         {
-            _kafkaConfig = configuration.GetRequiredConfig<KafkaConsumerConfig>("Kafka:Consumer")
-                ?? throw new ArgumentNullException(nameof(KafkaConsumerConfig));
+            _kafkaConfig = options.Value ?? throw new ArgumentNullException(nameof(KafkaConsumerConfigs));
             _mediator = mediator;
             _logger = logger;
 

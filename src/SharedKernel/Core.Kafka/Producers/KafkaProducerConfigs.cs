@@ -2,7 +2,7 @@
 
 namespace Core.Kafka.Producers
 {
-    public class KafkaProducerConfig
+    public class KafkaProducerConfigs
     {
         public ProducerConfig ProducerConfig { get; set; } = default!;
         public string? Topic { get; set; } = default;

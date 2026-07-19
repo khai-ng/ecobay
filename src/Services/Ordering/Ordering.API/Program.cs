@@ -1,6 +1,7 @@
+using Core.Kafka.Consumers;
+using Core.Kafka.Producers;
 using JasperFx.Core;
 using JasperFx.Events.Projections;
-using Marten;
 using Ordering.API.Infrastruture.Projections;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,9 +22,12 @@ builder.Services.AddOpenTelemetry()
 builder.Services
     .AddFastEndpoints()
     .AddDefaultMediator()
-    .AddKafkaCompose()
+    .AddKafkaCompose(
+        p => p = builder.Configuration.GetRequiredSection("Kafka:Producer").Get<KafkaProducerConfigs>()!,
+        c => c = builder.Configuration.GetRequiredSection("Kafka:Consumer").Get<KafkaConsumerConfigs>()!
+    )
     //read: https://martendb.io/events/projections/async-daemon.html
-    .AddMarten(builder.Configuration,
+    .AddDefaultMarten(m => m = builder.Configuration.GetRequiredSection("EventStore").Get<MartenConfigs>()!,
         options =>
         {
             options.Schema.For<OrderView>()

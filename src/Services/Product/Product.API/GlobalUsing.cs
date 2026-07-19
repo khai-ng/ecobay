@@ -17,7 +17,6 @@ global using Core.Pagination;
 global using Core.Repositories;
 global using FastEndpoints;
 global using FastEndpoints.Swagger;
-global using Hangfire;
 global using MongoDB.Bson;
 global using MongoDB.Bson.Serialization;
 global using MongoDB.Bson.Serialization.Attributes;

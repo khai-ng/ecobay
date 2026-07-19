@@ -4,6 +4,7 @@ using Core.IntegrationEvents.IntegrationEvents;
 using Core.Kafka.OpenTelemetry;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 namespace Core.Kafka.Producers
 {
@@ -15,12 +16,11 @@ namespace Core.Kafka.Producers
 
     internal class KafkaProducer: IKafkaProducer
     {
-        private readonly KafkaProducerConfig _kafkaConfig;
+        private readonly KafkaProducerConfigs _kafkaConfig;
         private readonly ILogger<KafkaProducer> _logger;
-        public KafkaProducer(IConfiguration configuration, ILogger<KafkaProducer> logger)
+        public KafkaProducer(IOptions<KafkaProducerConfigs> options, ILogger<KafkaProducer> logger)
         {
-            _kafkaConfig = configuration.GetRequiredConfig<KafkaProducerConfig>("Kafka:Producer")
-                ?? throw new ArgumentNullException(nameof(KafkaProducerConfig));
+            _kafkaConfig = options.Value ?? throw new ArgumentNullException(nameof(KafkaProducerConfigs));
             _logger = logger;
         }
 

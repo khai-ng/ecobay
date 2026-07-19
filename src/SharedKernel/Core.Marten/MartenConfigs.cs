@@ -2,9 +2,9 @@
 {
     public class MartenConfigs
     {
-        public required string ConnectionString { get; set; }
-        public required string WriteSchema { get; set; }
-        public required string ReadSchema { get; set; }
+        public string ConnectionString { get; set; } = string.Empty;
+        public string WriteSchema { get; set; } = string.Empty;
+        public string ReadSchema { get; set; } = string.Empty;
         public bool EnableDaemon { get; set; } = false;
     }
 }

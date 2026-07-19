@@ -10,12 +10,12 @@ namespace Core.MongoDB
     {
         public static IServiceCollection AddMongoDbContext<TContext>(
             this IServiceCollection services, 
-            Action<MongoContextOptions>? optionsAction,
+            Action<MongoContextOptions>? mongoContextOptions,
             ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
             where TContext: MongoContext
         {
             MongoContextOptions mongoDbOptions = new();
-            optionsAction?.Invoke(mongoDbOptions);
+            mongoContextOptions?.Invoke(mongoDbOptions);
 
             services.Add(
                 new ServiceDescriptor(typeof(TContext), 

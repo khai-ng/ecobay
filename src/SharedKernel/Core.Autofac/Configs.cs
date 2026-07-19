@@ -1,7 +1,9 @@
 ﻿using Autofac;
+using Autofac.Builder;
 using Autofac.Core;
 using Autofac.Diagnostics;
 using Autofac.Extensions.DependencyInjection;
+using Autofac.Features.Scanning;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -49,8 +51,6 @@ namespace Core.Autofac
                 var applicationAsseblies = Directory
                     .GetFiles(path, assembliesFetchPattern, SearchOption.TopDirectoryOnly)
                     .Select(Assembly.LoadFrom)
-                    .Where(a => !string.Equals(a.FullName, "Microsoft.Data.SqlClient, Version=5.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5", StringComparison.OrdinalIgnoreCase))
-                    //.Where(a => !string.Equals(a.FullName, "Pomelo.EntityFrameworkCore.MySql, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2cc498582444921b", StringComparison.OrdinalIgnoreCase))
                     .ToList();
                 foreach (var item in applicationAsseblies)
                 {
@@ -90,89 +90,46 @@ namespace Core.Autofac
 
         private static void AbstractDependencyRegister(this ContainerBuilder builder, Assembly module)
         {
-            ////Generic
             builder.AutofacGenericRegisterBuilder<ITransient>(module);
             builder.AutofacGenericRegisterBuilder<IScoped>(module);
             builder.AutofacGenericRegisterBuilder<ISingleton>(module);
 
-            //Normal
             builder.AutofacRegisterBuilder<ITransient>(module);
             builder.AutofacRegisterBuilder<IScoped>(module);
             builder.AutofacRegisterBuilder<ISingleton>(module);
-        }       
-
-        private static void AutofacGenericRegisterBuilder<TLifeTime>(this ContainerBuilder builder, Assembly assembly)
-            where TLifeTime : class
-        {
-            var implement = builder.RegisterAssemblyOpenGenericTypes(assembly)
-                .Where(t => t.GetInterfaces().Any(i => i.IsAssignableFrom(typeof(TLifeTime))))
-                .AsImplementedInterfaces();
-
-            if (typeof(TLifeTime).Equals(typeof(ITransient)))
-            {
-                implement.InstancePerDependency();
-                return;
-            }
-            if (typeof(TLifeTime).Equals(typeof(IScoped)))
-            {
-                implement.InstancePerLifetimeScope();
-                return;
-            }
-            if (typeof(TLifeTime).Equals(typeof(ISingleton)))
-            {
-                implement.SingleInstance();
-                return;
-            }
         }
 
-        private static void AutofacRegisterBuilder<TLifeTime>(this ContainerBuilder builder, Assembly assembly)
-            where TLifeTime : class
-        {
-
-			var implement = builder.RegisterAssemblyTypes(assembly)
-                .Where(t => t.GetInterfaces().Any(i => i.IsAssignableFrom(typeof(TLifeTime))))
-                //.PropertiesAutowired((propertyInfo, instance)
-                //    => propertyInfo.GetCustomAttribute<PropertyDependency>() != null)
-                .AsImplementedInterfaces();
-
-            if (typeof(TLifeTime).Equals(typeof(ITransient)))
-            {
-                implement.InstancePerDependency();
-                return;
-            }
-            if (typeof(TLifeTime).Equals(typeof(IScoped)))
-            {
-                implement.InstancePerLifetimeScope();
-                return;
-            }
-            if (typeof(TLifeTime).Equals(typeof(ISingleton)))
-            {
-                implement.SingleInstance();
-                return;
-            }
-        }
-
-        private static void AutofacTypeRegisterBuilder<TLifeTime>(this ContainerBuilder builder, Type type)
+		private static void AutofacGenericRegisterBuilder<TLifeTime>(this ContainerBuilder builder, Assembly assembly)
 			where TLifeTime : class
 		{
-            var implement = builder.RegisterType(type)
-                .AsImplementedInterfaces();
+			var implement = builder.RegisterAssemblyOpenGenericTypes(assembly)
+				.Where(t => t.GetInterfaces().Any(i => i.IsAssignableFrom(typeof(TLifeTime))))
+				.AsImplementedInterfaces();
 
-			switch (typeof(TLifeTime))
-			{
-				case ITransient:
-					implement.InstancePerDependency();
-					break;
-				case IScoped:
-					implement.InstancePerLifetimeScope();
-					break;
-				case ISingleton:
-					implement.SingleInstance();
-					break;
-				default:
-					implement.InstancePerDependency();
-					break;
-			}
+			implement.ApplyLifetime<TLifeTime, object, OpenGenericScanningActivatorData, DynamicRegistrationStyle>();
+		}
+
+		private static void AutofacRegisterBuilder<TLifeTime>(this ContainerBuilder builder, Assembly assembly)
+			where TLifeTime : class
+		{
+
+            var implement = builder.RegisterAssemblyTypes(assembly)
+				.Where(t => t.GetInterfaces().Any(i => i.IsAssignableFrom(typeof(TLifeTime))))
+				.AsImplementedInterfaces();
+
+			implement.ApplyLifetime<TLifeTime, object, ScanningActivatorData, DynamicRegistrationStyle>();
+		}
+
+		private static void ApplyLifetime<TLifeTime, TLimit, TActivatorData, TRegistrationStyle>(
+			this IRegistrationBuilder<TLimit, TActivatorData, TRegistrationStyle> implement)
+			where TLifeTime : class
+		{
+			if (typeof(TLifeTime).Equals(typeof(ITransient)))
+				implement.InstancePerDependency();
+			else if (typeof(TLifeTime).Equals(typeof(IScoped)))
+				implement.InstancePerLifetimeScope();
+			else if (typeof(TLifeTime).Equals(typeof(ISingleton)))
+				implement.SingleInstance();
 		}
 
         private static bool IsAssignableToGenericType(this Type givenType, Type genericType)

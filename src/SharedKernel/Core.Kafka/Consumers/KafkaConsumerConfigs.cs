@@ -2,7 +2,7 @@
 
 namespace Core.Kafka.Consumers
 {
-    internal class KafkaConsumerConfig
+    public class KafkaConsumerConfigs
     {
         public ConsumerConfig ConsumerConfig { get; set; } = default!;
         public string[]? Topics { get; set; } = default;

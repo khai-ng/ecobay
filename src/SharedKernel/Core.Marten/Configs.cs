@@ -6,7 +6,6 @@ using JasperFx;
 using JasperFx.Events.Daemon;
 using JasperFx.OpenTelemetry;
 using Marten;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry;
 
@@ -14,22 +13,21 @@ namespace Core.Marten
 {
     public static class Configs
     {
-        private const string DefaultConfigKey = "EventStore";
-
-        public static IServiceCollection AddMarten(
+        public static IServiceCollection AddDefaultMarten(
             this IServiceCollection services, 
-            IConfiguration configuration,
-            Action<StoreOptions>? configure = null)
+            Action<MartenConfigs> martenAppConfigs,
+            Action<StoreOptions>? storeOptions = null)
         {
-            var martenConfigs = configuration.GetRequiredSection(DefaultConfigKey).Get<MartenConfigs>();
-            if (martenConfigs == null) throw new ArgumentNullException(nameof(martenConfigs));
+            ArgumentNullException.ThrowIfNull(martenAppConfigs);
+            var appConfigs = new MartenConfigs();
+            martenAppConfigs(appConfigs);
 
             var config = services.AddMarten(options =>
             {
-                options.Connection(martenConfigs.ConnectionString);
+                options.Connection(appConfigs.ConnectionString);
                 options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
-                options.Events.DatabaseSchemaName = martenConfigs.WriteSchema;
-                options.DatabaseSchemaName = martenConfigs.ReadSchema;
+                options.Events.DatabaseSchemaName = appConfigs.WriteSchema;
+                options.DatabaseSchemaName = appConfigs.ReadSchema;
                 options.Events.MetadataConfig.CausationIdEnabled = true;
                 options.Events.MetadataConfig.CorrelationIdEnabled = true;
                 options.Events.MetadataConfig.HeadersEnabled = true;
@@ -37,11 +35,11 @@ namespace Core.Marten
                 options.OpenTelemetry.TrackConnections = TrackLevel.Normal;
                 options.OpenTelemetry.TrackEventCounters();
 
-                configure?.Invoke(options);
+                storeOptions?.Invoke(options);
             })
             .UseLightweightSessions();
             
-            if(martenConfigs.EnableDaemon)
+            if(appConfigs.EnableDaemon)
                 config.AddAsyncDaemon(DaemonMode.Solo);
 
             return services;
