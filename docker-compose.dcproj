@@ -15,5 +15,11 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="src\SharedKernel\tests\Core.Kafka.IntegrationTests\ConsumerTests.cs" />
+    <None Include="src\SharedKernel\tests\Core.Kafka.IntegrationTests\Core.Kafka.IntegrationTests.csproj" />
+    <None Include="src\SharedKernel\tests\Core.Kafka.IntegrationTests\Fixtures\KafkaFixture.cs" />
+    <None Include="src\SharedKernel\tests\Core.Kafka.IntegrationTests\GlobalUsings.cs" />
+    <None Include="src\SharedKernel\tests\Core.Kafka.IntegrationTests\ProducerTests.cs" />
+    <None Include="src\SharedKernel\tests\Core.Kafka.IntegrationTests\TestIntegrationEvent.cs" />
   </ItemGroup>
 </Project>

@@ -107,6 +107,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Mediator", "src\Shared
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Mediator.Tests", "src\SharedKernel\tests\Core.Mediator.Tests\Core.Mediator.Tests.csproj", "{82C88CE2-6AA4-4A9C-82F4-36C703E077CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Kafka.IntegrationTests", "src\SharedKernel\tests\Core.Kafka.IntegrationTests\Core.Kafka.IntegrationTests.csproj", "{888B8A37-72A8-4FBE-8538-B04179CA5023}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -189,6 +191,10 @@ Global
 		{82C88CE2-6AA4-4A9C-82F4-36C703E077CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82C88CE2-6AA4-4A9C-82F4-36C703E077CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82C88CE2-6AA4-4A9C-82F4-36C703E077CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{888B8A37-72A8-4FBE-8538-B04179CA5023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{888B8A37-72A8-4FBE-8538-B04179CA5023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{888B8A37-72A8-4FBE-8538-B04179CA5023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{888B8A37-72A8-4FBE-8538-B04179CA5023}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,6 +234,7 @@ Global
 		{AC2D4C49-ED0A-42A7-886E-13E62AC4BA36} = {1EA2E538-9809-4497-B50E-9F6926DA175D}
 		{C6FEA177-E2F9-477B-9628-E1EFE72E6445} = {F05225D2-2AE2-44E0-B1C2-EAC88CE8DF6C}
 		{82C88CE2-6AA4-4A9C-82F4-36C703E077CD} = {764C924C-0416-47F7-8DAE-90BEF271A0D2}
+		{888B8A37-72A8-4FBE-8538-B04179CA5023} = {764C924C-0416-47F7-8DAE-90BEF271A0D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {99FAD885-0804-4859-94E6-346559EF4C54}

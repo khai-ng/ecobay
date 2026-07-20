@@ -95,7 +95,8 @@ namespace Core.Kafka.Consumers
         {
             var baseType = typeof(IntegrationEvent<>);
 
-            return Assembly.GetEntryAssembly()?.GetTypes()
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
                 .Where(t => t is { IsClass: true, IsAbstract: false })
                 .Where(t => IsSubclassOfRawGeneric(baseType, t))
                 .ToDictionary(t => t.Name, t => t);
