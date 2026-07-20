@@ -1,12 +1,12 @@
 using Core.EntityFramework.Context;
 using Core.EntityFramework.Repositories;
-using Core.EntityFramework.Tests.Fixtures;
+using Core.EntityFramework.IntegrationTests.Fixtures;
 using Core.Events.DomainEvents;
 using Core.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace Core.EntityFramework.Tests
+namespace Core.EntityFramework.IntegrationTests
 {
     public record ProductCreated(Guid AggregateId) : DomainEvent<Guid>(AggregateId);
 

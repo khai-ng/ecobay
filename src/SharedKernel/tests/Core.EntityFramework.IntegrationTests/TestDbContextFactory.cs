@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace Core.EntityFramework.Tests
+namespace Core.EntityFramework.IntegrationTests
 {
     public class TestDbContextFactory : IDesignTimeDbContextFactory<TestDbContext>
     {

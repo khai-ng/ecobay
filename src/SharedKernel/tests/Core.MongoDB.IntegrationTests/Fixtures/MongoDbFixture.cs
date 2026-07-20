@@ -1,7 +1,7 @@
 ﻿using Core.MongoDB.Context;
 using Testcontainers.MongoDb;
 
-namespace Core.MongoDB.Tests.Fixtures
+namespace Core.MongoDB.IntegrationTests.Fixtures
 {
     public class MongoDbFixture : IAsyncLifetime
     {
